@@ -2,128 +2,155 @@
 	"$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
 	"name": "Counterpoint",
 	"scopeName": "source.cp",
-	"patterns": [
-		{
-			"name": "comment.block.cp",
-			"begin": "%%",
-			"end":   "%%",
-			"captures": {
-				"0": {"name": "comment.block.punctuation.delimiter.cp"}
-			}
-		},
-		{
-			"name": "comment.line.percentage.cp",
-			"match": "(%).*$",
-			"captures": {
-				"1": {"name": "comment.line.percentage.punctuation.cp"}
-			}
-		},
-		{
-			"name": "string.quoted.triple.cp",
-			"begin": "'''|}}",
-			"end":   "'''|{{",
-			"captures": {
-				"0": {"name": "string.quoted.triple.punctuation.delimiter.cp"}
-			}
-		},
-		{
-			"name": "string.quoted.single.cp",
-			"begin": "'",
-			"end":   "'",
-			"captures": {
-				"0": {"name": "string.quoted.single.punctuation.delimiter.cp"}
-			},
+	"repository": {
+		"comment": {
 			"patterns": [
 				{
-					"name": "constant.character.escape.cp",
-					"match": "\\\\u{([0-9a-f]+)}",
-					"captures": {
-						"1": {"name": "constant.numeric.hex.cp"}
-					}
-				},
-				{
-					"name": "invalid.illegal.cp",
-					"match": "\\\\u{[0-9a-f]*(?=[^0-9a-f])"
-				},
-				{
-					"name": "constant.character.escape.cp",
-					"match": "\\\\(.|\\n)"
-				},
-				{
-					"name": "string.quoted.single.comment.block.cp",
+					"name": "comment.block.cp",
 					"begin": "%%",
-					"end":   "(%%)|.(?=')",
-					"beginCaptures": {
-						"0": {"name": "string.quoted.single.comment.block.punctuation.delimiter.cp"}
-					},
-					"endCaptures": {
-						"1": {"name": "string.quoted.single.comment.block.punctuation.delimiter.cp"}
+					"end":   "%%",
+					"captures": {
+						"0": {"name": "comment.block.punctuation.delimiter.cp"}
 					}
 				},
 				{
-					"name": "string.quoted.single.comment.line.percentage.cp",
-					"match": "(%)[^']*(\\n|.(?='))",
+					"name": "comment.line.percentage.cp",
+					"match": "(%).*$",
 					"captures": {
-						"1": {"name": "string.quoted.single.comment.line.percentage.punctuation.cp"}
+						"1": {"name": "comment.line.percentage.punctuation.cp"}
 					}
 				}
 			]
 		},
-		{
-			"name": "variable.other.quoted.cp",
-			"begin": "`",
-			"end":   "`",
-			"captures": {
-				"0": {"name": "variable.other.quoted.punctuation.delimiter.cp"}
-			}
+		"quoted": {
+			"patterns": [
+				{
+					"name": "string.quoted.triple.cp",
+					"begin": "'''|}}",
+					"end":   "'''|{{",
+					"captures": {
+						"0": {"name": "string.quoted.triple.punctuation.delimiter.cp"}
+					}
+				},
+				{
+					"name": "string.quoted.single.cp",
+					"begin": "'",
+					"end":   "'",
+					"captures": {
+						"0": {"name": "string.quoted.single.punctuation.delimiter.cp"}
+					},
+					"patterns": [
+						{
+							"name": "constant.character.escape.cp",
+							"match": "\\\\u{([0-9a-f]+)}",
+							"captures": {
+								"1": {"name": "constant.numeric.hex.cp"}
+							}
+						},
+						{
+							"name": "invalid.illegal.cp",
+							"match": "\\\\u{[0-9a-f]*(?=[^0-9a-f])"
+						},
+						{
+							"name": "constant.character.escape.cp",
+							"match": "\\\\(.|\\n)"
+						},
+						{
+							"name": "string.quoted.single.comment.block.cp",
+							"begin": "%%",
+							"end":   "(%%)|.(?=')",
+							"beginCaptures": {
+								"0": {"name": "string.quoted.single.comment.block.punctuation.delimiter.cp"}
+							},
+							"endCaptures": {
+								"1": {"name": "string.quoted.single.comment.block.punctuation.delimiter.cp"}
+							}
+						},
+						{
+							"name": "string.quoted.single.comment.line.percentage.cp",
+							"match": "(%)[^']*(\\n|.(?='))",
+							"captures": {
+								"1": {"name": "string.quoted.single.comment.line.percentage.punctuation.cp"}
+							}
+						}
+					]
+				},
+				{
+					"name": "variable.other.quoted.cp",
+					"begin": "`",
+					"end":   "`",
+					"captures": {
+						"0": {"name": "variable.other.quoted.punctuation.delimiter.cp"}
+					}
+				}
+			]
 		},
-		{
-			"name": "keyword.operator.text.cp",
-			"match": "\\b(is|isnt)\\b"
+		"word": {
+			"patterns": [
+				{
+					"name": "keyword.operator.text.cp",
+					"match": "\\b(is|isnt)\\b"
+				},
+				{
+					"name": "keyword.control.cp",
+					"match": "\\b(if|then|else)\\b"
+				},
+				{
+					"name": "storage.type.cp",
+					"match": "\\b(let|type)\\b"
+				},
+				{
+					"name": "storage.modifier.cp",
+					"match": "\\b(unfixed)\\b"
+				},
+				{
+					"name": "constant.language.cp",
+					"match": "\\b(null|false|true)\\b"
+				},
+				{
+					"name": "support.type.cp",
+					"match": "\\b(bool|int|float|str|obj)\\b"
+				},
+				{
+					"name": "variable.other.cp",
+					"match": "\\b[A-Za-z_][A-Za-z0-9_]*\\b"
+				}
+			]
 		},
-		{
-			"name": "keyword.control.cp",
-			"match": "\\b(if|then|else)\\b"
+		"number": {
+			"patterns": [
+				{
+					"name": "constant.numeric.radix.cp",
+					"match": "(\\+|-)?(\\\\b[0-1](_?[0-1])*|\\\\q[0-3](_?[0-3])*|\\\\o[0-7](_?[0-7])*|\\\\d[0-9](_?[0-9])*|\\\\x[0-9a-f](_?[0-9a-f])*|\\\\z[0-9a-z](_?[0-9a-z])*)"
+				},
+				{
+					"name": "constant.numeric.decimal.cp",
+					"match": "(\\+|-)?[0-9](_?[0-9])*(\\.([0-9](_?[0-9])*(e(\\+|-)?[0-9](_?[0-9])*)?)?)?"
+				}
+			]
 		},
-		{
-			"name": "storage.type.cp",
-			"match": "\\b(let|type)\\b"
-		},
-		{
-			"name": "storage.modifier.cp",
-			"match": "\\b(unfixed)\\b"
-		},
-		{
-			"name": "constant.language.cp",
-			"match": "\\b(null|false|true)\\b"
-		},
-		{
-			"name": "support.type.cp",
-			"match": "\\b(bool|int|float|str|obj)\\b"
-		},
-		{
-			"name": "variable.other.cp",
-			"match": "\\b[A-Za-z_][A-Za-z0-9_]*\\b"
-		},
-		{
-			"name": "constant.numeric.radix.cp",
-			"match": "(\\+|-)?(\\\\b[0-1](_?[0-1])*|\\\\q[0-3](_?[0-3])*|\\\\o[0-7](_?[0-7])*|\\\\d[0-9](_?[0-9])*|\\\\x[0-9a-f](_?[0-9a-f])*|\\\\z[0-9a-z](_?[0-9a-z])*)"
-		},
-		{
-			"name": "constant.numeric.decimal.cp",
-			"match": "(\\+|-)?[0-9](_?[0-9])*(\\.([0-9](_?[0-9])*(e(\\+|-)?[0-9](_?[0-9])*)?)?)?"
-		},
-		{
-			"name": "keyword.operator.punctuation.cp",
-			"match": "<=|>=|!<|!>|==|!=|&&|!&|\\|\\||!\\||!|\\?|\\+|-|\\^|\\*|\\/|<|>|&|\\||=|:"
-		},
-		{
-			"name": "punctuation.delimiter.cp",
-			"match": "\\(|\\)|\\[|\\]|\\{|\\}"
-		},
-		{
-			"name": "punctuation.separator.cp",
-			"match": "\\,|\\|->|;"
+		"punctuator": {
+			"patterns": [
+				{
+					"name": "punctuation.delimiter.cp",
+					"match": "\\(|\\)|\\[|\\]|\\{|\\}"
+				},
+				{
+					"name": "punctuation.separator.cp",
+					"match": "\\,|\\|->|;"
+				},
+				{
+					"name": "keyword.operator.punctuation.cp",
+					"match": "<=|>=|!<|!>|==|!=|&&|!&|\\|\\||!\\||!|\\?|\\+|-|\\^|\\*|\\/|<|>|&|\\||=|:"
+				}
+			]
 		}
+	},
+	"patterns": [
+		{"include": "#comment"},
+		{"include": "#quoted"},
+		{"include": "#word"},
+		{"include": "#number"},
+		{"include": "#punctuator"}
 	]
 }
