@@ -10,14 +10,14 @@
 					"begin": "%%",
 					"end":   "%%",
 					"captures": {
-						"0": {"name": "comment.block.punctuation.delimiter.cp"}
+						"0": {"name": "punctuation.delimiter.cp"}
 					}
 				},
 				{
 					"name": "comment.line.percentage.cp",
 					"match": "(%).*$",
 					"captures": {
-						"1": {"name": "comment.line.percentage.punctuation.cp"}
+						"1": {"name": "punctuation.delimiter.cp"}
 					}
 				}
 			]
@@ -29,7 +29,7 @@
 					"begin": "'''|}}",
 					"end":   "'''|{{",
 					"captures": {
-						"0": {"name": "string.quoted.triple.punctuation.delimiter.cp"}
+						"0": {"name": "punctuation.delimiter.cp"}
 					}
 				},
 				{
@@ -37,14 +37,15 @@
 					"begin": "'",
 					"end":   "'",
 					"captures": {
-						"0": {"name": "string.quoted.single.punctuation.delimiter.cp"}
+						"0": {"name": "punctuation.delimiter.cp"}
 					},
 					"patterns": [
 						{
 							"name": "constant.character.escape.cp",
-							"match": "\\\\u{([0-9a-f]+)}",
+							"match": "(\\\\)u{([0-9a-f]+)}",
 							"captures": {
-								"1": {"name": "constant.numeric.hex.cp"}
+								"1": {"name": "punctuation.delimiter.cp"},
+								"2": {"name": "constant.numeric.hex.cp"}
 							}
 						},
 						{
@@ -53,24 +54,27 @@
 						},
 						{
 							"name": "constant.character.escape.cp",
-							"match": "\\\\(.|\\n)"
-						},
-						{
-							"name": "string.quoted.single.comment.block.cp",
-							"begin": "%%",
-							"end":   "(%%)|.(?=')",
-							"beginCaptures": {
-								"0": {"name": "string.quoted.single.comment.block.punctuation.delimiter.cp"}
-							},
-							"endCaptures": {
-								"1": {"name": "string.quoted.single.comment.block.punctuation.delimiter.cp"}
+							"match": "(\\\\)(.|\\n)",
+							"captures": {
+								"1": {"name": "punctuation.delimiter.cp"}
 							}
 						},
 						{
-							"name": "string.quoted.single.comment.line.percentage.cp",
+							"name": "comment.block.cp",
+							"begin": "%%",
+							"end":   "(%%)|.(?=')",
+							"beginCaptures": {
+								"0": {"name": "punctuation.delimiter.cp"}
+							},
+							"endCaptures": {
+								"1": {"name": "punctuation.delimiter.cp"}
+							}
+						},
+						{
+							"name": "comment.line.percentage.cp",
 							"match": "(%)[^']*(\\n|.(?='))",
 							"captures": {
-								"1": {"name": "string.quoted.single.comment.line.percentage.punctuation.cp"}
+								"1": {"name": "punctuation.delimiter.cp"}
 							}
 						}
 					]
@@ -80,7 +84,7 @@
 					"begin": "`",
 					"end":   "`",
 					"captures": {
-						"0": {"name": "variable.other.quoted.punctuation.delimiter.cp"}
+						"0": {"name": "punctuation.delimiter.cp"}
 					}
 				}
 			]
