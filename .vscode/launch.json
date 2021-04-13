@@ -10,7 +10,7 @@
 			"type": "extensionHost",
 			"request": "launch",
 			"args": [
-				"${workspaceFolder}/test/lex.cp",
+				"${workspaceFolder}/test/",
 				"--extensionDevelopmentPath=${workspaceFolder}",
 			],
 		},
