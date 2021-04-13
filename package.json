@@ -37,6 +37,10 @@
       "language": "cp",
       "scopeName": "source.cp",
       "path": "./syntaxes/cp.tmLanguage.json"
+    }, {
+      "scopeName": "text.html.markdown.cp",
+      "path": "./syntaxes/markdown.tmLanguage.json",
+      "injectTo": ["text.html.markdown"]
     }]
   }
 }
