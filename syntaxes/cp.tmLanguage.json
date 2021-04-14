@@ -172,6 +172,25 @@
 		"Statement": {
 			"patterns": [
 				{
+					"name": "meta.control.cp",
+					"begin": "\\b(if|while|do|for)\\b",
+					"end":   ";",
+					"beginCaptures": {
+						"0": {"name": "keyword.control.cp"}
+					},
+					"endCaptures": {
+						"0": {"name": "punctuation.delimiter.cp"}
+					},
+					"patterns": [
+						{
+							"name": "keyword.control.cp",
+							"match": "\\b(then|else|while|do|from|to|by|in)\\b"
+						},
+						{"include": "#Block"},
+						{"include": "#Expression"}
+					]
+				},
+				{
 					"name": "meta.declaration.cp",
 					"begin": "\\b(type|let)\\b",
 					"end":   ";",
@@ -231,16 +250,23 @@
 					"_note": "must come after #Expression so that `==` can be lexed correctly.",
 					"name": "punctuation.separator.cp",
 					"match": "="
-				},
-				{
-					"_note": "kept here for later use",
-					"name": "keyword.control.cp",
-					"match": "\\b(if|then|else|while|do|for)\\b"
 				}
+			]
+		},
+		"Block": {
+			"name": "meta.block.cp",
+			"begin": "\\{",
+			"end":   "\\}(?!\\})",
+			"captures": {
+				"0": {"name": "punctuation.delimiter.cp"}
+			},
+			"patterns": [
+				{"include": "#Statement"}
 			]
 		}
 	},
 	"patterns": [
+		{"include": "#Block"},
 		{"include": "#Statement"}
 	]
 }

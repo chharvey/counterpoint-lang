@@ -8,7 +8,24 @@ true else % false
 
 while %% this is a
 block comment
-%% +it +ends +here;
+%% +it +ends +here do {
+	while false do {
+		if false then '''{{ 0 }} 0''' else '''{{ 1 }} 1''';
+		(if false then '''{{ 0 }} 0''' else '''{{ 1 }} 1''');
+	};
+	if true then {
+		if false then '''{{ 0 }} 0''' else '''{{ 1 }} 1''';
+	} else %% comment %% {
+		(if false then '''{{ 0 }} 0''' else '''{{ 1 }} 1''');
+	};
+};
+
+for %% int %% i from %% start %% 1 to %% end %% 10 do {
+	do {
+		if false then '''{{ 0 }} 0''' else '''{{ 1 }} 1''';
+		(if false then '''{{ 0 }} 0''' else '''{{ 1 }} 1''');
+	} while false;
+};
 
 %%
 	hello
@@ -24,6 +41,7 @@ block comment
 	%%
 % func twice(x: int): int => x * 2;
 
+{
 	% operators:
 	!a;
 	?a;
@@ -58,6 +76,9 @@ block comment
 	[a= 3, c= 5];
 	[+a |-> -b, ];
 	[+3 |-> -5, ];
+	if true then 1 else 0;
+	null || (if true then 1 else 0);
+}
 
 
 %%% The value of `a`. %%
@@ -66,7 +87,7 @@ let b: int = 004_2. || false;
 let c: float = [-42.2_4, true];
 let d: str = 42.2e4_2;
 let unfixed e: obj = 42.2e+4_2;
-let f: TypeF | String = 'f';
+let f: %% comm %% TypeF | String = 'f';
 
 let g: int =
 	  -\b1379fz
@@ -76,7 +97,9 @@ let g: int =
 	+ -\x1379fz
 	+ -\z1379fz
 ;
-g = 42;
+g = if true then 1 else 0;
+g = if true then {1;} else {0;};
+let h: int = if true then 1 else 0;
 
 
 type `floàt | bōōl` = `floàt | bōōl` | float | bool;
