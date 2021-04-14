@@ -88,13 +88,34 @@ let x: bool = break == continue;
 	null || (if true then 1 else 0);
 }
 
+%% these should all fail parsing
+and thus be colored to indicate as such. %%
+% constants
+let null;
+let false;
+let true;
+let bool;
+let int;
+let float;
+let str;
+let obj;
+% operators
+let mutable;
+let is;
+let isnt;
+let if;
+let then;
+let else;
+% storage types/modifiers
+let let;
+let unfixed;
 
 %%% The value of `a`. %%
 let a: null | bool = +42 && null;
 let b: int = 004_2. || false;
 let c: float = [-42.2_4, true];
 let d: str = 42.2e4_2;
-let unfixed e: obj = 42.2e+4_2;
+let e: obj = 42.2e+4_2;
 let f: %% comm %% TypeF | String = 'f';
 
 let g: int =
@@ -112,10 +133,13 @@ let h: int = if true then 1 else 0;
 
 type `floàt | bōōl` = `floàt | bōōl` | float | bool;
 type T<U> = U & V;
-let w: bool | T | `floàt | bōōl` = bool;
-let w: 3.2 = 3.2 == 3.2;
-let w: null = null;
-let w: T = T;
+let unfixed w: bool | T | `floàt | bōōl` = bool;
+let unfixed w: 3.2 = 3.2 == 3.2;
+let unfixed w: null = null;
+let unfixed w: T = T;
+let arr: mutable [int] = [42];
+let rec: mutable [a: int] = [a= 42];
+let map: mutable obj = [42 |-> '42.0'];
 
 
 'a string that
