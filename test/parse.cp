@@ -128,7 +128,7 @@ let d: str = 42.2e4_2;
 let e: obj = 42.2e+4_2;
 let f: %% comm %% TypeF | String = 'f';
 
-let g: int =
+let %%unfixed%% g: int =
 	  -\b1379fz
 	+ -\q1379fz
 	+ -\o1379fz
@@ -136,6 +136,9 @@ let g: int =
 	+ -\x1379fz
 	+ -\z1379fz
 ;
+g = 42;
+g = 42 == 42;
+g == 42;
 g = if true then 1 else 0;
 g = if true then {1;} else {0;};
 let h: int = if true then 1 else 0;
