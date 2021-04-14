@@ -183,14 +183,43 @@
 					},
 					"patterns": [
 						{
+							"name": "meta.annotation.cp",
+							"begin": ":",
+							"end":   "(?==)",
+							"beginCaptures": {
+								"0": {"name": "punctuation.separator.cp"}
+							},
+							"patterns": [
+								{"include": "#Expression"}
+							]
+						},
+						{
+							"name": "meta.initializer.cp",
+							"begin": "=",
+							"end":   "(?=;)",
+							"beginCaptures": {
+								"0": {"name": "punctuation.separator.cp"}
+							},
+							"patterns": [
+								{"include": "#Expression"}
+							]
+						},
+						{
 							"name": "storage.modifier.cp",
 							"match": "\\b(unfixed)\\b"
 						},
 						{
-							"name": "punctuation.separator.cp",
-							"match": ":"
+							"name": "entity.name.variable.cp",
+							"match": "\\b[A-Za-z_][A-Za-z0-9_]*\\b"
 						},
-						{"include": "#Expression"}
+						{
+							"name": "entity.name.variable.cp",
+							"begin": "`",
+							"end":   "`",
+							"captures": {
+								"0": {"name": "punctuation.delimiter.cp"}
+							}
+						}
 					]
 				},
 				{
