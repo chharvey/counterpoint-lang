@@ -89,8 +89,21 @@
 				}
 			]
 		},
+		"CONSTANT_RESERVED": {
+			"patterns": [
+				{
+					"name": "constant.language.cp",
+					"match": "\\b(null|false|true)\\b"
+				},
+				{
+					"name": "support.type.cp",
+					"match": "\\b(bool|int|float|str|obj)\\b"
+				}
+			]
+		},
 		"CONSTANT": {
 			"patterns": [
+				{"include": "#CONSTANT_RESERVED"},
 				{
 					"name": "constant.numeric.radix.cp",
 					"match": "(\\+|-)?(\\\\b[0-1](_?[0-1])*|\\\\q[0-3](_?[0-3])*|\\\\o[0-7](_?[0-7])*|\\\\d[0-9](_?[0-9])*|\\\\x[0-9a-f](_?[0-9a-f])*|\\\\z[0-9a-z](_?[0-9a-z])*)"
@@ -100,16 +113,25 @@
 					"match": "(\\+|-)?[0-9](_?[0-9])*(\\.([0-9](_?[0-9])*(e(\\+|-)?[0-9](_?[0-9])*)?)?)?"
 				},
 				{
-					"name": "constant.language.cp",
-					"match": "\\b(null|false|true)\\b"
-				},
-				{
-					"name": "support.type.cp",
-					"match": "\\b(bool|int|float|str|obj)\\b"
-				},
-				{
 					"name": "variable.other.cp",
 					"match": "\\b[A-Za-z_][A-Za-z0-9_]*\\b"
+				}
+			]
+		},
+		"RESERVED": {
+			"patterns": [
+				{"include": "#CONSTANT_RESERVED"},
+				{
+					"name": "keyword.operator.text.cp",
+					"match": "\\b(mutable|is|isnt|if|then|else)\\b"
+				},
+				{
+					"name": "storage.type.cp",
+					"match": "\\b(type|let)\\b"
+				},
+				{
+					"name": "storage.modifier.cp",
+					"match": "\\b(unfixed)\\b"
 				}
 			]
 		},
@@ -153,10 +175,7 @@
 		},
 		"Expression": {
 			"patterns": [
-				{
-					"name": "keyword.operator.text.cp",
-					"match": "\\b(mutable|is|isnt|if|then|else)\\b"
-				},
+				{"include": "#RESERVED"},
 				{
 					"name": "keyword.operator.punctuation.cp",
 					"match": "<=|>=|!<|!>|==|!=|&&|!&|\\|\\||!\\||!|\\?|\\^|\\*|\\/|<|>|&|\\||\\."
@@ -204,10 +223,7 @@
 								{"include": "#Expression"}
 							]
 						},
-						{
-							"name": "storage.modifier.cp",
-							"match": "\\b(unfixed)\\b"
-						},
+						{"include": "#RESERVED"},
 						{
 							"name": "entity.name.variable.cp",
 							"match": "\\b[A-Za-z_][A-Za-z0-9_]*\\b"

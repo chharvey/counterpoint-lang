@@ -59,6 +59,27 @@ block comment
 	[+a |-> -b, ].[a];
 	[+3 |-> -5, ].[3];
 
+%% these should all fail parsing
+and thus be colored to indicate as such. %%
+% constants
+let null;
+let false;
+let true;
+let bool;
+let int;
+let float;
+let str;
+let obj;
+% operators
+let mutable;
+let is;
+let isnt;
+let if;
+let then;
+let else;
+% storage types/modifiers
+let let;
+let unfixed;
 
 %%% The value of `a`. %%
 let a: null | bool = +42 && null;
