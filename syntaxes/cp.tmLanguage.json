@@ -144,7 +144,6 @@
 		},
 		"Unit": {
 			"patterns": [
-				{"include": "#Primitive"},
 				{
 					"name": "meta.structure.cp",
 					"begin": "\\(",
@@ -170,16 +169,17 @@
 						},
 						{"include": "#Expression"}
 					]
-				}
+				},
+				{"include": "#Primitive"}
 			]
 		},
 		"Expression": {
 			"patterns": [
-				{"include": "#RESERVED"},
 				{
 					"name": "keyword.operator.punctuation.cp",
 					"match": "<=|>=|!<|!>|==|!=|&&|!&|\\|\\||!\\||!|\\?|\\^|\\*|\\/|<|>|&|\\||\\."
 				},
+				{"include": "#RESERVED"},
 				{"include": "#Unit"},
 				{
 					"_note": "must come after #Unit so that numbers can be lexed correctly.",
@@ -223,11 +223,6 @@
 								{"include": "#Expression"}
 							]
 						},
-						{"include": "#RESERVED"},
-						{
-							"name": "entity.name.variable.cp",
-							"match": "\\b[A-Za-z_][A-Za-z0-9_]*\\b"
-						},
 						{
 							"name": "entity.name.variable.cp",
 							"begin": "`",
@@ -235,6 +230,13 @@
 							"captures": {
 								"0": {"name": "punctuation.delimiter.cp"}
 							}
+						},
+						{"include": "#COMMENT"},
+						{"include": "#RESERVED"},
+						{
+							"_note": "must come after #RESERVED so that reserved words are lexed first.",
+							"name": "entity.name.variable.cp",
+							"match": "\\b[A-Za-z_][A-Za-z0-9_]*\\b"
 						}
 					]
 				},

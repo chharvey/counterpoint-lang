@@ -89,7 +89,7 @@ let d: str = 42.2e4_2;
 let e: obj = 42.2e+4_2;
 let f: TypeF | String = 'f';
 
-let g: int =
+let %%unfixed%% g: int =
 	  -\b1379fz
 	+ -\q1379fz
 	+ -\o1379fz
