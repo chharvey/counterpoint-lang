@@ -242,6 +242,10 @@
 					]
 				},
 				{
+					"name": "keyword.control.cp",
+					"match": "\\b(break|continue)\\b"
+				},
+				{
 					"name": "punctuation.delimiter.cp",
 					"match": ";"
 				},

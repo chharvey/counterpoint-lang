@@ -12,6 +12,8 @@ block comment
 	while false do {
 		if false then '''{{ 0 }} 0''' else '''{{ 1 }} 1''';
 		(if false then '''{{ 0 }} 0''' else '''{{ 1 }} 1''');
+		break 1;
+		continue;
 	};
 	if true then {
 		if false then '''{{ 0 }} 0''' else '''{{ 1 }} 1''';
@@ -24,8 +26,14 @@ for %% int %% i from %% start %% 1 to %% end %% 10 do {
 	do {
 		if false then '''{{ 0 }} 0''' else '''{{ 1 }} 1''';
 		(if false then '''{{ 0 }} 0''' else '''{{ 1 }} 1''');
+		break 1;
+		continue;
 	} while false;
 };
+let break: str = 'break';
+let continue: str = 'continue';
+while continue do { break; break = '1'; };
+let x: bool = break == continue;
 
 %%
 	hello
