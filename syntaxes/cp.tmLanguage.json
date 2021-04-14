@@ -108,14 +108,6 @@
 					"match": "\\b(bool|int|float|str|obj)\\b"
 				},
 				{
-					"name": "storage.type.cp",
-					"match": "\\b(let|type)\\b"
-				},
-				{
-					"name": "storage.modifier.cp",
-					"match": "\\b(unfixed)\\b"
-				},
-				{
 					"name": "variable.other.cp",
 					"match": "\\b[A-Za-z_][A-Za-z0-9_]*\\b"
 				}
@@ -180,8 +172,26 @@
 		"Statement": {
 			"patterns": [
 				{
-					"name": "punctuation.separator.cp",
-					"match": ":"
+					"name": "meta.declaration.cp",
+					"begin": "\\b(type|let)\\b",
+					"end":   ";",
+					"beginCaptures": {
+						"0": {"name": "storage.type.cp"}
+					},
+					"endCaptures": {
+						"0": {"name": "punctuation.delimiter.cp"}
+					},
+					"patterns": [
+						{
+							"name": "storage.modifier.cp",
+							"match": "\\b(unfixed)\\b"
+						},
+						{
+							"name": "punctuation.separator.cp",
+							"match": ":"
+						},
+						{"include": "#Expression"}
+					]
 				},
 				{
 					"name": "punctuation.delimiter.cp",

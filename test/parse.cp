@@ -81,6 +81,10 @@ g = 42;
 
 type `floàt | bōōl` = float | bool;
 type T<U> = U & V;
+let w: bool | T = bool;
+let w: 3.2 = 3.2 == 3.2;
+let w: null = null;
+let w: T = T;
 
 
 'a string that
