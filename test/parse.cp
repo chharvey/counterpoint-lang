@@ -197,3 +197,23 @@ replace newlines with spaces.';
 \{\{ {{ var }} \}\}
 {{ '\{\{' }}{{ var }}{{ '\}\}' }}
 ''';
+
+func add(a: int = 0, b: int = 0): int { return a + b; }
+func subtract(a: int = 0, b: int = a): int => a - b;
+func nothing(): void {
+	let x: unknown = 0;
+	return;
+}
+func error(): never {
+	throw if true then 'error' else 'an error';
+	throw (if true then 'error' else 'an error');
+}
+
+let x: (str) -> {str} = (a: str) => '''<x>{{ a }}</x>''';
+let x: (str) -> {str} = (a: str) {
+	func y(): void {;}
+	let x: str = 'x';
+	return '''<{{ x }}>{{ a }}</{{ x }}>''';
+};
+
+func returnFunc(): obj => (x) => x + 1;
