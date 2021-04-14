@@ -54,10 +54,10 @@ block comment
 	T | S;
 	T!;
 	T?;
-	[a, [b, b], (c + c)];
-	[a= 3, c= 5];
-	[+a |-> -b, ];
-	[+3 |-> -5, ];
+	[a, [b, b], (c + c)].0;
+	[a= 3, c= 5].a;
+	[+a |-> -b, ].[a];
+	[+3 |-> -5, ].[3];
 
 
 %%% The value of `a`. %%
@@ -65,7 +65,7 @@ let a: null | bool = +42 && null;
 let b: int = 004_2. || false;
 let c: float = [-42.2_4, true];
 let d: str = 42.2e4_2;
-let unfixed e: obj = 42.2e+4_2;
+let e: obj = 42.2e+4_2;
 let f: TypeF | String = 'f';
 
 let g: int =
@@ -81,10 +81,13 @@ g = 42;
 
 type `floàt | bōōl` = `floàt | bōōl` | float | bool;
 type T<U> = U & V;
-let w: bool | T | `floàt | bōōl` = bool;
-let w: 3.2 = 3.2 == 3.2;
-let w: null = null;
-let w: T = T;
+let unfixed w: bool | T | `floàt | bōōl` = bool;
+let unfixed w: 3.2 = 3.2 == 3.2;
+let unfixed w: null = null;
+let unfixed w: T = T;
+let arr: mutable [int] = [42];
+let rec: mutable [a: int] = [a= 42];
+let map: mutable obj = [42 |-> '42.0'];
 
 
 'a string that
