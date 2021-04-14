@@ -98,6 +98,8 @@ let g: int =
 	+ -\z1379fz
 ;
 g = 42;
+g = 42 == 42;
+g == 42;
 
 
 type `floàt | bōōl` = `floàt | bōōl` | float | bool;
