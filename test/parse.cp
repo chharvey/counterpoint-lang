@@ -109,6 +109,16 @@ let else;
 % storage types/modifiers
 let let;
 let unfixed;
+% control
+let while;
+let do;
+let for;
+let from;
+let to;
+let by;
+let in;
+let break;
+let continue;
 
 %%% The value of `a`. %%
 let a: null | bool = +42 && null;

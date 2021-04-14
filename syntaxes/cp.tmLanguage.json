@@ -132,6 +132,10 @@
 				{
 					"name": "storage.modifier.cp",
 					"match": "\\b(unfixed)\\b"
+				},
+				{
+					"name": "keyword.control",
+					"match": "\\b(if|then|else|while|do|for|from|to|by|in|break|continue)\\b"
 				}
 			]
 		},
@@ -256,10 +260,6 @@
 							}
 						}
 					]
-				},
-				{
-					"name": "keyword.control.cp",
-					"match": "\\b(break|continue)\\b"
 				},
 				{
 					"name": "punctuation.delimiter.cp",
