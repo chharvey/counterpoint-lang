@@ -184,7 +184,6 @@
 		},
 		"Expression": {
 			"patterns": [
-				{"include": "#RESERVED"},
 				{
 					"name": "storage.type.cp",
 					"match": "=>"
@@ -193,6 +192,7 @@
 					"name": "keyword.operator.punctuation.cp",
 					"match": "->|<=|>=|!<|!>|==|!=|&&|!&|\\|\\||!\\||!|\\?|\\^|\\*|\\/|<|>|&|\\||\\."
 				},
+				{"include": "#RESERVED"},
 				{"include": "#Unit"},
 				{
 					"_note": "must come after #Unit so that numbers can be lexed correctly.",
@@ -255,11 +255,6 @@
 								{"include": "#Expression"}
 							]
 						},
-						{"include": "#RESERVED"},
-						{
-							"name": "entity.name.variable.cp",
-							"match": "\\b[A-Za-z_][A-Za-z0-9_]*\\b"
-						},
 						{
 							"name": "entity.name.variable.cp",
 							"begin": "`",
@@ -267,6 +262,13 @@
 							"captures": {
 								"0": {"name": "punctuation.delimiter.cp"}
 							}
+						},
+						{"include": "#COMMENT"},
+						{"include": "#RESERVED"},
+						{
+							"_note": "must come after #RESERVED so that reserved words are lexed first.",
+							"name": "entity.name.variable.cp",
+							"match": "\\b[A-Za-z_][A-Za-z0-9_]*\\b"
 						}
 					]
 				},
@@ -315,11 +317,6 @@
 										{"include": "#Expression"}
 									]
 								},
-								{"include": "#RESERVED"},
-								{
-									"name": "variable.parameter.cp",
-									"match": "\\b[A-Za-z_][A-Za-z0-9_]*\\b"
-								},
 								{
 									"name": "variable.parameter.cp",
 									"begin": "`",
@@ -327,6 +324,13 @@
 									"captures": {
 										"0": {"name": "punctuation.delimiter.cp"}
 									}
+								},
+								{"include": "#COMMENT"},
+								{"include": "#RESERVED"},
+								{
+									"_note": "must come after #RESERVED so that reserved words are lexed first.",
+									"name": "variable.parameter.cp",
+									"match": "\\b[A-Za-z_][A-Za-z0-9_]*\\b"
 								}
 							]
 						},
@@ -357,15 +361,24 @@
 					]
 				},
 				{
+					"name": "meta.initializer.cp",
+					"begin": "=(?!=|>)",
+					"end":   ";",
+					"beginCaptures": {
+						"0": {"name": "punctuation.separator.cp"}
+					},
+					"endCaptures": {
+						"0": {"name": "punctuation.delimiter.cp"}
+					},
+					"patterns": [
+						{"include": "#Expression"}
+					]
+				},
+				{
 					"name": "punctuation.delimiter.cp",
 					"match": ";"
 				},
-				{"include": "#Expression"},
-				{
-					"_note": "must come after #Expression so that `==` can be lexed correctly.",
-					"name": "punctuation.separator.cp",
-					"match": "="
-				}
+				{"include": "#Expression"}
 			]
 		},
 		"Block": {

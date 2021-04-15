@@ -128,7 +128,7 @@ let d: str = 42.2e4_2;
 let e: obj = 42.2e+4_2;
 let f: %% comm %% TypeF | String = 'f';
 
-let g: int =
+let %%unfixed%% g: int =
 	  -\b1379fz
 	+ -\q1379fz
 	+ -\o1379fz
@@ -136,9 +136,14 @@ let g: int =
 	+ -\x1379fz
 	+ -\z1379fz
 ;
+g = 42;
+g = 42 == 42;
+g == 42;
 g = if true then 1 else 0;
 g = if true then {1;} else {0;};
 let h: int = if true then 1 else 0;
+(unfixed h: int) => h + 1;
+(%%unfixed%% h: int) => h + 1;
 
 
 type `floàt | bōōl` = `floàt | bōōl` | float | bool;
@@ -199,7 +204,7 @@ replace newlines with spaces.';
 ''';
 
 func add(a: int = 0, b: int = 0): int { return a + b; }
-func subtract(a: int = 0, b: int = a): int => a - b;
+func subtract(unfixed a: int = 0, %%unfixed%% b: int = a): int => a - b;
 func nothing(): void {
 	let x: unknown = 0;
 	return;
