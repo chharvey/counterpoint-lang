@@ -1,448 +1,448 @@
 import * as fs from 'fs';
 
 await fs.promises.writeFile('./syntaxes/cp.tmLanguage.json', JSON.stringify({
-	"$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
-	"name": "Counterpoint",
-	"scopeName": "source.cp",
-	"repository": {
-		"COMMENT": {
-			"patterns": [
+	$schema: 'https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json',
+	name: 'Counterpoint',
+	scopeName: 'source.cp',
+	repository: {
+		COMMENT: {
+			patterns: [
 				{
-					"name": "comment.block.cp",
-					"begin": "%%",
-					"end":   "%%",
-					"captures": {
-						"0": {"name": "punctuation.delimiter.cp"}
-					}
-				},
-				{
-					"name": "comment.line.percentage.cp",
-					"match": "(%).*$",
-					"captures": {
-						"1": {"name": "punctuation.delimiter.cp"}
-					}
-				}
-			]
-		},
-		"QUOTED": {
-			"patterns": [
-				{
-					"name": "string.quoted.triple.cp",
-					"begin": "'''|}}",
-					"end":   "'''|{{",
-					"captures": {
-						"0": {"name": "punctuation.delimiter.cp"}
-					}
-				},
-				{
-					"name": "string.quoted.single.cp",
-					"begin": "'",
-					"end":   "'",
-					"captures": {
-						"0": {"name": "punctuation.delimiter.cp"}
+					name: 'comment.block.cp',
+					begin: '%%',
+					end:   '%%',
+					captures: {
+						0: {name: 'punctuation.delimiter.cp'},
 					},
-					"patterns": [
-						{
-							"name": "constant.character.escape.cp",
-							"match": "(\\\\)u{([0-9a-f]+)}",
-							"captures": {
-								"1": {"name": "punctuation.delimiter.cp"},
-								"2": {"name": "constant.numeric.hex.cp"}
-							}
-						},
-						{
-							"name": "invalid.illegal.cp",
-							"match": "\\\\u{[0-9a-f]*(?=[^0-9a-f])"
-						},
-						{
-							"name": "constant.character.escape.cp",
-							"match": "(\\\\)(.|\\n)",
-							"captures": {
-								"1": {"name": "punctuation.delimiter.cp"}
-							}
-						},
-						{
-							"name": "comment.block.cp",
-							"begin": "%%",
-							"end":   "(%%)|.(?=')",
-							"beginCaptures": {
-								"0": {"name": "punctuation.delimiter.cp"}
-							},
-							"endCaptures": {
-								"1": {"name": "punctuation.delimiter.cp"}
-							}
-						},
-						{
-							"name": "comment.line.percentage.cp",
-							"match": "(%)[^']*(\\n|.(?='))",
-							"captures": {
-								"1": {"name": "punctuation.delimiter.cp"}
-							}
-						}
-					]
 				},
 				{
-					"name": "variable.other.quoted.cp",
-					"begin": "`",
-					"end":   "`",
-					"captures": {
-						"0": {"name": "punctuation.delimiter.cp"}
-					}
-				}
-			]
-		},
-		"CONSTANT_RESERVED": {
-			"patterns": [
-				{
-					"name": "constant.language.cp",
-					"match": "\\b(null|false|true)\\b"
-				},
-				{
-					"name": "support.type.cp",
-					"match": "\\b(never|void|bool|int|float|str|obj|unknown)\\b"
-				}
-			]
-		},
-		"CONSTANT": {
-			"patterns": [
-				{"include": "#CONSTANT_RESERVED"},
-				{
-					"name": "constant.numeric.radix.cp",
-					"match": "(\\+|-)?(\\\\b[0-1](_?[0-1])*|\\\\q[0-3](_?[0-3])*|\\\\o[0-7](_?[0-7])*|\\\\d[0-9](_?[0-9])*|\\\\x[0-9a-f](_?[0-9a-f])*|\\\\z[0-9a-z](_?[0-9a-z])*)"
-				},
-				{
-					"name": "constant.numeric.decimal.cp",
-					"match": "(\\+|-)?[0-9](_?[0-9])*(\\.([0-9](_?[0-9])*(e(\\+|-)?[0-9](_?[0-9])*)?)?)?"
-				},
-				{
-					"name": "variable.other.cp",
-					"match": "\\b[A-Za-z_][A-Za-z0-9_]*\\b"
-				},
-				{
-					"name": "invalid.illegal",
-					"match": "__|_(?=\\b)"
-				}
-			]
-		},
-		"RESERVED": {
-			"patterns": [
-				{"include": "#CONSTANT_RESERVED"},
-				{
-					"name": "keyword.operator.text.cp",
-					"match": "\\b(mutable|is|isnt|if|then|else)\\b"
-				},
-				{
-					"name": "storage.type.cp",
-					"match": "\\b(type|let|func)\\b"
-				},
-				{
-					"name": "storage.modifier.cp",
-					"match": "\\b(unfixed)\\b"
-				},
-				{
-					"name": "keyword.control",
-					"match": "\\b(if|unless|then|else|while|until|do|for|from|to|by|in|break|continue|return|throw)\\b"
-				}
-			]
-		},
-		"Primitive": {
-			"patterns": [
-				{"include": "#COMMENT"},
-				{"include": "#QUOTED"},
-				{"include": "#CONSTANT"}
-			]
-		},
-		"Unit": {
-			"patterns": [
-				{
-					"name": "meta.structure.cp",
-					"begin": "\\(",
-					"end":   "\\)",
-					"captures": {
-						"0": {"name": "punctuation.delimiter.cp"}
+					name: 'comment.line.percentage.cp',
+					match: '(%).*$',
+					captures: {
+						1: {name: 'punctuation.delimiter.cp'},
 					},
-					"patterns": [
-						{
-							"name": "punctuation.separator.cp",
-							"match": ","
-						},
-						{
-							"name": "meta.annotation.cp",
-							"begin": ":",
-							"end":   "(?==(?!=|>)|,|\\))",
-							"beginCaptures": {
-								"0": {"name": "punctuation.delimiter.cp"}
-							},
-							"patterns": [
-								{"include": "#Expression"}
-							]
-						},
-						{
-							"name": "meta.initializer.cp",
-							"begin": "=(?!=|>)",
-							"end":   "(?=,|\\))",
-							"beginCaptures": {
-								"0": {"name": "punctuation.delimiter.cp"}
-							},
-							"patterns": [
-								{"include": "#Expression"}
-							]
-						},
-						{"include": "#Expression"}
-					]
 				},
-				{
-					"name": "meta.structure.cp",
-					"begin": "\\[",
-					"end":   "\\]",
-					"captures": {
-						"0": {"name": "punctuation.delimiter.cp"}
-					},
-					"patterns": [
-						{
-							"name": "punctuation.separator.cp",
-							"match": "\\|->|,"
-						},
-						{
-							"name": "meta.annotation.cp",
-							"begin": ":",
-							"end":   "(?==(?!=|>)|,|\\])",
-							"beginCaptures": {
-								"0": {"name": "punctuation.delimiter.cp"}
-							},
-							"patterns": [
-								{"include": "#Expression"}
-							]
-						},
-						{
-							"name": "meta.initializer.cp",
-							"begin": "=(?!=|>)",
-							"end":   "(?=,|\\])",
-							"beginCaptures": {
-								"0": {"name": "punctuation.delimiter.cp"}
-							},
-							"patterns": [
-								{"include": "#Expression"}
-							]
-						},
-						{"include": "#Expression"}
-					]
-				},
-				{"include": "#Block"},
-				{"include": "#Primitive"}
-			]
+			],
 		},
-		"Expression": {
-			"patterns": [
+		QUOTED: {
+			patterns: [
 				{
-					"name": "storage.type.cp",
-					"match": "=>"
+					name: 'string.quoted.triple.cp',
+					begin: '\'\'\'|}}',
+					end:   '\'\'\'|{{',
+					captures: {
+						0: {name: 'punctuation.delimiter.cp'},
+					},
 				},
 				{
-					"name": "keyword.operator.punctuation.cp",
-					"match": "->|<=|>=|!<|!>|==|!=|&&|!&|\\|\\||!\\||!|\\?|\\^|\\*|\\/|<|>|&|\\||\\."
+					name: 'string.quoted.single.cp',
+					begin: '\'',
+					end:   '\'',
+					captures: {
+						0: {name: 'punctuation.delimiter.cp'},
+					},
+					patterns: [
+						{
+							name: 'constant.character.escape.cp',
+							match: '(\\\\)u{([0-9a-f]+)}',
+							captures: {
+								'1': {name: 'punctuation.delimiter.cp'},
+								'2': {name: 'constant.numeric.hex.cp'},
+							},
+						},
+						{
+							name: 'invalid.illegal.cp',
+							match: '\\\\u{[0-9a-f]*(?=[^0-9a-f])',
+						},
+						{
+							name: 'constant.character.escape.cp',
+							match: '(\\\\)(.|\\n)',
+							captures: {
+								'1': {name: 'punctuation.delimiter.cp'},
+							},
+						},
+						{
+							name: 'comment.block.cp',
+							begin: '%%',
+							end:   '(%%)|.(?=\')',
+							beginCaptures: {
+								0: {name: 'punctuation.delimiter.cp'},
+							},
+							endCaptures: {
+								'1': {name: 'punctuation.delimiter.cp'},
+							},
+						},
+						{
+							name: 'comment.line.percentage.cp',
+							match: '(%)[^\']*(\\n|.(?=\'))',
+							captures: {
+								'1': {name: 'punctuation.delimiter.cp'},
+							},
+						},
+					],
 				},
-				{"include": "#RESERVED"},
-				{"include": "#Unit"},
 				{
-					"_note": "must come after #Unit so that numbers can be lexed correctly.",
-					"name": "keyword.operator.punctuation.cp",
-					"match": "\\+|-"
-				}
-			]
+					name: 'variable.other.quoted.cp',
+					begin: '`',
+					end:   '`',
+					captures: {
+						0: {name: 'punctuation.delimiter.cp'},
+					},
+				},
+			],
 		},
-		"Statement": {
-			"patterns": [
+		CONSTANT_RESERVED: {
+			patterns: [
 				{
-					"name": "meta.control.cp",
-					"begin": "\\b(if|unless|while|until|do|for)\\b",
-					"end":   ";",
-					"beginCaptures": {
-						"0": {"name": "keyword.control.cp"}
-					},
-					"endCaptures": {
-						"0": {"name": "punctuation.delimiter.cp"}
-					},
-					"patterns": [
-						{
-							"name": "keyword.control.cp",
-							"match": "\\b(then|else|while|until|do|from|to|by|in)\\b"
-						},
-						{"include": "#Expression"}
-					]
+					name: 'constant.language.cp',
+					match: '\\b(null|false|true)\\b',
 				},
 				{
-					"name": "meta.declaration.cp",
-					"begin": "\\b(type|let)\\b",
-					"end":   ";",
-					"beginCaptures": {
-						"0": {"name": "storage.type.cp"}
-					},
-					"endCaptures": {
-						"0": {"name": "punctuation.delimiter.cp"}
-					},
-					"patterns": [
-						{
-							"name": "meta.annotation.cp",
-							"begin": ":",
-							"end":   "(?==(?!=|>))",
-							"beginCaptures": {
-								"0": {"name": "punctuation.delimiter.cp"}
-							},
-							"patterns": [
-								{"include": "#Expression"}
-							]
-						},
-						{
-							"name": "meta.initializer.cp",
-							"begin": "=(?!=|>)",
-							"end":   "(?=;)",
-							"beginCaptures": {
-								"0": {"name": "punctuation.delimiter.cp"}
-							},
-							"patterns": [
-								{"include": "#Expression"}
-							]
-						},
-						{
-							"name": "entity.name.variable.cp",
-							"begin": "`",
-							"end":   "`",
-							"captures": {
-								"0": {"name": "punctuation.delimiter.cp"}
-							}
-						},
-						{"include": "#COMMENT"},
-						{"include": "#RESERVED"},
-						{
-							"_note": "must come after #RESERVED so that reserved words are lexed first.",
-							"name": "entity.name.variable.cp",
-							"match": "\\b[A-Za-z_][A-Za-z0-9_]*\\b"
-						}
-					]
+					name: 'support.type.cp',
+					match: '\\b(never|void|bool|int|float|str|obj|unknown)\\b',
+				},
+			],
+		},
+		CONSTANT: {
+			patterns: [
+				{include: '#CONSTANT_RESERVED'},
+				{
+					name: 'constant.numeric.radix.cp',
+					match: '(\\+|-)?(\\\\b[0-1](_?[0-1])*|\\\\q[0-3](_?[0-3])*|\\\\o[0-7](_?[0-7])*|\\\\d[0-9](_?[0-9])*|\\\\x[0-9a-f](_?[0-9a-f])*|\\\\z[0-9a-z](_?[0-9a-z])*)',
 				},
 				{
-					"name": "meta.function.cp",
-					"begin": "\\b(func)\\b",
-					"end":   "(?=\\{)|=>",
-					"captures": {
-						"0": {"name": "storage.type.cp"}
+					name: 'constant.numeric.decimal.cp',
+					match: '(\\+|-)?[0-9](_?[0-9])*(\\.([0-9](_?[0-9])*(e(\\+|-)?[0-9](_?[0-9])*)?)?)?',
+				},
+				{
+					name: 'variable.other.cp',
+					match: '\\b[A-Za-z_][A-Za-z0-9_]*\\b',
+				},
+				{
+					name: 'invalid.illegal',
+					match: '__|_(?=\\b)',
+				},
+			],
+		},
+		RESERVED: {
+			patterns: [
+				{include: '#CONSTANT_RESERVED'},
+				{
+					name: 'keyword.operator.text.cp',
+					match: '\\b(mutable|is|isnt|if|then|else)\\b',
+				},
+				{
+					name: 'storage.type.cp',
+					match: '\\b(type|let|func)\\b',
+				},
+				{
+					name: 'storage.modifier.cp',
+					match: '\\b(unfixed)\\b',
+				},
+				{
+					name: 'keyword.control',
+					match: '\\b(if|unless|then|else|while|until|do|for|from|to|by|in|break|continue|return|throw)\\b',
+				},
+			],
+		},
+		Primitive: {
+			patterns: [
+				{include: '#COMMENT'},
+				{include: '#QUOTED'},
+				{include: '#CONSTANT'},
+			],
+		},
+		Unit: {
+			patterns: [
+				{
+					name: 'meta.structure.cp',
+					begin: '\\(',
+					end:   '\\)',
+					captures: {
+						0: {name: 'punctuation.delimiter.cp'},
 					},
-					"patterns": [
+					patterns: [
 						{
-							"name": "meta.parameters.cp",
-							"begin": "\\(",
-							"end":   "\\)",
-							"captures": {
-								"0": {"name": "punctuation.delimiter.cp"}
+							name: 'punctuation.separator.cp',
+							match: ',',
+						},
+						{
+							name: 'meta.annotation.cp',
+							begin: ':',
+							end:   '(?==(?!=|>)|,|\\))',
+							beginCaptures: {
+								0: {name: 'punctuation.delimiter.cp'},
 							},
-							"patterns": [
+							patterns: [
+								{include: '#Expression'},
+							],
+						},
+						{
+							name: 'meta.initializer.cp',
+							begin: '=(?!=|>)',
+							end:   '(?=,|\\))',
+							beginCaptures: {
+								0: {name: 'punctuation.delimiter.cp'},
+							},
+							patterns: [
+								{include: '#Expression'},
+							],
+						},
+						{include: '#Expression'},
+					],
+				},
+				{
+					name: 'meta.structure.cp',
+					begin: '\\[',
+					end:   '\\]',
+					captures: {
+						0: {name: 'punctuation.delimiter.cp'},
+					},
+					patterns: [
+						{
+							name: 'punctuation.separator.cp',
+							match: '\\|->|,',
+						},
+						{
+							name: 'meta.annotation.cp',
+							begin: ':',
+							end:   '(?==(?!=|>)|,|\\])',
+							beginCaptures: {
+								0: {name: 'punctuation.delimiter.cp'},
+							},
+							patterns: [
+								{include: '#Expression'},
+							],
+						},
+						{
+							name: 'meta.initializer.cp',
+							begin: '=(?!=|>)',
+							end:   '(?=,|\\])',
+							beginCaptures: {
+								0: {name: 'punctuation.delimiter.cp'},
+							},
+							patterns: [
+								{include: '#Expression'},
+							],
+						},
+						{include: '#Expression'},
+					],
+				},
+				{include: '#Block'},
+				{include: '#Primitive'},
+			],
+		},
+		Expression: {
+			patterns: [
+				{
+					name: 'storage.type.cp',
+					match: '=>',
+				},
+				{
+					name: 'keyword.operator.punctuation.cp',
+					match: '->|<=|>=|!<|!>|==|!=|&&|!&|\\|\\||!\\||!|\\?|\\^|\\*|\\/|<|>|&|\\||\\.',
+				},
+				{include: '#RESERVED'},
+				{include: '#Unit'},
+				{
+					_note: 'must come after #Unit so that numbers can be lexed correctly.',
+					name: 'keyword.operator.punctuation.cp',
+					match: '\\+|-',
+				},
+			],
+		},
+		Statement: {
+			patterns: [
+				{
+					name: 'meta.control.cp',
+					begin: '\\b(if|unless|while|until|do|for)\\b',
+					end:   ';',
+					beginCaptures: {
+						0: {name: 'keyword.control.cp'},
+					},
+					endCaptures: {
+						0: {name: 'punctuation.delimiter.cp'},
+					},
+					patterns: [
+						{
+							name: 'keyword.control.cp',
+							match: '\\b(then|else|while|until|do|from|to|by|in)\\b',
+						},
+						{include: '#Expression'},
+					],
+				},
+				{
+					name: 'meta.declaration.cp',
+					begin: '\\b(type|let)\\b',
+					end:   ';',
+					beginCaptures: {
+						0: {name: 'storage.type.cp'},
+					},
+					endCaptures: {
+						0: {name: 'punctuation.delimiter.cp'},
+					},
+					patterns: [
+						{
+							name: 'meta.annotation.cp',
+							begin: ':',
+							end:   '(?==(?!=|>))',
+							beginCaptures: {
+								0: {name: 'punctuation.delimiter.cp'},
+							},
+							patterns: [
+								{include: '#Expression'},
+							],
+						},
+						{
+							name: 'meta.initializer.cp',
+							begin: '=(?!=|>)',
+							end:   '(?=;)',
+							beginCaptures: {
+								0: {name: 'punctuation.delimiter.cp'},
+							},
+							patterns: [
+								{include: '#Expression'},
+							],
+						},
+						{
+							name: 'entity.name.variable.cp',
+							begin: '`',
+							end:   '`',
+							captures: {
+								0: {name: 'punctuation.delimiter.cp'},
+							},
+						},
+						{include: '#COMMENT'},
+						{include: '#RESERVED'},
+						{
+							_note: 'must come after #RESERVED so that reserved words are lexed first.',
+							name: 'entity.name.variable.cp',
+							match: '\\b[A-Za-z_][A-Za-z0-9_]*\\b',
+						},
+					],
+				},
+				{
+					name: 'meta.function.cp',
+					begin: '\\b(func)\\b',
+					end:   '(?=\\{)|=>',
+					captures: {
+						0: {name: 'storage.type.cp'},
+					},
+					patterns: [
+						{
+							name: 'meta.parameters.cp',
+							begin: '\\(',
+							end:   '\\)',
+							captures: {
+								0: {name: 'punctuation.delimiter.cp'},
+							},
+							patterns: [
 								{
-									"name": "punctuation.separator.cp",
-									"match": ","
+									name: 'punctuation.separator.cp',
+									match: ',',
 								},
 								{
-									"name": "meta.annotation.cp",
-									"begin": ":",
-									"end":   "(?==(?!=|>)|,|\\))",
-									"beginCaptures": {
-										"0": {"name": "punctuation.delimiter.cp"}
+									name: 'meta.annotation.cp',
+									begin: ':',
+									end:   '(?==(?!=|>)|,|\\))',
+									beginCaptures: {
+										0: {name: 'punctuation.delimiter.cp'},
 									},
-									"patterns": [
-										{"include": "#Expression"}
-									]
+									patterns: [
+										{include: '#Expression'},
+									],
 								},
 								{
-									"name": "meta.initializer.cp",
-									"begin": "=(?!=|>)",
-									"end":   "(?=,|\\))",
-									"beginCaptures": {
-										"0": {"name": "punctuation.delimiter.cp"}
+									name: 'meta.initializer.cp',
+									begin: '=(?!=|>)',
+									end:   '(?=,|\\))',
+									beginCaptures: {
+										0: {name: 'punctuation.delimiter.cp'},
 									},
-									"patterns": [
-										{"include": "#Expression"}
-									]
+									patterns: [
+										{include: '#Expression'},
+									],
 								},
 								{
-									"name": "variable.parameter.cp",
-									"begin": "`",
-									"end":   "`",
-									"captures": {
-										"0": {"name": "punctuation.delimiter.cp"}
-									}
+									name: 'variable.parameter.cp',
+									begin: '`',
+									end:   '`',
+									captures: {
+										0: {name: 'punctuation.delimiter.cp'},
+									},
 								},
-								{"include": "#COMMENT"},
-								{"include": "#RESERVED"},
+								{include: '#COMMENT'},
+								{include: '#RESERVED'},
 								{
-									"_note": "must come after #RESERVED so that reserved words are lexed first.",
-									"name": "variable.parameter.cp",
-									"match": "\\b[A-Za-z_][A-Za-z0-9_]*\\b"
-								}
-							]
+									_note: 'must come after #RESERVED so that reserved words are lexed first.',
+									name: 'variable.parameter.cp',
+									match: '\\b[A-Za-z_][A-Za-z0-9_]*\\b',
+								},
+							],
 						},
 						{
-							"name": "meta.annotation.cp",
-							"begin": ":",
-							"end":   "(?=\\{|=>)",
-							"beginCaptures": {
-								"0": {"name": "punctuation.delimiter.cp"}
+							name: 'meta.annotation.cp',
+							begin: ':',
+							end:   '(?=\\{|=>)',
+							beginCaptures: {
+								0: {name: 'punctuation.delimiter.cp'},
 							},
-							"patterns": [
-								{"include": "#Expression"}
-							]
+							patterns: [
+								{include: '#Expression'},
+							],
 						},
 						{
-							"name": "entity.name.function.cp",
-							"begin": "`",
-							"end":   "`",
-							"captures": {
-								"0": {"name": "punctuation.delimiter.cp"}
-							}
+							name: 'entity.name.function.cp',
+							begin: '`',
+							end:   '`',
+							captures: {
+								0: {name: 'punctuation.delimiter.cp'},
+							},
 						},
-						{"include": "#COMMENT"},
-						{"include": "#RESERVED"},
+						{include: '#COMMENT'},
+						{include: '#RESERVED'},
 						{
-							"_note": "must come after #RESERVED so that reserved words are lexed first.",
-							"name": "entity.name.function.cp",
-							"match": "\\b[A-Za-z_][A-Za-z0-9_]*\\b"
-						}
-					]
+							_note: 'must come after #RESERVED so that reserved words are lexed first.',
+							name: 'entity.name.function.cp',
+							match: '\\b[A-Za-z_][A-Za-z0-9_]*\\b',
+						},
+					],
 				},
 				{
-					"name": "meta.initializer.cp",
-					"begin": "=(?!=|>)",
-					"end":   ";",
-					"beginCaptures": {
-						"0": {"name": "punctuation.separator.cp"}
+					name: 'meta.initializer.cp',
+					begin: '=(?!=|>)',
+					end:   ';',
+					beginCaptures: {
+						0: {name: 'punctuation.separator.cp'},
 					},
-					"endCaptures": {
-						"0": {"name": "punctuation.delimiter.cp"}
+					endCaptures: {
+						0: {name: 'punctuation.delimiter.cp'},
 					},
-					"patterns": [
-						{"include": "#Expression"}
-					]
+					patterns: [
+						{include: '#Expression'},
+					],
 				},
 				{
-					"name": "punctuation.delimiter.cp",
-					"match": ";"
+					name: 'punctuation.delimiter.cp',
+					match: ';',
 				},
-				{"include": "#Expression"}
-			]
+				{include: '#Expression'},
+			],
 		},
-		"Block": {
-			"name": "meta.block.cp",
-			"begin": "\\{",
-			"end":   "\\}(?!\\})",
-			"captures": {
-				"0": {"name": "punctuation.delimiter.cp"}
+		Block: {
+			name: 'meta.block.cp',
+			begin: '\\{',
+			end:   '\\}(?!\\})',
+			captures: {
+				0: {name: 'punctuation.delimiter.cp'},
 			},
-			"patterns": [
-				{"include": "#Statement"}
-			]
-		}
+			patterns: [
+				{include: '#Statement'},
+			],
+		},
 	},
-	"patterns": [
-		{"include": "#Block"},
-		{"include": "#Statement"}
-	]
+	patterns: [
+		{include: '#Block'},
+		{include: '#Statement'},
+	],
 }));
