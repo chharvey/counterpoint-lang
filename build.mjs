@@ -31,6 +31,25 @@ function initializer(end) {
 		],
 	};
 }
+function entity(name) {
+	return [
+		{
+			name,
+			begin: '`',
+			end:   '`',
+			captures: {
+				0: {name: 'punctuation.delimiter.cp'},
+			},
+		},
+		{include: '#COMMENT'},
+		{include: '#RESERVED'},
+		{
+			_note: 'must come after #RESERVED so that reserved words are lexed first.',
+			name,
+			match: '\\b[A-Za-z_][A-Za-z0-9_]*\\b',
+		},
+	];
+}
 
 function lookaheads(first = '', aheads = []) {
 	return (typeof first === 'string')
@@ -296,21 +315,7 @@ await fs.promises.writeFile('./syntaxes/cp.tmLanguage.json', JSON.stringify({
 					patterns: [
 						annotation(lookaheads([Punctuator.INIT_START])),
 						initializer(lookaheads([';'])),
-						{
-							name: 'entity.name.variable.cp',
-							begin: '`',
-							end:   '`',
-							captures: {
-								0: {name: 'punctuation.delimiter.cp'},
-							},
-						},
-						{include: '#COMMENT'},
-						{include: '#RESERVED'},
-						{
-							_note: 'must come after #RESERVED so that reserved words are lexed first.',
-							name: 'entity.name.variable.cp',
-							match: '\\b[A-Za-z_][A-Za-z0-9_]*\\b',
-						},
+						...entity('entity.name.variable.cp'),
 					],
 				},
 				{
@@ -335,39 +340,11 @@ await fs.promises.writeFile('./syntaxes/cp.tmLanguage.json', JSON.stringify({
 								},
 								annotation(lookaheads([Punctuator.INIT_START, ',', '\\)'])),
 								initializer(lookaheads([',', '\\)'])),
-								{
-									name: 'variable.parameter.cp',
-									begin: '`',
-									end:   '`',
-									captures: {
-										0: {name: 'punctuation.delimiter.cp'},
-									},
-								},
-								{include: '#COMMENT'},
-								{include: '#RESERVED'},
-								{
-									_note: 'must come after #RESERVED so that reserved words are lexed first.',
-									name: 'variable.parameter.cp',
-									match: '\\b[A-Za-z_][A-Za-z0-9_]*\\b',
-								},
+								...entity('variable.parameter.cp'),
 							],
 						},
 						annotation(lookaheads(['\\{', '=>'])),
-						{
-							name: 'entity.name.function.cp',
-							begin: '`',
-							end:   '`',
-							captures: {
-								0: {name: 'punctuation.delimiter.cp'},
-							},
-						},
-						{include: '#COMMENT'},
-						{include: '#RESERVED'},
-						{
-							_note: 'must come after #RESERVED so that reserved words are lexed first.',
-							name: 'entity.name.function.cp',
-							match: '\\b[A-Za-z_][A-Za-z0-9_]*\\b',
-						},
+						...entity('entity.name.function.cp'),
 					],
 				},
 				{
