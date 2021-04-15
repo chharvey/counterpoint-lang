@@ -1,4 +1,6 @@
-{
+import * as fs from 'fs';
+
+await fs.promises.writeFile('./syntaxes/cp.tmLanguage.json', JSON.stringify({
 	"$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
 	"name": "Counterpoint",
 	"scopeName": "source.cp",
@@ -443,4 +445,4 @@
 		{"include": "#Block"},
 		{"include": "#Statement"}
 	]
-}
+}));

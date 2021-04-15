@@ -4,6 +4,7 @@
   "version": "1.0.0",
   "description": "Language support for the Counterpoint programming language.",
   "scripts": {
+    "build": "node build.mjs",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "engines": {
