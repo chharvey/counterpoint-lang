@@ -135,7 +135,7 @@
 				},
 				{
 					"name": "keyword.control",
-					"match": "\\b(if|then|else|while|do|for|from|to|by|in|break|continue)\\b"
+					"match": "\\b(if|unless|then|else|while|until|do|for|from|to|by|in|break|continue)\\b"
 				}
 			]
 		},
@@ -196,7 +196,7 @@
 			"patterns": [
 				{
 					"name": "meta.control.cp",
-					"begin": "\\b(if|while|do|for)\\b",
+					"begin": "\\b(if|unless|while|until|do|for)\\b",
 					"end":   ";",
 					"beginCaptures": {
 						"0": {"name": "keyword.control.cp"}
@@ -207,7 +207,7 @@
 					"patterns": [
 						{
 							"name": "keyword.control.cp",
-							"match": "\\b(then|else|while|do|from|to|by|in)\\b"
+							"match": "\\b(then|else|while|until|do|from|to|by|in)\\b"
 						},
 						{"include": "#Block"},
 						{"include": "#Expression"}

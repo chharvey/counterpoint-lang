@@ -21,6 +21,17 @@ block comment
 		(if false then '''{{ 0 }} 0''' else '''{{ 1 }} 1''');
 	};
 };
+unless false then {
+	'''{{ 0 }} 0''';
+} else {
+	'''{{ 1 }} 1''';
+};
+until false do {
+	true;
+};
+do {
+	true;
+} until false;
 
 for %% int %% i from %% start %% 1 to %% end %% 10 do {
 	do {
