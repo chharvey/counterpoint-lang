@@ -1,5 +1,12 @@
 import * as fs from 'fs';
 
+
+function digits(charclass, base = '') {
+	return `${ (base) ? `\\\\${ base }` : '' }${ charclass }(_?${ charclass })*`;
+}
+const dec = digits('[0-9]'); // `[0-9](_?[0-9])*`
+
+
 await fs.promises.writeFile('./syntaxes/cp.tmLanguage.json', JSON.stringify({
 	$schema: 'https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json',
 	name: 'Counterpoint',
@@ -108,11 +115,18 @@ await fs.promises.writeFile('./syntaxes/cp.tmLanguage.json', JSON.stringify({
 				{include: '#CONSTANT_RESERVED'},
 				{
 					name: 'constant.numeric.radix.cp',
-					match: '(\\+|-)?(\\\\b[0-1](_?[0-1])*|\\\\q[0-3](_?[0-3])*|\\\\o[0-7](_?[0-7])*|\\\\d[0-9](_?[0-9])*|\\\\x[0-9a-f](_?[0-9a-f])*|\\\\z[0-9a-z](_?[0-9a-z])*)',
+					match: `(\\+|-)?(${ [
+						digits('[0-1]',    'b'), // `\\\\b[0-1](_?[0-1])*`
+						digits('[0-3]',    'q'),
+						digits('[0-7]',    'o'),
+						digits('[0-9]',    'd'),
+						digits('[0-9a-f]', 'x'),
+						digits('[0-9a-z]', 'z'),
+					].join('|') })`,
 				},
 				{
 					name: 'constant.numeric.decimal.cp',
-					match: '(\\+|-)?[0-9](_?[0-9])*(\\.([0-9](_?[0-9])*(e(\\+|-)?[0-9](_?[0-9])*)?)?)?',
+					match: `(\\+|-)?${ dec }(\\.(${ dec }(e(\\+|-)?${ dec })?)?)?`,
 				},
 				{
 					name: 'variable.other.cp',
