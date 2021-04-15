@@ -1,0 +1,277 @@
+{
+	"$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+	"name": "Counterpoint",
+	"scopeName": "source.cp",
+	"repository": {
+		"COMMENT": {
+			"patterns": [
+				{
+					"name": "comment.block.cp",
+					"begin": "%%",
+					"end":   "%%",
+					"captures": {
+						"0": {"name": "punctuation.delimiter.cp"}
+					}
+				},
+				{
+					"name": "comment.line.percentage.cp",
+					"match": "(%).*$",
+					"captures": {
+						"1": {"name": "punctuation.delimiter.cp"}
+					}
+				}
+			]
+		},
+		"QUOTED": {
+			"patterns": [
+				{
+					"name": "string.quoted.triple.cp",
+					"begin": "'''|}}",
+					"end":   "'''|{{",
+					"captures": {
+						"0": {"name": "punctuation.delimiter.cp"}
+					}
+				},
+				{
+					"name": "string.quoted.single.cp",
+					"begin": "'",
+					"end":   "'",
+					"captures": {
+						"0": {"name": "punctuation.delimiter.cp"}
+					},
+					"patterns": [
+						{
+							"name": "constant.character.escape.cp",
+							"match": "(\\\\)u{([0-9a-f]+)}",
+							"captures": {
+								"1": {"name": "punctuation.delimiter.cp"},
+								"2": {"name": "constant.numeric.hex.cp"}
+							}
+						},
+						{
+							"name": "invalid.illegal.cp",
+							"match": "\\\\u{[0-9a-f]*(?=[^0-9a-f])"
+						},
+						{
+							"name": "constant.character.escape.cp",
+							"match": "(\\\\)(.|\\n)",
+							"captures": {
+								"1": {"name": "punctuation.delimiter.cp"}
+							}
+						},
+						{
+							"name": "comment.block.cp",
+							"begin": "%%",
+							"end":   "(%%)|.(?=')",
+							"beginCaptures": {
+								"0": {"name": "punctuation.delimiter.cp"}
+							},
+							"endCaptures": {
+								"1": {"name": "punctuation.delimiter.cp"}
+							}
+						},
+						{
+							"name": "comment.line.percentage.cp",
+							"match": "(%)[^']*(\\n|.(?='))",
+							"captures": {
+								"1": {"name": "punctuation.delimiter.cp"}
+							}
+						}
+					]
+				},
+				{
+					"name": "variable.other.quoted.cp",
+					"begin": "`",
+					"end":   "`",
+					"captures": {
+						"0": {"name": "punctuation.delimiter.cp"}
+					}
+				}
+			]
+		},
+		"CONSTANT_RESERVED": {
+			"patterns": [
+				{
+					"name": "constant.language.cp",
+					"match": "\\b(null|false|true)\\b"
+				},
+				{
+					"name": "support.type.cp",
+					"match": "\\b(bool|int|float|str|obj)\\b"
+				}
+			]
+		},
+		"CONSTANT": {
+			"patterns": [
+				{"include": "#CONSTANT_RESERVED"},
+				{
+					"name": "constant.numeric.radix.cp",
+					"match": "(\\+|-)?(\\\\b[0-1](_?[0-1])*|\\\\q[0-3](_?[0-3])*|\\\\o[0-7](_?[0-7])*|\\\\d[0-9](_?[0-9])*|\\\\x[0-9a-f](_?[0-9a-f])*|\\\\z[0-9a-z](_?[0-9a-z])*)"
+				},
+				{
+					"name": "constant.numeric.decimal.cp",
+					"match": "(\\+|-)?[0-9](_?[0-9])*(\\.([0-9](_?[0-9])*(e(\\+|-)?[0-9](_?[0-9])*)?)?)?"
+				},
+				{
+					"name": "variable.other.cp",
+					"match": "\\b[A-Za-z_][A-Za-z0-9_]*\\b"
+				},
+				{
+					"name": "invalid.illegal",
+					"match": "__|_(?=\\b)"
+				}
+			]
+		},
+		"RESERVED": {
+			"patterns": [
+				{"include": "#CONSTANT_RESERVED"},
+				{
+					"name": "keyword.operator.text.cp",
+					"match": "\\b(mutable|is|isnt|if|then|else)\\b"
+				},
+				{
+					"name": "storage.type.cp",
+					"match": "\\b(type|let)\\b"
+				},
+				{
+					"name": "storage.modifier.cp",
+					"match": "\\b(unfixed)\\b"
+				}
+			]
+		},
+		"Primitive": {
+			"patterns": [
+				{"include": "#COMMENT"},
+				{"include": "#QUOTED"},
+				{"include": "#CONSTANT"}
+			]
+		},
+		"Unit": {
+			"patterns": [
+				{
+					"name": "meta.structure.cp",
+					"begin": "\\(",
+					"end":   "\\)",
+					"captures": {
+						"0": {"name": "punctuation.delimiter.cp"}
+					},
+					"patterns": [
+						{"include": "#Expression"}
+					]
+				},
+				{
+					"name": "meta.structure.cp",
+					"begin": "\\[",
+					"end":   "\\]",
+					"captures": {
+						"0": {"name": "punctuation.delimiter.cp"}
+					},
+					"patterns": [
+						{
+							"name": "punctuation.separator.cp",
+							"match": "\\|->|,|:|="
+						},
+						{"include": "#Expression"}
+					]
+				},
+				{"include": "#Primitive"}
+			]
+		},
+		"Expression": {
+			"patterns": [
+				{
+					"name": "keyword.operator.punctuation.cp",
+					"match": "<=|>=|!<|!>|==|!=|&&|!&|\\|\\||!\\||!|\\?|\\^|\\*|\\/|<|>|&|\\||\\."
+				},
+				{"include": "#RESERVED"},
+				{"include": "#Unit"},
+				{
+					"_note": "must come after #Unit so that numbers can be lexed correctly.",
+					"name": "keyword.operator.punctuation.cp",
+					"match": "\\+|-"
+				}
+			]
+		},
+		"Statement": {
+			"patterns": [
+				{
+					"name": "meta.declaration.cp",
+					"begin": "\\b(type|let)\\b",
+					"end":   ";",
+					"beginCaptures": {
+						"0": {"name": "storage.type.cp"}
+					},
+					"endCaptures": {
+						"0": {"name": "punctuation.delimiter.cp"}
+					},
+					"patterns": [
+						{
+							"name": "meta.annotation.cp",
+							"begin": ":",
+							"end":   "(?==)",
+							"beginCaptures": {
+								"0": {"name": "punctuation.separator.cp"}
+							},
+							"patterns": [
+								{"include": "#Expression"}
+							]
+						},
+						{
+							"name": "meta.initializer.cp",
+							"begin": "=",
+							"end":   "(?=;)",
+							"beginCaptures": {
+								"0": {"name": "punctuation.separator.cp"}
+							},
+							"patterns": [
+								{"include": "#Expression"}
+							]
+						},
+						{
+							"name": "entity.name.variable.cp",
+							"begin": "`",
+							"end":   "`",
+							"captures": {
+								"0": {"name": "punctuation.delimiter.cp"}
+							}
+						},
+						{"include": "#COMMENT"},
+						{"include": "#RESERVED"},
+						{
+							"_note": "must come after #RESERVED so that reserved words are lexed first.",
+							"name": "entity.name.variable.cp",
+							"match": "\\b[A-Za-z_][A-Za-z0-9_]*\\b"
+						}
+					]
+				},
+				{
+					"name": "meta.initializer.cp",
+					"begin": "=(?!=)",
+					"end":   ";",
+					"beginCaptures": {
+						"0": {"name": "punctuation.separator.cp"}
+					},
+					"endCaptures": {
+						"0": {"name": "punctuation.delimiter.cp"}
+					},
+					"patterns": [
+						{"include": "#Expression"}
+					]
+				},
+				{
+					"name": "punctuation.delimiter.cp",
+					"match": ";"
+				},
+				{"include": "#Expression"},
+				{
+					"_note": "kept here for later use",
+					"name": "keyword.control.cp",
+					"match": "\\b(if|then|else|while|do|for)\\b"
+				}
+			]
+		}
+	},
+	"patterns": [
+		{"include": "#Statement"}
+	]
+}
