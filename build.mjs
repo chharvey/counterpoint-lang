@@ -108,7 +108,7 @@ await fs.promises.writeFile('./syntaxes/cp.tmLanguage.json', JSON.stringify({
 					patterns: [
 						{
 							name: 'constant.character.escape.cp',
-							match: '(\\\\)u{([0-9a-f]+)}',
+							match: `(\\\\)u\\{(${ digits('[0-9a-f]') })\\}`,
 							captures: {
 								'1': {name: 'punctuation.delimiter.cp'},
 								'2': {name: 'constant.numeric.hex.cp'},
@@ -116,7 +116,8 @@ await fs.promises.writeFile('./syntaxes/cp.tmLanguage.json', JSON.stringify({
 						},
 						{
 							name: 'invalid.illegal.cp',
-							match: '\\\\u{[0-9a-f]*(?=[^0-9a-f])',
+							begin: '\\\\u\\{',
+							end:   '\\}',
 						},
 						{
 							name: 'constant.character.escape.cp',
@@ -128,7 +129,7 @@ await fs.promises.writeFile('./syntaxes/cp.tmLanguage.json', JSON.stringify({
 						{
 							name: 'comment.block.cp',
 							begin: '%%',
-							end:   '(%%)|.(?=\')',
+							end:   '(%%)|(?=\')',
 							beginCaptures: {
 								0: {name: 'punctuation.delimiter.cp'},
 							},
@@ -138,7 +139,7 @@ await fs.promises.writeFile('./syntaxes/cp.tmLanguage.json', JSON.stringify({
 						},
 						{
 							name: 'comment.line.percentage.cp',
-							match: '(%)[^\']*(\\n|.(?=\'))',
+							match: '(%)[^\']*(\\n|(?=\'))',
 							captures: {
 								'1': {name: 'punctuation.delimiter.cp'},
 							},
