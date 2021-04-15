@@ -345,11 +345,6 @@
 								{"include": "#Expression"}
 							]
 						},
-						{"include": "#RESERVED"},
-						{
-							"name": "entity.name.function.cp",
-							"match": "\\b[A-Za-z_][A-Za-z0-9_]*\\b"
-						},
 						{
 							"name": "entity.name.function.cp",
 							"begin": "`",
@@ -357,6 +352,13 @@
 							"captures": {
 								"0": {"name": "punctuation.delimiter.cp"}
 							}
+						},
+						{"include": "#COMMENT"},
+						{"include": "#RESERVED"},
+						{
+							"_note": "must come after #RESERVED so that reserved words are lexed first.",
+							"name": "entity.name.function.cp",
+							"match": "\\b[A-Za-z_][A-Za-z0-9_]*\\b"
 						}
 					]
 				},

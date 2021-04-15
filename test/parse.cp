@@ -205,7 +205,7 @@ replace newlines with spaces.';
 
 func add(a: int = 0, b: int = 0): int { return a + b; }
 func subtract(unfixed a: int = 0, %%unfixed%% b: int = a): int => a - b;
-func nothing(): void {
+func %%comm%% nothing(): void {
 	let x: unknown = 0;
 	return;
 }
