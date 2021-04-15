@@ -110,8 +110,8 @@ await fs.promises.writeFile('./syntaxes/cp.tmLanguage.json', JSON.stringify({
 							name: 'constant.character.escape.cp',
 							match: `(\\\\)u\\{(${ digits('[0-9a-f]') })\\}`,
 							captures: {
-								'1': {name: 'punctuation.delimiter.cp'},
-								'2': {name: 'constant.numeric.hex.cp'},
+								1: {name: 'punctuation.delimiter.cp'},
+								2: {name: 'constant.numeric.hex.cp'},
 							},
 						},
 						{
@@ -123,7 +123,7 @@ await fs.promises.writeFile('./syntaxes/cp.tmLanguage.json', JSON.stringify({
 							name: 'constant.character.escape.cp',
 							match: '(\\\\)(.|\\n)',
 							captures: {
-								'1': {name: 'punctuation.delimiter.cp'},
+								1: {name: 'punctuation.delimiter.cp'},
 							},
 						},
 						{
@@ -134,14 +134,14 @@ await fs.promises.writeFile('./syntaxes/cp.tmLanguage.json', JSON.stringify({
 								0: {name: 'punctuation.delimiter.cp'},
 							},
 							endCaptures: {
-								'1': {name: 'punctuation.delimiter.cp'},
+								1: {name: 'punctuation.delimiter.cp'},
 							},
 						},
 						{
 							name: 'comment.line.percentage.cp',
 							match: '(%)[^\']*(\\n|(?=\'))',
 							captures: {
-								'1': {name: 'punctuation.delimiter.cp'},
+								1: {name: 'punctuation.delimiter.cp'},
 							},
 						},
 					],
