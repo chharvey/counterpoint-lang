@@ -262,7 +262,6 @@
 							"name": "keyword.control.cp",
 							"match": "\\b(then|else|while|do|from|to|by|in)\\b"
 						},
-						{"include": "#Block"},
 						{"include": "#Expression"}
 					]
 				},
@@ -320,11 +319,8 @@
 					"name": "meta.function.cp",
 					"begin": "\\b(func)\\b",
 					"end":   "(?=\\{)|=>",
-					"beginCaptures": {
+					"captures": {
 						"0": {"name": "storage.type.cp"}
-					},
-					"endCaptures": {
-						"0": {"name": "keyword.control.cp"}
 					},
 					"patterns": [
 						{

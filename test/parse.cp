@@ -47,7 +47,7 @@ let x: bool = break == continue;
 	@returns what it returns
 	@throws if something bad happened
 	%%
-% func twice(x: int): int => x * 2;
+func twice(x: int): int => x * 2;
 
 {
 	% operators:
@@ -228,3 +228,5 @@ let x: (str) -> {str} = (a: str) {
 };
 
 func returnFunc(): obj => (x) => x + 1;
+func returnFunc(): (int) -> {int} => (x) => x + 1;
+func returnFunc(): {obj} => (x) => x + 1;
