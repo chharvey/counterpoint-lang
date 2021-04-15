@@ -1,4 +1,5 @@
 import * as fs from 'fs';
+import * as path from 'path';
 
 
 function digits(charclass, base = '') {
@@ -64,7 +65,7 @@ const Punctuator = {
 };
 
 
-await fs.promises.writeFile('./syntaxes/cp.tmLanguage.json', JSON.stringify({
+await fs.promises.writeFile(path.join(path.dirname(new URL(import.meta.url).pathname), 'syntaxes', 'cp.tmLanguage.json'), JSON.stringify({
 	$schema: 'https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json',
 	name: 'Counterpoint',
 	scopeName: 'source.cp',
