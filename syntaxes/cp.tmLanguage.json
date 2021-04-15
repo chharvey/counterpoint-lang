@@ -158,7 +158,29 @@
 					"patterns": [
 						{
 							"name": "punctuation.separator.cp",
-							"match": ",|:|="
+							"match": ","
+						},
+						{
+							"name": "meta.annotation.cp",
+							"begin": ":",
+							"end":   "(?==(?!=|>)|,|\\))",
+							"beginCaptures": {
+								"0": {"name": "punctuation.delimiter.cp"}
+							},
+							"patterns": [
+								{"include": "#Expression"}
+							]
+						},
+						{
+							"name": "meta.initializer.cp",
+							"begin": "=(?!=|>)",
+							"end":   "(?=,|\\))",
+							"beginCaptures": {
+								"0": {"name": "punctuation.delimiter.cp"}
+							},
+							"patterns": [
+								{"include": "#Expression"}
+							]
 						},
 						{"include": "#Expression"}
 					]
@@ -173,7 +195,29 @@
 					"patterns": [
 						{
 							"name": "punctuation.separator.cp",
-							"match": "\\|->|,|:|="
+							"match": "\\|->|,"
+						},
+						{
+							"name": "meta.annotation.cp",
+							"begin": ":",
+							"end":   "(?==(?!=|>)|,|\\])",
+							"beginCaptures": {
+								"0": {"name": "punctuation.delimiter.cp"}
+							},
+							"patterns": [
+								{"include": "#Expression"}
+							]
+						},
+						{
+							"name": "meta.initializer.cp",
+							"begin": "=(?!=|>)",
+							"end":   "(?=,|\\])",
+							"beginCaptures": {
+								"0": {"name": "punctuation.delimiter.cp"}
+							},
+							"patterns": [
+								{"include": "#Expression"}
+							]
 						},
 						{"include": "#Expression"}
 					]
@@ -236,7 +280,7 @@
 						{
 							"name": "meta.annotation.cp",
 							"begin": ":",
-							"end":   "(?==)",
+							"end":   "(?==(?!=|>))",
 							"beginCaptures": {
 								"0": {"name": "punctuation.delimiter.cp"}
 							},
@@ -246,7 +290,7 @@
 						},
 						{
 							"name": "meta.initializer.cp",
-							"begin": "=",
+							"begin": "=(?!=|>)",
 							"end":   "(?=;)",
 							"beginCaptures": {
 								"0": {"name": "punctuation.delimiter.cp"}
@@ -298,7 +342,7 @@
 								{
 									"name": "meta.annotation.cp",
 									"begin": ":",
-									"end":   "(?==|,|\\))",
+									"end":   "(?==(?!=|>)|,|\\))",
 									"beginCaptures": {
 										"0": {"name": "punctuation.delimiter.cp"}
 									},
@@ -308,7 +352,7 @@
 								},
 								{
 									"name": "meta.initializer.cp",
-									"begin": "=",
+									"begin": "=(?!=|>)",
 									"end":   "(?=,|\\))",
 									"beginCaptures": {
 										"0": {"name": "punctuation.delimiter.cp"}

@@ -145,6 +145,12 @@ let h: int = if true then 1 else 0;
 (unfixed h: int) => h + 1;
 (%%unfixed%% h: int) => h + 1;
 
+(a == b);
+[a == b];
+((h: int = 0) => h + 1);
+[(h: int = 0) => h + 1];
+[fun= (h: int) => h + 1];
+[fun: (int) -> {int}];
 
 type `floàt | bōōl` = `floàt | bōōl` | float | bool;
 type T<U> = U & V;
