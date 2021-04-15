@@ -97,7 +97,7 @@
 				},
 				{
 					"name": "support.type.cp",
-					"match": "\\b(bool|int|float|str|obj)\\b"
+					"match": "\\b(never|void|bool|int|float|str|obj|unknown)\\b"
 				}
 			]
 		},
@@ -131,11 +131,15 @@
 				},
 				{
 					"name": "storage.type.cp",
-					"match": "\\b(type|let)\\b"
+					"match": "\\b(type|let|func)\\b"
 				},
 				{
 					"name": "storage.modifier.cp",
 					"match": "\\b(unfixed)\\b"
+				},
+				{
+					"name": "keyword.control",
+					"match": "\\b(if|unless|then|else|while|until|do|for|from|to|by|in|break|continue|return|throw)\\b"
 				}
 			]
 		},
@@ -156,6 +160,32 @@
 						"0": {"name": "punctuation.delimiter.cp"}
 					},
 					"patterns": [
+						{
+							"name": "punctuation.separator.cp",
+							"match": ","
+						},
+						{
+							"name": "meta.annotation.cp",
+							"begin": ":",
+							"end":   "(?==(?!=|>)|,|\\))",
+							"beginCaptures": {
+								"0": {"name": "punctuation.delimiter.cp"}
+							},
+							"patterns": [
+								{"include": "#Expression"}
+							]
+						},
+						{
+							"name": "meta.initializer.cp",
+							"begin": "=(?!=|>)",
+							"end":   "(?=,|\\))",
+							"beginCaptures": {
+								"0": {"name": "punctuation.delimiter.cp"}
+							},
+							"patterns": [
+								{"include": "#Expression"}
+							]
+						},
 						{"include": "#Expression"}
 					]
 				},
@@ -169,19 +199,46 @@
 					"patterns": [
 						{
 							"name": "punctuation.separator.cp",
-							"match": "\\|->|,|:|="
+							"match": "\\|->|,"
+						},
+						{
+							"name": "meta.annotation.cp",
+							"begin": ":",
+							"end":   "(?==(?!=|>)|,|\\])",
+							"beginCaptures": {
+								"0": {"name": "punctuation.delimiter.cp"}
+							},
+							"patterns": [
+								{"include": "#Expression"}
+							]
+						},
+						{
+							"name": "meta.initializer.cp",
+							"begin": "=(?!=|>)",
+							"end":   "(?=,|\\])",
+							"beginCaptures": {
+								"0": {"name": "punctuation.delimiter.cp"}
+							},
+							"patterns": [
+								{"include": "#Expression"}
+							]
 						},
 						{"include": "#Expression"}
 					]
 				},
+				{"include": "#Block"},
 				{"include": "#Primitive"}
 			]
 		},
 		"Expression": {
 			"patterns": [
 				{
+					"name": "storage.type.cp",
+					"match": "=>"
+				},
+				{
 					"name": "keyword.operator.punctuation.cp",
-					"match": "<=|>=|!<|!>|==|!=|&&|!&|\\|\\||!\\||!|\\?|\\^|\\*|\\/|<|>|&|\\||\\."
+					"match": "->|<=|>=|!<|!>|==|!=|&&|!&|\\|\\||!\\||!|\\?|\\^|\\*|\\/|<|>|&|\\||\\."
 				},
 				{"include": "#RESERVED"},
 				{"include": "#Unit"},
@@ -194,6 +251,24 @@
 		},
 		"Statement": {
 			"patterns": [
+				{
+					"name": "meta.control.cp",
+					"begin": "\\b(if|unless|while|until|do|for)\\b",
+					"end":   ";",
+					"beginCaptures": {
+						"0": {"name": "keyword.control.cp"}
+					},
+					"endCaptures": {
+						"0": {"name": "punctuation.delimiter.cp"}
+					},
+					"patterns": [
+						{
+							"name": "keyword.control.cp",
+							"match": "\\b(then|else|while|until|do|from|to|by|in)\\b"
+						},
+						{"include": "#Expression"}
+					]
+				},
 				{
 					"name": "meta.declaration.cp",
 					"begin": "\\b(type|let)\\b",
@@ -208,9 +283,9 @@
 						{
 							"name": "meta.annotation.cp",
 							"begin": ":",
-							"end":   "(?==)",
+							"end":   "(?==(?!=|>))",
 							"beginCaptures": {
-								"0": {"name": "punctuation.separator.cp"}
+								"0": {"name": "punctuation.delimiter.cp"}
 							},
 							"patterns": [
 								{"include": "#Expression"}
@@ -218,10 +293,10 @@
 						},
 						{
 							"name": "meta.initializer.cp",
-							"begin": "=",
+							"begin": "=(?!=|>)",
 							"end":   "(?=;)",
 							"beginCaptures": {
-								"0": {"name": "punctuation.separator.cp"}
+								"0": {"name": "punctuation.delimiter.cp"}
 							},
 							"patterns": [
 								{"include": "#Expression"}
@@ -245,8 +320,95 @@
 					]
 				},
 				{
+					"name": "meta.function.cp",
+					"begin": "\\b(func)\\b",
+					"end":   "(?=\\{)|=>",
+					"captures": {
+						"0": {"name": "storage.type.cp"}
+					},
+					"patterns": [
+						{
+							"name": "meta.parameters.cp",
+							"begin": "\\(",
+							"end":   "\\)",
+							"captures": {
+								"0": {"name": "punctuation.delimiter.cp"}
+							},
+							"patterns": [
+								{
+									"name": "punctuation.separator.cp",
+									"match": ","
+								},
+								{
+									"name": "meta.annotation.cp",
+									"begin": ":",
+									"end":   "(?==(?!=|>)|,|\\))",
+									"beginCaptures": {
+										"0": {"name": "punctuation.delimiter.cp"}
+									},
+									"patterns": [
+										{"include": "#Expression"}
+									]
+								},
+								{
+									"name": "meta.initializer.cp",
+									"begin": "=(?!=|>)",
+									"end":   "(?=,|\\))",
+									"beginCaptures": {
+										"0": {"name": "punctuation.delimiter.cp"}
+									},
+									"patterns": [
+										{"include": "#Expression"}
+									]
+								},
+								{
+									"name": "variable.parameter.cp",
+									"begin": "`",
+									"end":   "`",
+									"captures": {
+										"0": {"name": "punctuation.delimiter.cp"}
+									}
+								},
+								{"include": "#COMMENT"},
+								{"include": "#RESERVED"},
+								{
+									"_note": "must come after #RESERVED so that reserved words are lexed first.",
+									"name": "variable.parameter.cp",
+									"match": "\\b[A-Za-z_][A-Za-z0-9_]*\\b"
+								}
+							]
+						},
+						{
+							"name": "meta.annotation.cp",
+							"begin": ":",
+							"end":   "(?=\\{|=>)",
+							"beginCaptures": {
+								"0": {"name": "punctuation.delimiter.cp"}
+							},
+							"patterns": [
+								{"include": "#Expression"}
+							]
+						},
+						{
+							"name": "entity.name.function.cp",
+							"begin": "`",
+							"end":   "`",
+							"captures": {
+								"0": {"name": "punctuation.delimiter.cp"}
+							}
+						},
+						{"include": "#COMMENT"},
+						{"include": "#RESERVED"},
+						{
+							"_note": "must come after #RESERVED so that reserved words are lexed first.",
+							"name": "entity.name.function.cp",
+							"match": "\\b[A-Za-z_][A-Za-z0-9_]*\\b"
+						}
+					]
+				},
+				{
 					"name": "meta.initializer.cp",
-					"begin": "=(?!=)",
+					"begin": "=(?!=|>)",
 					"end":   ";",
 					"beginCaptures": {
 						"0": {"name": "punctuation.separator.cp"}
@@ -262,16 +424,23 @@
 					"name": "punctuation.delimiter.cp",
 					"match": ";"
 				},
-				{"include": "#Expression"},
-				{
-					"_note": "kept here for later use",
-					"name": "keyword.control.cp",
-					"match": "\\b(if|then|else|while|do|for)\\b"
-				}
+				{"include": "#Expression"}
+			]
+		},
+		"Block": {
+			"name": "meta.block.cp",
+			"begin": "\\{",
+			"end":   "\\}(?!\\})",
+			"captures": {
+				"0": {"name": "punctuation.delimiter.cp"}
+			},
+			"patterns": [
+				{"include": "#Statement"}
 			]
 		}
 	},
 	"patterns": [
+		{"include": "#Block"},
 		{"include": "#Statement"}
 	]
 }

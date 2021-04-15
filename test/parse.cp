@@ -8,7 +8,43 @@ true else % false
 
 while %% this is a
 block comment
-%% +it +ends +here;
+%% +it +ends +here do {
+	while false do {
+		if false then '''{{ 0 }} 0''' else '''{{ 1 }} 1''';
+		(if false then '''{{ 0 }} 0''' else '''{{ 1 }} 1''');
+		break 1;
+		continue;
+	};
+	if true then {
+		if false then '''{{ 0 }} 0''' else '''{{ 1 }} 1''';
+	} else %% comment %% {
+		(if false then '''{{ 0 }} 0''' else '''{{ 1 }} 1''');
+	};
+};
+unless false then {
+	'''{{ 0 }} 0''';
+} else {
+	'''{{ 1 }} 1''';
+};
+until false do {
+	true;
+};
+do {
+	true;
+} until false;
+
+for %% int %% i from %% start %% 1 to %% end %% 10 do {
+	do {
+		if false then '''{{ 0 }} 0''' else '''{{ 1 }} 1''';
+		(if false then '''{{ 0 }} 0''' else '''{{ 1 }} 1''');
+		break 1;
+		continue;
+	} while false;
+};
+let break: str = 'break';
+let continue: str = 'continue';
+while continue do { break; break = '1'; };
+let x: bool = break == continue;
 
 %%
 	hello
@@ -22,8 +58,9 @@ block comment
 	@returns what it returns
 	@throws if something bad happened
 	%%
-% func twice(x: int): int => x * 2;
+func twice(x: int): int => x * 2;
 
+{
 	% operators:
 	!a;
 	?a;
@@ -54,10 +91,13 @@ block comment
 	T | S;
 	T!;
 	T?;
-	[a, [b, b], (c + c)].0;
-	[a= 3, c= 5].a;
-	[+a |-> -b, ].[a];
-	[+3 |-> -5, ].[3];
+	[a, [b, b], (c + c)];
+	[a= 3, c= 5];
+	[+a |-> -b, ];
+	[+3 |-> -5, ];
+	if true then 1 else 0;
+	null || (if true then 1 else 0);
+}
 
 %% these should all fail parsing
 and thus be colored to indicate as such. %%
@@ -80,6 +120,16 @@ let else;
 % storage types/modifiers
 let let;
 let unfixed;
+% control
+let while;
+let do;
+let for;
+let from;
+let to;
+let by;
+let in;
+let break;
+let continue;
 
 %%% The value of `a`. %%
 let a: null | bool = +42 && null;
@@ -87,7 +137,7 @@ let b: int = 004_2. || false;
 let c: float = [-42.2_4, true];
 let d: str = 42.2e4_2;
 let e: obj = 42.2e+4_2;
-let f: TypeF | String = 'f';
+let f: %% comm %% TypeF | String = 'f';
 
 let %%unfixed%% g: int =
 	  -\b1379fz
@@ -100,7 +150,18 @@ let %%unfixed%% g: int =
 g = 42;
 g = 42 == 42;
 g == 42;
+g = if true then 1 else 0;
+g = if true then {1;} else {0;};
+let h: int = if true then 1 else 0;
+(unfixed h: int) => h + 1;
+(%%unfixed%% h: int) => h + 1;
 
+(a == b);
+[a == b];
+((h: int = 0) => h + 1);
+[(h: int = 0) => h + 1];
+[fun= (h: int) => h + 1];
+[fun: (int) -> {int}];
 
 type `floàt | bōōl` = `floàt | bōōl` | float | bool;
 type T<U> = U & V;
@@ -158,3 +219,25 @@ replace newlines with spaces.';
 \{\{ {{ var }} \}\}
 {{ '\{\{' }}{{ var }}{{ '\}\}' }}
 ''';
+
+func add(a: int = 0, b: int = 0): int { return a + b; }
+func subtract(unfixed a: int = 0, %%unfixed%% b: int = a): int => a - b;
+func %%comm%% nothing(): void {
+	let x: unknown = 0;
+	return;
+}
+func error(): never {
+	throw if true then 'error' else 'an error';
+	throw (if true then 'error' else 'an error');
+}
+
+let x: (str) -> {str} = (a: str) => '''<x>{{ a }}</x>''';
+let x: (str) -> {str} = (a: str) {
+	func y(): void {;}
+	let x: str = 'x';
+	return '''<{{ x }}>{{ a }}</{{ x }}>''';
+};
+
+func returnFunc(): obj => (x) => x + 1;
+func returnFunc(): (int) -> {int} => (x) => x + 1;
+func returnFunc(): {obj} => (x) => x + 1;
