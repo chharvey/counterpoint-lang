@@ -1,3 +1,6 @@
+__a && __b && c_;
+004__2. || 2.4_ || \xa__b || \xa_b_;
+
 if 'hello' /* world */ %% then %% then
 true else % false
 else {if !true
@@ -32,6 +35,12 @@ func twice(x: int): int => x * 2;
 	-y
 	+42
 	-42
+	+42_;
+	-42_;
+	++42;
+	+-42;
+	-+42;
+	--42;
 	a + b
 	a - b
 	a ^ b

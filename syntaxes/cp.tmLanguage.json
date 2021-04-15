@@ -115,6 +115,10 @@
 				{
 					"name": "variable.other.cp",
 					"match": "\\b[A-Za-z_][A-Za-z0-9_]*\\b"
+				},
+				{
+					"name": "invalid.illegal",
+					"match": "__|_(?=\\b)"
 				}
 			]
 		},
