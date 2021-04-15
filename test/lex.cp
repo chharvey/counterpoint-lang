@@ -106,12 +106,18 @@ and then a new line
 contains a % comment but no new line';
 
 'a string that
+ends in a line comment %';
+
+'a string that
 contains %% a
 comment %% and an end comment.';
 
 'a string that
 contains %% a
 comment but no end comment.';
+
+'a string that
+ends in a multiline comment %%';
 
 
 'a string \' that escapes
