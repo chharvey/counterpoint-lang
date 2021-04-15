@@ -130,8 +130,18 @@ a quote \\ and a backslash.';
 \\ slash
 \' quote
 \% percent';
-'a \u{bada55}string. a \u{ bada55}string. a \u{bada55 }string. a \u{badass }string.';
-'a \U{bada55}string. a \U{ bada55}string. a \U{bada55 }string. a \U{badass }string.';
+'a \u{}string. a \u{bada55}string. a \u{ bada55}string. a \u{bada55 }string. a \u{badass }string.';
+'a \U{}string. a \U{bada55}string. a \U{ bada55}string. a \U{bada55 }string. a \U{badass }string.';
+'a \u{bad_a55}string. a \u{bad_ass}string.';
+'a \U{bad_a55}string. a \U{bad_ass}string.';
+'a \u{bad__a55}string. a \u{bad__ass}string.';
+'a \U{bad__a55}string. a \U{bad__ass}string.';
+'a \u{bad_a55_}string. a \u{bad_ass_}string.';
+'a \U{bad_a55_}string. a \U{bad_ass_}string.';
+'a \u{
+}string.';
+'a \U{
+}string.';
 '\u can be \used without brackets anywhere\u';
 'a string \% escaping a percent and \{some brackets\}.';
 'line continuations\
