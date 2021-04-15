@@ -4,7 +4,45 @@ import * as fs from 'fs';
 function digits(charclass, base = '') {
 	return `${ (base) ? `\\\\${ base }` : '' }${ charclass }(_?${ charclass })*`;
 }
+
+function annotation(end) {
+	return {
+		name: 'meta.annotation.cp',
+		begin: ':',
+		end,
+		beginCaptures: {
+			0: {name: 'punctuation.delimiter.cp'},
+		},
+		patterns: [
+			{include: '#Expression'},
+		],
+	};
+}
+function initializer(end) {
+	return {
+		name: 'meta.initializer.cp',
+		begin: Punctuator.INIT_START,
+		end,
+		beginCaptures: {
+			0: {name: 'punctuation.delimiter.cp'},
+		},
+		patterns: [
+			{include: '#Expression'},
+		],
+	};
+}
+
+function lookaheads(first = '', aheads = []) {
+	return (typeof first === 'string')
+		? `${ first }(?=${ aheads.join('|') })`
+		: lookaheads('', first);
+}
+
 const dec = digits('[0-9]'); // `[0-9](_?[0-9])*`
+
+const Punctuator = {
+	INIT_START: '=(?!=|>)',
+};
 
 
 await fs.promises.writeFile('./syntaxes/cp.tmLanguage.json', JSON.stringify({
@@ -180,28 +218,8 @@ await fs.promises.writeFile('./syntaxes/cp.tmLanguage.json', JSON.stringify({
 							name: 'punctuation.separator.cp',
 							match: ',',
 						},
-						{
-							name: 'meta.annotation.cp',
-							begin: ':',
-							end:   '(?==(?!=|>)|,|\\))',
-							beginCaptures: {
-								0: {name: 'punctuation.delimiter.cp'},
-							},
-							patterns: [
-								{include: '#Expression'},
-							],
-						},
-						{
-							name: 'meta.initializer.cp',
-							begin: '=(?!=|>)',
-							end:   '(?=,|\\))',
-							beginCaptures: {
-								0: {name: 'punctuation.delimiter.cp'},
-							},
-							patterns: [
-								{include: '#Expression'},
-							],
-						},
+						annotation(lookaheads([Punctuator.INIT_START, ',', '\\)'])),
+						initializer(lookaheads([',', '\\)'])),
 						{include: '#Expression'},
 					],
 				},
@@ -217,28 +235,8 @@ await fs.promises.writeFile('./syntaxes/cp.tmLanguage.json', JSON.stringify({
 							name: 'punctuation.separator.cp',
 							match: '\\|->|,',
 						},
-						{
-							name: 'meta.annotation.cp',
-							begin: ':',
-							end:   '(?==(?!=|>)|,|\\])',
-							beginCaptures: {
-								0: {name: 'punctuation.delimiter.cp'},
-							},
-							patterns: [
-								{include: '#Expression'},
-							],
-						},
-						{
-							name: 'meta.initializer.cp',
-							begin: '=(?!=|>)',
-							end:   '(?=,|\\])',
-							beginCaptures: {
-								0: {name: 'punctuation.delimiter.cp'},
-							},
-							patterns: [
-								{include: '#Expression'},
-							],
-						},
+						annotation(lookaheads([Punctuator.INIT_START, ',', '\\]'])),
+						initializer(lookaheads([',', '\\]'])),
 						{include: '#Expression'},
 					],
 				},
@@ -296,28 +294,8 @@ await fs.promises.writeFile('./syntaxes/cp.tmLanguage.json', JSON.stringify({
 						0: {name: 'punctuation.delimiter.cp'},
 					},
 					patterns: [
-						{
-							name: 'meta.annotation.cp',
-							begin: ':',
-							end:   '(?==(?!=|>))',
-							beginCaptures: {
-								0: {name: 'punctuation.delimiter.cp'},
-							},
-							patterns: [
-								{include: '#Expression'},
-							],
-						},
-						{
-							name: 'meta.initializer.cp',
-							begin: '=(?!=|>)',
-							end:   '(?=;)',
-							beginCaptures: {
-								0: {name: 'punctuation.delimiter.cp'},
-							},
-							patterns: [
-								{include: '#Expression'},
-							],
-						},
+						annotation(lookaheads([Punctuator.INIT_START])),
+						initializer(lookaheads([';'])),
 						{
 							name: 'entity.name.variable.cp',
 							begin: '`',
@@ -355,28 +333,8 @@ await fs.promises.writeFile('./syntaxes/cp.tmLanguage.json', JSON.stringify({
 									name: 'punctuation.separator.cp',
 									match: ',',
 								},
-								{
-									name: 'meta.annotation.cp',
-									begin: ':',
-									end:   '(?==(?!=|>)|,|\\))',
-									beginCaptures: {
-										0: {name: 'punctuation.delimiter.cp'},
-									},
-									patterns: [
-										{include: '#Expression'},
-									],
-								},
-								{
-									name: 'meta.initializer.cp',
-									begin: '=(?!=|>)',
-									end:   '(?=,|\\))',
-									beginCaptures: {
-										0: {name: 'punctuation.delimiter.cp'},
-									},
-									patterns: [
-										{include: '#Expression'},
-									],
-								},
+								annotation(lookaheads([Punctuator.INIT_START, ',', '\\)'])),
+								initializer(lookaheads([',', '\\)'])),
 								{
 									name: 'variable.parameter.cp',
 									begin: '`',
@@ -394,17 +352,7 @@ await fs.promises.writeFile('./syntaxes/cp.tmLanguage.json', JSON.stringify({
 								},
 							],
 						},
-						{
-							name: 'meta.annotation.cp',
-							begin: ':',
-							end:   '(?=\\{|=>)',
-							beginCaptures: {
-								0: {name: 'punctuation.delimiter.cp'},
-							},
-							patterns: [
-								{include: '#Expression'},
-							],
-						},
+						annotation(lookaheads(['\\{', '=>'])),
 						{
 							name: 'entity.name.function.cp',
 							begin: '`',
@@ -423,18 +371,10 @@ await fs.promises.writeFile('./syntaxes/cp.tmLanguage.json', JSON.stringify({
 					],
 				},
 				{
-					name: 'meta.initializer.cp',
-					begin: '=(?!=|>)',
-					end:   ';',
-					beginCaptures: {
-						0: {name: 'punctuation.separator.cp'},
-					},
+					...initializer(';'),
 					endCaptures: {
 						0: {name: 'punctuation.delimiter.cp'},
 					},
-					patterns: [
-						{include: '#Expression'},
-					],
 				},
 				{
 					name: 'punctuation.delimiter.cp',
