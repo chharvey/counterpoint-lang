@@ -91,12 +91,22 @@ func twice(x: int): int => x * 2;
 	T | S;
 	T!;
 	T?;
-	[a, [b, b], (c + c)];
-	[a= 3, c= 5];
+	[a, [b, b], (c + c), #spread];
+	[a= 3, c= 5, key, punn$, ##doublespread];
 	[+a |-> -b, ];
 	[+3 |-> -5, ];
 	if true then 1 else 0;
 	null || (if true then 1 else 0);
+	array && [key$];
+	array.[index];
+	array.%%dot%%[index];
+	funkshin. (call, #spread, 3, 4, label %% args %% = 2, punn$, ##doublespread)~;
+	structure.property;
+	structure. `pr op`;
+	structure. +`pr op`;
+	structure.%%dot%%`pr op`;
+	array.3;
+	awaiting~;
 }
 
 %% these should all fail parsing
@@ -220,6 +230,7 @@ replace newlines with spaces.';
 {{ '\{\{' }}{{ var }}{{ '\}\}' }}
 ''';
 
+func funkshin(param: annot = initial): void {;}
 func add(a: int = 0, b: int = 0): int { return a + b; }
 func subtract(unfixed a: int = 0, %%unfixed%% b: int = a): int => a - b;
 func %%comm%% nothing(): void {
