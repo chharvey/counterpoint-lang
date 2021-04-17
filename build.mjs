@@ -155,11 +155,11 @@ function annotation(end) {
 			0: {name: 'punctuation.delimiter.cp'},
 		},
 		patterns: [
-			{include: '#Expression'},
+			{include: '#Type'},
 		],
 	};
 }
-function initializer(end) {
+function initializer(end, kind = '#Expression') {
 	return {
 		name: 'meta.initializer.cp',
 		begin: Punctuator.INIT_START,
@@ -168,7 +168,7 @@ function initializer(end) {
 			0: {name: 'punctuation.delimiter.cp'},
 		},
 		patterns: [
-			{include: '#Expression'},
+			{include: kind},
 		],
 	};
 }
@@ -224,17 +224,17 @@ const generic_params = {
 			match: ',',
 		},
 		{
-			name: 'meta.initializer.cp',
+			name: 'meta.annotation.cp',
 			begin: '\\b(narrows|widens)\\b',
 			end: lookaheads([',', '>']),
 			beginCaptures: {
 				0: {name: 'keyword.modifier.cp'},
 			},
 			patterns: [
-				{include: '#Expression'},
+				{include: '#Type'},
 			],
 		},
-		initializer(lookaheads([',', '>'])),
+		initializer(lookaheads([',', '>']), '#Type'),
 		unit('variable.parameter.type'),
 	],
 };
@@ -245,8 +245,12 @@ await fs.promises.writeFile(path.join(path.dirname(new URL(import.meta.url).path
 	name: 'Counterpoint',
 	scopeName: 'source.cp',
 	repository: {
-		Unit: {
+		Type: {
 			patterns: [
+				{
+					name: 'keyword.operator.punctuation.cp',
+					match: '->|!|\\?|&|\\||\\.',
+				},
 				{
 					name: 'meta.structure.cp',
 					begin: '\\(',
@@ -259,11 +263,102 @@ await fs.promises.writeFile(path.join(path.dirname(new URL(import.meta.url).path
 							name: 'punctuation.separator.cp',
 							match: ',',
 						},
+						/*
+						 * only in:
+						 * - parameters of function types
+						 */
+						annotation(lookaheads([',', '\\)'])),
+						{include: '#Type'},
+					],
+				},
+				{
+					name: 'meta.structure.cp',
+					begin: '\\[',
+					end:   '\\]',
+					captures: {
+						0: {name: 'punctuation.delimiter.cp'},
+					},
+					patterns: [
+						{
+							name: 'punctuation.separator.cp',
+							match: ',',
+						},
+						annotation(lookaheads([',', '\\]'])),
+						{include: '#Type'},
+					],
+				},
+				{
+					name: 'meta.structure.cp',
+					begin: '\\{',
+					end:   '\\}(?!\\})',
+					captures: {
+						0: {name: 'punctuation.delimiter.cp'},
+					},
+					patterns: [
+						{include: '#Type'},
+					],
+				},
+				unit('variable.type'),
+			],
+		},
+		Expression: {
+			patterns: [
+				{
+					name: 'storage.type.cp',
+					match: '=>',
+				},
+				{
+					name: 'keyword.operator.punctuation.cp',
+					match: '<=|>=|!<|!>|==|!=|&&|!&|\\|\\||!\\||!|\\?|\\^|\\*|\\/|<|>|\\.|~',
+				},
+				{
+					name: 'meta.structure.cp',
+					begin: '\\(',
+					end:   '\\)',
+					captures: {
+						0: {name: 'punctuation.delimiter.cp'},
+					},
+					patterns: [
+						{
+							/*
+							 * only in:
+							 * - lambda parameters
+							 * - function call arguments
+							 */
+							name: 'punctuation.separator.cp',
+							match: ',',
+						},
+						/*
+						 * only in:
+						 * - lambda parameters
+						 * - record property destructuring
+						 * - function argument destructuring
+						 * - reassignment destructuring
+						 */
 						annotation(lookaheads([Punctuator.INIT_START, ',', '\\)'])),
+						/*
+						 * only in:
+						 * - parameters of lambdas
+						 */
 						initializer(lookaheads([',', '\\)'])),
 						{
+							/*
+							 * only in:
+							 * - named lambda parameters that are destructured
+							 * - record property destructuring
+							 * - function argument destructuring
+							 * - reassignment destructuring
+							 */
 							name: 'keyword.other',
-							match: '\\$|##|#|\\b(as)\\b',
+							match: '\\$|\\b(as)\\b',
+						},
+						{
+							/*
+							 * only in:
+							 * - spreading arguments of function calls
+							 */
+							name: 'keyword.other',
+							match: '##|#',
 						},
 						{include: '#Expression'},
 					],
@@ -280,33 +375,36 @@ await fs.promises.writeFile(path.join(path.dirname(new URL(import.meta.url).path
 							name: 'punctuation.separator.cp',
 							match: '\\|->|,',
 						},
-						annotation(lookaheads([Punctuator.INIT_START, '\\|->', ',', '\\]'])),
+						/*
+						 * only in:
+						 * - record properties
+						 */
 						initializer(lookaheads(['\\|->', ',', '\\]'])),
 						{
+							/*
+							 * only in:
+							 * - record property punning
+							 */
 							name: 'keyword.other',
-							match: '\\$|##|#',
+							match: '\\$',
+						},
+						{
+							/*
+							 * only in:
+							 * - spreading values/properties in tuple/record literals
+							 */
+							name: 'keyword.other',
+							match: '##|#',
 						},
 						{include: '#Expression'},
 					],
 				},
 				{include: '#Block'},
 				unit(),
-			],
-		},
-		Expression: {
-			patterns: [
 				{
-					name: 'storage.type.cp',
-					match: '=>',
-				},
-				{
-					name: 'keyword.operator.punctuation.cp',
-					match: '->|<=|>=|!<|!>|==|!=|&&|!&|\\|\\||!\\||!|\\?|\\^|\\*|\\/|<|>|&|\\||\\.|~',
-				},
-				{include: '#RESERVED'},
-				{include: '#Unit'},
-				{
-					_note: 'must come after #Unit so that numbers can be lexed correctly.',
+					/*
+					 * Must come after units so that numbers can be lexed correctly.
+					 */
 					name: 'keyword.operator.punctuation.cp',
 					match: '\\+|-',
 				},
@@ -346,7 +444,7 @@ await fs.promises.writeFile(path.join(path.dirname(new URL(import.meta.url).path
 					},
 					patterns: [
 						generic_params,
-						initializer(lookaheads([';'])),
+						initializer(lookaheads([';']), '#Type'),
 						unit('entity.name.type'),
 					],
 				},

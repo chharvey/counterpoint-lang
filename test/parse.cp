@@ -87,10 +87,10 @@ func twice(x: int): int => x * 2;
 	x || y;
 	x !& y;
 	x !| y;
-	T & S;
-	T | S;
-	T!;
-	T?;
+	type X = T & S;
+	type X = T | S;
+	type X = T!;
+	type X = T?;
 	[a, [b, b], (c + c), #spread];
 	[a= 3, c= 5, key, punn$, ##doublespread];
 	[+a |-> -b, ];
@@ -153,7 +153,7 @@ let d: str = 42.2e4_2;
 let e: obj = 42.2e+4_2;
 let f: %% comm %% TypeF | String = 'f';
 
-let %%unfixed%% g: int =
+let %%unfixed%% `unfixed`: int =
 	  -\b1379fz
 	+ -\q1379fz
 	+ -\o1379fz
@@ -182,6 +182,7 @@ type T<U> = U & V.<W>;
 type U<V narrows W.<int>> = V | W.<X>;
 type U<V = W.<int>> = V | W.<X>;
 
+let `flō || bōōl` = `flō || bōōl` || flo || boo;
 let unfixed w: bool | T | `floàt | bōōl` = bool;
 let unfixed w: 3.2 = 3.2 == 3.2;
 let unfixed w: null = null;
@@ -237,7 +238,7 @@ replace newlines with spaces.';
 {{ '\{\{' }}{{ var }}{{ '\}\}' }}
 ''';
 
-func funkshin(param: annot = initial): void {;}
+func `func`(param: annot = initial): void {;}
 func add(a: int = 0, b: int = 0): int { return a + b; }
 func subtract(unfixed a: int = 0, %%unfixed%% b: int = a): int => a - b;
 func %%comm%% nothing(): void {
