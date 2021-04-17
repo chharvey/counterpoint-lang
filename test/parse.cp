@@ -91,12 +91,22 @@ func twice(x: int): int => x * 2;
 	T | S;
 	T!;
 	T?;
-	[a, [b, b], (c + c)];
-	[a= 3, c= 5];
+	[a, [b, b], (c + c), #spread];
+	[a= 3, c= 5, key, punn$, ##doublespread];
 	[+a |-> -b, ];
 	[+3 |-> -5, ];
 	if true then 1 else 0;
 	null || (if true then 1 else 0);
+	array && [key$];
+	array.[index];
+	array.%%dot%%[index];
+	funkshin. (call, #spread, 3, 4, label %% args %% = 2, punn$, ##doublespread)~;
+	structure.property;
+	structure. `pr op`;
+	structure. +`pr op`;
+	structure.%%dot%%`pr op`;
+	array.3;
+	awaiting~;
 }
 
 %% these should all fail parsing
@@ -130,6 +140,8 @@ let by;
 let in;
 let break;
 let continue;
+% other
+let as;
 
 %%% The value of `a`. %%
 let a: null | bool = +42 && null;
@@ -220,6 +232,7 @@ replace newlines with spaces.';
 {{ '\{\{' }}{{ var }}{{ '\}\}' }}
 ''';
 
+func funkshin(param: annot = initial): void {;}
 func add(a: int = 0, b: int = 0): int { return a + b; }
 func subtract(unfixed a: int = 0, %%unfixed%% b: int = a): int => a - b;
 func %%comm%% nothing(): void {
@@ -241,3 +254,33 @@ let x: (str) -> {str} = (a: str) {
 func returnFunc(): obj => (x) => x + 1;
 func returnFunc(): (int) -> {int} => (x) => x + 1;
 func returnFunc(): {obj} => (x) => x + 1;
+
+
+% variable destructuring:
+let (x, y): int            = [1, 2];
+let (x: int, y: int)       = [1, 2];
+let (x$, y as b): int      = [x= 1, y= 2];
+let (x$: int, y as b: int) = [x= 1, y= 2];
+let ((unfixed x), (y as (b))): int = [[1], [y= [2]]];
+
+% function parameter destructuring:
+func f(param as (x, y): int            = [1, 2]):       int => x + y;
+func f(param as (x: int, y: int)       = [1, 2]):       int => x + y;
+func f(param as (x$, y as b): int      = [x= 1, y= 2]): int => x + b;
+func f(param as (x$: int, y as b: int) = [x= 1, y= 2]): int => x + b;
+func f(param as ((unfixed x), (y as (b))): int = [[1], [y= [2]]]): int => x + b;
+
+% record property destructuring:
+[(x, y)=       [1, 2]];
+[(x$, y as b)= [x= 1, y= 2]];
+[((x$), (y as (b)))= [[x= 1], [y= [2]]]];
+
+% function argument destructuring:
+g.(z= 3, (x, y)=       [1, 2]);
+g.(z= 3, (x$, y as b)= [x= 1, y= 2]);
+g.(z= 3, ((x$), (y as (b)))= [[x= 1], [y= [2]]]);
+
+% reassignment destructuring:
+(x.i, y.j)           = [1, 2];
+(x$, y as b.j)       = [x= 1, y= 2];
+((x$), (y as (b.j))) = [[x= 1], [y= [2]]];
