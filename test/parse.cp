@@ -87,10 +87,10 @@ func twice(x: int): int => x * 2;
 	x || y;
 	x !& y;
 	x !| y;
-	T & S;
-	T | S;
-	T!;
-	T?;
+	type X = T & S;
+	type X = T | S;
+	type X = T!;
+	type X = T?;
 	[a, [b, b], (c + c), #spread];
 	[a= 3, c= 5, key, punn$, ##doublespread];
 	[+a |-> -b, ];
@@ -130,6 +130,8 @@ let else;
 % storage types/modifiers
 let let;
 let unfixed;
+let narrows;
+let widens;
 % control
 let while;
 let do;
@@ -151,7 +153,7 @@ let d: str = 42.2e4_2;
 let e: obj = 42.2e+4_2;
 let f: %% comm %% TypeF | String = 'f';
 
-let %%unfixed%% g: int =
+let %%unfixed%% `unfixed`: int =
 	  -\b1379fz
 	+ -\q1379fz
 	+ -\o1379fz
@@ -165,18 +167,22 @@ g == 42;
 g = if true then 1 else 0;
 g = if true then {1;} else {0;};
 let h: int = if true then 1 else 0;
-(unfixed h: int) => h + 1;
-(%%unfixed%% h: int) => h + 1;
+(unfixed h: int): int => h + 1;
+(%%unfixed%% h: int): int => h + 1;
 
 (a == b);
 [a == b];
-((h: int = 0) => h + 1);
-[(h: int = 0) => h + 1];
-[fun= (h: int) => h + 1];
-[fun: (int) -> {int}];
+((h: int = 0): int => h + 1);
+[(h: int = 0): int => h + 1];
+[fun= (h: int): int => h + 1];
+type T = [fun: (a: int) -> {int}];
 
 type `floàt | bōōl` = `floàt | bōōl` | float | bool;
-type T<U> = U & V;
+type T<U> = U & V.<W>;
+type U<V narrows W.<int>> = V | W.<X>;
+type U<V = W.<int>> = V | W.<X>;
+
+let `flō || bōōl` = `flō || bōōl` || flo || boo;
 let unfixed w: bool | T | `floàt | bōōl` = bool;
 let unfixed w: 3.2 = 3.2 == 3.2;
 let unfixed w: null = null;
@@ -232,7 +238,7 @@ replace newlines with spaces.';
 {{ '\{\{' }}{{ var }}{{ '\}\}' }}
 ''';
 
-func funkshin(param: annot = initial): void {;}
+func `func`(param: annot = initial): void {;}
 func add(a: int = 0, b: int = 0): int { return a + b; }
 func subtract(unfixed a: int = 0, %%unfixed%% b: int = a): int => a - b;
 func %%comm%% nothing(): void {
@@ -244,16 +250,25 @@ func error(): never {
 	throw (if true then 'error' else 'an error');
 }
 
-let x: (str) -> {str} = (a: str) => '''<x>{{ a }}</x>''';
-let x: (str) -> {str} = (a: str) {
+func append<T widens bool>(arr: Array.<T> = [], it: T): void {
+	arr.push.<T>(it)~;
+}
+func derivative<T narrows float>(lambda: (y: T) -> {T}, delta: T): (x: T) -> {T} {
+	return (x: T): T => (lambda.(x + delta)~ - lambda.(x)~) / delta;
+}
+func subset<T = Set.<null>, U widens T>(a: Set.<T>, b: Set.<U>): bool {;}
+
+let x: (a: str) -> {str} = (a: str): str => '''<x>{{ a }}</x>''';
+let x: (a: str) -> {str} = (a: str): str {
 	func y(): void {;}
 	let x: str = 'x';
 	return '''<{{ x }}>{{ a }}</{{ x }}>''';
 };
+let x: <T widens U, U = Set.<null>>(a: Set.<T>, b: Set.<U>) -> {bool} = null;
 
-func returnFunc(): obj => (x) => x + 1;
-func returnFunc(): (int) -> {int} => (x) => x + 1;
-func returnFunc(): {obj} => (x) => x + 1;
+func returnFunc(): obj => (x: int): int => x + 1;
+func returnFunc(): {obj} => (x: int): int => x + 1;
+func returnFunc(): (x: int) -> {int} => (x) => x + 1;
 
 
 % variable destructuring:
