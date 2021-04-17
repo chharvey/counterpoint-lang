@@ -90,6 +90,34 @@ const Punctuator = {
 	INIT_START: '=(?!=|>)',
 };
 
+const generic_params = {
+	name: 'meta.typeparameters.cp',
+	begin: '<',
+	end:   '>',
+	captures: {
+		0: {name: 'punctuation.delimiter.cp'},
+	},
+	patterns: [
+		{
+			name: 'punctuation.separator.cp',
+			match: ',',
+		},
+		{
+			name: 'meta.initializer.cp',
+			begin: '\\b(narrows|widens)\\b',
+			end: lookaheads([',', '>']),
+			beginCaptures: {
+				0: {name: 'keyword.modifier.cp'},
+			},
+			patterns: [
+				{include: '#Expression'},
+			],
+		},
+		initializer(lookaheads([',', '>'])),
+		...entity('variable.parameter.type.cp'),
+	],
+};
+
 
 await fs.promises.writeFile(path.join(path.dirname(new URL(import.meta.url).pathname), 'syntaxes', 'cp.tmLanguage.json'), JSON.stringify({
 	$schema: 'https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json',
@@ -236,7 +264,7 @@ await fs.promises.writeFile(path.join(path.dirname(new URL(import.meta.url).path
 				},
 				{
 					name: 'storage.modifier.cp',
-					match: '\\b(unfixed)\\b',
+					match: '\\b(unfixed|narrows|widens)\\b',
 				},
 				{
 					name: 'keyword.control',
@@ -355,6 +383,7 @@ await fs.promises.writeFile(path.join(path.dirname(new URL(import.meta.url).path
 						0: {name: 'punctuation.delimiter.cp'},
 					},
 					patterns: [
+						generic_params,
 						initializer(lookaheads([';'])),
 						...entity('entity.name.type.cp'),
 					],
@@ -384,6 +413,7 @@ await fs.promises.writeFile(path.join(path.dirname(new URL(import.meta.url).path
 						0: {name: 'storage.type.cp'},
 					},
 					patterns: [
+						generic_params,
 						{
 							name: 'meta.parameters.cp',
 							begin: '\\(',

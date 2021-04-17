@@ -130,6 +130,8 @@ let else;
 % storage types/modifiers
 let let;
 let unfixed;
+let narrows;
+let widens;
 % control
 let while;
 let do;
@@ -176,7 +178,10 @@ let h: int = if true then 1 else 0;
 [fun: (int) -> {int}];
 
 type `floàt | bōōl` = `floàt | bōōl` | float | bool;
-type T<U> = U & V;
+type T<U> = U & V.<W>;
+type U<V narrows W.<int>> = V | W.<X>;
+type U<V = W.<int>> = V | W.<X>;
+
 let unfixed w: bool | T | `floàt | bōōl` = bool;
 let unfixed w: 3.2 = 3.2 == 3.2;
 let unfixed w: null = null;
@@ -244,12 +249,21 @@ func error(): never {
 	throw (if true then 'error' else 'an error');
 }
 
+func append<T widens bool>(arr: Array.<T> = [], it: T): void {
+	arr.push.<T>(it)~;
+}
+func derivative<T narrows float>(lambda: (T) -> {T}, delta: T): (T) -> {T} {
+	return (x: T): T => (lambda.(x + delta)~ - lambda.(x)~) / delta;
+}
+func subset<T = Set.<null>, U widens T>(a: Set.<T>, b: Set.<U>): bool {;}
+
 let x: (str) -> {str} = (a: str) => '''<x>{{ a }}</x>''';
 let x: (str) -> {str} = (a: str) {
 	func y(): void {;}
 	let x: str = 'x';
 	return '''<{{ x }}>{{ a }}</{{ x }}>''';
 };
+let x: <T widens U, U = Set.<null>>(a: Set.<T>, b: Set.<U>): bool {;}
 
 func returnFunc(): obj => (x) => x + 1;
 func returnFunc(): (int) -> {int} => (x) => x + 1;
