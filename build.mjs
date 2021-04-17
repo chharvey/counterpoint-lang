@@ -252,13 +252,17 @@ await fs.promises.writeFile(path.join(path.dirname(new URL(import.meta.url).path
 					match: '->|!|\\?|&|\\||\\.',
 				},
 				{
-					name: 'meta.structure.cp',
+					name: 'meta.structure.grouping.cp',
 					begin: '\\(',
 					end:   '\\)',
 					captures: {
 						0: {name: 'punctuation.delimiter.cp'},
 					},
 					patterns: [
+						/*
+						 * only in:
+						 * - parameters of function types
+						 */
 						{
 							name: 'punctuation.separator.cp',
 							match: ',',
@@ -272,7 +276,7 @@ await fs.promises.writeFile(path.join(path.dirname(new URL(import.meta.url).path
 					],
 				},
 				{
-					name: 'meta.structure.cp',
+					name: 'meta.structure.list.cp',
 					begin: '\\[',
 					end:   '\\]',
 					captures: {
@@ -288,13 +292,28 @@ await fs.promises.writeFile(path.join(path.dirname(new URL(import.meta.url).path
 					],
 				},
 				{
-					name: 'meta.structure.cp',
+					name: 'meta.structure.promise.cp',
 					begin: '\\{',
 					end:   '\\}(?!\\})',
 					captures: {
 						0: {name: 'punctuation.delimiter.cp'},
 					},
 					patterns: [
+						{include: '#Type'},
+					],
+				},
+				{
+					name: 'meta.structure.typearguments.cp',
+					begin: '<',
+					end:   '>',
+					captures: {
+						0: {name: 'punctuation.delimiter.cp'},
+					},
+					patterns: [
+						{
+							name: 'punctuation.separator.cp',
+							match: ',',
+						},
 						{include: '#Type'},
 					],
 				},
@@ -312,7 +331,7 @@ await fs.promises.writeFile(path.join(path.dirname(new URL(import.meta.url).path
 					match: '<=|>=|!<|!>|==|!=|&&|!&|\\|\\||!\\||!|\\?|\\^|\\*|\\/|<|>|\\.|~',
 				},
 				{
-					name: 'meta.structure.cp',
+					name: 'meta.structure.grouping.cp',
 					begin: '\\(',
 					end:   '\\)',
 					captures: {
@@ -364,7 +383,7 @@ await fs.promises.writeFile(path.join(path.dirname(new URL(import.meta.url).path
 					],
 				},
 				{
-					name: 'meta.structure.cp',
+					name: 'meta.structure.list.cp',
 					begin: '\\[',
 					end:   '\\]',
 					captures: {

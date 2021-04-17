@@ -264,7 +264,7 @@ let x: (str) -> {str} = (a: str) {
 	let x: str = 'x';
 	return '''<{{ x }}>{{ a }}</{{ x }}>''';
 };
-let x: <T widens U, U = Set.<null>>(a: Set.<T>, b: Set.<U>): bool {;}
+let x: <T widens U, U = Set.<null>>(a: Set.<T>, b: Set.<U>) -> bool = null;
 
 func returnFunc(): obj => (x) => x + 1;
 func returnFunc(): (int) -> {int} => (x) => x + 1;
