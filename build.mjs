@@ -354,7 +354,7 @@ await fs.promises.writeFile(path.join(path.dirname(new URL(import.meta.url).path
 						 * - function argument destructuring
 						 * - reassignment destructuring
 						 */
-						annotation(lookaheads([Punctuator.INIT_START, ',', '\\)'])),
+						annotation(lookaheads([Punctuator.INIT_START, ',', '\\)', '\\{', '=>'])),
 						/*
 						 * only in:
 						 * - parameters of lambdas
@@ -419,6 +419,11 @@ await fs.promises.writeFile(path.join(path.dirname(new URL(import.meta.url).path
 					],
 				},
 				{include: '#Block'},
+				/*
+				 * only in:
+				 * - lambda return types
+				 */
+				annotation(lookaheads(['\\{', '=>'])),
 				unit(),
 				{
 					/*

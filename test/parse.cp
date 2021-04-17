@@ -167,15 +167,15 @@ g == 42;
 g = if true then 1 else 0;
 g = if true then {1;} else {0;};
 let h: int = if true then 1 else 0;
-(unfixed h: int) => h + 1;
-(%%unfixed%% h: int) => h + 1;
+(unfixed h: int): int => h + 1;
+(%%unfixed%% h: int): int => h + 1;
 
 (a == b);
 [a == b];
-((h: int = 0) => h + 1);
-[(h: int = 0) => h + 1];
-[fun= (h: int) => h + 1];
-[fun: (int) -> {int}];
+((h: int = 0): int => h + 1);
+[(h: int = 0): int => h + 1];
+[fun= (h: int): int => h + 1];
+type T = [fun: (a: int) -> {int}];
 
 type `floàt | bōōl` = `floàt | bōōl` | float | bool;
 type T<U> = U & V.<W>;
@@ -253,22 +253,22 @@ func error(): never {
 func append<T widens bool>(arr: Array.<T> = [], it: T): void {
 	arr.push.<T>(it)~;
 }
-func derivative<T narrows float>(lambda: (T) -> {T}, delta: T): (T) -> {T} {
+func derivative<T narrows float>(lambda: (y: T) -> {T}, delta: T): (x: T) -> {T} {
 	return (x: T): T => (lambda.(x + delta)~ - lambda.(x)~) / delta;
 }
 func subset<T = Set.<null>, U widens T>(a: Set.<T>, b: Set.<U>): bool {;}
 
-let x: (str) -> {str} = (a: str) => '''<x>{{ a }}</x>''';
-let x: (str) -> {str} = (a: str) {
+let x: (a: str) -> {str} = (a: str): str => '''<x>{{ a }}</x>''';
+let x: (a: str) -> {str} = (a: str): str {
 	func y(): void {;}
 	let x: str = 'x';
 	return '''<{{ x }}>{{ a }}</{{ x }}>''';
 };
-let x: <T widens U, U = Set.<null>>(a: Set.<T>, b: Set.<U>) -> bool = null;
+let x: <T widens U, U = Set.<null>>(a: Set.<T>, b: Set.<U>) -> {bool} = null;
 
-func returnFunc(): obj => (x) => x + 1;
-func returnFunc(): (int) -> {int} => (x) => x + 1;
-func returnFunc(): {obj} => (x) => x + 1;
+func returnFunc(): obj => (x: int): int => x + 1;
+func returnFunc(): {obj} => (x: int): int => x + 1;
+func returnFunc(): (x: int) -> {int} => (x) => x + 1;
 
 
 % variable destructuring:
