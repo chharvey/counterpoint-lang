@@ -51,6 +51,32 @@ function entity(name) {
 		},
 	];
 }
+function destructure(varname) {
+	return {
+		name: 'meta.destructure.cp',
+		begin: '\\(',
+		end:   '\\)',
+		captures: {
+			0: {name: 'punctuation.delimiter.cp'},
+		},
+		patterns: [
+			{
+				name: 'punctuation.separator.cp',
+				match: ',',
+			},
+			{include: `#Destructure-${ varname }`},
+			annotation(lookaheads([',', '\\)'])),
+			// // if adding destructure defaults:
+			// annotation(lookaheads([Punctuator.INIT_START, ',', '\\)'])),
+			// initializer(lookaheads([',', '\\)'])),
+			{
+				name: 'keyword.other',
+				match: '\\$|\\b(as)\\b',
+			},
+			...entity(varname),
+		],
+	};
+}
 
 function lookaheads(first = '', aheads = []) {
 	return (typeof first === 'string')
@@ -216,6 +242,10 @@ await fs.promises.writeFile(path.join(path.dirname(new URL(import.meta.url).path
 					name: 'keyword.control',
 					match: '\\b(if|unless|then|else|while|until|do|for|from|to|by|in|break|continue|return|throw)\\b',
 				},
+				{
+					name: 'keyword.other.cp',
+					match: '\\b(as)\\b',
+				},
 			],
 		},
 		Primitive: {
@@ -243,7 +273,7 @@ await fs.promises.writeFile(path.join(path.dirname(new URL(import.meta.url).path
 						initializer(lookaheads([',', '\\)'])),
 						{
 							name: 'keyword.other',
-							match: '\\$|##|#',
+							match: '\\$|##|#|\\b(as)\\b',
 						},
 						{include: '#Expression'},
 					],
@@ -292,6 +322,8 @@ await fs.promises.writeFile(path.join(path.dirname(new URL(import.meta.url).path
 				},
 			],
 		},
+		[`Destructure-${ 'entity.name.variable.cp' }`]: destructure('entity.name.variable.cp'),
+		[`Destructure-${ 'variable.parameter.cp' }`]:   destructure('variable.parameter.cp'),
 		Statement: {
 			patterns: [
 				{
@@ -323,6 +355,7 @@ await fs.promises.writeFile(path.join(path.dirname(new URL(import.meta.url).path
 						0: {name: 'punctuation.delimiter.cp'},
 					},
 					patterns: [
+						{include: `#Destructure-${ 'entity.name.variable.cp' }`},
 						annotation(lookaheads([Punctuator.INIT_START])),
 						initializer(lookaheads([';'])),
 						...entity('entity.name.variable.cp'),
@@ -348,8 +381,13 @@ await fs.promises.writeFile(path.join(path.dirname(new URL(import.meta.url).path
 									name: 'punctuation.separator.cp',
 									match: ',',
 								},
+								{include: `#Destructure-${ 'variable.parameter.cp' }`},
 								annotation(lookaheads([Punctuator.INIT_START, ',', '\\)'])),
 								initializer(lookaheads([',', '\\)'])),
+								{
+									name: 'keyword.other',
+									match: '\\b(as)\\b',
+								},
 								...entity('variable.parameter.cp'),
 							],
 						},
@@ -358,7 +396,7 @@ await fs.promises.writeFile(path.join(path.dirname(new URL(import.meta.url).path
 					],
 				},
 				{
-					...initializer(';'),
+					...initializer(lookaheads([';'])),
 					endCaptures: {
 						0: {name: 'punctuation.delimiter.cp'},
 					},

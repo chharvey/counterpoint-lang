@@ -140,6 +140,8 @@ let by;
 let in;
 let break;
 let continue;
+% other
+let as;
 
 %%% The value of `a`. %%
 let a: null | bool = +42 && null;
@@ -252,3 +254,33 @@ let x: (str) -> {str} = (a: str) {
 func returnFunc(): obj => (x) => x + 1;
 func returnFunc(): (int) -> {int} => (x) => x + 1;
 func returnFunc(): {obj} => (x) => x + 1;
+
+
+% variable destructuring:
+let (x, y): int            = [1, 2];
+let (x: int, y: int)       = [1, 2];
+let (x$, y as b): int      = [x= 1, y= 2];
+let (x$: int, y as b: int) = [x= 1, y= 2];
+let ((unfixed x), (y as (b))): int = [[1], [y= [2]]];
+
+% function parameter destructuring:
+func f(param as (x, y): int            = [1, 2]):       int => x + y;
+func f(param as (x: int, y: int)       = [1, 2]):       int => x + y;
+func f(param as (x$, y as b): int      = [x= 1, y= 2]): int => x + b;
+func f(param as (x$: int, y as b: int) = [x= 1, y= 2]): int => x + b;
+func f(param as ((unfixed x), (y as (b))): int = [[1], [y= [2]]]): int => x + b;
+
+% record property destructuring:
+[(x, y)=       [1, 2]];
+[(x$, y as b)= [x= 1, y= 2]];
+[((x$), (y as (b)))= [[x= 1], [y= [2]]]];
+
+% function argument destructuring:
+g.(z= 3, (x, y)=       [1, 2]);
+g.(z= 3, (x$, y as b)= [x= 1, y= 2]);
+g.(z= 3, ((x$), (y as (b)))= [[x= 1], [y= [2]]]);
+
+% reassignment destructuring:
+(x.i, y.j)           = [1, 2];
+(x$, y as b.j)       = [x= 1, y= 2];
+((x$), (y as (b.j))) = [[x= 1], [y= [2]]];
