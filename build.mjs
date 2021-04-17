@@ -346,7 +346,22 @@ await fs.promises.writeFile(path.join(path.dirname(new URL(import.meta.url).path
 				},
 				{
 					name: 'meta.declaration.cp',
-					begin: '\\b(type|let)\\b',
+					begin: '\\b(type)\\b',
+					end:   ';',
+					beginCaptures: {
+						0: {name: 'storage.type.cp'},
+					},
+					endCaptures: {
+						0: {name: 'punctuation.delimiter.cp'},
+					},
+					patterns: [
+						initializer(lookaheads([';'])),
+						...entity('entity.name.type.cp'),
+					],
+				},
+				{
+					name: 'meta.declaration.cp',
+					begin: '\\b(let)\\b',
 					end:   ';',
 					beginCaptures: {
 						0: {name: 'storage.type.cp'},
