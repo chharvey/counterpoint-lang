@@ -6,6 +6,146 @@ function digits(charclass, base = '') {
 	return `${ (base) ? `\\\\${ base }` : '' }${ charclass }(_?${ charclass })*`;
 }
 
+function unit(varname = 'variable.other') {
+	return {
+		patterns: [
+			{
+				name: 'comment.block.cp',
+				begin: '%%',
+				end:   '%%',
+				captures: {
+					0: {name: 'punctuation.delimiter.cp'},
+				},
+			},
+			{
+				name: 'comment.line.percentage.cp',
+				match: '(%).*$',
+				captures: {
+					1: {name: 'punctuation.delimiter.cp'},
+				},
+			},
+			{
+				name: 'string.quoted.triple.cp',
+				begin: '\'\'\'|}}',
+				end:   '\'\'\'|{{',
+				captures: {
+					0: {name: 'punctuation.delimiter.cp'},
+				},
+			},
+			{
+				name: 'string.quoted.single.cp',
+				begin: '\'',
+				end:   '\'',
+				captures: {
+					0: {name: 'punctuation.delimiter.cp'},
+				},
+				patterns: [
+					{
+						name: 'constant.character.escape.cp',
+						match: `(\\\\)u\\{(${ digits('[0-9a-f]') })\\}`,
+						captures: {
+							1: {name: 'punctuation.delimiter.cp'},
+							2: {name: 'constant.numeric.hex.cp'},
+						},
+					},
+					{
+						name: 'invalid.illegal.cp',
+						begin: '\\\\u\\{',
+						end:   '\\}',
+					},
+					{
+						name: 'constant.character.escape.cp',
+						match: '(\\\\)(.|\\n)',
+						captures: {
+							1: {name: 'punctuation.delimiter.cp'},
+						},
+					},
+					{
+						name: 'comment.block.cp',
+						begin: '%%',
+						end:   '(%%)|(?=\')',
+						beginCaptures: {
+							0: {name: 'punctuation.delimiter.cp'},
+						},
+						endCaptures: {
+							1: {name: 'punctuation.delimiter.cp'},
+						},
+					},
+					{
+						name: 'comment.line.percentage.cp',
+						match: '(%)[^\']*(\\n|(?=\'))',
+						captures: {
+							1: {name: 'punctuation.delimiter.cp'},
+						},
+					},
+				],
+			},
+			{
+				name: `${ varname }.quoted.cp`,
+				begin: '`',
+				end:   '`',
+				captures: {
+					0: {name: 'punctuation.delimiter.cp'},
+				},
+			},
+			{
+				name: 'constant.numeric.radix.cp',
+				match: `(\\+|-)?(${ [
+					digits('[0-1]',    'b'), // `\\\\b[0-1](_?[0-1])*`
+					digits('[0-3]',    'q'),
+					digits('[0-7]',    'o'),
+					digits('[0-9]',    'd'),
+					digits('[0-9a-f]', 'x'),
+					digits('[0-9a-z]', 'z'),
+				].join('|') })`,
+			},
+			{
+				name: 'constant.numeric.decimal.cp',
+				match: `(\\+|-)?${ dec }(\\.(${ dec }(e(\\+|-)?${ dec })?)?)?`,
+			},
+			{
+				name: 'constant.language.cp',
+				match: '\\b(null|false|true)\\b',
+			},
+			{
+				name: 'support.type.cp',
+				match: '\\b(never|void|bool|int|float|str|obj|unknown)\\b',
+			},
+			{
+				name: 'keyword.operator.text.cp',
+				match: '\\b(mutable|is|isnt|if|then|else)\\b',
+			},
+			{
+				name: 'storage.type.cp',
+				match: '\\b(type|let|func)\\b',
+			},
+			{
+				name: 'storage.modifier.cp',
+				match: '\\b(unfixed|narrows|widens)\\b',
+			},
+			{
+				name: 'keyword.control',
+				match: '\\b(if|unless|then|else|while|until|do|for|from|to|by|in|break|continue|return|throw)\\b',
+			},
+			{
+				name: 'keyword.other.cp',
+				match: '\\b(as)\\b',
+			},
+			{
+				name: `${ varname }.cp`,
+				match: '\\b[A-Za-z_][A-Za-z0-9_]*\\b',
+			},
+			{
+				/*
+				 * Invalid underscores in number literals.
+				 * Must come after variables so that they can be lexed correctly.
+				 */
+				name: 'invalid.illegal',
+				match: '__|_(?=\\b)',
+			},
+		],
+	};
+}
 function annotation(end) {
 	return {
 		name: 'meta.annotation.cp',
@@ -32,25 +172,6 @@ function initializer(end) {
 		],
 	};
 }
-function entity(name) {
-	return [
-		{
-			name,
-			begin: '`',
-			end:   '`',
-			captures: {
-				0: {name: 'punctuation.delimiter.cp'},
-			},
-		},
-		{include: '#COMMENT'},
-		{include: '#RESERVED'},
-		{
-			_note: 'must come after #RESERVED so that reserved words are lexed first.',
-			name,
-			match: '\\b[A-Za-z_][A-Za-z0-9_]*\\b',
-		},
-	];
-}
 function destructure(varname) {
 	return {
 		name: 'meta.destructure.cp',
@@ -73,7 +194,7 @@ function destructure(varname) {
 				name: 'keyword.other',
 				match: '\\$|\\b(as)\\b',
 			},
-			...entity(varname),
+			unit(varname),
 		],
 	};
 }
@@ -114,7 +235,7 @@ const generic_params = {
 			],
 		},
 		initializer(lookaheads([',', '>'])),
-		...entity('variable.parameter.type.cp'),
+		unit('variable.parameter.type'),
 	],
 };
 
@@ -124,165 +245,6 @@ await fs.promises.writeFile(path.join(path.dirname(new URL(import.meta.url).path
 	name: 'Counterpoint',
 	scopeName: 'source.cp',
 	repository: {
-		COMMENT: {
-			patterns: [
-				{
-					name: 'comment.block.cp',
-					begin: '%%',
-					end:   '%%',
-					captures: {
-						0: {name: 'punctuation.delimiter.cp'},
-					},
-				},
-				{
-					name: 'comment.line.percentage.cp',
-					match: '(%).*$',
-					captures: {
-						1: {name: 'punctuation.delimiter.cp'},
-					},
-				},
-			],
-		},
-		QUOTED: {
-			patterns: [
-				{
-					name: 'string.quoted.triple.cp',
-					begin: '\'\'\'|}}',
-					end:   '\'\'\'|{{',
-					captures: {
-						0: {name: 'punctuation.delimiter.cp'},
-					},
-				},
-				{
-					name: 'string.quoted.single.cp',
-					begin: '\'',
-					end:   '\'',
-					captures: {
-						0: {name: 'punctuation.delimiter.cp'},
-					},
-					patterns: [
-						{
-							name: 'constant.character.escape.cp',
-							match: `(\\\\)u\\{(${ digits('[0-9a-f]') })\\}`,
-							captures: {
-								1: {name: 'punctuation.delimiter.cp'},
-								2: {name: 'constant.numeric.hex.cp'},
-							},
-						},
-						{
-							name: 'invalid.illegal.cp',
-							begin: '\\\\u\\{',
-							end:   '\\}',
-						},
-						{
-							name: 'constant.character.escape.cp',
-							match: '(\\\\)(.|\\n)',
-							captures: {
-								1: {name: 'punctuation.delimiter.cp'},
-							},
-						},
-						{
-							name: 'comment.block.cp',
-							begin: '%%',
-							end:   '(%%)|(?=\')',
-							beginCaptures: {
-								0: {name: 'punctuation.delimiter.cp'},
-							},
-							endCaptures: {
-								1: {name: 'punctuation.delimiter.cp'},
-							},
-						},
-						{
-							name: 'comment.line.percentage.cp',
-							match: '(%)[^\']*(\\n|(?=\'))',
-							captures: {
-								1: {name: 'punctuation.delimiter.cp'},
-							},
-						},
-					],
-				},
-				{
-					name: 'variable.other.quoted.cp',
-					begin: '`',
-					end:   '`',
-					captures: {
-						0: {name: 'punctuation.delimiter.cp'},
-					},
-				},
-			],
-		},
-		CONSTANT_RESERVED: {
-			patterns: [
-				{
-					name: 'constant.language.cp',
-					match: '\\b(null|false|true)\\b',
-				},
-				{
-					name: 'support.type.cp',
-					match: '\\b(never|void|bool|int|float|str|obj|unknown)\\b',
-				},
-			],
-		},
-		CONSTANT: {
-			patterns: [
-				{include: '#CONSTANT_RESERVED'},
-				{
-					name: 'constant.numeric.radix.cp',
-					match: `(\\+|-)?(${ [
-						digits('[0-1]',    'b'), // `\\\\b[0-1](_?[0-1])*`
-						digits('[0-3]',    'q'),
-						digits('[0-7]',    'o'),
-						digits('[0-9]',    'd'),
-						digits('[0-9a-f]', 'x'),
-						digits('[0-9a-z]', 'z'),
-					].join('|') })`,
-				},
-				{
-					name: 'constant.numeric.decimal.cp',
-					match: `(\\+|-)?${ dec }(\\.(${ dec }(e(\\+|-)?${ dec })?)?)?`,
-				},
-				{
-					name: 'variable.other.cp',
-					match: '\\b[A-Za-z_][A-Za-z0-9_]*\\b',
-				},
-				{
-					name: 'invalid.illegal',
-					match: '__|_(?=\\b)',
-				},
-			],
-		},
-		RESERVED: {
-			patterns: [
-				{include: '#CONSTANT_RESERVED'},
-				{
-					name: 'keyword.operator.text.cp',
-					match: '\\b(mutable|is|isnt|if|then|else)\\b',
-				},
-				{
-					name: 'storage.type.cp',
-					match: '\\b(type|let|func)\\b',
-				},
-				{
-					name: 'storage.modifier.cp',
-					match: '\\b(unfixed|narrows|widens)\\b',
-				},
-				{
-					name: 'keyword.control',
-					match: '\\b(if|unless|then|else|while|until|do|for|from|to|by|in|break|continue|return|throw)\\b',
-				},
-				{
-					name: 'keyword.other.cp',
-					match: '\\b(as)\\b',
-				},
-			],
-		},
-		Primitive: {
-			patterns: [
-				{include: '#COMMENT'},
-				{include: '#QUOTED'},
-				{include: '#CONSTANT'},
-			],
-		},
 		Unit: {
 			patterns: [
 				{
@@ -328,7 +290,7 @@ await fs.promises.writeFile(path.join(path.dirname(new URL(import.meta.url).path
 					],
 				},
 				{include: '#Block'},
-				{include: '#Primitive'},
+				unit(),
 			],
 		},
 		Expression: {
@@ -350,8 +312,8 @@ await fs.promises.writeFile(path.join(path.dirname(new URL(import.meta.url).path
 				},
 			],
 		},
-		[`Destructure-${ 'entity.name.variable.cp' }`]: destructure('entity.name.variable.cp'),
-		[`Destructure-${ 'variable.parameter.cp' }`]:   destructure('variable.parameter.cp'),
+		[`Destructure-${ 'entity.name.variable' }`]: destructure('entity.name.variable'),
+		[`Destructure-${ 'variable.parameter' }`]:   destructure('variable.parameter'),
 		Statement: {
 			patterns: [
 				{
@@ -385,7 +347,7 @@ await fs.promises.writeFile(path.join(path.dirname(new URL(import.meta.url).path
 					patterns: [
 						generic_params,
 						initializer(lookaheads([';'])),
-						...entity('entity.name.type.cp'),
+						unit('entity.name.type'),
 					],
 				},
 				{
@@ -399,10 +361,10 @@ await fs.promises.writeFile(path.join(path.dirname(new URL(import.meta.url).path
 						0: {name: 'punctuation.delimiter.cp'},
 					},
 					patterns: [
-						{include: `#Destructure-${ 'entity.name.variable.cp' }`},
+						{include: `#Destructure-${ 'entity.name.variable' }`},
 						annotation(lookaheads([Punctuator.INIT_START])),
 						initializer(lookaheads([';'])),
-						...entity('entity.name.variable.cp'),
+						unit('entity.name.variable'),
 					],
 				},
 				{
@@ -426,18 +388,18 @@ await fs.promises.writeFile(path.join(path.dirname(new URL(import.meta.url).path
 									name: 'punctuation.separator.cp',
 									match: ',',
 								},
-								{include: `#Destructure-${ 'variable.parameter.cp' }`},
+								{include: `#Destructure-${ 'variable.parameter' }`},
 								annotation(lookaheads([Punctuator.INIT_START, ',', '\\)'])),
 								initializer(lookaheads([',', '\\)'])),
 								{
 									name: 'keyword.other',
 									match: '\\b(as)\\b',
 								},
-								...entity('variable.parameter.cp'),
+								unit('variable.parameter'),
 							],
 						},
 						annotation(lookaheads(['\\{', '=>'])),
-						...entity('entity.name.function.cp'),
+						unit('entity.name.function'),
 					],
 				},
 				{
