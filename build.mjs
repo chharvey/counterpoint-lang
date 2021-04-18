@@ -252,7 +252,7 @@ await fs.promises.writeFile(path.join(path.dirname(new URL(import.meta.url).path
 					match: '->|!|\\?|&|\\||\\.',
 				},
 				{
-					name: 'meta.structure.grouping.cp',
+					name: 'meta.type.structure.grouping.cp',
 					begin: '\\(',
 					end:   '\\)',
 					captures: {
@@ -276,7 +276,7 @@ await fs.promises.writeFile(path.join(path.dirname(new URL(import.meta.url).path
 					],
 				},
 				{
-					name: 'meta.structure.list.cp',
+					name: 'meta.type.structure.list.cp',
 					begin: '\\[',
 					end:   '\\]',
 					captures: {
@@ -292,7 +292,7 @@ await fs.promises.writeFile(path.join(path.dirname(new URL(import.meta.url).path
 					],
 				},
 				{
-					name: 'meta.structure.promise.cp',
+					name: 'meta.type.structure.promise.cp',
 					begin: '\\{',
 					end:   '\\}(?!\\})',
 					captures: {
@@ -303,7 +303,7 @@ await fs.promises.writeFile(path.join(path.dirname(new URL(import.meta.url).path
 					],
 				},
 				{
-					name: 'meta.structure.typearguments.cp',
+					name: 'meta.type.structure.typearguments.cp',
 					begin: '<',
 					end:   '>',
 					captures: {
@@ -317,7 +317,7 @@ await fs.promises.writeFile(path.join(path.dirname(new URL(import.meta.url).path
 						{include: '#Type'},
 					],
 				},
-				unit('variable.type'),
+				unit(),
 			],
 		},
 		Expression: {
@@ -331,7 +331,7 @@ await fs.promises.writeFile(path.join(path.dirname(new URL(import.meta.url).path
 					match: '<=|>=|!<|!>|==|!=|&&|!&|\\|\\||!\\||!|\\?|\\^|\\*|\\/|<|>|\\.|~',
 				},
 				{
-					name: 'meta.structure.grouping.cp',
+					name: 'meta.expr.structure.grouping.cp',
 					begin: '\\(',
 					end:   '\\)',
 					captures: {
@@ -383,7 +383,7 @@ await fs.promises.writeFile(path.join(path.dirname(new URL(import.meta.url).path
 					],
 				},
 				{
-					name: 'meta.structure.list.cp',
+					name: 'meta.expr.structure.list.cp',
 					begin: '\\[',
 					end:   '\\]',
 					captures: {
@@ -457,7 +457,7 @@ await fs.promises.writeFile(path.join(path.dirname(new URL(import.meta.url).path
 					],
 				},
 				{
-					name: 'meta.declaration.cp',
+					name: 'meta.declaration.type.cp',
 					begin: '\\b(type)\\b',
 					end:   ';',
 					beginCaptures: {
@@ -473,7 +473,7 @@ await fs.promises.writeFile(path.join(path.dirname(new URL(import.meta.url).path
 					],
 				},
 				{
-					name: 'meta.declaration.cp',
+					name: 'meta.declaration.let.cp',
 					begin: '\\b(let)\\b',
 					end:   ';',
 					beginCaptures: {
@@ -490,7 +490,7 @@ await fs.promises.writeFile(path.join(path.dirname(new URL(import.meta.url).path
 					],
 				},
 				{
-					name: 'meta.function.cp',
+					name: 'meta.declaration.func.cp',
 					begin: '\\b(func)\\b',
 					end:   '(?=\\{)|=>',
 					captures: {
