@@ -159,10 +159,10 @@ function annotation(end) {
 		],
 	};
 }
-function initializer(end, kind = '#Expression') {
+function assignment(end, kind = '#Expression') {
 	return {
-		name: 'meta.initializer.cp',
-		begin: Punctuator.INIT_START,
+		name: 'meta.assignment.cp',
+		begin: Punctuator.ASSN_START,
 		end,
 		beginCaptures: {
 			0: {name: 'punctuation.delimiter.cp'},
@@ -188,8 +188,8 @@ function destructure(varname) {
 			{include: `#Destructure-${ varname }`},
 			annotation(lookaheads([',', '\\)'])),
 			// // if adding destructure defaults:
-			// annotation(lookaheads([Punctuator.INIT_START, ',', '\\)'])),
-			// initializer(lookaheads([',', '\\)'])),
+			// annotation(lookaheads([Punctuator.ASSN_START, ',', '\\)'])),
+			// assignment(lookaheads([',', '\\)'])),
 			{
 				name: 'keyword.other',
 				match: '\\$|\\b(as)\\b',
@@ -199,16 +199,14 @@ function destructure(varname) {
 	};
 }
 
-function lookaheads(first = '', aheads = []) {
-	return (typeof first === 'string')
-		? `${ first }(?=${ aheads.join('|') })`
-		: lookaheads('', first);
+function lookaheads(aheads = [], negative = false) {
+	return `(?${ (negative) ? '!' : '=' }${ aheads.join('|') })`;
 }
 
 const dec = digits('[0-9]'); // `[0-9](_?[0-9])*`
 
 const Punctuator = {
-	INIT_START: '=(?!=|>)',
+	ASSN_START: `=${ lookaheads(['=', '>'], true) }`,
 };
 
 
@@ -240,7 +238,7 @@ await fs.promises.writeFile(path.join(path.dirname(new URL(import.meta.url).path
 						{include: '#Type'},
 					],
 				},
-				initializer(lookaheads([',', '>']), '#Type'),
+				assignment(lookaheads([',', '>']), '#Type'),
 				unit('variable.parameter.type'),
 			],
 		},
@@ -293,7 +291,7 @@ await fs.promises.writeFile(path.join(path.dirname(new URL(import.meta.url).path
 				{
 					name: 'meta.type.structure.promise.cp',
 					begin: '\\{',
-					end:   '\\}(?!\\})',
+					end:   `\\}${ lookaheads(['\\}'], true) }`,
 					captures: {
 						0: {name: 'punctuation.delimiter.cp'},
 					},
@@ -353,12 +351,12 @@ await fs.promises.writeFile(path.join(path.dirname(new URL(import.meta.url).path
 						 * - function argument destructuring
 						 * - reassignment destructuring
 						 */
-						annotation(lookaheads([Punctuator.INIT_START, ',', '\\)', '\\{', '=>'])),
+						annotation(lookaheads([Punctuator.ASSN_START, ',', '\\)', '\\{', '=>'])),
 						/*
 						 * only in:
 						 * - parameters of lambdas
 						 */
-						initializer(lookaheads([',', '\\)'])),
+						assignment(lookaheads([',', '\\)'])),
 						{
 							/*
 							 * only in:
@@ -397,7 +395,7 @@ await fs.promises.writeFile(path.join(path.dirname(new URL(import.meta.url).path
 						 * only in:
 						 * - record properties
 						 */
-						initializer(lookaheads(['\\|->', ',', '\\]'])),
+						assignment(lookaheads(['\\|->', ',', '\\]'])),
 						{
 							/*
 							 * only in:
@@ -467,7 +465,7 @@ await fs.promises.writeFile(path.join(path.dirname(new URL(import.meta.url).path
 					},
 					patterns: [
 						{include: '#TypeParameters'},
-						initializer(lookaheads([';']), '#Type'),
+						assignment(lookaheads([';']), '#Type'),
 						unit('entity.name.type'),
 					],
 				},
@@ -483,8 +481,8 @@ await fs.promises.writeFile(path.join(path.dirname(new URL(import.meta.url).path
 					},
 					patterns: [
 						{include: `#Destructure-${ 'entity.name.variable' }`},
-						annotation(lookaheads([Punctuator.INIT_START])),
-						initializer(lookaheads([';'])),
+						annotation(lookaheads([Punctuator.ASSN_START])),
+						assignment(lookaheads([';'])),
 						unit('entity.name.variable'),
 					],
 				},
@@ -510,8 +508,8 @@ await fs.promises.writeFile(path.join(path.dirname(new URL(import.meta.url).path
 									match: ',',
 								},
 								{include: `#Destructure-${ 'variable.parameter' }`},
-								annotation(lookaheads([Punctuator.INIT_START, ',', '\\)'])),
-								initializer(lookaheads([',', '\\)'])),
+								annotation(lookaheads([Punctuator.ASSN_START, ',', '\\)'])),
+								assignment(lookaheads([',', '\\)'])),
 								{
 									name: 'keyword.other',
 									match: '\\b(as)\\b',
@@ -523,12 +521,7 @@ await fs.promises.writeFile(path.join(path.dirname(new URL(import.meta.url).path
 						unit('entity.name.function'),
 					],
 				},
-				{
-					...initializer(lookaheads([';'])),
-					endCaptures: {
-						0: {name: 'punctuation.delimiter.cp'},
-					},
-				},
+				assignment(lookaheads([';'])),
 				{
 					name: 'punctuation.delimiter.cp',
 					match: ';',
@@ -539,7 +532,7 @@ await fs.promises.writeFile(path.join(path.dirname(new URL(import.meta.url).path
 		Block: {
 			name: 'meta.block.cp',
 			begin: '\\{',
-			end:   '\\}(?!\\})',
+			end:   `\\}${ lookaheads(['\\}'], true) }`,
 			captures: {
 				0: {name: 'punctuation.delimiter.cp'},
 			},
