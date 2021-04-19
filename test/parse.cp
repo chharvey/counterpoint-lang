@@ -178,9 +178,25 @@ let h: int = if true then 1 else 0;
 type T = [fun: (a: int) -> {int}];
 
 type `floàt | bōōl` = `floàt | bōōl` | float | bool;
-type T<U> = U & V.<W>;
+type T<U> = U & V
+	.<W>;
 type U<V narrows W.<int>> = V | W.<X>;
 type U<V = W.<int>> = V | W.<X>;
+type BinaryOperator = <N narrows int>(a: N, b?: N) -> {N};
+type BinaryOperator = (a: N, b?: N) -> {N};
+type BinaryOperator = <
+	N narrows int,
+>(
+	`a`: N,
+	b?:  N,
+) -> {N};
+type BinaryOperator = (
+	`a`: N,
+	b?:  N,
+) -> {N};
+type Const = () -> {int};
+type Const = (
+) -> {int};
 
 let `flō || bōōl` = `flō || bōōl` || flo || boo;
 let unfixed w: bool | T | `floàt | bōōl` = bool;
