@@ -211,40 +211,39 @@ const Punctuator = {
 	INIT_START: '=(?!=|>)',
 };
 
-const generic_params = {
-	name: 'meta.typeparameters.cp',
-	begin: '<',
-	end:   '>',
-	captures: {
-		0: {name: 'punctuation.delimiter.cp'},
-	},
-	patterns: [
-		{
-			name: 'punctuation.separator.cp',
-			match: ',',
-		},
-		{
-			name: 'meta.annotation.cp',
-			begin: '\\b(narrows|widens)\\b',
-			end: lookaheads([',', '>']),
-			beginCaptures: {
-				0: {name: 'keyword.modifier.cp'},
-			},
-			patterns: [
-				{include: '#Type'},
-			],
-		},
-		initializer(lookaheads([',', '>']), '#Type'),
-		unit('variable.parameter.type'),
-	],
-};
-
 
 await fs.promises.writeFile(path.join(path.dirname(new URL(import.meta.url).pathname), 'syntaxes', 'cp.tmLanguage.json'), JSON.stringify({
 	$schema: 'https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json',
 	name: 'Counterpoint',
 	scopeName: 'source.cp',
 	repository: {
+		TypeParameters: {
+			name: 'meta.typeparameters.cp',
+			begin: '<',
+			end:   '>',
+			captures: {
+				0: {name: 'punctuation.delimiter.cp'},
+			},
+			patterns: [
+				{
+					name: 'punctuation.separator.cp',
+					match: ',',
+				},
+				{
+					name: 'meta.annotation.cp',
+					begin: '\\b(narrows|widens)\\b',
+					end: lookaheads([',', '>']),
+					beginCaptures: {
+						0: {name: 'keyword.modifier.cp'},
+					},
+					patterns: [
+						{include: '#Type'},
+					],
+				},
+				initializer(lookaheads([',', '>']), '#Type'),
+				unit('variable.parameter.type'),
+			],
+		},
 		Type: {
 			patterns: [
 				{
@@ -467,7 +466,7 @@ await fs.promises.writeFile(path.join(path.dirname(new URL(import.meta.url).path
 						0: {name: 'punctuation.delimiter.cp'},
 					},
 					patterns: [
-						generic_params,
+						{include: '#TypeParameters'},
 						initializer(lookaheads([';']), '#Type'),
 						unit('entity.name.type'),
 					],
@@ -497,7 +496,7 @@ await fs.promises.writeFile(path.join(path.dirname(new URL(import.meta.url).path
 						0: {name: 'storage.type.cp'},
 					},
 					patterns: [
-						generic_params,
+						{include: '#TypeParameters'},
 						{
 							name: 'meta.parameters.cp',
 							begin: '\\(',
