@@ -9,14 +9,7 @@ function digits(charclass, base = '') {
 function unit(varname = 'variable.other') {
 	return {
 		patterns: [
-			{
-				name: 'comment.block.cp',
-				begin: '%%',
-				end:   '%%',
-				captures: {
-					0: {name: 'punctuation.delimiter.cp'},
-				},
-			},
+			{include: '#CommentBlock'},
 			{
 				name: 'comment.line.percentage.cp',
 				match: '(%).*$',
@@ -225,6 +218,14 @@ await fs.promises.writeFile(path.join(path.dirname(new URL(import.meta.url).path
 	name: 'Counterpoint',
 	scopeName: 'source.cp',
 	repository: {
+		CommentBlock: {
+			name: 'comment.block.cp',
+			begin: '%%',
+			end:   '%%',
+			captures: {
+				0: {name: 'punctuation.delimiter.cp'},
+			},
+		},
 		TypeParameters: {
 			name: 'meta.typeparameters.cp',
 			begin: '<',
@@ -250,6 +251,21 @@ await fs.promises.writeFile(path.join(path.dirname(new URL(import.meta.url).path
 				},
 				assignment(lookaheads([',', '>']), '#Type'),
 				unit('variable.parameter'),
+			],
+		},
+		TypeArguments: {
+			name: 'meta.typearguments.cp',
+			begin: '<',
+			end:   '>',
+			captures: {
+				0: {name: 'punctuation.delimiter.cp'},
+			},
+			patterns: [
+				{
+					name: 'punctuation.separator.cp',
+					match: ',',
+				},
+				{include: '#Type'},
 			],
 		},
 		PromiseType: {
@@ -297,33 +313,21 @@ await fs.promises.writeFile(path.join(path.dirname(new URL(import.meta.url).path
 								unit('variable.parameter'),
 							],
 						},
-						{include: '#TypeParameters'},
+						{include: '#CommentBlock'},
 						{include: '#PromiseType'},
+						{include: '#TypeParameters'},
 					],
 				},
 				{
 					name: 'meta.type.access.cp',
-					begin: ['(\\.)', Selector.OWS, lookaheads(['<'])].join(''),
+					begin: ['(\\.)', lookaheads([[Selector.OWS, '<'].join('')])].join(''),
 					end:   lookbehinds(['>']),
 					beginCaptures: {
 						1: {name: 'keyword.operator.punctuation.cp'},
 					},
 					patterns: [
-						{
-							name: 'meta.typearguments.cp',
-							begin: '<',
-							end:   '>',
-							captures: {
-								0: {name: 'punctuation.delimiter.cp'},
-							},
-							patterns: [
-								{
-									name: 'punctuation.separator.cp',
-									match: ',',
-								},
-								{include: '#Type'},
-							],
-						},
+						{include: '#CommentBlock'},
+						{include: '#TypeArguments'},
 					],
 				},
 				{

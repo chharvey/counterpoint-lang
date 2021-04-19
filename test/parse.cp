@@ -181,7 +181,7 @@ type `floàt | bōōl` = `floàt | bōōl` | float | bool;
 type T<U> = U & V
 	.<W>;
 type U<V narrows W.<int>> = V | W.<X>;
-type U<V = W.<int>> = V | W.<X>;
+type U<V = W.<int>> = V | W.%%c%%<X>;
 type BinaryOperator = <N narrows int>(a: N, b?: N) -> {N};
 type BinaryOperator = (a: N, b?: N) -> {N};
 type BinaryOperator = <
@@ -189,11 +189,13 @@ type BinaryOperator = <
 >(
 	`a`: N,
 	b?:  N,
-) -> {N};
+	c%%c%%: N,
+) %%c%% -> {N};
 type BinaryOperator = (
 	`a`: N,
 	b?:  N,
-) -> {N};
+	c%%c%%: N,
+) %%c%% -> {N};
 type Const = () -> {int};
 type Const = (
 ) -> {int};
