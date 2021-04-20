@@ -100,12 +100,26 @@ func twice(x: int): int => x * 2;
 	array && [key$];
 	array.[index];
 	array.%%dot%%[index];
-	funkshin. (call, #spread, 3, 4, label %% args %% = 2, punn$, ##doublespread)~;
-	structure.property;
-	structure. `pr op`;
-	structure. +`pr op`;
-	structure.%%dot%%`pr op`;
-	array.3;
+	funkshin. (call / a, #spread + b, 3, label %% args %% = c, punn$, ##doublespread)~;
+	funkshin.<T>%%c%%(call / a, #spread + b, 3, label %% args %% = c, punn$, ##doublespread)~;
+	funkshin.%%c%%(
+		call / a,
+		#spread + b,
+		3,
+		label %% args %% = c,
+		punn$,
+		##doublespread,
+	)~;
+	structure.property + p;
+	structure.`pr op` + p;
+	structure.%%dot%%property + p;
+	structure.%%dot%%`pr op` + p;
+	array.3 + p;
+	array.%%dot%%3 + p;
+	array.-1 + p;
+	array.+1 + p;
+	array.-\b1 + p;
+	array.+\b1 + p;
 	awaiting~;
 }
 

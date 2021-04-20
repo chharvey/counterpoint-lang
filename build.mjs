@@ -165,7 +165,7 @@ function assignment(end, kind = '#Expression') {
 		],
 	};
 }
-function destructure(varname) {
+function destructure(varname, annot = false) {
 	return {
 		name: 'meta.destructure.cp',
 		begin: '\\(',
@@ -179,7 +179,7 @@ function destructure(varname) {
 				match: ',',
 			},
 			{include: `#Destructure-${ varname }`},
-			annotation(lookaheads([',', '\\)'])),
+			(annot) ? annotation(lookaheads([',', '\\)'])) : {},
 			// // if adding destructure defaults:
 			// annotation(lookaheads([Punctuator.ASSN_START, ',', '\\)'])),
 			// assignment(lookaheads([',', '\\)'])),
@@ -209,7 +209,20 @@ const Punctuator = {
 
 const Selector = {
 	OWS: `(?:\\s+|(%%(?:%?[^%])*%%))*`,
+	INT: '(?:\\+|-)?(?:\\\\[bqodxz])?[0-9a-z_]+',
 	VAR: '(?:\\b[A-Za-z_][A-Za-z0-9_]*\\b|`.*`)',
+	get DESTRUCTURE() {
+		return `
+			(?<des>\\(${ Selector.OWS }
+				(?<item>
+					${ Selector.VAR }\\$? | (?:
+						${ Selector.VAR }${ Selector.OWS }\\b(?:as)\\b${ Selector.OWS }
+					)?\\g<des>
+				)
+				(?:${ Selector.OWS },${ Selector.OWS }\\g<item>)*
+			${ Selector.OWS }\\))
+		`.replace(/\s+/g, '');
+	}
 };
 
 
@@ -381,7 +394,82 @@ await fs.promises.writeFile(path.join(path.dirname(new URL(import.meta.url).path
 				},
 				{
 					name: 'keyword.operator.punctuation.cp',
-					match: '<=|>=|!<|!>|==|!=|&&|!&|\\|\\||!\\||!|\\?|\\^|\\*|\\/|<|>|\\.|~',
+					match: '<=|>=|!<|!>|==|!=|&&|!&|\\|\\||!\\||!|\\?|\\^|\\*|\\/|<|>|~',
+				},
+				{
+					name: 'meta.expr.call.cp',
+					begin: ['(\\.)', lookaheads([[Selector.OWS, '(<|\\()'].join('')])].join(''),
+					end:   lookbehinds(['\\)']),
+					beginCaptures: {
+						1: {name: 'keyword.operator.punctuation.cp'},
+					},
+					patterns: [
+						{include: '#CommentBlock'},
+						{
+							name: 'meta.arguments.cp',
+							begin: '\\(',
+							end:   '\\)',
+							captures: {
+								0: {name: 'punctuation.delimiter.cp'},
+							},
+							patterns: [
+								{
+									name: 'punctuation.separator.cp',
+									match: ',',
+								},
+								{
+									begin: lookaheads([[Selector.VAR, Selector.OWS, '\\$'].join('')]),
+									end:   lookaheads([',', '\\)']),
+									patterns: [
+										{
+											name: 'keyword.other.cp',
+											match: '\\$',
+										},
+										unit('variable.name'),
+									],
+								},
+								{
+									begin: lookaheads([
+										[`(${ Selector.VAR }|${ Selector.DESTRUCTURE })`, Selector.OWS, Punctuator.ASSN_START].join(''),
+									]),
+									end: lookaheads([',', '\\)']),
+									patterns: [
+										{include: `#Destructure-${ 'variable.name' }`},
+										assignment(lookaheads([',', '\\)'])),
+										unit('variable.name'),
+									],
+								},
+								{
+									name: 'keyword.other.cp',
+									match: '##|#',
+								},
+								{include: '#Expression'},
+							],
+						},
+						{include: '#TypeArguments'},
+					],
+				},
+				{
+					name: 'meta.expr.access.cp',
+					begin: ['(\\.)', lookaheads([[Selector.OWS, '\\['].join('')])].join(''),
+					end:   lookbehinds(['\\]']),
+					beginCaptures: {
+						1: {name: 'keyword.operator.punctuation.cp'},
+					},
+					patterns: [
+						{include: '#Expression'},
+					],
+				},
+				{
+					name: 'meta.expr.access.cp',
+					begin: ['(\\.)', lookaheads([`${ Selector.OWS }(${ Selector.INT }|${ Selector.VAR })`])].join(''),
+					end:   lookbehinds(['[A-Za-z0-9_]', '`']),
+					beginCaptures: {
+						1: {name: 'keyword.operator.punctuation.cp'},
+					},
+					patterns: [
+						unit(),
+					],
 				},
 				{
 					name: 'meta.expr.structure.grouping.cp',
@@ -395,7 +483,6 @@ await fs.promises.writeFile(path.join(path.dirname(new URL(import.meta.url).path
 							/*
 							 * only in:
 							 * - lambda parameters
-							 * - function call arguments
 							 */
 							name: 'punctuation.separator.cp',
 							match: ',',
@@ -403,14 +490,14 @@ await fs.promises.writeFile(path.join(path.dirname(new URL(import.meta.url).path
 						/*
 						 * only in:
 						 * - lambda parameters
-						 * - record property destructuring
-						 * - function argument destructuring
-						 * - reassignment destructuring
 						 */
 						annotation(lookaheads([Punctuator.ASSN_START, ',', '\\)', '\\{', '=>'])),
 						/*
 						 * only in:
 						 * - parameters of lambdas
+						 * if adding destructuring defaults:
+						 * - record property destructuring
+						 * - reassignment destructuring
 						 */
 						assignment(lookaheads([',', '\\)'])),
 						{
@@ -418,19 +505,10 @@ await fs.promises.writeFile(path.join(path.dirname(new URL(import.meta.url).path
 							 * only in:
 							 * - named lambda parameters that are destructured
 							 * - record property destructuring
-							 * - function argument destructuring
 							 * - reassignment destructuring
 							 */
 							name: 'keyword.other',
 							match: '\\$|\\b(as)\\b',
-						},
-						{
-							/*
-							 * only in:
-							 * - spreading arguments of function calls
-							 */
-							name: 'keyword.other',
-							match: '##|#',
 						},
 						{include: '#Expression'},
 					],
@@ -487,8 +565,9 @@ await fs.promises.writeFile(path.join(path.dirname(new URL(import.meta.url).path
 				},
 			],
 		},
-		[`Destructure-${ 'entity.name.variable' }`]: destructure('entity.name.variable'),
-		[`Destructure-${ 'variable.parameter' }`]:   destructure('variable.parameter'),
+		[`Destructure-${ 'entity.name.variable' }`]: destructure('entity.name.variable', true),
+		[`Destructure-${ 'variable.parameter' }`]:   destructure('variable.parameter',   true),
+		[`Destructure-${ 'variable.name' }`]:        destructure('variable.name'),
 		Statement: {
 			patterns: [
 				{
