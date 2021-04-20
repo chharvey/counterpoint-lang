@@ -266,6 +266,28 @@ await fs.promises.writeFile(path.join(path.dirname(new URL(import.meta.url).path
 				unit('variable.parameter'),
 			],
 		},
+		Parameters: {
+			name: 'meta.parameters.cp',
+			begin: '\\(',
+			end:   '\\)',
+			captures: {
+				0: {name: 'punctuation.delimiter.cp'},
+			},
+			patterns: [
+				{
+					name: 'punctuation.separator.cp',
+					match: ',',
+				},
+				{
+					name: 'keyword.other.cp',
+					match: '\\b(as)\\b',
+				},
+				{include: `#Destructure-${ 'variable.parameter' }`},
+				annotation(lookaheads([Punctuator.ASSN_START, ',', '\\)'])),
+				assignment(lookaheads([',', '\\)'])),
+				unit('variable.parameter'),
+			],
+		},
 		TypeArguments: {
 			name: 'meta.typearguments.cp',
 			begin: '<',
@@ -482,28 +504,21 @@ await fs.promises.writeFile(path.join(path.dirname(new URL(import.meta.url).path
 						{
 							/*
 							 * only in:
-							 * - lambda parameters
+							 * - record property destructuring
+							 * - reassignment destructuring
 							 */
 							name: 'punctuation.separator.cp',
 							match: ',',
 						},
-						/*
-						 * only in:
-						 * - lambda parameters
-						 */
-						annotation(lookaheads([Punctuator.ASSN_START, ',', '\\)', '\\{', '=>'])),
-						/*
-						 * only in:
-						 * - parameters of lambdas
-						 * if adding destructuring defaults:
-						 * - record property destructuring
-						 * - reassignment destructuring
-						 */
-						assignment(lookaheads([',', '\\)'])),
+						// /*
+						//  * if adding destructuring defaults:
+						//  * - record property destructuring
+						//  * - reassignment destructuring
+						//  */
+						// assignment(lookaheads([',', '\\)'])),
 						{
 							/*
 							 * only in:
-							 * - named lambda parameters that are destructured
 							 * - record property destructuring
 							 * - reassignment destructuring
 							 */
@@ -630,28 +645,7 @@ await fs.promises.writeFile(path.join(path.dirname(new URL(import.meta.url).path
 					},
 					patterns: [
 						{include: '#TypeParameters'},
-						{
-							name: 'meta.parameters.cp',
-							begin: '\\(',
-							end:   '\\)',
-							captures: {
-								0: {name: 'punctuation.delimiter.cp'},
-							},
-							patterns: [
-								{
-									name: 'punctuation.separator.cp',
-									match: ',',
-								},
-								{include: `#Destructure-${ 'variable.parameter' }`},
-								annotation(lookaheads([Punctuator.ASSN_START, ',', '\\)'])),
-								assignment(lookaheads([',', '\\)'])),
-								{
-									name: 'keyword.other',
-									match: '\\b(as)\\b',
-								},
-								unit('variable.parameter'),
-							],
-						},
+						{include: '#Parameters'},
 						annotation(lookaheads(['\\{', '=>'])),
 						unit('entity.name.function'),
 					],
