@@ -427,14 +427,16 @@ await fs.promises.writeFile(path.join(path.dirname(new URL(import.meta.url).path
 					begin: lookaheads([
 						`<${ Selector.OWS }${ Selector.VAR }${ Selector.OWS }(${ [
 							'\\b(narrows|widens)\\b', Punctuator.ASSN_START, ',', // annotated, or assigned, or more than 1 type parameter
-							`>${ Selector.OWS }(?<aftertypeparams>\\(${ Selector.OWS }${ Selector.VAR }${ Selector.OWS }(${ [ // exactly 1 unannotated uninitialized type parameter
-								Punctuator.ANNO_START, Punctuator.ASSN_START, ',', '\\b(as)\\b', // annotated, or assigned, or more than 1 parameter, or destrucured
-								`\\)${ Selector.OWS }(?<afterparams>${ [Punctuator.ANNO_START, Punctuator.ARROW, '\\{'].join('|') })`, // exactly 1 unannotated uninitialized nondestructued parameter
+							`>${ Selector.OWS }(?<aftertypeparams>(${ [ // exactly 1 unannotated uninitialized type parameter
+								`\\(${ Selector.OWS }${ Selector.VAR }${ Selector.OWS }(${ [
+									Punctuator.ANNO_START, Punctuator.ASSN_START, ',', '\\b(as)\\b', // annotated, or assigned, or more than 1 parameter, or destrucured
+									`\\)${ Selector.OWS }(?<afterparams>${ [Punctuator.ANNO_START, Punctuator.ARROW, '\\{'].join('|') })`, // exactly 1 unannotated uninitialized nondestructued parameter
+								].join('|') })`,
+								`\\(${ Selector.OWS }\\)${ Selector.OWS }\\g<afterparams>`, // exactly 0 parameters
 							].join('|') }))`,
 						].join('|') })`,
-						`\\(${ Selector.OWS }\\)${ Selector.OWS }\\k<afterparams>`,
 						`\\g<aftertypeparams>`,
-						`${ lookbehinds(['\\)']) }${ Selector.OWS }\\k<afterparams>`,
+						`${ lookbehinds(['\\)']) }${ Selector.OWS }\\g<afterparams>`,
 					]),
 					end: [lookaheads(['\\{']), Punctuator.ARROW].join('|'),
 					endCaptures: {

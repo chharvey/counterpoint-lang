@@ -298,45 +298,47 @@ let x: (a: str) -> {str} = (a: str): str {
 };
 let x: <T widens U, U = Set.<null>>(a: Set.<T>, b: Set.<U>) -> {bool} = null;
 
+let lambda: Function = (           )      { return a * 2; };
 let lambda: Function = (a          )      { return a * 2; };
 let lambda: Function = (a: int     ): int { return a * 2; };
+let lambda: Function = (a      = 42): int { return a * 2; };
 let lambda: Function = (a: int = 42): int { return a * 2; };
+let lambda: Function = (           )      => a * 2;
 let lambda: Function = (a          )      => a * 2;
 let lambda: Function = (a: int     ): int => a * 2;
+let lambda: Function = (a      = 42): int => a * 2;
 let lambda: Function = (a: int = 42): int => a * 2;
-let lambda: Function = <T>(a          )      { return a * 2; };
-let lambda: Function = <T>(a: int     ): int { return a * 2; };
-let lambda: Function = <T>(a: int = 42): int { return a * 2; };
-let lambda: Function = <T>(a          )      => a * 2;
-let lambda: Function = <T>(a: int     ): int => a * 2;
-let lambda: Function = <T>(a: int = 42): int => a * 2;
+let lambda: Function = <T              >() {};
+let lambda: Function = <T narrows U    >() {};
+let lambda: Function = <T           = V>() {};
+let lambda: Function = <T narrows U = V>() {};
 let not_lambda: NotFunction = a < b > (c);
 let not_lambda: NotFunction = a.<b>(c);
 
 let lambda: Function = (
 	a,
+	a: int,
+	a      = 42,
+	a: int = 42,
 ) { return a * 2; };
 let lambda: Function = (
-	a: int,
-): int { return a * 2; };
-let lambda: Function = (
-	a: int = 42,
-): int { return a * 2; };
-let lambda: Function = (
 	a,
-) => a * 2;
-let lambda: Function = (
 	a: int,
-): int => a * 2;
-let lambda: Function = (
+	a      = 42,
 	a: int = 42,
-): int => a * 2;
+) => a * 2;
 let lambda: Function = <
-	T narrows U = U,
->(a: int = 42): int { return a * 2; };
-let lambda: Function = <
-	T narrows U = U,
->(a: int = 42): int => a * 2;
+	T,
+	T narrows U,
+	T = V,
+	T narrows U = V,
+>() {};
+<
+	T,
+	T narrows U,
+	T = V,
+	T narrows U = V,
+>() {};
 
 func returnFunc(): obj => (x: int): int => x + 1;
 func returnFunc(): {obj} => (x: int): int => x + 1;
