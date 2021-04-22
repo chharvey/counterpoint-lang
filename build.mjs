@@ -205,6 +205,7 @@ const Punctuator = {
 	ANNO_START: ':',
 	ASSN_START: `=${ lookaheads(['=', '>'], true) }`,
 	TYPEARROW:  '->',
+	ARROW:      '=>',
 };
 
 const Selector = {
@@ -266,6 +267,18 @@ await fs.promises.writeFile(path.join(path.dirname(new URL(import.meta.url).path
 				unit('variable.parameter'),
 			],
 		},
+		ParameterPatterns: {
+			patterns: [
+				{
+					name: 'keyword.other.cp',
+					match: '\\b(as)\\b',
+				},
+				{include: `#Destructure-${ 'variable.parameter' }`},
+				annotation(lookaheads([Punctuator.ASSN_START, ',', '\\)'])),
+				assignment(lookaheads([',', '\\)'])),
+				unit('variable.parameter'),
+			],
+		},
 		Parameters: {
 			name: 'meta.parameters.cp',
 			begin: '\\(',
@@ -278,14 +291,7 @@ await fs.promises.writeFile(path.join(path.dirname(new URL(import.meta.url).path
 					name: 'punctuation.separator.cp',
 					match: ',',
 				},
-				{
-					name: 'keyword.other.cp',
-					match: '\\b(as)\\b',
-				},
-				{include: `#Destructure-${ 'variable.parameter' }`},
-				annotation(lookaheads([Punctuator.ASSN_START, ',', '\\)'])),
-				assignment(lookaheads([',', '\\)'])),
-				unit('variable.parameter'),
+				{include: '#ParameterPatterns'},
 			],
 		},
 		TypeArguments: {
@@ -324,7 +330,9 @@ await fs.promises.writeFile(path.join(path.dirname(new URL(import.meta.url).path
 					name: 'meta.type.lambda.cp',
 					begin: lookaheads([
 						'<',
-						[`(\\(.*\\)|${ lookbehinds(['\\)']) })`, Selector.OWS, Punctuator.TYPEARROW].join(''),
+						`\\(${ Selector.OWS }\\)`,
+						`\\(${ Selector.OWS }${ Selector.VAR }${ Selector.OWS }${ Punctuator.ANNO_START }`,
+						`${ lookbehinds(['\\)']) }${ Selector.OWS }${ Punctuator.TYPEARROW }`,
 					]),
 					end: lookbehinds(['\\}']),
 					patterns: [
@@ -411,12 +419,32 @@ await fs.promises.writeFile(path.join(path.dirname(new URL(import.meta.url).path
 		Expression: {
 			patterns: [
 				{
-					name: 'storage.type.cp',
-					match: '=>',
+					name: 'keyword.operator.punctuation.cp',
+					match: '<=|>=|!<|!>|==|!=|&&|!&|\\|\\||!\\||!|\\?|\\^|\\*|\\/|~',
 				},
 				{
-					name: 'keyword.operator.punctuation.cp',
-					match: '<=|>=|!<|!>|==|!=|&&|!&|\\|\\||!\\||!|\\?|\\^|\\*|\\/|<|>|~',
+					name: 'meta.expr.lambda.cp',
+					begin: lookaheads([
+						`<${ Selector.OWS }${ Selector.VAR }${ Selector.OWS }(${ [
+							'\\b(narrows|widens)\\b', Punctuator.ASSN_START, ',', // annotated, or assigned, or more than 1 type parameter
+							`>${ Selector.OWS }(?<aftertypeparams>\\(${ Selector.OWS }${ Selector.VAR }${ Selector.OWS }(${ [ // exactly 1 unannotated uninitialized type parameter
+								Punctuator.ANNO_START, Punctuator.ASSN_START, ',', '\\b(as)\\b', // annotated, or assigned, or more than 1 parameter, or destrucured
+								`\\)${ Selector.OWS }(?<afterparams>${ [Punctuator.ANNO_START, Punctuator.ARROW, '\\{'].join('|') })`, // exactly 1 unannotated uninitialized nondestructued parameter
+							].join('|') }))`,
+						].join('|') })`,
+						`\\(${ Selector.OWS }\\)${ Selector.OWS }\\k<afterparams>`,
+						`\\g<aftertypeparams>`,
+						`${ lookbehinds(['\\)']) }${ Selector.OWS }\\k<afterparams>`,
+					]),
+					end: [lookaheads(['\\{']), Punctuator.ARROW].join('|'),
+					endCaptures: {
+						0: {name: 'storage.type.cp'},
+					},
+					patterns: [
+						{include: '#TypeParameters'},
+						{include: '#Parameters'},
+						annotation(lookaheads(['\\{', '=>'])),
+					],
 				},
 				{
 					name: 'meta.expr.call.cp',
@@ -501,6 +529,19 @@ await fs.promises.writeFile(path.join(path.dirname(new URL(import.meta.url).path
 						0: {name: 'punctuation.delimiter.cp'},
 					},
 					patterns: [
+						/** Parameters of lambdas, if on separate lines. */
+						{
+							begin: lookaheads([[Selector.VAR, Selector.OWS, `(${ [
+								Punctuator.ANNO_START, Punctuator.ASSN_START, ',', '\\b(as)\\b', // annotated, or assigned, or more than 1 parameter, or destrucured
+							].join('|') })`].join('')]),
+							end: `,|${ lookaheads(['\\)']) }`,
+							endCaptures: {
+								0: {name: 'punctuation.separator.cp'},
+							},
+							patterns: [
+								{include: '#ParameterPatterns'},
+							],
+						},
 						{
 							/*
 							 * only in:
@@ -565,18 +606,14 @@ await fs.promises.writeFile(path.join(path.dirname(new URL(import.meta.url).path
 					],
 				},
 				{include: '#Block'},
-				/*
-				 * only in:
-				 * - lambda return types
-				 */
-				annotation(lookaheads(['\\{', '=>'])),
 				unit(),
 				{
 					/*
 					 * Must come after units so that numbers can be lexed correctly.
+					 * Must come after meta.expr.lambda.cp so that type parameters can be parsed correctly.
 					 */
 					name: 'keyword.operator.punctuation.cp',
-					match: '\\+|-',
+					match: '\\+|-|<|>',
 				},
 			],
 		},
@@ -639,7 +676,7 @@ await fs.promises.writeFile(path.join(path.dirname(new URL(import.meta.url).path
 				{
 					name: 'meta.declaration.func.cp',
 					begin: '\\b(func)\\b',
-					end:   '(?=\\{)|=>',
+					end:   [lookaheads(['\\{']), Punctuator.ARROW].join('|'),
 					captures: {
 						0: {name: 'storage.type.cp'},
 					},

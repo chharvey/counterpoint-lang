@@ -298,6 +298,46 @@ let x: (a: str) -> {str} = (a: str): str {
 };
 let x: <T widens U, U = Set.<null>>(a: Set.<T>, b: Set.<U>) -> {bool} = null;
 
+let lambda: Function = (a          )      { return a * 2; };
+let lambda: Function = (a: int     ): int { return a * 2; };
+let lambda: Function = (a: int = 42): int { return a * 2; };
+let lambda: Function = (a          )      => a * 2;
+let lambda: Function = (a: int     ): int => a * 2;
+let lambda: Function = (a: int = 42): int => a * 2;
+let lambda: Function = <T>(a          )      { return a * 2; };
+let lambda: Function = <T>(a: int     ): int { return a * 2; };
+let lambda: Function = <T>(a: int = 42): int { return a * 2; };
+let lambda: Function = <T>(a          )      => a * 2;
+let lambda: Function = <T>(a: int     ): int => a * 2;
+let lambda: Function = <T>(a: int = 42): int => a * 2;
+let not_lambda: NotFunction = a < b > (c);
+let not_lambda: NotFunction = a.<b>(c);
+
+let lambda: Function = (
+	a,
+) { return a * 2; };
+let lambda: Function = (
+	a: int,
+): int { return a * 2; };
+let lambda: Function = (
+	a: int = 42,
+): int { return a * 2; };
+let lambda: Function = (
+	a,
+) => a * 2;
+let lambda: Function = (
+	a: int,
+): int => a * 2;
+let lambda: Function = (
+	a: int = 42,
+): int => a * 2;
+let lambda: Function = <
+	T narrows U = U,
+>(a: int = 42): int { return a * 2; };
+let lambda: Function = <
+	T narrows U = U,
+>(a: int = 42): int => a * 2;
+
 func returnFunc(): obj => (x: int): int => x + 1;
 func returnFunc(): {obj} => (x: int): int => x + 1;
 func returnFunc(): (x: int) -> {int} => (x) => x + 1;
@@ -316,6 +356,16 @@ func f(param as (x: int, y: int)       = [1, 2]):       int => x + y;
 func f(param as (x$, y as b): int      = [x= 1, y= 2]): int => x + b;
 func f(param as (x$: int, y as b: int) = [x= 1, y= 2]): int => x + b;
 func f(param as ((unfixed x), (y as (b))): int = [[1], [y= [2]]]): int => x + b;
+let f: obj = (param as (x, y): int            = [1, 2]):       int => x + y;
+let f: obj = (param as (x: int, y: int)       = [1, 2]):       int => x + y;
+let f: obj = (param as (x$, y as b): int      = [x= 1, y= 2]): int => x + b;
+let f: obj = (param as (x$: int, y as b: int) = [x= 1, y= 2]): int => x + b;
+let f: obj = (param as ((unfixed x), (y as (b))): int = [[1], [y= [2]]]): int => x + b;
+let f: obj = (param as (x, y): int            = [1, 2]):       int { return x + y; };
+let f: obj = (param as (x: int, y: int)       = [1, 2]):       int { return x + y; };
+let f: obj = (param as (x$, y as b): int      = [x= 1, y= 2]): int { return x + b; };
+let f: obj = (param as (x$: int, y as b: int) = [x= 1, y= 2]): int { return x + b; };
+let f: obj = (param as ((unfixed x), (y as (b))): int = [[1], [y= [2]]]): int { return x + b; };
 
 % record property destructuring:
 [(x, y)=       [1, 2]];
