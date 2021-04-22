@@ -3,6 +3,7 @@
   "displayName": "Counterpoint Language Support",
   "version": "1.0.0",
   "description": "Language support for the Counterpoint programming language.",
+  "type": "module",
   "scripts": {
     "build": "node build.mjs",
     "test": "echo \"Error: no test specified\" && exit 1"

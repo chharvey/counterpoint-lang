@@ -1,230 +1,27 @@
 import * as fs from 'fs';
 import * as path from 'path';
 
+import {
+	lookaheads,
+	lookbehinds,
+} from './src/helpers.js';
+import {
+	OWS,
+	INT,
+	VAR,
+	ANNO_START,
+	ASSN_START,
+	TYPEARROW,
+	ARROW,
+	DESTRUCTURE,
+} from './src/selectors.js';
+import {
+	unit,
+	annotation,
+	assignment,
+	destructure,
+} from './src/patterns.js';
 
-function digits(charclass, base = '') {
-	return `${ (base) ? `\\\\${ base }` : '' }${ charclass }(_?${ charclass })*`;
-}
-
-function unit(varname = 'variable.other') {
-	return {
-		patterns: [
-			{include: '#CommentBlock'},
-			{
-				name: 'comment.line.percentage.cp',
-				match: '(%).*$',
-				captures: {
-					1: {name: 'punctuation.delimiter.cp'},
-				},
-			},
-			{
-				name: 'string.quoted.triple.cp',
-				begin: '\'\'\'|}}',
-				end:   '\'\'\'|{{',
-				captures: {
-					0: {name: 'punctuation.delimiter.cp'},
-				},
-			},
-			{
-				name: 'string.quoted.single.cp',
-				begin: '\'',
-				end:   '\'',
-				captures: {
-					0: {name: 'punctuation.delimiter.cp'},
-				},
-				patterns: [
-					{
-						name: 'constant.character.escape.cp',
-						match: `(\\\\)u\\{(${ digits('[0-9a-f]') })\\}`,
-						captures: {
-							1: {name: 'punctuation.delimiter.cp'},
-							2: {name: 'constant.numeric.hex.cp'},
-						},
-					},
-					{
-						name: 'invalid.illegal.cp',
-						begin: '\\\\u\\{',
-						end:   '\\}',
-					},
-					{
-						name: 'constant.character.escape.cp',
-						match: '(\\\\)(.|\\n)',
-						captures: {
-							1: {name: 'punctuation.delimiter.cp'},
-						},
-					},
-					{
-						name: 'comment.block.cp',
-						begin: '%%',
-						end:   '(%%)|(?=\')',
-						beginCaptures: {
-							0: {name: 'punctuation.delimiter.cp'},
-						},
-						endCaptures: {
-							1: {name: 'punctuation.delimiter.cp'},
-						},
-					},
-					{
-						name: 'comment.line.percentage.cp',
-						match: '(%)[^\']*(\\n|(?=\'))',
-						captures: {
-							1: {name: 'punctuation.delimiter.cp'},
-						},
-					},
-				],
-			},
-			{
-				name: `${ varname }.quoted.cp`,
-				begin: '`',
-				end:   '`',
-				captures: {
-					0: {name: 'punctuation.delimiter.cp'},
-				},
-			},
-			{
-				name: 'constant.numeric.radix.cp',
-				match: `(\\+|-)?(${ [
-					digits('[0-1]',    'b'), // `\\\\b[0-1](_?[0-1])*`
-					digits('[0-3]',    'q'),
-					digits('[0-7]',    'o'),
-					digits('[0-9]',    'd'),
-					digits('[0-9a-f]', 'x'),
-					digits('[0-9a-z]', 'z'),
-				].join('|') })`,
-			},
-			{
-				name: 'constant.numeric.decimal.cp',
-				match: `(\\+|-)?${ dec }(\\.(${ dec }(e(\\+|-)?${ dec })?)?)?`,
-			},
-			{
-				name: 'constant.language.cp',
-				match: '\\b(null|false|true)\\b',
-			},
-			{
-				name: 'support.type.cp',
-				match: '\\b(never|void|bool|int|float|str|obj|unknown)\\b',
-			},
-			{
-				name: 'keyword.operator.text.cp',
-				match: '\\b(mutable|is|isnt|if|then|else)\\b',
-			},
-			{
-				name: 'storage.type.cp',
-				match: '\\b(type|let|func)\\b',
-			},
-			{
-				name: 'storage.modifier.cp',
-				match: '\\b(unfixed|narrows|widens)\\b',
-			},
-			{
-				name: 'keyword.control',
-				match: '\\b(if|unless|then|else|while|until|do|for|from|to|by|in|break|continue|return|throw)\\b',
-			},
-			{
-				name: 'keyword.other.cp',
-				match: '\\b(as)\\b',
-			},
-			{
-				name: `${ varname }.cp`,
-				match: '\\b[A-Za-z_][A-Za-z0-9_]*\\b',
-			},
-			{
-				/*
-				 * Invalid underscores in number literals.
-				 * Must come after variables so that they can be lexed correctly.
-				 */
-				name: 'invalid.illegal',
-				match: '__|_(?=\\b)',
-			},
-		],
-	};
-}
-function annotation(end, optional_allowed = false) {
-	return {
-		name: 'meta.annotation.cp',
-		begin: ((optional_allowed) ? '\\??' : '').concat(Punctuator.ANNO_START),
-		end,
-		beginCaptures: {
-			0: {name: 'punctuation.delimiter.cp'},
-		},
-		patterns: [
-			{include: '#Type'},
-		],
-	};
-}
-function assignment(end, kind = '#Expression') {
-	return {
-		name: 'meta.assignment.cp',
-		begin: Punctuator.ASSN_START,
-		end,
-		beginCaptures: {
-			0: {name: 'punctuation.delimiter.cp'},
-		},
-		patterns: [
-			{include: kind},
-		],
-	};
-}
-function destructure(varname, annot = false) {
-	return {
-		name: 'meta.destructure.cp',
-		begin: '\\(',
-		end:   '\\)',
-		captures: {
-			0: {name: 'punctuation.delimiter.cp'},
-		},
-		patterns: [
-			{
-				name: 'punctuation.separator.cp',
-				match: ',',
-			},
-			{include: `#Destructure-${ varname }`},
-			(annot) ? annotation(lookaheads([',', '\\)'])) : {},
-			// // if adding destructure defaults:
-			// annotation(lookaheads([Punctuator.ASSN_START, ',', '\\)'])),
-			// assignment(lookaheads([',', '\\)'])),
-			{
-				name: 'keyword.other',
-				match: '\\$|\\b(as)\\b',
-			},
-			unit(varname),
-		],
-	};
-}
-
-function lookaheads(aheads = [], negative = false) {
-	return `(?${ (negative) ? '!' : '=' }${ aheads.join('|') })`;
-}
-function lookbehinds(behinds = [], negative = false) {
-	return `(?<${ (negative) ? '!' : '=' }${ behinds.join('|') })`;
-}
-
-const dec = digits('[0-9]'); // `[0-9](_?[0-9])*`
-
-const Punctuator = {
-	ANNO_START: ':',
-	ASSN_START: `=${ lookaheads(['=', '>'], true) }`,
-	TYPEARROW:  '->',
-	ARROW:      '=>',
-};
-
-const Selector = {
-	OWS: `(?:\\s+|(%%(?:%?[^%])*%%))*`,
-	INT: '(?:\\+|-)?(?:\\\\[bqodxz])?[0-9a-z_]+',
-	VAR: '(?:\\b[A-Za-z_][A-Za-z0-9_]*\\b|`.*`)',
-	get DESTRUCTURE() {
-		return `
-			(?<des>\\(${ Selector.OWS }
-				(?<item>
-					${ Selector.VAR }\\$? | (?:
-						${ Selector.VAR }${ Selector.OWS }\\b(?:as)\\b${ Selector.OWS }
-					)?\\g<des>
-				)
-				(?:${ Selector.OWS },${ Selector.OWS }\\g<item>)*
-			${ Selector.OWS }\\))
-		`.replace(/\s+/g, '');
-	}
-};
 
 
 await fs.promises.writeFile(path.join(path.dirname(new URL(import.meta.url).pathname), 'syntaxes', 'cp.tmLanguage.json'), JSON.stringify({
@@ -255,7 +52,7 @@ await fs.promises.writeFile(path.join(path.dirname(new URL(import.meta.url).path
 				{
 					name: 'meta.annotation.cp',
 					begin: '\\b(narrows|widens)\\b',
-					end: lookaheads([Punctuator.ASSN_START, ',', '>']),
+					end: lookaheads([ASSN_START, ',', '>']),
 					beginCaptures: {
 						0: {name: 'keyword.modifier.cp'},
 					},
@@ -274,7 +71,7 @@ await fs.promises.writeFile(path.join(path.dirname(new URL(import.meta.url).path
 					match: '\\b(as)\\b',
 				},
 				{include: `#Destructure-${ 'variable.parameter' }`},
-				annotation(lookaheads([Punctuator.ASSN_START, ',', '\\)'])),
+				annotation(lookaheads([ASSN_START, ',', '\\)'])),
 				assignment(lookaheads([',', '\\)'])),
 				unit('variable.parameter'),
 			],
@@ -330,15 +127,15 @@ await fs.promises.writeFile(path.join(path.dirname(new URL(import.meta.url).path
 					name: 'meta.type.func.cp',
 					begin: lookaheads([
 						'<',
-						`\\(${ Selector.OWS }\\)`,
-						`\\(${ Selector.OWS }${ Selector.VAR }${ Selector.OWS }${ Punctuator.ANNO_START }`,
-						`${ lookbehinds(['\\)']) }${ Selector.OWS }${ Punctuator.TYPEARROW }`,
+						`\\(${ OWS }\\)`,
+						`\\(${ OWS }${ VAR }${ OWS }${ ANNO_START }`,
+						`${ lookbehinds(['\\)']) }${ OWS }${ TYPEARROW }`,
 					]),
 					end: lookbehinds(['\\}']),
 					patterns: [
 						{
 							name: 'keyword.operator.punctuation.cp',
-							match: Punctuator.TYPEARROW,
+							match: TYPEARROW,
 						},
 						{
 							name: 'meta.parameters.cp',
@@ -363,7 +160,7 @@ await fs.promises.writeFile(path.join(path.dirname(new URL(import.meta.url).path
 				},
 				{
 					name: 'meta.type.access.cp',
-					begin: ['(\\.)', lookaheads([[Selector.OWS, '<'].join('')])].join(''),
+					begin: ['(\\.)', lookaheads([[OWS, '<'].join('')])].join(''),
 					end:   lookbehinds(['>']),
 					beginCaptures: {
 						1: {name: 'keyword.operator.punctuation.cp'},
@@ -383,7 +180,7 @@ await fs.promises.writeFile(path.join(path.dirname(new URL(import.meta.url).path
 					patterns: [
 						/** Parameters of function types, if on separate lines. */
 						{
-							begin: lookaheads([[Selector.VAR, Selector.OWS, '\\??', Punctuator.ANNO_START].join('')]),
+							begin: lookaheads([[VAR, OWS, '\\??', ANNO_START].join('')]),
 							end:   `,|${ lookaheads(['\\)']) }`,
 							endCaptures: {
 								0: {name: 'punctuation.separator.cp'},
@@ -425,18 +222,18 @@ await fs.promises.writeFile(path.join(path.dirname(new URL(import.meta.url).path
 				{
 					name: 'meta.expr.func.cp',
 					begin: lookaheads([
-						`<${ Selector.OWS }${ Selector.VAR }${ Selector.OWS }(${ [
-							'\\b(narrows|widens)\\b', Punctuator.ASSN_START, ',', // annotated, or assigned, or more than 1 type parameter
-							`>${ Selector.OWS }(?<aftertypeparams>\\(${ Selector.OWS }${ Selector.VAR }${ Selector.OWS }(${ [ // exactly 1 unannotated uninitialized type parameter
-								Punctuator.ANNO_START, Punctuator.ASSN_START, ',', '\\b(as)\\b', // annotated, or assigned, or more than 1 parameter, or destrucured
-								`\\)${ Selector.OWS }(?<afterparams>${ [Punctuator.ANNO_START, Punctuator.ARROW, '\\{'].join('|') })`, // exactly 1 unannotated uninitialized nondestructued parameter
+						`<${ OWS }${ VAR }${ OWS }(${ [
+							'\\b(narrows|widens)\\b', ASSN_START, ',', // annotated, or assigned, or more than 1 type parameter
+							`>${ OWS }(?<aftertypeparams>\\(${ OWS }${ VAR }${ OWS }(${ [ // exactly 1 unannotated uninitialized type parameter
+								ANNO_START, ASSN_START, ',', '\\b(as)\\b', // annotated, or assigned, or more than 1 parameter, or destrucured
+								`\\)${ OWS }(?<afterparams>${ [ANNO_START, ARROW, '\\{'].join('|') })`, // exactly 1 unannotated uninitialized nondestructued parameter
 							].join('|') }))`,
 						].join('|') })`,
-						`\\(${ Selector.OWS }\\)${ Selector.OWS }\\k<afterparams>`,
+						`\\(${ OWS }\\)${ OWS }\\k<afterparams>`,
 						`\\g<aftertypeparams>`,
-						`${ lookbehinds(['\\)']) }${ Selector.OWS }\\k<afterparams>`,
+						`${ lookbehinds(['\\)']) }${ OWS }\\k<afterparams>`,
 					]),
-					end: [lookaheads(['\\{']), Punctuator.ARROW].join('|'),
+					end: [lookaheads(['\\{']), ARROW].join('|'),
 					endCaptures: {
 						0: {name: 'storage.type.cp'},
 					},
@@ -448,7 +245,7 @@ await fs.promises.writeFile(path.join(path.dirname(new URL(import.meta.url).path
 				},
 				{
 					name: 'meta.expr.call.cp',
-					begin: ['(\\.)', lookaheads([[Selector.OWS, '(<|\\()'].join('')])].join(''),
+					begin: ['(\\.)', lookaheads([[OWS, '(<|\\()'].join('')])].join(''),
 					end:   lookbehinds(['\\)']),
 					beginCaptures: {
 						1: {name: 'keyword.operator.punctuation.cp'},
@@ -468,7 +265,7 @@ await fs.promises.writeFile(path.join(path.dirname(new URL(import.meta.url).path
 									match: ',',
 								},
 								{
-									begin: lookaheads([[Selector.VAR, Selector.OWS, '\\$'].join('')]),
+									begin: lookaheads([[VAR, OWS, '\\$'].join('')]),
 									end:   lookaheads([',', '\\)']),
 									patterns: [
 										{
@@ -480,7 +277,7 @@ await fs.promises.writeFile(path.join(path.dirname(new URL(import.meta.url).path
 								},
 								{
 									begin: lookaheads([
-										[`(${ Selector.VAR }|${ Selector.DESTRUCTURE })`, Selector.OWS, Punctuator.ASSN_START].join(''),
+										[`(${ VAR }|${ DESTRUCTURE })`, OWS, ASSN_START].join(''),
 									]),
 									end: lookaheads([',', '\\)']),
 									patterns: [
@@ -501,7 +298,7 @@ await fs.promises.writeFile(path.join(path.dirname(new URL(import.meta.url).path
 				},
 				{
 					name: 'meta.expr.access.cp',
-					begin: ['(\\.)', lookaheads([[Selector.OWS, '\\['].join('')])].join(''),
+					begin: ['(\\.)', lookaheads([[OWS, '\\['].join('')])].join(''),
 					end:   lookbehinds(['\\]']),
 					beginCaptures: {
 						1: {name: 'keyword.operator.punctuation.cp'},
@@ -512,7 +309,7 @@ await fs.promises.writeFile(path.join(path.dirname(new URL(import.meta.url).path
 				},
 				{
 					name: 'meta.expr.access.cp',
-					begin: ['(\\.)', lookaheads([`${ Selector.OWS }(${ Selector.INT }|${ Selector.VAR })`])].join(''),
+					begin: ['(\\.)', lookaheads([`${ OWS }(${ INT }|${ VAR })`])].join(''),
 					end:   lookbehinds(['[A-Za-z0-9_]', '`']),
 					beginCaptures: {
 						1: {name: 'keyword.operator.punctuation.cp'},
@@ -531,8 +328,8 @@ await fs.promises.writeFile(path.join(path.dirname(new URL(import.meta.url).path
 					patterns: [
 						/** Parameters of function expressions, if on separate lines. */
 						{
-							begin: lookaheads([[Selector.VAR, Selector.OWS, `(${ [
-								Punctuator.ANNO_START, Punctuator.ASSN_START, ',', '\\b(as)\\b', // annotated, or assigned, or more than 1 parameter, or destrucured
+							begin: lookaheads([[VAR, OWS, `(${ [
+								ANNO_START, ASSN_START, ',', '\\b(as)\\b', // annotated, or assigned, or more than 1 parameter, or destrucured
 							].join('|') })`].join('')]),
 							end: `,|${ lookaheads(['\\)']) }`,
 							endCaptures: {
@@ -668,7 +465,7 @@ await fs.promises.writeFile(path.join(path.dirname(new URL(import.meta.url).path
 					},
 					patterns: [
 						{include: `#Destructure-${ 'entity.name.variable' }`},
-						annotation(lookaheads([Punctuator.ASSN_START])),
+						annotation(lookaheads([ASSN_START])),
 						assignment(lookaheads([';'])),
 						unit('entity.name.variable'),
 					],
@@ -676,7 +473,7 @@ await fs.promises.writeFile(path.join(path.dirname(new URL(import.meta.url).path
 				{
 					name: 'meta.declaration.func.cp',
 					begin: '\\b(func)\\b',
-					end:   [lookaheads(['\\{']), Punctuator.ARROW].join('|'),
+					end:   [lookaheads(['\\{']), ARROW].join('|'),
 					captures: {
 						0: {name: 'storage.type.cp'},
 					},
