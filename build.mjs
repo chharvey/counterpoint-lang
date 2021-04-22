@@ -339,14 +339,16 @@ await fs.promises.writeFile(path.join(path.dirname(new URL(import.meta.url).path
 					begin: lookaheads([
 						`<${ OWS }${ VAR }${ OWS }(${ [
 							'\\b(narrows|widens)\\b', ASSN_START, ',', // annotated, or assigned, or more than 1 type parameter
-							`>${ OWS }(?<aftertypeparams>\\(${ OWS }${ VAR }${ OWS }(${ [ // exactly 1 unannotated uninitialized type parameter
-								ANNO_START, ASSN_START, ',', '\\b(as)\\b', // annotated, or assigned, or more than 1 parameter, or destrucured
-								`\\)${ OWS }(?<afterparams>${ [ANNO_START, ARROW, '\\{'].join('|') })`, // exactly 1 unannotated uninitialized nondestructued parameter
-							].join('|') }))`,
+							`>${ OWS }(?<aftertypeparams>${ [ // exactly 1 unannotated uninitialized type parameter
+								`\\(${ OWS }${ VAR }${ OWS }(${ [
+									ANNO_START, ASSN_START, ',', '\\b(as)\\b', // annotated, or assigned, or more than 1 parameter, or destrucured
+									`\\)${ OWS }(?<afterparams>${ [ANNO_START, ARROW, '\\{'].join('|') })`, // exactly 1 unannotated uninitialized nondestructued parameter
+								].join('|') })`,
+								`\\(${ OWS }\\)${ OWS }\\g<afterparams>`, // exactly 0 parameters
+							].join('|') })`,
 						].join('|') })`,
-						`\\(${ OWS }\\)${ OWS }\\k<afterparams>`,
 						`\\g<aftertypeparams>`,
-						`${ lookbehinds(['\\)']) }${ OWS }\\k<afterparams>`,
+						`${ lookbehinds(['\\)']) }${ OWS }\\g<afterparams>`,
 					]),
 					end: [lookaheads(['\\{']), ARROW].join('|'),
 					endCaptures: {
