@@ -327,7 +327,7 @@ await fs.promises.writeFile(path.join(path.dirname(new URL(import.meta.url).path
 					match: `!|\\?|&|\\|`,
 				},
 				{
-					name: 'meta.type.lambda.cp',
+					name: 'meta.type.func.cp',
 					begin: lookaheads([
 						'<',
 						`\\(${ Selector.OWS }\\)`,
@@ -423,7 +423,7 @@ await fs.promises.writeFile(path.join(path.dirname(new URL(import.meta.url).path
 					match: '<=|>=|!<|!>|==|!=|&&|!&|\\|\\||!\\||!|\\?|\\^|\\*|\\/|~',
 				},
 				{
-					name: 'meta.expr.lambda.cp',
+					name: 'meta.expr.func.cp',
 					begin: lookaheads([
 						`<${ Selector.OWS }${ Selector.VAR }${ Selector.OWS }(${ [
 							'\\b(narrows|widens)\\b', Punctuator.ASSN_START, ',', // annotated, or assigned, or more than 1 type parameter
@@ -529,7 +529,7 @@ await fs.promises.writeFile(path.join(path.dirname(new URL(import.meta.url).path
 						0: {name: 'punctuation.delimiter.cp'},
 					},
 					patterns: [
-						/** Parameters of lambdas, if on separate lines. */
+						/** Parameters of function expressions, if on separate lines. */
 						{
 							begin: lookaheads([[Selector.VAR, Selector.OWS, `(${ [
 								Punctuator.ANNO_START, Punctuator.ASSN_START, ',', '\\b(as)\\b', // annotated, or assigned, or more than 1 parameter, or destrucured
@@ -610,7 +610,7 @@ await fs.promises.writeFile(path.join(path.dirname(new URL(import.meta.url).path
 				{
 					/*
 					 * Must come after units so that numbers can be lexed correctly.
-					 * Must come after meta.expr.lambda.cp so that type parameters can be parsed correctly.
+					 * Must come after meta.expr.func.cp so that type parameters can be parsed correctly.
 					 */
 					name: 'keyword.operator.punctuation.cp',
 					match: '\\+|-|<|>',
