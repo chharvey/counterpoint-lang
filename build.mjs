@@ -9,14 +9,7 @@ function digits(charclass, base = '') {
 function unit(varname = 'variable.other') {
 	return {
 		patterns: [
-			{
-				name: 'comment.block.cp',
-				begin: '%%',
-				end:   '%%',
-				captures: {
-					0: {name: 'punctuation.delimiter.cp'},
-				},
-			},
+			{include: '#CommentBlock'},
 			{
 				name: 'comment.line.percentage.cp',
 				match: '(%).*$',
@@ -146,10 +139,10 @@ function unit(varname = 'variable.other') {
 		],
 	};
 }
-function annotation(end) {
+function annotation(end, optional_allowed = false) {
 	return {
 		name: 'meta.annotation.cp',
-		begin: ':',
+		begin: ((optional_allowed) ? '\\??' : '').concat(Punctuator.ANNO_START),
 		end,
 		beginCaptures: {
 			0: {name: 'punctuation.delimiter.cp'},
@@ -159,10 +152,10 @@ function annotation(end) {
 		],
 	};
 }
-function initializer(end, kind = '#Expression') {
+function assignment(end, kind = '#Expression') {
 	return {
-		name: 'meta.initializer.cp',
-		begin: Punctuator.INIT_START,
+		name: 'meta.assignment.cp',
+		begin: Punctuator.ASSN_START,
 		end,
 		beginCaptures: {
 			0: {name: 'punctuation.delimiter.cp'},
@@ -172,7 +165,7 @@ function initializer(end, kind = '#Expression') {
 		],
 	};
 }
-function destructure(varname) {
+function destructure(varname, annot = false) {
 	return {
 		name: 'meta.destructure.cp',
 		begin: '\\(',
@@ -186,10 +179,10 @@ function destructure(varname) {
 				match: ',',
 			},
 			{include: `#Destructure-${ varname }`},
-			annotation(lookaheads([',', '\\)'])),
+			(annot) ? annotation(lookaheads([',', '\\)'])) : {},
 			// // if adding destructure defaults:
-			// annotation(lookaheads([Punctuator.INIT_START, ',', '\\)'])),
-			// initializer(lookaheads([',', '\\)'])),
+			// annotation(lookaheads([Punctuator.ASSN_START, ',', '\\)'])),
+			// assignment(lookaheads([',', '\\)'])),
 			{
 				name: 'keyword.other',
 				match: '\\$|\\b(as)\\b',
@@ -199,44 +192,38 @@ function destructure(varname) {
 	};
 }
 
-function lookaheads(first = '', aheads = []) {
-	return (typeof first === 'string')
-		? `${ first }(?=${ aheads.join('|') })`
-		: lookaheads('', first);
+function lookaheads(aheads = [], negative = false) {
+	return `(?${ (negative) ? '!' : '=' }${ aheads.join('|') })`;
+}
+function lookbehinds(behinds = [], negative = false) {
+	return `(?<${ (negative) ? '!' : '=' }${ behinds.join('|') })`;
 }
 
 const dec = digits('[0-9]'); // `[0-9](_?[0-9])*`
 
 const Punctuator = {
-	INIT_START: '=(?!=|>)',
+	ANNO_START: ':',
+	ASSN_START: `=${ lookaheads(['=', '>'], true) }`,
+	TYPEARROW:  '->',
+	ARROW:      '=>',
 };
 
-const generic_params = {
-	name: 'meta.typeparameters.cp',
-	begin: '<',
-	end:   '>',
-	captures: {
-		0: {name: 'punctuation.delimiter.cp'},
-	},
-	patterns: [
-		{
-			name: 'punctuation.separator.cp',
-			match: ',',
-		},
-		{
-			name: 'meta.annotation.cp',
-			begin: '\\b(narrows|widens)\\b',
-			end: lookaheads([',', '>']),
-			beginCaptures: {
-				0: {name: 'keyword.modifier.cp'},
-			},
-			patterns: [
-				{include: '#Type'},
-			],
-		},
-		initializer(lookaheads([',', '>']), '#Type'),
-		unit('variable.parameter.type'),
-	],
+const Selector = {
+	OWS: `(?:\\s+|(%%(?:%?[^%])*%%))*`,
+	INT: '(?:\\+|-)?(?:\\\\[bqodxz])?[0-9a-z_]+',
+	VAR: '(?:\\b[A-Za-z_][A-Za-z0-9_]*\\b|`.*`)',
+	get DESTRUCTURE() {
+		return `
+			(?<des>\\(${ Selector.OWS }
+				(?<item>
+					${ Selector.VAR }\\$? | (?:
+						${ Selector.VAR }${ Selector.OWS }\\b(?:as)\\b${ Selector.OWS }
+					)?\\g<des>
+				)
+				(?:${ Selector.OWS },${ Selector.OWS }\\g<item>)*
+			${ Selector.OWS }\\))
+		`.replace(/\s+/g, '');
+	}
 };
 
 
@@ -245,11 +232,146 @@ await fs.promises.writeFile(path.join(path.dirname(new URL(import.meta.url).path
 	name: 'Counterpoint',
 	scopeName: 'source.cp',
 	repository: {
+		CommentBlock: {
+			name: 'comment.block.cp',
+			begin: '%%',
+			end:   '%%',
+			captures: {
+				0: {name: 'punctuation.delimiter.cp'},
+			},
+		},
+		TypeParameters: {
+			name: 'meta.typeparameters.cp',
+			begin: '<',
+			end:   '>',
+			captures: {
+				0: {name: 'punctuation.delimiter.cp'},
+			},
+			patterns: [
+				{
+					name: 'punctuation.separator.cp',
+					match: ',',
+				},
+				{
+					name: 'meta.annotation.cp',
+					begin: '\\b(narrows|widens)\\b',
+					end: lookaheads([Punctuator.ASSN_START, ',', '>']),
+					beginCaptures: {
+						0: {name: 'keyword.modifier.cp'},
+					},
+					patterns: [
+						{include: '#Type'},
+					],
+				},
+				assignment(lookaheads([',', '>']), '#Type'),
+				unit('variable.parameter'),
+			],
+		},
+		ParameterPatterns: {
+			patterns: [
+				{
+					name: 'keyword.other.cp',
+					match: '\\b(as)\\b',
+				},
+				{include: `#Destructure-${ 'variable.parameter' }`},
+				annotation(lookaheads([Punctuator.ASSN_START, ',', '\\)'])),
+				assignment(lookaheads([',', '\\)'])),
+				unit('variable.parameter'),
+			],
+		},
+		Parameters: {
+			name: 'meta.parameters.cp',
+			begin: '\\(',
+			end:   '\\)',
+			captures: {
+				0: {name: 'punctuation.delimiter.cp'},
+			},
+			patterns: [
+				{
+					name: 'punctuation.separator.cp',
+					match: ',',
+				},
+				{include: '#ParameterPatterns'},
+			],
+		},
+		TypeArguments: {
+			name: 'meta.typearguments.cp',
+			begin: '<',
+			end:   '>',
+			captures: {
+				0: {name: 'punctuation.delimiter.cp'},
+			},
+			patterns: [
+				{
+					name: 'punctuation.separator.cp',
+					match: ',',
+				},
+				{include: '#Type'},
+			],
+		},
+		PromiseType: {
+			name: 'meta.type.structure.promise.cp',
+			begin: '\\{',
+			end:   `\\}${ lookaheads(['\\}'], true) }`,
+			captures: {
+				0: {name: 'punctuation.delimiter.cp'},
+			},
+			patterns: [
+				{include: '#Type'},
+			],
+		},
 		Type: {
 			patterns: [
 				{
 					name: 'keyword.operator.punctuation.cp',
-					match: '->|!|\\?|&|\\||\\.',
+					match: `!|\\?|&|\\|`,
+				},
+				{
+					name: 'meta.type.func.cp',
+					begin: lookaheads([
+						'<',
+						`\\(${ Selector.OWS }\\)`,
+						`\\(${ Selector.OWS }${ Selector.VAR }${ Selector.OWS }${ Punctuator.ANNO_START }`,
+						`${ lookbehinds(['\\)']) }${ Selector.OWS }${ Punctuator.TYPEARROW }`,
+					]),
+					end: lookbehinds(['\\}']),
+					patterns: [
+						{
+							name: 'keyword.operator.punctuation.cp',
+							match: Punctuator.TYPEARROW,
+						},
+						{
+							name: 'meta.parameters.cp',
+							begin: '\\(',
+							end:   '\\)',
+							captures: {
+								0: {name: 'punctuation.delimiter.cp'},
+							},
+							patterns: [
+								{
+									name: 'punctuation.separator.cp',
+									match: ',',
+								},
+								annotation(lookaheads([',', '\\)']), true),
+								unit('variable.parameter'),
+							],
+						},
+						{include: '#CommentBlock'},
+						{include: '#PromiseType'},
+						{include: '#TypeParameters'},
+					],
+				},
+				{
+					name: 'meta.type.access.cp',
+					begin: ['(\\.)', lookaheads([[Selector.OWS, '<'].join('')])].join(''),
+					end:   lookbehinds(['>']),
+					beginCaptures: {
+						1: {name: 'keyword.operator.punctuation.cp'},
+					},
+					patterns: [
+						{include: '#CommentBlock'},
+						{include: '#TypeArguments'},
+					],
 				},
 				{
 					name: 'meta.type.structure.grouping.cp',
@@ -259,19 +381,18 @@ await fs.promises.writeFile(path.join(path.dirname(new URL(import.meta.url).path
 						0: {name: 'punctuation.delimiter.cp'},
 					},
 					patterns: [
-						/*
-						 * only in:
-						 * - parameters of function types
-						 */
+						/** Parameters of function types, if on separate lines. */
 						{
-							name: 'punctuation.separator.cp',
-							match: ',',
+							begin: lookaheads([[Selector.VAR, Selector.OWS, '\\??', Punctuator.ANNO_START].join('')]),
+							end:   `,|${ lookaheads(['\\)']) }`,
+							endCaptures: {
+								0: {name: 'punctuation.separator.cp'},
+							},
+							patterns: [
+								annotation(lookaheads([',', '\\)']), true),
+								unit('variable.parameter'),
+							],
 						},
-						/*
-						 * only in:
-						 * - parameters of function types
-						 */
-						annotation(lookaheads([',', '\\)'])),
 						{include: '#Type'},
 					],
 				},
@@ -291,44 +412,114 @@ await fs.promises.writeFile(path.join(path.dirname(new URL(import.meta.url).path
 						{include: '#Type'},
 					],
 				},
-				{
-					name: 'meta.type.structure.promise.cp',
-					begin: '\\{',
-					end:   '\\}(?!\\})',
-					captures: {
-						0: {name: 'punctuation.delimiter.cp'},
-					},
-					patterns: [
-						{include: '#Type'},
-					],
-				},
-				{
-					name: 'meta.type.structure.typearguments.cp',
-					begin: '<',
-					end:   '>',
-					captures: {
-						0: {name: 'punctuation.delimiter.cp'},
-					},
-					patterns: [
-						{
-							name: 'punctuation.separator.cp',
-							match: ',',
-						},
-						{include: '#Type'},
-					],
-				},
+				{include: '#PromiseType'},
 				unit(),
 			],
 		},
 		Expression: {
 			patterns: [
 				{
-					name: 'storage.type.cp',
-					match: '=>',
+					name: 'keyword.operator.punctuation.cp',
+					match: '<=|>=|!<|!>|==|!=|&&|!&|\\|\\||!\\||!|\\?|\\^|\\*|\\/|~',
 				},
 				{
-					name: 'keyword.operator.punctuation.cp',
-					match: '<=|>=|!<|!>|==|!=|&&|!&|\\|\\||!\\||!|\\?|\\^|\\*|\\/|<|>|\\.|~',
+					name: 'meta.expr.func.cp',
+					begin: lookaheads([
+						`<${ Selector.OWS }${ Selector.VAR }${ Selector.OWS }(${ [
+							'\\b(narrows|widens)\\b', Punctuator.ASSN_START, ',', // annotated, or assigned, or more than 1 type parameter
+							`>${ Selector.OWS }(?<aftertypeparams>\\(${ Selector.OWS }${ Selector.VAR }${ Selector.OWS }(${ [ // exactly 1 unannotated uninitialized type parameter
+								Punctuator.ANNO_START, Punctuator.ASSN_START, ',', '\\b(as)\\b', // annotated, or assigned, or more than 1 parameter, or destrucured
+								`\\)${ Selector.OWS }(?<afterparams>${ [Punctuator.ANNO_START, Punctuator.ARROW, '\\{'].join('|') })`, // exactly 1 unannotated uninitialized nondestructued parameter
+							].join('|') }))`,
+						].join('|') })`,
+						`\\(${ Selector.OWS }\\)${ Selector.OWS }\\k<afterparams>`,
+						`\\g<aftertypeparams>`,
+						`${ lookbehinds(['\\)']) }${ Selector.OWS }\\k<afterparams>`,
+					]),
+					end: [lookaheads(['\\{']), Punctuator.ARROW].join('|'),
+					endCaptures: {
+						0: {name: 'storage.type.cp'},
+					},
+					patterns: [
+						{include: '#TypeParameters'},
+						{include: '#Parameters'},
+						annotation(lookaheads(['\\{', '=>'])),
+					],
+				},
+				{
+					name: 'meta.expr.call.cp',
+					begin: ['(\\.)', lookaheads([[Selector.OWS, '(<|\\()'].join('')])].join(''),
+					end:   lookbehinds(['\\)']),
+					beginCaptures: {
+						1: {name: 'keyword.operator.punctuation.cp'},
+					},
+					patterns: [
+						{include: '#CommentBlock'},
+						{
+							name: 'meta.arguments.cp',
+							begin: '\\(',
+							end:   '\\)',
+							captures: {
+								0: {name: 'punctuation.delimiter.cp'},
+							},
+							patterns: [
+								{
+									name: 'punctuation.separator.cp',
+									match: ',',
+								},
+								{
+									begin: lookaheads([[Selector.VAR, Selector.OWS, '\\$'].join('')]),
+									end:   lookaheads([',', '\\)']),
+									patterns: [
+										{
+											name: 'keyword.other.cp',
+											match: '\\$',
+										},
+										unit('variable.name'),
+									],
+								},
+								{
+									begin: lookaheads([
+										[`(${ Selector.VAR }|${ Selector.DESTRUCTURE })`, Selector.OWS, Punctuator.ASSN_START].join(''),
+									]),
+									end: lookaheads([',', '\\)']),
+									patterns: [
+										{include: `#Destructure-${ 'variable.name' }`},
+										assignment(lookaheads([',', '\\)'])),
+										unit('variable.name'),
+									],
+								},
+								{
+									name: 'keyword.other.cp',
+									match: '##|#',
+								},
+								{include: '#Expression'},
+							],
+						},
+						{include: '#TypeArguments'},
+					],
+				},
+				{
+					name: 'meta.expr.access.cp',
+					begin: ['(\\.)', lookaheads([[Selector.OWS, '\\['].join('')])].join(''),
+					end:   lookbehinds(['\\]']),
+					beginCaptures: {
+						1: {name: 'keyword.operator.punctuation.cp'},
+					},
+					patterns: [
+						{include: '#Expression'},
+					],
+				},
+				{
+					name: 'meta.expr.access.cp',
+					begin: ['(\\.)', lookaheads([`${ Selector.OWS }(${ Selector.INT }|${ Selector.VAR })`])].join(''),
+					end:   lookbehinds(['[A-Za-z0-9_]', '`']),
+					beginCaptures: {
+						1: {name: 'keyword.operator.punctuation.cp'},
+					},
+					patterns: [
+						unit(),
+					],
 				},
 				{
 					name: 'meta.expr.structure.grouping.cp',
@@ -338,46 +529,42 @@ await fs.promises.writeFile(path.join(path.dirname(new URL(import.meta.url).path
 						0: {name: 'punctuation.delimiter.cp'},
 					},
 					patterns: [
+						/** Parameters of function expressions, if on separate lines. */
+						{
+							begin: lookaheads([[Selector.VAR, Selector.OWS, `(${ [
+								Punctuator.ANNO_START, Punctuator.ASSN_START, ',', '\\b(as)\\b', // annotated, or assigned, or more than 1 parameter, or destrucured
+							].join('|') })`].join('')]),
+							end: `,|${ lookaheads(['\\)']) }`,
+							endCaptures: {
+								0: {name: 'punctuation.separator.cp'},
+							},
+							patterns: [
+								{include: '#ParameterPatterns'},
+							],
+						},
 						{
 							/*
 							 * only in:
-							 * - lambda parameters
-							 * - function call arguments
+							 * - record property destructuring
+							 * - reassignment destructuring
 							 */
 							name: 'punctuation.separator.cp',
 							match: ',',
 						},
-						/*
-						 * only in:
-						 * - lambda parameters
-						 * - record property destructuring
-						 * - function argument destructuring
-						 * - reassignment destructuring
-						 */
-						annotation(lookaheads([Punctuator.INIT_START, ',', '\\)', '\\{', '=>'])),
-						/*
-						 * only in:
-						 * - parameters of lambdas
-						 */
-						initializer(lookaheads([',', '\\)'])),
+						// /*
+						//  * if adding destructuring defaults:
+						//  * - record property destructuring
+						//  * - reassignment destructuring
+						//  */
+						// assignment(lookaheads([',', '\\)'])),
 						{
 							/*
 							 * only in:
-							 * - named lambda parameters that are destructured
 							 * - record property destructuring
-							 * - function argument destructuring
 							 * - reassignment destructuring
 							 */
 							name: 'keyword.other',
 							match: '\\$|\\b(as)\\b',
-						},
-						{
-							/*
-							 * only in:
-							 * - spreading arguments of function calls
-							 */
-							name: 'keyword.other',
-							match: '##|#',
 						},
 						{include: '#Expression'},
 					],
@@ -398,7 +585,7 @@ await fs.promises.writeFile(path.join(path.dirname(new URL(import.meta.url).path
 						 * only in:
 						 * - record properties
 						 */
-						initializer(lookaheads(['\\|->', ',', '\\]'])),
+						assignment(lookaheads(['\\|->', ',', '\\]'])),
 						{
 							/*
 							 * only in:
@@ -419,23 +606,20 @@ await fs.promises.writeFile(path.join(path.dirname(new URL(import.meta.url).path
 					],
 				},
 				{include: '#Block'},
-				/*
-				 * only in:
-				 * - lambda return types
-				 */
-				annotation(lookaheads(['\\{', '=>'])),
 				unit(),
 				{
 					/*
 					 * Must come after units so that numbers can be lexed correctly.
+					 * Must come after meta.expr.func.cp so that type parameters can be parsed correctly.
 					 */
 					name: 'keyword.operator.punctuation.cp',
-					match: '\\+|-',
+					match: '\\+|-|<|>',
 				},
 			],
 		},
-		[`Destructure-${ 'entity.name.variable' }`]: destructure('entity.name.variable'),
-		[`Destructure-${ 'variable.parameter' }`]:   destructure('variable.parameter'),
+		[`Destructure-${ 'entity.name.variable' }`]: destructure('entity.name.variable', true),
+		[`Destructure-${ 'variable.parameter' }`]:   destructure('variable.parameter',   true),
+		[`Destructure-${ 'variable.name' }`]:        destructure('variable.name'),
 		Statement: {
 			patterns: [
 				{
@@ -467,8 +651,8 @@ await fs.promises.writeFile(path.join(path.dirname(new URL(import.meta.url).path
 						0: {name: 'punctuation.delimiter.cp'},
 					},
 					patterns: [
-						generic_params,
-						initializer(lookaheads([';']), '#Type'),
+						{include: '#TypeParameters'},
+						assignment(lookaheads([';']), '#Type'),
 						unit('entity.name.type'),
 					],
 				},
@@ -484,52 +668,26 @@ await fs.promises.writeFile(path.join(path.dirname(new URL(import.meta.url).path
 					},
 					patterns: [
 						{include: `#Destructure-${ 'entity.name.variable' }`},
-						annotation(lookaheads([Punctuator.INIT_START])),
-						initializer(lookaheads([';'])),
+						annotation(lookaheads([Punctuator.ASSN_START])),
+						assignment(lookaheads([';'])),
 						unit('entity.name.variable'),
 					],
 				},
 				{
 					name: 'meta.declaration.func.cp',
 					begin: '\\b(func)\\b',
-					end:   '(?=\\{)|=>',
+					end:   [lookaheads(['\\{']), Punctuator.ARROW].join('|'),
 					captures: {
 						0: {name: 'storage.type.cp'},
 					},
 					patterns: [
-						generic_params,
-						{
-							name: 'meta.parameters.cp',
-							begin: '\\(',
-							end:   '\\)',
-							captures: {
-								0: {name: 'punctuation.delimiter.cp'},
-							},
-							patterns: [
-								{
-									name: 'punctuation.separator.cp',
-									match: ',',
-								},
-								{include: `#Destructure-${ 'variable.parameter' }`},
-								annotation(lookaheads([Punctuator.INIT_START, ',', '\\)'])),
-								initializer(lookaheads([',', '\\)'])),
-								{
-									name: 'keyword.other',
-									match: '\\b(as)\\b',
-								},
-								unit('variable.parameter'),
-							],
-						},
+						{include: '#TypeParameters'},
+						{include: '#Parameters'},
 						annotation(lookaheads(['\\{', '=>'])),
 						unit('entity.name.function'),
 					],
 				},
-				{
-					...initializer(lookaheads([';'])),
-					endCaptures: {
-						0: {name: 'punctuation.delimiter.cp'},
-					},
-				},
+				assignment(lookaheads([';'])),
 				{
 					name: 'punctuation.delimiter.cp',
 					match: ';',
@@ -540,7 +698,7 @@ await fs.promises.writeFile(path.join(path.dirname(new URL(import.meta.url).path
 		Block: {
 			name: 'meta.block.cp',
 			begin: '\\{',
-			end:   '\\}(?!\\})',
+			end:   `\\}${ lookaheads(['\\}'], true) }`,
 			captures: {
 				0: {name: 'punctuation.delimiter.cp'},
 			},
