@@ -152,18 +152,8 @@ await fs.promises.writeFile(path.join(path.dirname(new URL(import.meta.url).path
 				0: {name: 'punctuation.delimiter.cp'},
 			},
 		},
-		TypeParameters: {
-			name: 'meta.typeparameters.cp',
-			begin: '<',
-			end:   '>',
-			captures: {
-				0: {name: 'punctuation.delimiter.cp'},
-			},
+		GenericParameterPatterns: {
 			patterns: [
-				{
-					name: 'punctuation.separator.cp',
-					match: ',',
-				},
 				{
 					name: 'meta.annotation.cp',
 					begin: '\\b(narrows|widens)\\b',
@@ -177,6 +167,66 @@ await fs.promises.writeFile(path.join(path.dirname(new URL(import.meta.url).path
 				},
 				assignment(lookaheads([',', '>']), '#Type'),
 				unit('variable.parameter'),
+			],
+		},
+		GenericParameters: {
+			name: 'meta.genericparameters.cp',
+			begin: '<',
+			end:   '>',
+			captures: {
+				0: {name: 'punctuation.delimiter.cp'},
+			},
+			patterns: [
+				{
+					name: 'punctuation.separator.cp',
+					match: ',',
+				},
+				{include: '#GenericParameterPatterns'},
+			],
+		},
+		/** Generic parameter, if on separate line. */
+		PossibleGenericParameter: {
+			begin: lookaheads([[VAR, OWS, `(${ [
+				'\\b(narrows|widens)\\b', ASSN_START, ',', // annotated, or more than 1 generic parameter
+			].join('|') })`].join('')]),
+			end: `,|${ lookaheads(['>']) }`,
+			endCaptures: {
+				0: {name: 'punctuation.separator.cp'},
+			},
+			patterns: [
+				{include: '#GenericParameterPatterns'},
+			],
+		},
+		TypeParameterPatterns: {
+			patterns: [
+				annotation(lookaheads([',', '\\)']), true),
+				unit('variable.parameter'),
+			],
+		},
+		TypeParameters: {
+			name: 'meta.parameters.cp',
+			begin: '\\(',
+			end:   '\\)',
+			captures: {
+				0: {name: 'punctuation.delimiter.cp'},
+			},
+			patterns: [
+				{
+					name: 'punctuation.separator.cp',
+					match: ',',
+				},
+				{include: '#TypeParameterPatterns'},
+			],
+		},
+		/** Parameter of function type, if on separate line. */
+		PossibleTypeParameter: {
+			begin: lookaheads([[VAR, OWS, '\\??', ANNO_START].join('')]),
+			end:   `,|${ lookaheads(['\\)']) }`,
+			endCaptures: {
+				0: {name: 'punctuation.separator.cp'},
+			},
+			patterns: [
+				{include: '#TypeParameterPatterns'},
 			],
 		},
 		ParameterPatterns: {
@@ -206,8 +256,21 @@ await fs.promises.writeFile(path.join(path.dirname(new URL(import.meta.url).path
 				{include: '#ParameterPatterns'},
 			],
 		},
-		TypeArguments: {
-			name: 'meta.typearguments.cp',
+		/** Parameter of function expression, if on separate line. */
+		PossibleParameter: {
+			begin: lookaheads([[VAR, OWS, `(${ [
+				ANNO_START, ASSN_START, ',', '\\b(as)\\b', // annotated, or assigned, or more than 1 parameter, or destructured
+			].join('|') })`].join('')]),
+			end: `,|${ lookaheads(['\\)']) }`,
+			endCaptures: {
+				0: {name: 'punctuation.separator.cp'},
+			},
+			patterns: [
+				{include: '#ParameterPatterns'},
+			],
+		},
+		GenericArguments: {
+			name: 'meta.genericarguments.cp',
 			begin: '<',
 			end:   '>',
 			captures: {
@@ -219,6 +282,47 @@ await fs.promises.writeFile(path.join(path.dirname(new URL(import.meta.url).path
 					match: ',',
 				},
 				{include: '#Type'},
+			],
+		},
+		Arguments: {
+			name: 'meta.arguments.cp',
+			begin: '\\(',
+			end:   '\\)',
+			captures: {
+				0: {name: 'punctuation.delimiter.cp'},
+			},
+			patterns: [
+				{
+					name: 'punctuation.separator.cp',
+					match: ',',
+				},
+				{
+					begin: lookaheads([[VAR, OWS, '\\$'].join('')]),
+					end:   lookaheads([',', '\\)']),
+					patterns: [
+						{
+							name: 'keyword.other.cp',
+							match: '\\$',
+						},
+						unit('variable.name'),
+					],
+				},
+				{
+					begin: lookaheads([
+						[`(${ VAR }|${ DESTRUCTURE })`, OWS, ASSN_START].join(''),
+					]),
+					end: lookaheads([',', '\\)']),
+					patterns: [
+						{include: `#Destructure-${ 'variable.name' }`},
+						assignment(lookaheads([',', '\\)'])),
+						unit('variable.name'),
+					],
+				},
+				{
+					name: 'keyword.other.cp',
+					match: '##|#',
+				},
+				{include: '#Expression'},
 			],
 		},
 		PromiseType: {
@@ -252,25 +356,10 @@ await fs.promises.writeFile(path.join(path.dirname(new URL(import.meta.url).path
 							name: 'keyword.operator.punctuation.cp',
 							match: TYPEARROW,
 						},
-						{
-							name: 'meta.parameters.cp',
-							begin: '\\(',
-							end:   '\\)',
-							captures: {
-								0: {name: 'punctuation.delimiter.cp'},
-							},
-							patterns: [
-								{
-									name: 'punctuation.separator.cp',
-									match: ',',
-								},
-								annotation(lookaheads([',', '\\)']), true),
-								unit('variable.parameter'),
-							],
-						},
 						{include: '#CommentBlock'},
-						{include: '#PromiseType'},
+						{include: '#GenericParameters'},
 						{include: '#TypeParameters'},
+						{include: '#PromiseType'},
 					],
 				},
 				{
@@ -282,7 +371,7 @@ await fs.promises.writeFile(path.join(path.dirname(new URL(import.meta.url).path
 					},
 					patterns: [
 						{include: '#CommentBlock'},
-						{include: '#TypeArguments'},
+						{include: '#GenericArguments'},
 					],
 				},
 				{
@@ -293,18 +382,7 @@ await fs.promises.writeFile(path.join(path.dirname(new URL(import.meta.url).path
 						0: {name: 'punctuation.delimiter.cp'},
 					},
 					patterns: [
-						/** Parameters of function types, if on separate lines. */
-						{
-							begin: lookaheads([[VAR, OWS, '\\??', ANNO_START].join('')]),
-							end:   `,|${ lookaheads(['\\)']) }`,
-							endCaptures: {
-								0: {name: 'punctuation.separator.cp'},
-							},
-							patterns: [
-								annotation(lookaheads([',', '\\)']), true),
-								unit('variable.parameter'),
-							],
-						},
+						{include: '#PossibleTypeParameter'},
 						{include: '#Type'},
 					],
 				},
@@ -338,8 +416,8 @@ await fs.promises.writeFile(path.join(path.dirname(new URL(import.meta.url).path
 					name: 'meta.expr.func.cp',
 					begin: lookaheads([
 						`<${ OWS }${ VAR }${ OWS }(${ [
-							'\\b(narrows|widens)\\b', ASSN_START, ',', // annotated, or assigned, or more than 1 type parameter
-							`>${ OWS }(?<aftertypeparams>${ [ // exactly 1 unannotated uninitialized type parameter
+							'\\b(narrows|widens)\\b', ASSN_START, ',', // annotated, or assigned, or more than 1 generic parameter
+							`>${ OWS }(?<aftertypeparams>${ [ // exactly 1 unannotated uninitialized generic parameter
 								`\\(${ OWS }${ VAR }${ OWS }(${ [
 									ANNO_START, ASSN_START, ',', '\\b(as)\\b', // annotated, or assigned, or more than 1 parameter, or destrucured
 									`\\)${ OWS }(?<afterparams>${ [ANNO_START, ARROW, '\\{'].join('|') })`, // exactly 1 unannotated uninitialized nondestructued parameter
@@ -355,7 +433,7 @@ await fs.promises.writeFile(path.join(path.dirname(new URL(import.meta.url).path
 						0: {name: 'storage.type.cp'},
 					},
 					patterns: [
-						{include: '#TypeParameters'},
+						{include: '#GenericParameters'},
 						{include: '#Parameters'},
 						annotation(lookaheads(['\\{', '=>'])),
 					],
@@ -369,48 +447,8 @@ await fs.promises.writeFile(path.join(path.dirname(new URL(import.meta.url).path
 					},
 					patterns: [
 						{include: '#CommentBlock'},
-						{
-							name: 'meta.arguments.cp',
-							begin: '\\(',
-							end:   '\\)',
-							captures: {
-								0: {name: 'punctuation.delimiter.cp'},
-							},
-							patterns: [
-								{
-									name: 'punctuation.separator.cp',
-									match: ',',
-								},
-								{
-									begin: lookaheads([[VAR, OWS, '\\$'].join('')]),
-									end:   lookaheads([',', '\\)']),
-									patterns: [
-										{
-											name: 'keyword.other.cp',
-											match: '\\$',
-										},
-										unit('variable.name'),
-									],
-								},
-								{
-									begin: lookaheads([
-										[`(${ VAR }|${ DESTRUCTURE })`, OWS, ASSN_START].join(''),
-									]),
-									end: lookaheads([',', '\\)']),
-									patterns: [
-										{include: `#Destructure-${ 'variable.name' }`},
-										assignment(lookaheads([',', '\\)'])),
-										unit('variable.name'),
-									],
-								},
-								{
-									name: 'keyword.other.cp',
-									match: '##|#',
-								},
-								{include: '#Expression'},
-							],
-						},
-						{include: '#TypeArguments'},
+						{include: '#Arguments'},
+						{include: '#GenericArguments'},
 					],
 				},
 				{
@@ -443,19 +481,6 @@ await fs.promises.writeFile(path.join(path.dirname(new URL(import.meta.url).path
 						0: {name: 'punctuation.delimiter.cp'},
 					},
 					patterns: [
-						/** Parameters of function expressions, if on separate lines. */
-						{
-							begin: lookaheads([[VAR, OWS, `(${ [
-								ANNO_START, ASSN_START, ',', '\\b(as)\\b', // annotated, or assigned, or more than 1 parameter, or destrucured
-							].join('|') })`].join('')]),
-							end: `,|${ lookaheads(['\\)']) }`,
-							endCaptures: {
-								0: {name: 'punctuation.separator.cp'},
-							},
-							patterns: [
-								{include: '#ParameterPatterns'},
-							],
-						},
 						{
 							/*
 							 * only in:
@@ -480,6 +505,7 @@ await fs.promises.writeFile(path.join(path.dirname(new URL(import.meta.url).path
 							name: 'keyword.other',
 							match: '\\$|\\b(as)\\b',
 						},
+						{include: '#PossibleParameter'},
 						{include: '#Expression'},
 					],
 				},
@@ -524,7 +550,7 @@ await fs.promises.writeFile(path.join(path.dirname(new URL(import.meta.url).path
 				{
 					/*
 					 * Must come after units so that numbers can be lexed correctly.
-					 * Must come after meta.expr.func.cp so that type parameters can be parsed correctly.
+					 * Must come after meta.expr.func.cp so that generic parameters can be parsed correctly.
 					 */
 					name: 'keyword.operator.punctuation.cp',
 					match: '\\+|-|<|>',
@@ -565,7 +591,7 @@ await fs.promises.writeFile(path.join(path.dirname(new URL(import.meta.url).path
 						0: {name: 'punctuation.delimiter.cp'},
 					},
 					patterns: [
-						{include: '#TypeParameters'},
+						{include: '#GenericParameters'},
 						assignment(lookaheads([';']), '#Type'),
 						unit('entity.name.type'),
 					],
@@ -595,7 +621,7 @@ await fs.promises.writeFile(path.join(path.dirname(new URL(import.meta.url).path
 						0: {name: 'storage.type.cp'},
 					},
 					patterns: [
-						{include: '#TypeParameters'},
+						{include: '#GenericParameters'},
 						{include: '#Parameters'},
 						annotation(lookaheads(['\\{', '=>'])),
 						unit('entity.name.function'),

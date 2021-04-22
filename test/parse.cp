@@ -333,12 +333,6 @@ let lambda: Function = <
 	T = V,
 	T narrows U = V,
 >() {};
-<
-	T,
-	T narrows U,
-	T = V,
-	T narrows U = V,
->() {};
 
 func returnFunc(): obj => (x: int): int => x + 1;
 func returnFunc(): {obj} => (x: int): int => x + 1;
