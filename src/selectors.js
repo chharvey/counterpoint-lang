@@ -16,9 +16,8 @@ export const ARROW      = '=>';
 export const DESTRUCTURE = `
 	(?<des>\\(${ OWS }
 		(?<item>
-			${ VAR }\\$? | (?:
-				${ VAR }${ OWS }\\b(?:as)\\b${ OWS }
-			)?\\g<des>
+			${ VAR }\\$?
+			| (?:${ VAR }${ OWS }\\b(?:as)\\b${ OWS })? (?:${ VAR } | \\g<des>)
 		)
 		(?:${ OWS },${ OWS }\\g<item>)*
 	${ OWS }\\))

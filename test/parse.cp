@@ -92,7 +92,7 @@ func twice(x: int): int => x * 2;
 	type X = T!;
 	type X = T?;
 	[a, [b, b], (c + c), #spread];
-	[a= 3, c= 5, key, punn$, ##doublespread];
+	[a= 3, c= 5, key= value, punn$, ##doublespread];
 	[+a |-> -b, ];
 	[+3 |-> -5, ];
 	if true then 1 else 0;
@@ -367,11 +367,19 @@ let f: obj = (param as ((unfixed x), (y as (b))): int = [[1], [y= [2]]]): int { 
 [(x, y)=       [1, 2]];
 [(x$, y as b)= [x= 1, y= 2]];
 [((x$), (y as (b)))= [[x= 1], [y= [2]]]];
+% not destructuring:
+[(x)];
+[(x, y)        => null];
+[(x, y as (b)) => null];
 
 % function argument destructuring:
 g.(z= 3, (x, y)=       [1, 2]);
 g.(z= 3, (x$, y as b)= [x= 1, y= 2]);
 g.(z= 3, ((x$), (y as (b)))= [[x= 1], [y= [2]]]);
+% not destructuring:
+g.((x));
+g.(z= 3, (x, y)        => null);
+g.(z= 3, (x, y as (b)) => null);
 
 % reassignment destructuring:
 (x.i, y.j)           = [1, 2];

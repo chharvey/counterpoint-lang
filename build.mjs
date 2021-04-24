@@ -336,6 +336,9 @@ await fs.promises.writeFile(path.join(path.dirname(new URL(import.meta.url).path
 				{include: '#Type'},
 			],
 		},
+		[`Destructure-${ 'entity.name.variable' }`]: destructure('entity.name.variable', true),
+		[`Destructure-${ 'variable.parameter' }`]:   destructure('variable.parameter',   true),
+		[`Destructure-${ 'variable.name' }`]:        destructure('variable.name'),
 		Type: {
 			patterns: [
 				{
@@ -484,7 +487,6 @@ await fs.promises.writeFile(path.join(path.dirname(new URL(import.meta.url).path
 						{
 							/*
 							 * only in:
-							 * - record property destructuring
 							 * - reassignment destructuring
 							 */
 							name: 'punctuation.separator.cp',
@@ -492,14 +494,12 @@ await fs.promises.writeFile(path.join(path.dirname(new URL(import.meta.url).path
 						},
 						// /*
 						//  * if adding destructuring defaults:
-						//  * - record property destructuring
 						//  * - reassignment destructuring
 						//  */
 						// assignment(lookaheads([',', '\\)'])),
 						{
 							/*
 							 * only in:
-							 * - record property destructuring
 							 * - reassignment destructuring
 							 */
 							name: 'keyword.other',
@@ -521,25 +521,30 @@ await fs.promises.writeFile(path.join(path.dirname(new URL(import.meta.url).path
 							name: 'punctuation.separator.cp',
 							match: '\\|->|,',
 						},
-						/*
-						 * only in:
-						 * - record properties
-						 */
-						assignment(lookaheads(['\\|->', ',', '\\]'])),
 						{
-							/*
-							 * only in:
-							 * - record property punning
-							 */
-							name: 'keyword.other',
-							match: '\\$',
+							begin: lookaheads([[VAR, OWS, '\\$'].join('')]),
+							end:   lookaheads([',', '\\]']),
+							patterns: [
+								{
+									name: 'keyword.other.cp',
+									match: '\\$',
+								},
+								unit('variable.name'),
+							],
 						},
 						{
-							/*
-							 * only in:
-							 * - spreading values/properties in tuple/record literals
-							 */
-							name: 'keyword.other',
+							begin: lookaheads([
+								[`(${ VAR }|${ DESTRUCTURE })`, OWS, ASSN_START].join(''),
+							]),
+							end: lookaheads([',', '\\]']),
+							patterns: [
+								{include: `#Destructure-${ 'variable.name' }`},
+								assignment(lookaheads([',', '\\]'])),
+								unit('variable.name'),
+							],
+						},
+						{
+							name: 'keyword.other.cp',
 							match: '##|#',
 						},
 						{include: '#Expression'},
@@ -557,9 +562,6 @@ await fs.promises.writeFile(path.join(path.dirname(new URL(import.meta.url).path
 				},
 			],
 		},
-		[`Destructure-${ 'entity.name.variable' }`]: destructure('entity.name.variable', true),
-		[`Destructure-${ 'variable.parameter' }`]:   destructure('variable.parameter',   true),
-		[`Destructure-${ 'variable.name' }`]:        destructure('variable.name'),
 		Statement: {
 			patterns: [
 				{
