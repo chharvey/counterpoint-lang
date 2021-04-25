@@ -214,6 +214,9 @@ type Const = () -> {int};
 type Const = (
 ) -> {int};
 
+type T = [a: boolean, b: int, c: T];
+let x: T = [a= false, b= 42, c$];
+
 let `flō || bōōl` = `flō || bōōl` || flo || boo;
 let unfixed w: bool | T | `floàt | bōōl` = bool;
 let unfixed w: 3.2 = 3.2 == 3.2;

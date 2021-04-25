@@ -401,12 +401,21 @@ await fs.promises.writeFile(path.join(path.dirname(new URL(import.meta.url).path
 							name: 'punctuation.separator.cp',
 							match: ',',
 						},
-						annotation(lookaheads([',', '\\]'])),
+						{
+							begin: lookaheads([
+								[VAR, OWS, ANNO_START].join(''),
+							]),
+							end: lookaheads([',', '\\]']),
+							patterns: [
+								annotation(lookaheads([',', '\\]'])),
+								unit('variable.name'),
+							],
+						},
 						{include: '#Type'},
 					],
 				},
 				{include: '#PromiseType'},
-				unit(),
+				unit('entity.name.type'),
 			],
 		},
 		Expression: {
