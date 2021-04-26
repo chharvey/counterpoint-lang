@@ -8,13 +8,11 @@ import {
 
 
 
-export function unit(varname = 'variable.other') {
+export function identifier(varname = 'variable.other', allowReserved = false) {
 	return {
 		patterns: [
 			{include: '#CommentBlock'},
 			{include: '#CommentLine'},
-			{include: '#Template'},
-			{include: '#String'},
 			{
 				name: `${ varname }.quoted.cp`,
 				begin: '`',
@@ -23,12 +21,25 @@ export function unit(varname = 'variable.other') {
 					0: {name: 'punctuation.delimiter.cp'},
 				},
 			},
-			{include: '#Number'},
-			{include: '#Keyword'},
+			(!allowReserved) ? {include: '#Keyword'} : {},
 			{
 				name: `${ varname }.cp`,
 				match: '\\b[A-Za-z_][A-Za-z0-9_]*\\b',
 			},
+		],
+	}
+}
+
+
+export function unit(varname = 'variable.other') {
+	return {
+		patterns: [
+			{include: '#CommentBlock'},
+			{include: '#CommentLine'},
+			{include: '#Template'},
+			{include: '#String'},
+			{include: '#Number'},
+			identifier(varname),
 			{
 				/*
 				 * Invalid underscores in number literals.
@@ -72,9 +83,9 @@ export function assignment(end, kind = '#Expression') {
 }
 
 
-export function destructure(subtype, varname, annot = false, identifiers = unit(varname)) {
+export function destructure(subtype, identifiers, annot = false) {
 	return {
-		name: `meta.destructure.${ subtype }.cp`,
+		name: `meta.destructure.${ subtype.toLowerCase() }.cp`,
 		begin: '\\(',
 		end:   '\\)',
 		captures: {
@@ -89,7 +100,7 @@ export function destructure(subtype, varname, annot = false, identifiers = unit(
 				name: 'keyword.other.cp',
 				match: '\\$|\\b(as)\\b',
 			},
-			{include: `#Destructure-${ varname }`},
+			{include: `#Destructure${ subtype }`},
 			(annot) ? annotation(lookaheads([',', '\\)'])) : {},
 			// // if adding destructure defaults:
 			// annotation(lookaheads([ASSN_START, ',', '\\)'])),
