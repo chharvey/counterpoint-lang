@@ -347,7 +347,7 @@ await fs.promises.writeFile(path.join(path.dirname(new URL(import.meta.url).path
 					begin: lookaheads([
 						'<',
 						`\\(${ OWS }\\)`,
-						`\\(${ OWS }${ VAR }${ OWS }${ ANNO_START }`,
+						`\\(${ OWS }${ VAR }${ OWS }\\??${ ANNO_START }`,
 						`${ lookbehinds(['\\)']) }${ OWS }${ TYPEARROW }`,
 					]),
 					end: lookbehinds(['\\}']),
@@ -357,6 +357,7 @@ await fs.promises.writeFile(path.join(path.dirname(new URL(import.meta.url).path
 							match: TYPEARROW,
 						},
 						{include: '#CommentBlock'},
+						{include: '#CommentLine'},
 						{include: '#GenericParameters'},
 						{include: '#TypeParameters'},
 						{include: '#PromiseType'},
@@ -433,6 +434,8 @@ await fs.promises.writeFile(path.join(path.dirname(new URL(import.meta.url).path
 						0: {name: 'storage.type.cp'},
 					},
 					patterns: [
+						{include: '#CommentBlock'},
+						{include: '#CommentLine'},
 						{include: '#GenericParameters'},
 						{include: '#Parameters'},
 						annotation(lookaheads(['\\{', '=>'])),
@@ -447,8 +450,8 @@ await fs.promises.writeFile(path.join(path.dirname(new URL(import.meta.url).path
 					},
 					patterns: [
 						{include: '#CommentBlock'},
-						{include: '#Arguments'},
 						{include: '#GenericArguments'},
+						{include: '#Arguments'},
 					],
 				},
 				{

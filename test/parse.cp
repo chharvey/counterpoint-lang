@@ -297,6 +297,7 @@ let x: (a: str) -> {str} = (a: str): str {
 	return '''<{{ x }}>{{ a }}</{{ x }}>''';
 };
 let x: <T widens U, U = Set.<null>>(a: Set.<T>, b: Set.<U>) -> {bool} = null;
+let nestedfunctions: (a: (x: int) %%c%% -> %%c%% {int}) %%c%% -> %%c%% {bool} = (a: (x: int) %%c%% -> %%c%% {int} = (x) %%c%% => %%c%% x * 2) %%c%% => %%c%% !!a;
 
 let lambda: Function = (           )      { return a * 2; };
 let lambda: Function = (a          )      { return a * 2; };
@@ -333,6 +334,15 @@ let lambda: Function = <
 	T = V,
 	T narrows U = V,
 >() {};
+
+let lambdawithblockcomments: Function = <T, U>%%hello%%(a: T, b: U): obj %%world%% => a || b;
+let lambdawithblockcomments: Function = <T, U>%%hello%%(a: T, b: U) %%world%% => a || b;
+let lambdawithlinecomments: Function = <T, U> % hello
+	(a: T, b: U): obj % world
+	=> a || b;
+let lambdawithlinecomments: Function = <T, U> % hello
+	(a: T, b: U) % world
+	=> a || b;
 
 func returnFunc(): obj => (x: int): int => x + 1;
 func returnFunc(): {obj} => (x: int): int => x + 1;
