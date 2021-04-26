@@ -92,7 +92,7 @@ func twice(x: int): int => x * 2;
 	type X = T!;
 	type X = T?;
 	[a, [b, b], (c + c), #spread];
-	[a= 3, c= 5, key, punn$, ##doublespread];
+	[a= 3, c= 5, key= value, punn$, ##doublespread];
 	[+a |-> -b, ];
 	[+3 |-> -5, ];
 	if true then 1 else 0;
@@ -184,6 +184,7 @@ let h: int = if true then 1 else 0;
 (unfixed h: int): int => h + 1;
 (%%unfixed%% h: int): int => h + 1;
 
+(x);
 (a == b);
 [a == b];
 ((h: int = 0): int => h + 1);
@@ -192,6 +193,14 @@ let h: int = if true then 1 else 0;
 type T = [fun: (a: int) -> {int}];
 
 type `floàt | bōōl` = `floàt | bōōl` | float | bool;
+type SpreadTest = [T, #Spread] | [name: T, ##DoubleSpread];
+type SpreadTest = [
+	T,
+	#Spread,
+] | [
+	name: T,
+	##DoubleSpread,
+];
 type T<U> = U & V
 	.<W>;
 type U<V narrows W.<int>> = V | W.<X>;
@@ -213,6 +222,9 @@ type BinaryOperator = (
 type Const = () -> {int};
 type Const = (
 ) -> {int};
+
+type T = [a: boolean, b: int, c: T];
+let x: T = [a= false, b= 42, c$];
 
 let `flō || bōōl` = `flō || bōōl` || flo || boo;
 let unfixed w: bool | T | `floàt | bōōl` = bool;
@@ -377,13 +389,24 @@ let f: obj = (param as ((unfixed x), (y as (b))): int = [[1], [y= [2]]]): int { 
 [(x, y)=       [1, 2]];
 [(x$, y as b)= [x= 1, y= 2]];
 [((x$), (y as (b)))= [[x= 1], [y= [2]]]];
+% not destructuring:
+[(x)];
+[(x, y)        => null];
+[(x, y as (b)) => null];
 
 % function argument destructuring:
 g.(z= 3, (x, y)=       [1, 2]);
 g.(z= 3, (x$, y as b)= [x= 1, y= 2]);
 g.(z= 3, ((x$), (y as (b)))= [[x= 1], [y= [2]]]);
+% not destructuring:
+g.((x));
+g.(z= 3, (x, y)        => null);
+g.(z= 3, (x, y as (b)) => null);
 
 % reassignment destructuring:
+(x, y)               = [1, 2];
+(x.1, y.2)           = [1, 2];
 (x.i, y.j)           = [1, 2];
+(x.[i + j], y.[j])   = [1, 2];
 (x$, y as b.j)       = [x= 1, y= 2];
 ((x$), (y as (b.j))) = [[x= 1], [y= [2]]];
