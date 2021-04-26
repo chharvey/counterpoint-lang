@@ -72,9 +72,9 @@ export function assignment(end, kind = '#Expression') {
 }
 
 
-export function destructure(varname, annot = false) {
+export function destructure(subtype, varname, annot = false, identifiers = unit(varname)) {
 	return {
-		name: 'meta.destructure.cp',
+		name: `meta.destructure.${ subtype }.cp`,
 		begin: '\\(',
 		end:   '\\)',
 		captures: {
@@ -85,16 +85,16 @@ export function destructure(varname, annot = false) {
 				name: 'punctuation.separator.cp',
 				match: ',',
 			},
+			{
+				name: 'keyword.other.cp',
+				match: '\\$|\\b(as)\\b',
+			},
 			{include: `#Destructure-${ varname }`},
 			(annot) ? annotation(lookaheads([',', '\\)'])) : {},
 			// // if adding destructure defaults:
 			// annotation(lookaheads([ASSN_START, ',', '\\)'])),
 			// assignment(lookaheads([',', '\\)'])),
-			{
-				name: 'keyword.other.cp',
-				match: '\\$|\\b(as)\\b',
-			},
-			unit(varname),
+			identifiers,
 		],
 	};
 }

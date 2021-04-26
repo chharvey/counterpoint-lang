@@ -14,7 +14,8 @@ import {
 	ASSN_START,
 	TYPEARROW,
 	ARROW,
-	DESTRUCTURE,
+	DESTRUCTURE_PROPERTIES_OR_ARGUMENTS,
+	DESTRUCTURE_ASSIGNEES,
 } from './src/selectors.js';
 import {
 	unit,
@@ -309,7 +310,7 @@ await fs.promises.writeFile(path.join(path.dirname(new URL(import.meta.url).path
 				},
 				{
 					begin: lookaheads([
-						[`(${ VAR }|${ DESTRUCTURE })`, OWS, ASSN_START].join(''),
+						[`(${ VAR }|${ DESTRUCTURE_PROPERTIES_OR_ARGUMENTS })`, OWS, ASSN_START].join(''),
 					]),
 					end: lookaheads([',', '\\)']),
 					patterns: [
@@ -336,9 +337,10 @@ await fs.promises.writeFile(path.join(path.dirname(new URL(import.meta.url).path
 				{include: '#Type'},
 			],
 		},
-		[`Destructure-${ 'entity.name.variable' }`]: destructure('entity.name.variable', true),
-		[`Destructure-${ 'variable.parameter' }`]:   destructure('variable.parameter',   true),
-		[`Destructure-${ 'variable.name' }`]:        destructure('variable.name'),
+		[`Destructure-${ 'entity.name.variable' }`]: destructure('variable',   'entity.name.variable', true),
+		[`Destructure-${ 'variable.parameter' }`]:   destructure('parameter',  'variable.parameter',   true),
+		[`Destructure-${ 'variable.name' }`]:        destructure('key',        'variable.name'),
+		[`Destructure-${ 'variable.other' }`]:       destructure('assignment', 'variable.other', false, {include: '#Expression'}),
 		Type: {
 			patterns: [
 				{
@@ -493,27 +495,6 @@ await fs.promises.writeFile(path.join(path.dirname(new URL(import.meta.url).path
 						0: {name: 'punctuation.delimiter.cp'},
 					},
 					patterns: [
-						{
-							/*
-							 * only in:
-							 * - reassignment destructuring
-							 */
-							name: 'punctuation.separator.cp',
-							match: ',',
-						},
-						// /*
-						//  * if adding destructuring defaults:
-						//  * - reassignment destructuring
-						//  */
-						// assignment(lookaheads([',', '\\)'])),
-						{
-							/*
-							 * only in:
-							 * - reassignment destructuring
-							 */
-							name: 'keyword.other',
-							match: '\\$|\\b(as)\\b',
-						},
 						{include: '#PossibleParameter'},
 						{include: '#Expression'},
 					],
@@ -543,7 +524,7 @@ await fs.promises.writeFile(path.join(path.dirname(new URL(import.meta.url).path
 						},
 						{
 							begin: lookaheads([
-								[`(${ VAR }|${ DESTRUCTURE })`, OWS, ASSN_START].join(''),
+								[`(${ VAR }|${ DESTRUCTURE_PROPERTIES_OR_ARGUMENTS })`, OWS, ASSN_START].join(''),
 							]),
 							end: lookaheads([',', '\\]']),
 							patterns: [
@@ -638,11 +619,20 @@ await fs.promises.writeFile(path.join(path.dirname(new URL(import.meta.url).path
 						unit('entity.name.function'),
 					],
 				},
-				assignment(lookaheads([';'])),
+				{
+					begin: lookaheads([
+						[DESTRUCTURE_ASSIGNEES, OWS, ASSN_START].join(''),
+					]),
+					end: lookaheads([ASSN_START]),
+					patterns: [
+						{include: `#Destructure-${ 'variable.other' }`},
+					],
+				},
 				{
 					name: 'punctuation.delimiter.cp',
 					match: ';',
 				},
+				assignment(lookaheads([';'])),
 				{include: '#Expression'},
 			],
 		},

@@ -184,6 +184,7 @@ let h: int = if true then 1 else 0;
 (unfixed h: int): int => h + 1;
 (%%unfixed%% h: int): int => h + 1;
 
+(x);
 (a == b);
 [a == b];
 ((h: int = 0): int => h + 1);
@@ -385,6 +386,9 @@ g.(z= 3, (x, y)        => null);
 g.(z= 3, (x, y as (b)) => null);
 
 % reassignment destructuring:
+(x, y)               = [1, 2];
+(x.1, y.2)           = [1, 2];
 (x.i, y.j)           = [1, 2];
+(x.[i + j], y.[j])   = [1, 2];
 (x$, y as b.j)       = [x= 1, y= 2];
 ((x$), (y as (b.j))) = [[x= 1], [y= [2]]];
