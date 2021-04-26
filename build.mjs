@@ -413,6 +413,10 @@ await fs.promises.writeFile(path.join(path.dirname(new URL(import.meta.url).path
 								unit('variable.name'),
 							],
 						},
+						{
+							name: 'keyword.other.cp',
+							match: '##|#',
+						},
 						{include: '#Type'},
 					],
 				},

@@ -193,6 +193,14 @@ let h: int = if true then 1 else 0;
 type T = [fun: (a: int) -> {int}];
 
 type `floàt | bōōl` = `floàt | bōōl` | float | bool;
+type SpreadTest = [T, #Spread] | [name: T, ##DoubleSpread];
+type SpreadTest = [
+	T,
+	#Spread,
+] | [
+	name: T,
+	##DoubleSpread,
+];
 type T<U> = U & V
 	.<W>;
 type U<V narrows W.<int>> = V | W.<X>;
