@@ -126,38 +126,74 @@ func twice(x: int): int => x * 2;
 %% these should all fail parsing
 and thus be colored to indicate as such. %%
 % constants
-let null;
-let false;
-let true;
-let bool;
-let int;
-let float;
-let str;
-let obj;
+type T<null, false, true, never, void, bool, int, float, str, obj, unknown> = T;
+type T = (null: T, false: T, true: T, never: T, void: T, bool: T, int: T, float: T, str: T, obj: T, unknown: T) -> {U};
+func f(null: T, false: T, true: T, never: T, void: T, bool: T, int: T, float: T, str: T, obj: T, unknown: T): U {;}
+f.(null= expr, false= expr, true= expr, never= expr, void= expr, bool= expr, int= expr, float= expr, str= expr, obj= expr, unknown= expr)~;
+f.(null$, false$, true$, never$, void$, bool$, int$, float$, str$, obj$, unknown$)~;
+type null; type false; type true; type never; type void; type bool; type int; type float; type str; type obj; type unknown;
+let null; let false; let true; let never; let void; let bool; let int; let float; let str; let obj; let unknown;
+func null; func false; func true; func never; func void; func bool; func int; func float; func str; func obj; func unknown; =>;
 % operators
-let mutable;
-let is;
-let isnt;
-let if;
-let then;
-let else;
+type T<mutable, is, isnt, if, then, else> = T;
+type T = (mutable: T, is: T, isnt: T, if: T, then: T, else: T) -> {U};
+func f(mutable: T, is: T, isnt: T, if: T, then: T, else: T): U {;}
+f.(mutable= expr, is= expr, isnt= expr, if= expr, then= expr, else= expr)~;
+f.(mutable$, is$, isnt$, if$, then$, else$)~;
+type mutable; type is; type isnt; type if; type then; type else;
+let mutable; let is; let isnt; let if; let then; let else;
+func mutable; func is; func isnt; func if; func then; func else; =>;
 % storage types/modifiers
-let let;
-let unfixed;
-let narrows;
-let widens;
+type T<type, let, func, unfixed, narrows, widens> = T;
+type T = (type: T, let: T, func: T, unfixed: T, narrows: T, widens: T) -> {U};
+func f(type: T, let: T, func: T, unfixed: T, narrows: T, widens: T): U {;}
+f.(type= expr, let= expr, func= expr, unfixed= expr, narrows= expr, widens= expr)~;
+f.(type$, let$, func$, unfixed$, narrows$, widens$)~;
+type type; type let; type func; type unfixed; type narrows; type widens;
+let type; let let; let func; let unfixed; let narrows; let widens;
+func type; func func ; func func; func unfixed; func narrows; func widens; =>;
 % control
-let while;
-let do;
-let for;
-let from;
-let to;
-let by;
-let in;
-let break;
-let continue;
+type T<unless, while, until, do, for, from, to, by, in, break, continue, return, throw> = T;
+type T = (unless: T, while: T, until: T, do: T, for: T, from: T, to: T, by: T, in: T, break: T, continue: T, return: T, throw: T) -> {U};
+func f(unless: T, while: T, until: T, do: T, for: T, from: T, to: T, by: T, in: T, break: T, continue: T, return: T, throw: T): U {;}
+f.(unless= expr, while= expr, until= expr, do= expr, for= expr, from= expr, to= expr, by= expr, in= expr, break= expr, continue= expr, return= expr, throw= expr)~;
+f.(unless$, while$, until$, do$, for$, from$, to$, by$, in$, break$, continue$, return$, throw$)~;
+type unless; type while; type until; type do; type for; type from; type to; type by; type in; type break; type continue; type return; type throw;
+let unless; let while; let until; let do; let for; let from; let to; let by; let in; let break; let continue; let return; let throw;
+func unless; func while; func until; func do; func for; func from; func to; func by; func in; func break; func continue; func return; func throw; =>;
 % other
+type T<as> = T;
+type T = (as: T) -> {U};
+func f(as: T): U {;}
+f.(as= expr)~;
+f.(as$)~;
+type as;
 let as;
+func as; =>;
+
+%% these should *not* fail parsing
+because keywords are allowed identifiers here. %%
+type T = [null: T, false: T, true: T, never: T, void: T, bool: T, int: T, float: T, str: T, obj: T, unknown: T];
+type T = [mutable: T, is: T, isnt: T, if: T, then: T, else: T];
+type T = [type: T, let: T, func: T, unfixed: T, narrows: T, widens: T];
+type T = [unless: T, while: T, until: T, do: T, for: T, from: T, to: T, by: T, in: T, break: T, continue: T, return: T, throw: T];
+type T = [as: T];
+[null= expr, false= expr, true= expr, never= expr, void= expr, bool= expr, int= expr, float= expr, str= expr, obj= expr, unknown= expr];
+[mutable= expr, is= expr, isnt= expr, if= expr, then= expr, else= expr];
+[type= expr, let= expr, func= expr, unfixed= expr, narrows= expr, widens= expr];
+[unless= expr, while= expr, until= expr, do= expr, for= expr, from= expr, to= expr, by= expr, in= expr, break= expr, continue= expr, return= expr, throw= expr];
+[as= expr];
+[null$, false$, true$, never$, void$, bool$, int$, float$, str$, obj$, unknown$];
+[mutable$, is$, isnt$, if$, then$, else$];
+[type$, let$, func$, unfixed$, narrows$, widens$];
+[unless$, while$, until$, do$, for$, from$, to$, by$, in$, break$, continue$, return$, throw$];
+[as$];
+object.null; object.false; object.true; object.never; object.void; object.bool; object.int; object.float; object.str; object.obj; object.unknown;
+object.mutable; object.is; object.isnt; object.if; object.then; object.else;
+object.type; object.let; object.func; object.unfixed; object.narrows; object.widens;
+object.unless; object.while; object.until; object.do; object.for; object.from; object.to; object.by; object.in; object.break; object.continue; object.return; object.throw;
+object.as;
+
 
 %%% The value of `a`. %%
 let a: null | bool = +42 && null;
@@ -293,6 +329,8 @@ func error(): never {
 	throw if true then 'error' else 'an error';
 	throw (if true then 'error' else 'an error');
 }
+func parameterAlias(p %%c%% as %%c%% q: unknown): null => null;
+func parameterNoAlias(q: unknown): null => null;
 
 func append<T widens bool>(arr: Array.<T> = [], it: T): void {
 	arr.push.<T>(it)~;
@@ -364,30 +402,30 @@ func returnFunc(): (x: int) -> {int} => (x) => x + 1;
 % variable destructuring:
 let (x, y): int            = [1, 2];
 let (x: int, y: int)       = [1, 2];
-let (x$, y as b): int      = [x= 1, y= 2];
+let (if$, by as b): int    = [if= 1, by= 2];
 let (x$: int, y as b: int) = [x= 1, y= 2];
 let ((unfixed x), (y as (b))): int = [[1], [y= [2]]];
 
 % function parameter destructuring:
 func f(param as (x, y): int            = [1, 2]):       int => x + y;
 func f(param as (x: int, y: int)       = [1, 2]):       int => x + y;
-func f(param as (x$, y as b): int      = [x= 1, y= 2]): int => x + b;
+func f(until as (if$, by as b): int  = [if= 1, by= 2]): int => if + b;
 func f(param as (x$: int, y as b: int) = [x= 1, y= 2]): int => x + b;
 func f(param as ((unfixed x), (y as (b))): int = [[1], [y= [2]]]): int => x + b;
 let f: obj = (param as (x, y): int            = [1, 2]):       int => x + y;
 let f: obj = (param as (x: int, y: int)       = [1, 2]):       int => x + y;
-let f: obj = (param as (x$, y as b): int      = [x= 1, y= 2]): int => x + b;
+let f: obj = (until as (if$, by as b): int  = [if= 1, by= 2]): int => if + b;
 let f: obj = (param as (x$: int, y as b: int) = [x= 1, y= 2]): int => x + b;
 let f: obj = (param as ((unfixed x), (y as (b))): int = [[1], [y= [2]]]): int => x + b;
 let f: obj = (param as (x, y): int            = [1, 2]):       int { return x + y; };
 let f: obj = (param as (x: int, y: int)       = [1, 2]):       int { return x + y; };
-let f: obj = (param as (x$, y as b): int      = [x= 1, y= 2]): int { return x + b; };
+let f: obj = (until as (if$, by as b): int  = [if= 1, by= 2]): int { return if + b; };
 let f: obj = (param as (x$: int, y as b: int) = [x= 1, y= 2]): int { return x + b; };
 let f: obj = (param as ((unfixed x), (y as (b))): int = [[1], [y= [2]]]): int { return x + b; };
 
 % record property destructuring:
 [(x, y)=       [1, 2]];
-[(x$, y as b)= [x= 1, y= 2]];
+[(if$, by as b)= [if= 1, by= 2]];
 [((x$), (y as (b)))= [[x= 1], [y= [2]]]];
 % not destructuring:
 [(x)];
@@ -396,7 +434,7 @@ let f: obj = (param as ((unfixed x), (y as (b))): int = [[1], [y= [2]]]): int { 
 
 % function argument destructuring:
 g.(z= 3, (x, y)=       [1, 2]);
-g.(z= 3, (x$, y as b)= [x= 1, y= 2]);
+g.(z= 3, (if$, by as b)= [if= 1, by= 2]);
 g.(z= 3, ((x$), (y as (b)))= [[x= 1], [y= [2]]]);
 % not destructuring:
 g.((x));
@@ -408,5 +446,5 @@ g.(z= 3, (x, y as (b)) => null);
 (x.1, y.2)           = [1, 2];
 (x.i, y.j)           = [1, 2];
 (x.[i + j], y.[j])   = [1, 2];
-(x$, y as b.j)       = [x= 1, y= 2];
+(if$, by as b.j)     = [if= 1, by= 2];
 ((x$), (y as (b.j))) = [[x= 1], [y= [2]]];

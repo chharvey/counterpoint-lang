@@ -18,6 +18,7 @@ import {
 	DESTRUCTURE_ASSIGNEES,
 } from './src/selectors.js';
 import {
+	identifier,
 	unit,
 	annotation,
 	assignment,
@@ -73,11 +74,15 @@ await fs.promises.writeFile(path.join(path.dirname(new URL(import.meta.url).path
 					match: '\\b(if|unless|then|else|while|until|do|for|from|to|by|in|break|continue|return|throw)\\b',
 				},
 				{
-					name: 'keyword.other.cp',
+					name: 'keyword.other.alias.cp',
 					match: '\\b(as)\\b',
 				},
 			],
 		},
+		IdentifierVariable:  identifier('entity.name.variable'),
+		IdentifierProperty:  identifier('variable.name', true),
+		IdentifierParameter: identifier('variable.parameter'),
+		IdentifierArgument:  identifier('variable.name'),
 		Number: {
 			patterns: [
 				{
@@ -167,7 +172,7 @@ await fs.promises.writeFile(path.join(path.dirname(new URL(import.meta.url).path
 					],
 				},
 				assignment(lookaheads([',', '>']), '#Type'),
-				unit('variable.parameter'),
+				{include: '#IdentifierParameter'},
 			],
 		},
 		GenericParameters: {
@@ -201,7 +206,7 @@ await fs.promises.writeFile(path.join(path.dirname(new URL(import.meta.url).path
 		TypeParameterPatterns: {
 			patterns: [
 				annotation(lookaheads([',', '\\)']), true),
-				unit('variable.parameter'),
+				{include: '#IdentifierParameter'},
 			],
 		},
 		TypeParameters: {
@@ -233,13 +238,13 @@ await fs.promises.writeFile(path.join(path.dirname(new URL(import.meta.url).path
 		ParameterPatterns: {
 			patterns: [
 				{
-					name: 'keyword.other.cp',
+					name: 'keyword.other.alias.cp',
 					match: '\\b(as)\\b',
 				},
-				{include: `#Destructure-${ 'variable.parameter' }`},
+				{include: '#DestructureParameter'},
 				annotation(lookaheads([ASSN_START, ',', '\\)'])),
 				assignment(lookaheads([',', '\\)'])),
-				unit('variable.parameter'),
+				{include: '#IdentifierParameter'},
 			],
 		},
 		Parameters: {
@@ -302,10 +307,10 @@ await fs.promises.writeFile(path.join(path.dirname(new URL(import.meta.url).path
 					end:   lookaheads([',', '\\)']),
 					patterns: [
 						{
-							name: 'keyword.other.cp',
+							name: 'keyword.other.alias.cp',
 							match: '\\$',
 						},
-						unit('variable.name'),
+						{include: '#IdentifierArgument'},
 					],
 				},
 				{
@@ -314,13 +319,13 @@ await fs.promises.writeFile(path.join(path.dirname(new URL(import.meta.url).path
 					]),
 					end: lookaheads([',', '\\)']),
 					patterns: [
-						{include: `#Destructure-${ 'variable.name' }`},
+						{include: '#DestructureArgument'},
 						assignment(lookaheads([',', '\\)'])),
-						unit('variable.name'),
+						{include: '#IdentifierArgument'},
 					],
 				},
 				{
-					name: 'keyword.other.cp',
+					name: 'keyword.other.spread.cp',
 					match: '##|#',
 				},
 				{include: '#Expression'},
@@ -337,10 +342,11 @@ await fs.promises.writeFile(path.join(path.dirname(new URL(import.meta.url).path
 				{include: '#Type'},
 			],
 		},
-		[`Destructure-${ 'entity.name.variable' }`]: destructure('variable',   'entity.name.variable', true),
-		[`Destructure-${ 'variable.parameter' }`]:   destructure('parameter',  'variable.parameter',   true),
-		[`Destructure-${ 'variable.name' }`]:        destructure('key',        'variable.name'),
-		[`Destructure-${ 'variable.other' }`]:       destructure('assignment', 'variable.other', false, {include: '#Expression'}),
+		DestructureVariable:   destructure('Variable',   {include: '#IdentifierVariable'},  true),
+		DestructureProperty:   destructure('Property',   {include: '#IdentifierProperty'}),
+		DestructureParameter:  destructure('Parameter',  {include: '#IdentifierParameter'}, true),
+		DestructureArgument:   destructure('Argument',   {include: '#IdentifierArgument'}),
+		DestructureAssignment: destructure('Assignment', {include: '#Expression'}),
 		Type: {
 			patterns: [
 				{
@@ -411,11 +417,11 @@ await fs.promises.writeFile(path.join(path.dirname(new URL(import.meta.url).path
 							end: lookaheads([',', '\\]']),
 							patterns: [
 								annotation(lookaheads([',', '\\]'])),
-								unit('variable.name'),
+								{include: '#IdentifierProperty'},
 							],
 						},
 						{
-							name: 'keyword.other.cp',
+							name: 'keyword.other.spread.cp',
 							match: '##|#',
 						},
 						{include: '#Type'},
@@ -491,7 +497,8 @@ await fs.promises.writeFile(path.join(path.dirname(new URL(import.meta.url).path
 						1: {name: 'keyword.operator.punctuation.cp'},
 					},
 					patterns: [
-						unit(),
+						{include: '#Number'},
+						identifier('variable.other', true),
 					],
 				},
 				{
@@ -523,10 +530,10 @@ await fs.promises.writeFile(path.join(path.dirname(new URL(import.meta.url).path
 							end:   lookaheads([',', '\\]']),
 							patterns: [
 								{
-									name: 'keyword.other.cp',
+									name: 'keyword.other.alias.cp',
 									match: '\\$',
 								},
-								unit('variable.name'),
+								{include: '#IdentifierProperty'},
 							],
 						},
 						{
@@ -535,13 +542,13 @@ await fs.promises.writeFile(path.join(path.dirname(new URL(import.meta.url).path
 							]),
 							end: lookaheads([',', '\\]']),
 							patterns: [
-								{include: `#Destructure-${ 'variable.name' }`},
+								{include: '#DestructureProperty'},
 								assignment(lookaheads([',', '\\]'])),
-								unit('variable.name'),
+								{include: '#IdentifierProperty'},
 							],
 						},
 						{
-							name: 'keyword.other.cp',
+							name: 'keyword.other.spread.cp',
 							match: '##|#',
 						},
 						{include: '#Expression'},
@@ -592,7 +599,7 @@ await fs.promises.writeFile(path.join(path.dirname(new URL(import.meta.url).path
 					patterns: [
 						{include: '#GenericParameters'},
 						assignment(lookaheads([';']), '#Type'),
-						unit('entity.name.type'),
+						identifier('entity.name.type'),
 					],
 				},
 				{
@@ -606,10 +613,10 @@ await fs.promises.writeFile(path.join(path.dirname(new URL(import.meta.url).path
 						0: {name: 'punctuation.delimiter.cp'},
 					},
 					patterns: [
-						{include: `#Destructure-${ 'entity.name.variable' }`},
+						{include: '#DestructureVariable'},
 						annotation(lookaheads([ASSN_START])),
 						assignment(lookaheads([';'])),
-						unit('entity.name.variable'),
+						identifier('entity.name.variable'),
 					],
 				},
 				{
@@ -623,7 +630,7 @@ await fs.promises.writeFile(path.join(path.dirname(new URL(import.meta.url).path
 						{include: '#GenericParameters'},
 						{include: '#Parameters'},
 						annotation(lookaheads(['\\{', '=>'])),
-						unit('entity.name.function'),
+						identifier('entity.name.function'),
 					],
 				},
 				{
@@ -633,7 +640,7 @@ await fs.promises.writeFile(path.join(path.dirname(new URL(import.meta.url).path
 					end: lookaheads([ASSN_START]),
 					patterns: [
 						{include: '#CommentBlock'},
-						{include: `#Destructure-${ 'variable.other' }`},
+						{include: '#DestructureAssignment'},
 					],
 				},
 				{

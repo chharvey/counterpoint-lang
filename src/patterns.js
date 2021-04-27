@@ -2,10 +2,35 @@ import {
 	lookaheads,
 } from './helpers.js';
 import {
+	OWS,
+	VAR,
 	ANNO_START,
 	ASSN_START,
 } from './selectors.js';
 
+
+
+export function identifier(varname = 'variable.other', allowReserved = false) {
+	return {
+		patterns: [
+			{include: '#CommentBlock'},
+			{include: '#CommentLine'},
+			{
+				name: `${ varname }.quoted.cp`,
+				begin: '`',
+				end:   '`',
+				captures: {
+					0: {name: 'punctuation.delimiter.cp'},
+				},
+			},
+			(!allowReserved) ? {include: '#Keyword'} : {},
+			{
+				name: `${ varname }.cp`,
+				match: '\\b[A-Za-z_][A-Za-z0-9_]*\\b',
+			},
+		],
+	}
+}
 
 
 export function unit(varname = 'variable.other') {
@@ -15,20 +40,8 @@ export function unit(varname = 'variable.other') {
 			{include: '#CommentLine'},
 			{include: '#Template'},
 			{include: '#String'},
-			{
-				name: `${ varname }.quoted.cp`,
-				begin: '`',
-				end:   '`',
-				captures: {
-					0: {name: 'punctuation.delimiter.cp'},
-				},
-			},
 			{include: '#Number'},
-			{include: '#Keyword'},
-			{
-				name: `${ varname }.cp`,
-				match: '\\b[A-Za-z_][A-Za-z0-9_]*\\b',
-			},
+			identifier(varname),
 			{
 				/*
 				 * Invalid underscores in number literals.
@@ -72,9 +85,9 @@ export function assignment(end, kind = '#Expression') {
 }
 
 
-export function destructure(subtype, varname, annot = false, identifiers = unit(varname)) {
+export function destructure(subtype, identifiers, annot = false) {
 	return {
-		name: `meta.destructure.${ subtype }.cp`,
+		name: `meta.destructure.${ subtype.toLowerCase() }.cp`,
 		begin: '\\(',
 		end:   '\\)',
 		captures: {
@@ -86,10 +99,20 @@ export function destructure(subtype, varname, annot = false, identifiers = unit(
 				match: ',',
 			},
 			{
-				name: 'keyword.other.cp',
-				match: '\\$|\\b(as)\\b',
+				begin: lookaheads([`${ VAR }${ OWS }\\b(as)\\b`]),
+				end:   '\\b(as)\\b',
+				endCaptures: {
+					0: {name: 'keyword.other.alias.cp'}
+				},
+				patterns: [
+					{include: '#IdentifierProperty'},
+				],
 			},
-			{include: `#Destructure-${ varname }`},
+			{
+				name: 'keyword.other.alias.cp',
+				match: '\\$',
+			},
+			{include: `#Destructure${ subtype }`},
 			(annot) ? annotation(lookaheads([',', '\\)'])) : {},
 			// // if adding destructure defaults:
 			// annotation(lookaheads([ASSN_START, ',', '\\)'])),
