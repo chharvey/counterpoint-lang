@@ -434,10 +434,6 @@ await fs.promises.writeFile(path.join(path.dirname(new URL(import.meta.url).path
 		Expression: {
 			patterns: [
 				{
-					name: 'keyword.operator.punctuation.cp',
-					match: '<=|>=|!<|!>|==|!=|&&|!&|\\|\\||!\\||!|\\?|\\^|\\*|\\/|~',
-				},
-				{
 					name: 'meta.expr.func.cp',
 					begin: lookaheads([
 						`<${ OWS }${ VAR }${ OWS }(${ [
@@ -557,12 +553,8 @@ await fs.promises.writeFile(path.join(path.dirname(new URL(import.meta.url).path
 				{include: '#Block'},
 				unit(),
 				{
-					/*
-					 * Must come after units so that numbers can be lexed correctly.
-					 * Must come after meta.expr.func.cp so that generic parameters can be parsed correctly.
-					 */
 					name: 'keyword.operator.punctuation.cp',
-					match: '\\+|-|<|>',
+					match: '<=|>=|!<|!>|==|!=|&&|!&|\\|\\||!\\||!|\\?|\\+|-|\\^|\\*|\\/|<|>|~',
 				},
 			],
 		},
@@ -646,6 +638,17 @@ await fs.promises.writeFile(path.join(path.dirname(new URL(import.meta.url).path
 				{
 					name: 'punctuation.delimiter.cp',
 					match: ';',
+				},
+				{
+					name: 'meta.augmentation.cp',
+					begin: '&&=|!&=|\\|\\|=|!\\|=|\\^=|\\*=|\\/=|\\+=|-=|\\+\\+|--|\\*\\*|\\/\\/',
+					end: lookaheads([';']),
+					beginCaptures: {
+						0: {name: 'punctuation.delimiter.cp'},
+					},
+					patterns: [
+						{include: '#Expression'},
+					],
 				},
 				assignment(lookaheads([';'])),
 				{include: '#Expression'},

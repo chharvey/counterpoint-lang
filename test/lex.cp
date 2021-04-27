@@ -1,3 +1,21 @@
+% augmentation operators
+val ^= 42;
+val *= 42;
+val /= 42;
+val += 42;
+val -= 42;
+val &&= 42;
+val !&= 42;
+val ||= 42;
+val !|= 42;
+
+% update operators
+val++;
+val--;
+val**;
+val//;
+
+
 __a && __b && c_;
 004__2. || 2.4_ || \xa__b || \xa_b_;
 
