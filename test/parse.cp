@@ -404,7 +404,7 @@ g.(z= 3, (x, y)        => null);
 g.(z= 3, (x, y as (b)) => null);
 
 % reassignment destructuring:
-(x, y)               = [1, 2];
+(x, y) %%c%%         = [1, 2];
 (x.1, y.2)           = [1, 2];
 (x.i, y.j)           = [1, 2];
 (x.[i + j], y.[j])   = [1, 2];

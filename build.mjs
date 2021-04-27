@@ -632,6 +632,7 @@ await fs.promises.writeFile(path.join(path.dirname(new URL(import.meta.url).path
 					]),
 					end: lookaheads([ASSN_START]),
 					patterns: [
+						{include: '#CommentBlock'},
 						{include: `#Destructure-${ 'variable.other' }`},
 					],
 				},
