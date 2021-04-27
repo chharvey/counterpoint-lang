@@ -74,7 +74,7 @@ await fs.promises.writeFile(path.join(path.dirname(new URL(import.meta.url).path
 					match: '\\b(if|unless|then|else|while|until|do|for|from|to|by|in|break|continue|return|throw)\\b',
 				},
 				{
-					name: 'keyword.other.cp',
+					name: 'keyword.other.alias.cp',
 					match: '\\b(as)\\b',
 				},
 			],
@@ -238,7 +238,7 @@ await fs.promises.writeFile(path.join(path.dirname(new URL(import.meta.url).path
 		ParameterPatterns: {
 			patterns: [
 				{
-					name: 'keyword.other.cp',
+					name: 'keyword.other.alias.cp',
 					match: '\\b(as)\\b',
 				},
 				{include: '#DestructureParameter'},
@@ -307,7 +307,7 @@ await fs.promises.writeFile(path.join(path.dirname(new URL(import.meta.url).path
 					end:   lookaheads([',', '\\)']),
 					patterns: [
 						{
-							name: 'keyword.other.cp',
+							name: 'keyword.other.alias.cp',
 							match: '\\$',
 						},
 						{include: '#IdentifierArgument'},
@@ -325,7 +325,7 @@ await fs.promises.writeFile(path.join(path.dirname(new URL(import.meta.url).path
 					],
 				},
 				{
-					name: 'keyword.other.cp',
+					name: 'keyword.other.spread.cp',
 					match: '##|#',
 				},
 				{include: '#Expression'},
@@ -420,7 +420,7 @@ await fs.promises.writeFile(path.join(path.dirname(new URL(import.meta.url).path
 							],
 						},
 						{
-							name: 'keyword.other.cp',
+							name: 'keyword.other.spread.cp',
 							match: '##|#',
 						},
 						{include: '#Type'},
@@ -527,7 +527,7 @@ await fs.promises.writeFile(path.join(path.dirname(new URL(import.meta.url).path
 							end:   lookaheads([',', '\\]']),
 							patterns: [
 								{
-									name: 'keyword.other.cp',
+									name: 'keyword.other.alias.cp',
 									match: '\\$',
 								},
 								{include: '#IdentifierProperty'},
@@ -545,7 +545,7 @@ await fs.promises.writeFile(path.join(path.dirname(new URL(import.meta.url).path
 							],
 						},
 						{
-							name: 'keyword.other.cp',
+							name: 'keyword.other.spread.cp',
 							match: '##|#',
 						},
 						{include: '#Expression'},

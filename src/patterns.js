@@ -102,14 +102,14 @@ export function destructure(subtype, identifiers, annot = false) {
 				begin: lookaheads([`${ VAR }${ OWS }\\b(as)\\b`]),
 				end:   '\\b(as)\\b',
 				endCaptures: {
-					0: {name: 'keyword.other.cp'}
+					0: {name: 'keyword.other.alias.cp'}
 				},
 				patterns: [
 					{include: '#IdentifierProperty'},
 				],
 			},
 			{
-				name: 'keyword.other.cp',
+				name: 'keyword.other.alias.cp',
 				match: '\\$',
 			},
 			{include: `#Destructure${ subtype }`},
