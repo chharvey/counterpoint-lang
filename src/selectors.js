@@ -26,6 +26,7 @@ export const DESTRUCTURE_PROPERTIES_OR_ARGUMENTS = `
 			)
 		)
 		(?:${ OWS },${ OWS }\\g<DestructurePropertyOrArgumentItemOrKey>)*
+		,?
 	${ OWS }\\))
 `.replace(/\s+/g, '');
 
@@ -46,5 +47,6 @@ export const DESTRUCTURE_ASSIGNEES = `
 			)
 		)
 		(?:${ OWS },${ OWS }\\g<DestructureAssigneeItemOrKey>)*
+		,?
 	${ OWS }\\))
 `.replace(/\s+/g, '');

@@ -109,6 +109,8 @@ func twice(x: int): int => x * 2;
 		label %% args %% = c,
 		punn$,
 		##doublespread,
+		(a,)=   [4, 2],
+		(a,) => [4, 2],
 	)~;
 	structure.property + p;
 	structure.`pr op` + p;
