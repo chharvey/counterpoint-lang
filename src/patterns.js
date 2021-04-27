@@ -2,6 +2,8 @@ import {
 	lookaheads,
 } from './helpers.js';
 import {
+	OWS,
+	VAR,
 	ANNO_START,
 	ASSN_START,
 } from './selectors.js';
@@ -97,8 +99,18 @@ export function destructure(subtype, identifiers, annot = false) {
 				match: ',',
 			},
 			{
+				begin: lookaheads([`${ VAR }${ OWS }\\b(as)\\b`]),
+				end:   '\\b(as)\\b',
+				endCaptures: {
+					0: {name: 'keyword.other.cp'}
+				},
+				patterns: [
+					{include: '#IdentifierProperty'},
+				],
+			},
+			{
 				name: 'keyword.other.cp',
-				match: '\\$|\\b(as)\\b',
+				match: '\\$',
 			},
 			{include: `#Destructure${ subtype }`},
 			(annot) ? annotation(lookaheads([',', '\\)'])) : {},

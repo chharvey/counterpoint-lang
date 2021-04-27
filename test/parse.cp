@@ -329,6 +329,8 @@ func error(): never {
 	throw if true then 'error' else 'an error';
 	throw (if true then 'error' else 'an error');
 }
+func parameterAlias(p %%c%% as %%c%% q: unknown): null => null;
+func parameterNoAlias(q: unknown): null => null;
 
 func append<T widens bool>(arr: Array.<T> = [], it: T): void {
 	arr.push.<T>(it)~;
@@ -390,30 +392,30 @@ func returnFunc(): (x: int) -> {int} => (x) => x + 1;
 % variable destructuring:
 let (x, y): int            = [1, 2];
 let (x: int, y: int)       = [1, 2];
-let (x$, y as b): int      = [x= 1, y= 2];
+let (if$, by as b): int    = [if= 1, by= 2];
 let (x$: int, y as b: int) = [x= 1, y= 2];
 let ((unfixed x), (y as (b))): int = [[1], [y= [2]]];
 
 % function parameter destructuring:
 func f(param as (x, y): int            = [1, 2]):       int => x + y;
 func f(param as (x: int, y: int)       = [1, 2]):       int => x + y;
-func f(param as (x$, y as b): int      = [x= 1, y= 2]): int => x + b;
+func f(until as (if$, by as b): int  = [if= 1, by= 2]): int => if + b;
 func f(param as (x$: int, y as b: int) = [x= 1, y= 2]): int => x + b;
 func f(param as ((unfixed x), (y as (b))): int = [[1], [y= [2]]]): int => x + b;
 let f: obj = (param as (x, y): int            = [1, 2]):       int => x + y;
 let f: obj = (param as (x: int, y: int)       = [1, 2]):       int => x + y;
-let f: obj = (param as (x$, y as b): int      = [x= 1, y= 2]): int => x + b;
+let f: obj = (until as (if$, by as b): int  = [if= 1, by= 2]): int => if + b;
 let f: obj = (param as (x$: int, y as b: int) = [x= 1, y= 2]): int => x + b;
 let f: obj = (param as ((unfixed x), (y as (b))): int = [[1], [y= [2]]]): int => x + b;
 let f: obj = (param as (x, y): int            = [1, 2]):       int { return x + y; };
 let f: obj = (param as (x: int, y: int)       = [1, 2]):       int { return x + y; };
-let f: obj = (param as (x$, y as b): int      = [x= 1, y= 2]): int { return x + b; };
+let f: obj = (until as (if$, by as b): int  = [if= 1, by= 2]): int { return if + b; };
 let f: obj = (param as (x$: int, y as b: int) = [x= 1, y= 2]): int { return x + b; };
 let f: obj = (param as ((unfixed x), (y as (b))): int = [[1], [y= [2]]]): int { return x + b; };
 
 % record property destructuring:
 [(x, y)=       [1, 2]];
-[(x$, y as b)= [x= 1, y= 2]];
+[(if$, by as b)= [if= 1, by= 2]];
 [((x$), (y as (b)))= [[x= 1], [y= [2]]]];
 % not destructuring:
 [(x)];
@@ -422,7 +424,7 @@ let f: obj = (param as ((unfixed x), (y as (b))): int = [[1], [y= [2]]]): int { 
 
 % function argument destructuring:
 g.(z= 3, (x, y)=       [1, 2]);
-g.(z= 3, (x$, y as b)= [x= 1, y= 2]);
+g.(z= 3, (if$, by as b)= [if= 1, by= 2]);
 g.(z= 3, ((x$), (y as (b)))= [[x= 1], [y= [2]]]);
 % not destructuring:
 g.((x));
@@ -434,5 +436,5 @@ g.(z= 3, (x, y as (b)) => null);
 (x.1, y.2)           = [1, 2];
 (x.i, y.j)           = [1, 2];
 (x.[i + j], y.[j])   = [1, 2];
-(x$, y as b.j)       = [x= 1, y= 2];
+(if$, by as b.j)     = [if= 1, by= 2];
 ((x$), (y as (b.j))) = [[x= 1], [y= [2]]];
