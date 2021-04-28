@@ -450,3 +450,26 @@ g.(z= 3, (x, y as (b)) => null);
 (x.[i + j], y.[j])   = [1, 2];
 (if$, by as b.j)     = [if= 1, by= 2];
 ((x$), (y as (b.j))) = [[x= 1], [y= [2]]];
+
+
+
+% class declarations
+class Foo {}
+public class Foo {}
+private immutable class Foo {}
+final class Foo {}
+abstract class Foo
+immutable class Foo {}
+class nominal Foo {}
+class Foo<T> {}
+class Foo extends Bar, Diz.<T> {}
+
+% class expressions
+let Foo: Class = Object && Class && (class {});
+let Foo: Class = Object && Class && (public class {});
+let Foo: Class = Object && Class && (private class {});
+let Foo: Class = Object && Class && (final class {});
+let Foo: Class = Object && Class && (abstract class {});
+let Foo: Class = Object && Class && (immutable class {});
+let Foo: Class = Object && Class && (class <T> extends Bar.<T> {});
+let Foo: Class = Object && Class && (class extends Bar, Diz.<T> {});
