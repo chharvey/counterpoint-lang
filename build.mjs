@@ -461,7 +461,7 @@ await fs.promises.writeFile(path.join(path.dirname(new URL(import.meta.url).path
 		Expression: {
 			patterns: [
 				{
-					name: 'meta.expr.func.cp',
+					name: 'meta.expression.func.cp',
 					begin: lookaheads([
 						`<${ OWS }${ VAR }${ OWS }(${ [
 							'\\b(narrows|widens)\\b', ASSN_START, ',', // annotated, or assigned, or more than 1 generic parameter
@@ -489,7 +489,7 @@ await fs.promises.writeFile(path.join(path.dirname(new URL(import.meta.url).path
 					],
 				},
 				{
-					name: 'meta.expr.class.cp',
+					name: 'meta.expression.class.cp',
 					begin: lookaheads([CLASS]),
 					end:   lookaheads(['\\{']),
 					patterns: [
@@ -513,7 +513,7 @@ await fs.promises.writeFile(path.join(path.dirname(new URL(import.meta.url).path
 					],
 				},
 				{
-					name: 'meta.expr.call.cp',
+					name: 'meta.expression.call.cp',
 					begin: ['(\\.)', lookaheads([[OWS, '(<|\\()'].join('')])].join(''),
 					end:   lookbehinds(['\\)']),
 					beginCaptures: {
@@ -526,7 +526,7 @@ await fs.promises.writeFile(path.join(path.dirname(new URL(import.meta.url).path
 					],
 				},
 				{
-					name: 'meta.expr.access.cp',
+					name: 'meta.expression.access.cp',
 					begin: ['(\\.)', lookaheads([[OWS, '\\['].join('')])].join(''),
 					end:   lookbehinds(['\\]']),
 					beginCaptures: {
@@ -537,7 +537,7 @@ await fs.promises.writeFile(path.join(path.dirname(new URL(import.meta.url).path
 					],
 				},
 				{
-					name: 'meta.expr.access.cp',
+					name: 'meta.expression.access.cp',
 					begin: ['(\\.)', lookaheads([`${ OWS }(${ INT }|${ VAR })`])].join(''),
 					end:   lookbehinds(['[A-Za-z0-9_]', '`']),
 					beginCaptures: {
@@ -549,7 +549,7 @@ await fs.promises.writeFile(path.join(path.dirname(new URL(import.meta.url).path
 					],
 				},
 				{
-					name: 'meta.expr.structure.grouping.cp',
+					name: 'meta.expression.structure.grouping.cp',
 					begin: '\\(',
 					end:   '\\)',
 					captures: {
@@ -561,7 +561,7 @@ await fs.promises.writeFile(path.join(path.dirname(new URL(import.meta.url).path
 					],
 				},
 				{
-					name: 'meta.expr.structure.list.cp',
+					name: 'meta.expression.structure.list.cp',
 					begin: '\\[',
 					end:   '\\]',
 					captures: {
