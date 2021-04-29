@@ -145,15 +145,24 @@ f.(mutable$, is$, isnt$, if$, then$, else$)~;
 type mutable; type is; type isnt; type if; type then; type else;
 let mutable; let is; let isnt; let if; let then; let else;
 func mutable; func is; func isnt; func if; func then; func else; =>;
-% storage types/modifiers
-type T<type, let, func, unfixed, narrows, widens> = T;
-type T = (type: T, let: T, func: T, unfixed: T, narrows: T, widens: T) -> {U};
-func f(type: T, let: T, func: T, unfixed: T, narrows: T, widens: T): U {;}
-f.(type= expr, let= expr, func= expr, unfixed= expr, narrows= expr, widens= expr)~;
-f.(type$, let$, func$, unfixed$, narrows$, widens$)~;
-type type; type let; type func; type unfixed; type narrows; type widens;
-let type; let let; let func; let unfixed; let narrows; let widens;
-func type; func func ; func func; func unfixed; func narrows; func widens; =>;
+% storage types
+type T<type, let, func> = T;
+type T = (type: T, let: T, func: T) -> {U};
+func f(type: T, let: T, func: T): U {;}
+f.(type= expr, let= expr, func= expr)~;
+f.(type$, let$, func$)~;
+type type; type let; type func;
+let type; let let; let func;
+func type; func func ; func func; =>;
+% storage modifiers
+type T<unfixed, narrows, widens> = T;
+type T = (unfixed: T, narrows: T, widens: T) -> {U};
+func f(unfixed: T, narrows: T, widens: T): U {;}
+f.(unfixed= expr, narrows= expr, widens= expr)~;
+f.(unfixed$, narrows$, widens$)~;
+type unfixed; type narrows; type widens;
+let unfixed; let narrows; let widens;
+func unfixed; func narrows; func widens; =>;
 % control
 type T<unless, while, until, do, for, from, to, by, in, break, continue, return, throw> = T;
 type T = (unless: T, while: T, until: T, do: T, for: T, from: T, to: T, by: T, in: T, break: T, continue: T, return: T, throw: T) -> {U};
@@ -177,22 +186,26 @@ func as; =>;
 because keywords are allowed identifiers here. %%
 type T = [null: T, false: T, true: T, never: T, void: T, bool: T, int: T, float: T, str: T, obj: T, unknown: T];
 type T = [mutable: T, is: T, isnt: T, if: T, then: T, else: T];
-type T = [type: T, let: T, func: T, unfixed: T, narrows: T, widens: T];
+type T = [type: T, let: T, func: T];
+type T = [unfixed: T, narrows: T, widens: T];
 type T = [unless: T, while: T, until: T, do: T, for: T, from: T, to: T, by: T, in: T, break: T, continue: T, return: T, throw: T];
 type T = [as: T];
 [null= expr, false= expr, true= expr, never= expr, void= expr, bool= expr, int= expr, float= expr, str= expr, obj= expr, unknown= expr];
 [mutable= expr, is= expr, isnt= expr, if= expr, then= expr, else= expr];
-[type= expr, let= expr, func= expr, unfixed= expr, narrows= expr, widens= expr];
+[type= expr, let= expr, func= expr];
+[unfixed= expr, narrows= expr, widens= expr];
 [unless= expr, while= expr, until= expr, do= expr, for= expr, from= expr, to= expr, by= expr, in= expr, break= expr, continue= expr, return= expr, throw= expr];
 [as= expr];
 [null$, false$, true$, never$, void$, bool$, int$, float$, str$, obj$, unknown$];
 [mutable$, is$, isnt$, if$, then$, else$];
-[type$, let$, func$, unfixed$, narrows$, widens$];
+[type$, let$, func$];
+[unfixed$, narrows$, widens$];
 [unless$, while$, until$, do$, for$, from$, to$, by$, in$, break$, continue$, return$, throw$];
 [as$];
 object.null; object.false; object.true; object.never; object.void; object.bool; object.int; object.float; object.str; object.obj; object.unknown;
 object.mutable; object.is; object.isnt; object.if; object.then; object.else;
-object.type; object.let; object.func; object.unfixed; object.narrows; object.widens;
+object.type; object.let; object.func;
+object.unfixed; object.narrows; object.widens;
 object.unless; object.while; object.until; object.do; object.for; object.from; object.to; object.by; object.in; object.break; object.continue; object.return; object.throw;
 object.as;
 
