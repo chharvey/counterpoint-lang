@@ -52,7 +52,7 @@ export const DESTRUCTURE_ASSIGNEES = `
 `.replace(/\s+/g, '');
 
 export const CLASS = `
-	(\\b (?:final | abstract) \\b)? ${ OWS }
-	(\\b immutable \\b)? ${ OWS }
+	(\\b (?:final | abstract) \\b ${ OWS })?
+	(\\b immutable \\b ${ OWS })?
 	(\\b class \\b)
 `.replace(/\s+/g, '');

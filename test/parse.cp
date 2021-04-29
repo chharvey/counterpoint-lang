@@ -198,13 +198,13 @@ type T = [unless: T, while: T, until: T, do: T, for: T, from: T, to: T, by: T, i
 type T = [as: T];
 [null= expr, false= expr, true= expr, never= expr, void= expr, bool= expr, int= expr, float= expr, str= expr, obj= expr, unknown= expr];
 [mutable= expr, is= expr, isnt= expr, if= expr, then= expr, else= expr];
-% [type= expr, let= expr, func= expr, class= expr]; % FIXME
+[type= expr, let= expr, func= expr, class= expr];
 [public= expr, private= expr, final= expr, abstract= expr, immutable= expr, nominal= expr, unfixed= expr, extends= expr, narrows= expr, widens= expr];
 [unless= expr, while= expr, until= expr, do= expr, for= expr, from= expr, to= expr, by= expr, in= expr, break= expr, continue= expr, return= expr, throw= expr];
 [as= expr];
 [null$, false$, true$, never$, void$, bool$, int$, float$, str$, obj$, unknown$];
 [mutable$, is$, isnt$, if$, then$, else$];
-% [type$, let$, func$, class$]; % FIXME
+[type$, let$, func$, class$];
 [public$, private$, final$, abstract$, immutable$, nominal$, unfixed$, extends$, narrows$, widens$];
 [unless$, while$, until$, do$, for$, from$, to$, by$, in$, break$, continue$, return$, throw$];
 [as$];
