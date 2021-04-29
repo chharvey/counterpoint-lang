@@ -17,6 +17,7 @@ import {
 	DESTRUCTURE_PROPERTIES_OR_ARGUMENTS,
 	DESTRUCTURE_ASSIGNEES,
 	CLASS,
+	INTERFACE,
 } from './src/selectors.js';
 import {
 	identifier,
@@ -64,7 +65,7 @@ await fs.promises.writeFile(path.join(path.dirname(new URL(import.meta.url).path
 				},
 				{
 					name: 'storage.type.cp',
-					match: '\\b(type|let|func|class)\\b',
+					match: '\\b(type|let|func|class|interface)\\b',
 				},
 				{
 					name: 'support.class.cp',
@@ -74,10 +75,10 @@ await fs.promises.writeFile(path.join(path.dirname(new URL(import.meta.url).path
 					name: 'storage.modifier.cp',
 					match: `
 						\\b(
-							  public | private                       # access modifiers
-							| final | abstract | immutable | nominal # class modifiers
-							| unfixed                                # variable modifiers
-							| extends | narrows | widens             # class/type heritage
+							  public | private                                   # access modifiers
+							| final | abstract | immutable | nominal             # class modifiers
+							| unfixed                                            # variable modifiers
+							| extends | implements | inherits | narrows | widens # class/interface/type heritage
 						)\\b
 					`.replace(/\#.*\n|\s+/g, ''),
 				},
@@ -361,7 +362,7 @@ await fs.promises.writeFile(path.join(path.dirname(new URL(import.meta.url).path
 		DestructureAssignment: destructure('Assignment', {include: '#Expression'}),
 		Heritage: {
 			name: 'meta.heritage.cp',
-			begin: '\\b(extends)\\b',
+			begin: '\\b(extends|implements|inherits)\\b',
 			end:   lookaheads(['\\{']),
 			beginCaptures: {
 				0: {name: 'storage.modifier.cp'},
@@ -399,6 +400,30 @@ await fs.promises.writeFile(path.join(path.dirname(new URL(import.meta.url).path
 						{include: '#GenericParameters'},
 						{include: '#TypeParameters'},
 						{include: '#PromiseType'},
+					],
+				},
+				{
+					name: 'meta.type.interface.cp',
+					begin: lookaheads([INTERFACE]),
+					end:   lookaheads(['\\{']),
+					patterns: [
+						{
+							name: 'storage.modifier.cp',
+							match: '\\b(immutable)\\b',
+						},
+						{
+							begin: '\\b(interface)\\b',
+							end:   lookaheads(['\\b(extends|inherits)\\b', '\\{']),
+							beginCaptures: {
+								0: {name: 'storage.type.cp'},
+							},
+							patterns: [
+								{include: '#CommentBlock'},
+								{include: '#GenericParameters'},
+							],
+						},
+						{include: '#Heritage'},
+						{include: '#CommentBlock'},
 					],
 				},
 				{
@@ -499,7 +524,7 @@ await fs.promises.writeFile(path.join(path.dirname(new URL(import.meta.url).path
 						},
 						{
 							begin: '\\b(class)\\b',
-							end:   lookaheads(['\\b(extends)\\b', '\\{']),
+							end:   lookaheads(['\\b(extends|implements)\\b', '\\{']),
 							beginCaptures: {
 								0: {name: 'storage.type.cp'},
 							},
@@ -687,7 +712,35 @@ await fs.promises.writeFile(path.join(path.dirname(new URL(import.meta.url).path
 						},
 						{
 							begin: '\\b(class)\\b',
-							end:   lookaheads(['\\b(extends)\\b', '\\{']),
+							end:   lookaheads(['\\b(extends|implements)\\b', '\\{']),
+							beginCaptures: {
+								0: {name: 'storage.type.cp'},
+							},
+							patterns: [
+								{
+									name: 'storage.modifier.cp',
+									match: '\\b(nominal)\\b',
+								},
+								{include: '#GenericParameters'},
+								identifier('entity.name.class'),
+							],
+						},
+						{include: '#Heritage'},
+						{include: '#CommentBlock'},
+					],
+				},
+				{
+					name: 'meta.declaration.interface.cp',
+					begin: lookaheads([`(\\b(public|private)\\b)?${ OWS }${ INTERFACE }`]),
+					end:   lookaheads(['\\{']),
+					patterns: [
+						{
+							name: 'storage.modifier.cp',
+							match: '\\b(public|private|immutable)\\b',
+						},
+						{
+							begin: '\\b(interface)\\b',
+							end:   lookaheads(['\\b(extends|inherits)\\b', '\\{']),
 							beginCaptures: {
 								0: {name: 'storage.type.cp'},
 							},

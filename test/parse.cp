@@ -482,6 +482,7 @@ immutable class Foo {}
 class nominal Foo {}
 class Foo<T> {}
 class Foo extends Bar, Diz.<T> {}
+class Foo implements Bar, Diz.<T> {}
 
 % class expressions
 let Foo: Class = Object && Class && (class {});
@@ -492,3 +493,21 @@ let Foo: Class = Object && Class && (abstract class {});
 let Foo: Class = Object && Class && (immutable class {});
 let Foo: Class = Object && Class && (class <T> extends Bar.<T> {});
 let Foo: Class = Object && Class && (class extends Bar, Diz.<T> {});
+let Foo: Class = Object && Class && (class implements Bar, Diz.<T> {});
+
+% interface declarations
+interface Foo {}
+public interface Foo {}
+private interface Foo {}
+immutable interface Foo {}
+interface nominal Foo {}
+interface Foo<T> {}
+interface Foo extends Bar, Diz.<T> {}
+interface Foo inherits Bar, Diz.<T> {}
+
+% interface type expressions
+type T = unknown & (interface {});
+type T = unknown & (immutable interface {});
+type T = unknown & (interface <T> {});
+type T = unknown & (interface extends Bar, Diz.<T> {});
+type T = unknown & (interface inherits Bar, Diz.<T> {});
