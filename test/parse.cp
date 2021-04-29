@@ -170,7 +170,7 @@ type public; type private; type final; type abstract; type immutable; type nomin
 let public; let private; let final; let abstract; let immutable; let nominal; let unfixed; let extends; let implements; let inherits; let narrows; let widens;
 func public; func private; func final; func abstract; func immutable; func nominal; func unfixed; func extends; func implements; func inherits; func narrows; func widens; =>;
 class public; class private; class final; class abstract; class immutable; class nominal; class unfixed; class extends; class implements; class inherits; class narrows; class widens; {}
-% interface public; interface private; interface final; interface abstract; interface immutable; interface nominal; interface unfixed; interface extends; interface implements; interface inherits; interface narrows; interface widens; {} % FIXME
+interface public; interface private; interface final; interface abstract; interface immutable; interface nominal; interface unfixed; interface extends; interface implements; interface inherits; interface narrows; interface widens; {}
 % control
 type T<unless, while, until, do, for, from, to, by, in, break, continue, return, throw> = T;
 type T = (unless: T, while: T, until: T, do: T, for: T, from: T, to: T, by: T, in: T, break: T, continue: T, return: T, throw: T) -> {U};

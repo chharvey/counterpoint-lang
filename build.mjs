@@ -92,6 +92,7 @@ await fs.promises.writeFile(path.join(path.dirname(new URL(import.meta.url).path
 				},
 			],
 		},
+		IdentifierType:      identifier('entity.name.type'),
 		IdentifierVariable:  identifier('entity.name.variable'),
 		IdentifierProperty:  identifier('variable.name', true),
 		IdentifierParameter: identifier('variable.parameter'),
@@ -355,6 +356,18 @@ await fs.promises.writeFile(path.join(path.dirname(new URL(import.meta.url).path
 				{include: '#Type'},
 			],
 		},
+		TypeAccess: {
+			name: 'meta.type.access.cp',
+			begin: ['(\\.)', lookaheads([[OWS, '<'].join('')])].join(''),
+			end:   lookbehinds(['>']),
+			beginCaptures: {
+				1: {name: 'keyword.operator.punctuation.cp'},
+			},
+			patterns: [
+				{include: '#CommentBlock'},
+				{include: '#GenericArguments'},
+			],
+		},
 		DestructureVariable:   destructure('Variable',   {include: '#IdentifierVariable'},  true),
 		DestructureProperty:   destructure('Property',   {include: '#IdentifierProperty'}),
 		DestructureParameter:  destructure('Parameter',  {include: '#IdentifierParameter'}, true),
@@ -372,7 +385,8 @@ await fs.promises.writeFile(path.join(path.dirname(new URL(import.meta.url).path
 					name: 'punctuation.separator.cp',
 					match: ',',
 				},
-				{include: '#Type'},
+				{include: '#IdentifierType'},
+				{include: '#TypeAccess'},
 			],
 		},
 		Type: {
@@ -426,18 +440,7 @@ await fs.promises.writeFile(path.join(path.dirname(new URL(import.meta.url).path
 						{include: '#CommentBlock'},
 					],
 				},
-				{
-					name: 'meta.type.access.cp',
-					begin: ['(\\.)', lookaheads([[OWS, '<'].join('')])].join(''),
-					end:   lookbehinds(['>']),
-					beginCaptures: {
-						1: {name: 'keyword.operator.punctuation.cp'},
-					},
-					patterns: [
-						{include: '#CommentBlock'},
-						{include: '#GenericArguments'},
-					],
-				},
+				{include: '#TypeAccess'},
 				{
 					name: 'meta.type.structure.grouping.cp',
 					begin: '\\(',
