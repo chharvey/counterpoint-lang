@@ -60,6 +60,10 @@ await fs.promises.writeFile(path.join(path.dirname(new URL(import.meta.url).path
 					match: '\\b(never|void|bool|int|float|str|obj|unknown)\\b',
 				},
 				{
+					name: 'variable.language.cp',
+					match: '\\b(this|super|static|hyper)\\b',
+				},
+				{
 					name: 'keyword.operator.text.cp',
 					match: '\\b(mutable|is|isnt|if|then|else)\\b',
 				},
@@ -75,8 +79,9 @@ await fs.promises.writeFile(path.join(path.dirname(new URL(import.meta.url).path
 					name: 'storage.modifier.cp',
 					match: `
 						\\b(
-							  public | private                                   # access modifiers
+							  public | secret | private | protected              # access modifiers
 							| final | abstract | immutable | nominal             # class modifiers
+							| static | new | override | mutating                 # member modifiers
 							| unfixed                                            # variable modifiers
 							| extends | implements | inherits | narrows | widens # class/interface/type heritage
 						)\\b

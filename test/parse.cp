@@ -138,6 +138,17 @@ let null; let false; let true; let never; let void; let bool; let int; let float
 func null; func false; func true; func never; func void; func bool; func int; func float; func str; func obj; func unknown; =>;
 class null; class false; class true; class never; class void; class bool; class int; class float; class str; class obj; class unknown; {}
 interface null; interface false; interface true; interface never; interface void; interface bool; interface int; interface float; interface str; interface obj; interface unknown; {}
+% variables
+type T<this, super, static, hyper> = T;
+type T = (this: T, super: T, static: T, hyper: T) -> {U};
+func f(this: T, super: T, static: T, hyper: T): U {;}
+f.(this= expr, super= expr, static= expr, hyper= expr)~;
+f.(this$, super$, static$, hyper$)~;
+type this; type super; type static; type hyper;
+let this; let super; let static; let hyper;
+func this; func super; func static; func hyper; =>;
+class this; class super; class static; class hyper; {}
+interface this; interface super; interface static; interface hyper; {}
 % operators
 type T<mutable, is, isnt, if, then, else> = T;
 type T = (mutable: T, is: T, isnt: T, if: T, then: T, else: T) -> {U};
@@ -161,16 +172,16 @@ func type; func func ; func func; func class; func interface; =>;
 class type; class let; class func; class class; class interface; {}
 interface type; interface let; interface func; interface class; interface interface; {}
 % storage modifiers
-type T<public, private, final, abstract, immutable, nominal, unfixed, extends, implements, inherits, narrows, widens> = T;
-type T = (public: T, private: T, final: T, abstract: T, immutable: T, nominal: T, unfixed: T, extends: T, implements: T, inherits: T, narrows: T, widens: T) -> {U};
-func f(public: T, private: T, final: T, abstract: T, immutable: T, nominal: T, unfixed: T, extends: T, implements: T, inherits: T, narrows: T, widens: T): U {;}
-f.(public= expr, private= expr, final= expr, abstract= expr, immutable= expr, nominal= expr, unfixed= expr, extends= expr, implements= expr, inherits= expr, narrows= expr, widens= expr)~;
-f.(public$, private$, final$, abstract$, immutable$, nominal$, unfixed$, extends$, implements$, inherits$, narrows$, widens$)~;
-type public; type private; type final; type abstract; type immutable; type nominal; type unfixed; type extends; type implements; type inherits; type narrows; type widens;
-let public; let private; let final; let abstract; let immutable; let nominal; let unfixed; let extends; let implements; let inherits; let narrows; let widens;
-func public; func private; func final; func abstract; func immutable; func nominal; func unfixed; func extends; func implements; func inherits; func narrows; func widens; =>;
-class public; class private; class final; class abstract; class immutable; class nominal; class unfixed; class extends; class implements; class inherits; class narrows; class widens; {}
-interface public; interface private; interface final; interface abstract; interface immutable; interface nominal; interface unfixed; interface extends; interface implements; interface inherits; interface narrows; interface widens; {}
+type T<public, secret, private, protected, final, abstract, immutable, nominal, static, new, override, mutating, unfixed, extends, implements, inherits, narrows, widens> = T;
+type T = (public: T, secret: T, private: T, protected: T, final: T, abstract: T, immutable: T, nominal: T, static: T, new: T, override: T, mutating: T, unfixed: T, extends: T, implements: T, inherits: T, narrows: T, widens: T) -> {U};
+func f(public: T, secret: T, private: T, protected: T, final: T, abstract: T, immutable: T, nominal: T, static: T, new: T, override: T, mutating: T, unfixed: T, extends: T, implements: T, inherits: T, narrows: T, widens: T): U {;}
+f.(public= expr, secret= expr, private= expr, protected= expr, final= expr, abstract= expr, immutable= expr, nominal= expr, static= expr, new= expr, override= expr, mutating= expr, unfixed= expr, extends= expr, implements= expr, inherits= expr, narrows= expr, widens= expr)~;
+f.(public$, secret$, private$, protected$, final$, abstract$, immutable$, nominal$, static$, new$, override$, mutating$, unfixed$, extends$, implements$, inherits$, narrows$, widens$)~;
+type public; type secret; type private; type protected; type final; type abstract; type immutable; type nominal; type static; type new; type override; type mutating; type unfixed; type extends; type implements; type inherits; type narrows; type widens;
+let public; let secret; let private; let protected; let final; let abstract; let immutable; let nominal; let static; let new; let override; let mutating; let unfixed; let extends; let implements; let inherits; let narrows; let widens;
+func public; func secret; func private; func protected; func final; func abstract; func immutable; func nominal; func static; func new; func override; func mutating; func unfixed; func extends; func implements; func inherits; func narrows; func widens; =>;
+class public; class secret; class private; class protected; class final; class abstract; class immutable; class nominal; class static; class new; class override; class mutating; class unfixed; class extends; class implements; class inherits; class narrows; class widens; {}
+interface public; interface secret; interface private; interface protected; interface final; interface abstract; interface immutable; interface nominal; interface static; interface new; interface override; interface mutating; interface unfixed; interface extends; interface implements; interface inherits; interface narrows; interface widens; {}
 % control
 type T<unless, while, until, do, for, from, to, by, in, break, continue, return, throw> = T;
 type T = (unless: T, while: T, until: T, do: T, for: T, from: T, to: T, by: T, in: T, break: T, continue: T, return: T, throw: T) -> {U};
@@ -197,27 +208,31 @@ interface as; {}
 %% these should *not* fail parsing
 because keywords are allowed identifiers here. %%
 type T = [null: T, false: T, true: T, never: T, void: T, bool: T, int: T, float: T, str: T, obj: T, unknown: T];
+type T = [this: T, super: T, static: T, hyper: T];
 type T = [mutable: T, is: T, isnt: T, if: T, then: T, else: T];
 type T = [type: T, let: T, func: T, class: T, interface: T];
-type T = [public: T, private: T, final: T, abstract: T, immutable: T, nominal: T, unfixed: T, extends: T, implements: T, inherits: T, narrows: T, widens: T];
+type T = [public: T, secret: T, private: T, protected: T, final: T, abstract: T, immutable: T, nominal: T, static: T, new: T, override: T, mutating: T, unfixed: T, extends: T, implements: T, inherits: T, narrows: T, widens: T];
 type T = [unless: T, while: T, until: T, do: T, for: T, from: T, to: T, by: T, in: T, break: T, continue: T, return: T, throw: T];
 type T = [as: T];
 [null= expr, false= expr, true= expr, never= expr, void= expr, bool= expr, int= expr, float= expr, str= expr, obj= expr, unknown= expr];
+[this= expr, super= expr, static= expr, hyper= expr];
 [mutable= expr, is= expr, isnt= expr, if= expr, then= expr, else= expr];
 [type= expr, let= expr, func= expr, class= expr, interface= expr];
-[public= expr, private= expr, final= expr, abstract= expr, immutable= expr, nominal= expr, unfixed= expr, extends= expr, implements=expr, inherits=expr, narrows= expr, widens= expr];
+[public= expr, secret= expr, private= expr, protected= expr, final= expr, abstract= expr, immutable= expr, nominal= expr, static= expr, new= expr, override= expr, mutating= expr, unfixed= expr, extends= expr, implements=expr, inherits=expr, narrows= expr, widens= expr];
 [unless= expr, while= expr, until= expr, do= expr, for= expr, from= expr, to= expr, by= expr, in= expr, break= expr, continue= expr, return= expr, throw= expr];
 [as= expr];
 [null$, false$, true$, never$, void$, bool$, int$, float$, str$, obj$, unknown$];
+[this$, super$, static$, hyper$];
 [mutable$, is$, isnt$, if$, then$, else$];
 [type$, let$, func$, class$, interface$];
-[public$, private$, final$, abstract$, immutable$, nominal$, unfixed$, extends$, implements$, inherits$, narrows$, widens$];
+[public$, secret$, private$, protected$, final$, abstract$, immutable$, nominal$, static$, new$, override$, mutating$, unfixed$, extends$, implements$, inherits$, narrows$, widens$];
 [unless$, while$, until$, do$, for$, from$, to$, by$, in$, break$, continue$, return$, throw$];
 [as$];
 object.null; object.false; object.true; object.never; object.void; object.bool; object.int; object.float; object.str; object.obj; object.unknown;
+object.this; object.super; object.static; object.hyper;
 object.mutable; object.is; object.isnt; object.if; object.then; object.else;
 object.type; object.let; object.func; object.class; object.interface;
-object.public; object.private; object.final; object.abstract; object.immutable; object.nominal; object.unfixed; object.extends; object.implements; object.inherits; object.narrows; object.widens;
+object.public; object.secret; object.private; object.protected; object.final; object.abstract; object.immutable; object.nominal; object.static; object.new; object.override; object.mutating; object.unfixed; object.extends; object.implements; object.inherits; object.narrows; object.widens;
 object.unless; object.while; object.until; object.do; object.for; object.from; object.to; object.by; object.in; object.break; object.continue; object.return; object.throw;
 object.as;
 
