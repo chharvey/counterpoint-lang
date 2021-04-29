@@ -56,3 +56,8 @@ export const CLASS = `
 	(\\b immutable \\b ${ OWS })?
 	(\\b class \\b)
 `.replace(/\s+/g, '');
+
+export const INTERFACE = `
+	(\\b immutable \\b ${ OWS })?
+	(\\b interface \\b)
+`.replace(/\s+/g, '');

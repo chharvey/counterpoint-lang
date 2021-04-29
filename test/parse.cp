@@ -137,6 +137,7 @@ type null; type false; type true; type never; type void; type bool; type int; ty
 let null; let false; let true; let never; let void; let bool; let int; let float; let str; let obj; let unknown;
 func null; func false; func true; func never; func void; func bool; func int; func float; func str; func obj; func unknown; =>;
 class null; class false; class true; class never; class void; class bool; class int; class float; class str; class obj; class unknown; {}
+interface null; interface false; interface true; interface never; interface void; interface bool; interface int; interface float; interface str; interface obj; interface unknown; {}
 % operators
 type T<mutable, is, isnt, if, then, else> = T;
 type T = (mutable: T, is: T, isnt: T, if: T, then: T, else: T) -> {U};
@@ -147,26 +148,29 @@ type mutable; type is; type isnt; type if; type then; type else;
 let mutable; let is; let isnt; let if; let then; let else;
 func mutable; func is; func isnt; func if; func then; func else; =>;
 class mutable; class is; class isnt; class if; class then; class else; {}
+interface mutable; interface is; interface isnt; interface if; interface then; interface else; {}
 % storage types
-type T<type, let, func, class> = T;
-type T = (type: T, let: T, func: T, class: T) -> {U};
-func f(type: T, let: T, func: T, class: T): U {;}
-f.(type= expr, let= expr, func= expr, class= expr)~; {});
-f.(type$, let$, func$, class$)~; {});
-type type; type let; type func; type class;
-let type; let let; let func; let class;
-func type; func func ; func func; func class; =>;
-class type; class let; class func; class class; {}
+type T<type, let, func, class, interface> = T;
+type T = (type: T, let: T, func: T, class: T, interface: T) -> {U};
+func f(type: T, let: T, func: T, class: T, interface: T): U {;}
+f.(type= expr, let= expr, func= expr, class= expr, interface= expr)~; {});
+f.(type$, let$, func$, class$, interface$)~; {});
+type type; type let; type func; type class; type interface;
+let type; let let; let func; let class; let interface;
+func type; func func ; func func; func class; func interface; =>;
+class type; class let; class func; class class; class interface; {}
+interface type; interface let; interface func; interface class; interface interface; {}
 % storage modifiers
-type T<public, private, final, abstract, immutable, nominal, unfixed, extends, narrows, widens> = T;
-type T = (public: T, private: T, final: T, abstract: T, immutable: T, nominal: T, unfixed: T, extends: T, narrows: T, widens: T) -> {U};
-func f(public: T, private: T, final: T, abstract: T, immutable: T, nominal: T, unfixed: T, extends: T, narrows: T, widens: T): U {;}
-f.(public= expr, private= expr, final= expr, abstract= expr, immutable= expr, nominal= expr, unfixed= expr, extends= expr, narrows= expr, widens= expr)~;
-f.(public$, private$, final$, abstract$, immutable$, nominal$, unfixed$, extends$, narrows$, widens$)~;
-type public; type private; type final; type abstract; type immutable; type nominal; type unfixed; type extends; type narrows; type widens;
-let public; let private; let final; let abstract; let immutable; let nominal; let unfixed; let extends; let narrows; let widens;
-func public; func private; func final; func abstract; func immutable; func nominal; func unfixed; func extends; func narrows; func widens; =>;
-class public; class private; class final; class abstract; class immutable; class nominal; class unfixed; class extends; class narrows; class widens; {}
+type T<public, private, final, abstract, immutable, nominal, unfixed, extends, implements, inherits, narrows, widens> = T;
+type T = (public: T, private: T, final: T, abstract: T, immutable: T, nominal: T, unfixed: T, extends: T, implements: T, inherits: T, narrows: T, widens: T) -> {U};
+func f(public: T, private: T, final: T, abstract: T, immutable: T, nominal: T, unfixed: T, extends: T, implements: T, inherits: T, narrows: T, widens: T): U {;}
+f.(public= expr, private= expr, final= expr, abstract= expr, immutable= expr, nominal= expr, unfixed= expr, extends= expr, implements= expr, inherits= expr, narrows= expr, widens= expr)~;
+f.(public$, private$, final$, abstract$, immutable$, nominal$, unfixed$, extends$, implements$, inherits$, narrows$, widens$)~;
+type public; type private; type final; type abstract; type immutable; type nominal; type unfixed; type extends; type implements; type inherits; type narrows; type widens;
+let public; let private; let final; let abstract; let immutable; let nominal; let unfixed; let extends; let implements; let inherits; let narrows; let widens;
+func public; func private; func final; func abstract; func immutable; func nominal; func unfixed; func extends; func implements; func inherits; func narrows; func widens; =>;
+class public; class private; class final; class abstract; class immutable; class nominal; class unfixed; class extends; class implements; class inherits; class narrows; class widens; {}
+interface public; interface private; interface final; interface abstract; interface immutable; interface nominal; interface unfixed; interface extends; interface implements; interface inherits; interface narrows; interface widens; {}
 % control
 type T<unless, while, until, do, for, from, to, by, in, break, continue, return, throw> = T;
 type T = (unless: T, while: T, until: T, do: T, for: T, from: T, to: T, by: T, in: T, break: T, continue: T, return: T, throw: T) -> {U};
@@ -177,6 +181,7 @@ type unless; type while; type until; type do; type for; type from; type to; type
 let unless; let while; let until; let do; let for; let from; let to; let by; let in; let break; let continue; let return; let throw;
 func unless; func while; func until; func do; func for; func from; func to; func by; func in; func break; func continue; func return; func throw; =>;
 class unless; class while; class until; class do; class for; class from; class to; class by; class in; class break; class continue; class return; class throw; {}
+interface unless; interface while; interface until; interface do; interface for; interface from; interface to; interface by; interface in; class break; interface continue; interface return; interface throw; {}
 % other
 type T<as> = T;
 type T = (as: T) -> {U};
@@ -187,31 +192,32 @@ type as;
 let as;
 func as; =>;
 class as; {}
+interface as; {}
 
 %% these should *not* fail parsing
 because keywords are allowed identifiers here. %%
 type T = [null: T, false: T, true: T, never: T, void: T, bool: T, int: T, float: T, str: T, obj: T, unknown: T];
 type T = [mutable: T, is: T, isnt: T, if: T, then: T, else: T];
-type T = [type: T, let: T, func: T, class: T];
-type T = [public: T, private: T, final: T, abstract: T, immutable: T, nominal: T, unfixed: T, extends: T, narrows: T, widens: T];
+type T = [type: T, let: T, func: T, class: T, interface: T];
+type T = [public: T, private: T, final: T, abstract: T, immutable: T, nominal: T, unfixed: T, extends: T, implements: T, inherits: T, narrows: T, widens: T];
 type T = [unless: T, while: T, until: T, do: T, for: T, from: T, to: T, by: T, in: T, break: T, continue: T, return: T, throw: T];
 type T = [as: T];
 [null= expr, false= expr, true= expr, never= expr, void= expr, bool= expr, int= expr, float= expr, str= expr, obj= expr, unknown= expr];
 [mutable= expr, is= expr, isnt= expr, if= expr, then= expr, else= expr];
-[type= expr, let= expr, func= expr, class= expr];
-[public= expr, private= expr, final= expr, abstract= expr, immutable= expr, nominal= expr, unfixed= expr, extends= expr, narrows= expr, widens= expr];
+[type= expr, let= expr, func= expr, class= expr, interface= expr];
+[public= expr, private= expr, final= expr, abstract= expr, immutable= expr, nominal= expr, unfixed= expr, extends= expr, implements=expr, inherits=expr, narrows= expr, widens= expr];
 [unless= expr, while= expr, until= expr, do= expr, for= expr, from= expr, to= expr, by= expr, in= expr, break= expr, continue= expr, return= expr, throw= expr];
 [as= expr];
 [null$, false$, true$, never$, void$, bool$, int$, float$, str$, obj$, unknown$];
 [mutable$, is$, isnt$, if$, then$, else$];
-[type$, let$, func$, class$];
-[public$, private$, final$, abstract$, immutable$, nominal$, unfixed$, extends$, narrows$, widens$];
+[type$, let$, func$, class$, interface$];
+[public$, private$, final$, abstract$, immutable$, nominal$, unfixed$, extends$, implements$, inherits$, narrows$, widens$];
 [unless$, while$, until$, do$, for$, from$, to$, by$, in$, break$, continue$, return$, throw$];
 [as$];
 object.null; object.false; object.true; object.never; object.void; object.bool; object.int; object.float; object.str; object.obj; object.unknown;
 object.mutable; object.is; object.isnt; object.if; object.then; object.else;
-object.type; object.let; object.func; object.class;
-object.public; object.private; object.final; object.abstract; object.immutable; object.nominal; object.unfixed; object.extends; object.narrows; object.widens;
+object.type; object.let; object.func; object.class; object.interface;
+object.public; object.private; object.final; object.abstract; object.immutable; object.nominal; object.unfixed; object.extends; object.implements; object.inherits; object.narrows; object.widens;
 object.unless; object.while; object.until; object.do; object.for; object.from; object.to; object.by; object.in; object.break; object.continue; object.return; object.throw;
 object.as;
 
@@ -482,6 +488,7 @@ immutable class Foo {}
 class nominal Foo {}
 class Foo<T> {}
 class Foo extends Bar, Diz.<T> {}
+class Foo implements Bar, Diz.<T> {}
 
 % class expressions
 let Foo: Class = Object && Class && (class {});
@@ -492,3 +499,21 @@ let Foo: Class = Object && Class && (abstract class {});
 let Foo: Class = Object && Class && (immutable class {});
 let Foo: Class = Object && Class && (class <T> extends Bar.<T> {});
 let Foo: Class = Object && Class && (class extends Bar, Diz.<T> {});
+let Foo: Class = Object && Class && (class implements Bar, Diz.<T> {});
+
+% interface declarations
+interface Foo {}
+public interface Foo {}
+private interface Foo {}
+immutable interface Foo {}
+interface nominal Foo {}
+interface Foo<T> {}
+interface Foo extends Bar, Diz.<T> {}
+interface Foo inherits Bar, Diz.<T> {}
+
+% interface type expressions
+type T = unknown & (interface {});
+type T = unknown & (immutable interface {});
+type T = unknown & (interface <T> {});
+type T = unknown & (interface extends Bar, Diz.<T> {});
+type T = unknown & (interface inherits Bar, Diz.<T> {});
