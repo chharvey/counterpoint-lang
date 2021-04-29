@@ -136,6 +136,7 @@ f.(null$, false$, true$, never$, void$, bool$, int$, float$, str$, obj$, unknown
 type null; type false; type true; type never; type void; type bool; type int; type float; type str; type obj; type unknown;
 let null; let false; let true; let never; let void; let bool; let int; let float; let str; let obj; let unknown;
 func null; func false; func true; func never; func void; func bool; func int; func float; func str; func obj; func unknown; =>;
+class null; class false; class true; class never; class void; class bool; class int; class float; class str; class obj; class unknown; {}
 % operators
 type T<mutable, is, isnt, if, then, else> = T;
 type T = (mutable: T, is: T, isnt: T, if: T, then: T, else: T) -> {U};
@@ -145,24 +146,27 @@ f.(mutable$, is$, isnt$, if$, then$, else$)~;
 type mutable; type is; type isnt; type if; type then; type else;
 let mutable; let is; let isnt; let if; let then; let else;
 func mutable; func is; func isnt; func if; func then; func else; =>;
+class mutable; class is; class isnt; class if; class then; class else; {}
 % storage types
-type T<type, let, func> = T;
-type T = (type: T, let: T, func: T) -> {U};
-func f(type: T, let: T, func: T): U {;}
-f.(type= expr, let= expr, func= expr)~;
-f.(type$, let$, func$)~;
-type type; type let; type func;
-let type; let let; let func;
-func type; func func ; func func; =>;
+type T<type, let, func, class> = T;
+type T = (type: T, let: T, func: T, class: T) -> {U};
+func f(type: T, let: T, func: T, class: T): U {;}
+f.(type= expr, let= expr, func= expr, class= expr)~; {});
+f.(type$, let$, func$, class$)~; {});
+type type; type let; type func; type class;
+let type; let let; let func; let class;
+func type; func func ; func func; func class; =>;
+class type; class let; class func; class class; {}
 % storage modifiers
-type T<unfixed, narrows, widens> = T;
-type T = (unfixed: T, narrows: T, widens: T) -> {U};
-func f(unfixed: T, narrows: T, widens: T): U {;}
-f.(unfixed= expr, narrows= expr, widens= expr)~;
-f.(unfixed$, narrows$, widens$)~;
-type unfixed; type narrows; type widens;
-let unfixed; let narrows; let widens;
-func unfixed; func narrows; func widens; =>;
+type T<public, private, final, abstract, immutable, nominal, unfixed, extends, narrows, widens> = T;
+type T = (public: T, private: T, final: T, abstract: T, immutable: T, nominal: T, unfixed: T, extends: T, narrows: T, widens: T) -> {U};
+func f(public: T, private: T, final: T, abstract: T, immutable: T, nominal: T, unfixed: T, extends: T, narrows: T, widens: T): U {;}
+f.(public= expr, private= expr, final= expr, abstract= expr, immutable= expr, nominal= expr, unfixed= expr, extends= expr, narrows= expr, widens= expr)~;
+f.(public$, private$, final$, abstract$, immutable$, nominal$, unfixed$, extends$, narrows$, widens$)~;
+type public; type private; type final; type abstract; type immutable; type nominal; type unfixed; type extends; type narrows; type widens;
+let public; let private; let final; let abstract; let immutable; let nominal; let unfixed; let extends; let narrows; let widens;
+func public; func private; func final; func abstract; func immutable; func nominal; func unfixed; func extends; func narrows; func widens; =>;
+class public; class private; class final; class abstract; class immutable; class nominal; class unfixed; class extends; class narrows; class widens; {}
 % control
 type T<unless, while, until, do, for, from, to, by, in, break, continue, return, throw> = T;
 type T = (unless: T, while: T, until: T, do: T, for: T, from: T, to: T, by: T, in: T, break: T, continue: T, return: T, throw: T) -> {U};
@@ -172,6 +176,7 @@ f.(unless$, while$, until$, do$, for$, from$, to$, by$, in$, break$, continue$, 
 type unless; type while; type until; type do; type for; type from; type to; type by; type in; type break; type continue; type return; type throw;
 let unless; let while; let until; let do; let for; let from; let to; let by; let in; let break; let continue; let return; let throw;
 func unless; func while; func until; func do; func for; func from; func to; func by; func in; func break; func continue; func return; func throw; =>;
+class unless; class while; class until; class do; class for; class from; class to; class by; class in; class break; class continue; class return; class throw; {}
 % other
 type T<as> = T;
 type T = (as: T) -> {U};
@@ -181,31 +186,32 @@ f.(as$)~;
 type as;
 let as;
 func as; =>;
+class as; {}
 
 %% these should *not* fail parsing
 because keywords are allowed identifiers here. %%
 type T = [null: T, false: T, true: T, never: T, void: T, bool: T, int: T, float: T, str: T, obj: T, unknown: T];
 type T = [mutable: T, is: T, isnt: T, if: T, then: T, else: T];
-type T = [type: T, let: T, func: T];
-type T = [unfixed: T, narrows: T, widens: T];
+type T = [type: T, let: T, func: T, class: T];
+type T = [public: T, private: T, final: T, abstract: T, immutable: T, nominal: T, unfixed: T, extends: T, narrows: T, widens: T];
 type T = [unless: T, while: T, until: T, do: T, for: T, from: T, to: T, by: T, in: T, break: T, continue: T, return: T, throw: T];
 type T = [as: T];
 [null= expr, false= expr, true= expr, never= expr, void= expr, bool= expr, int= expr, float= expr, str= expr, obj= expr, unknown= expr];
 [mutable= expr, is= expr, isnt= expr, if= expr, then= expr, else= expr];
-[type= expr, let= expr, func= expr];
-[unfixed= expr, narrows= expr, widens= expr];
+% [type= expr, let= expr, func= expr, class= expr]; % FIXME
+[public= expr, private= expr, final= expr, abstract= expr, immutable= expr, nominal= expr, unfixed= expr, extends= expr, narrows= expr, widens= expr];
 [unless= expr, while= expr, until= expr, do= expr, for= expr, from= expr, to= expr, by= expr, in= expr, break= expr, continue= expr, return= expr, throw= expr];
 [as= expr];
 [null$, false$, true$, never$, void$, bool$, int$, float$, str$, obj$, unknown$];
 [mutable$, is$, isnt$, if$, then$, else$];
-[type$, let$, func$];
-[unfixed$, narrows$, widens$];
+% [type$, let$, func$, class$]; % FIXME
+[public$, private$, final$, abstract$, immutable$, nominal$, unfixed$, extends$, narrows$, widens$];
 [unless$, while$, until$, do$, for$, from$, to$, by$, in$, break$, continue$, return$, throw$];
 [as$];
 object.null; object.false; object.true; object.never; object.void; object.bool; object.int; object.float; object.str; object.obj; object.unknown;
 object.mutable; object.is; object.isnt; object.if; object.then; object.else;
-object.type; object.let; object.func;
-object.unfixed; object.narrows; object.widens;
+object.type; object.let; object.func; object.class;
+object.public; object.private; object.final; object.abstract; object.immutable; object.nominal; object.unfixed; object.extends; object.narrows; object.widens;
 object.unless; object.while; object.until; object.do; object.for; object.from; object.to; object.by; object.in; object.break; object.continue; object.return; object.throw;
 object.as;
 
