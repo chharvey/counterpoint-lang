@@ -133,6 +133,7 @@ type T = (null: T, false: T, true: T, never: T, void: T, bool: T, int: T, float:
 func f(null: T, false: T, true: T, never: T, void: T, bool: T, int: T, float: T, str: T, obj: T, unknown: T): U {;}
 f.(null= expr, false= expr, true= expr, never= expr, void= expr, bool= expr, int= expr, float= expr, str= expr, obj= expr, unknown= expr)~;
 f.(null$, false$, true$, never$, void$, bool$, int$, float$, str$, obj$, unknown$)~;
+[null$, false$, true$, never$, void$, bool$, int$, float$, str$, obj$, unknown$];
 type null; type false; type true; type never; type void; type bool; type int; type float; type str; type obj; type unknown;
 let null; let false; let true; let never; let void; let bool; let int; let float; let str; let obj; let unknown;
 func null; func false; func true; func never; func void; func bool; func int; func float; func str; func obj; func unknown; =>;
@@ -144,6 +145,7 @@ type T = (this: T, super: T, static: T, hyper: T) -> {U};
 func f(this: T, super: T, static: T, hyper: T): U {;}
 f.(this= expr, super= expr, static= expr, hyper= expr)~;
 f.(this$, super$, static$, hyper$)~;
+[this$, super$, static$, hyper$];
 type this; type super; type static; type hyper;
 let this; let super; let static; let hyper;
 func this; func super; func static; func hyper; =>;
@@ -155,6 +157,7 @@ type T = (mutable: T, is: T, isnt: T, if: T, then: T, else: T) -> {U};
 func f(mutable: T, is: T, isnt: T, if: T, then: T, else: T): U {;}
 f.(mutable= expr, is= expr, isnt= expr, if= expr, then= expr, else= expr)~;
 f.(mutable$, is$, isnt$, if$, then$, else$)~;
+[mutable$, is$, isnt$, if$, then$, else$];
 type mutable; type is; type isnt; type if; type then; type else;
 let mutable; let is; let isnt; let if; let then; let else;
 func mutable; func is; func isnt; func if; func then; func else; =>;
@@ -166,6 +169,7 @@ type T = (type: T, let: T, func: T, class: T, interface: T) -> {U};
 func f(type: T, let: T, func: T, class: T, interface: T): U {;}
 f.(type= expr, let= expr, func= expr, class= expr, interface= expr)~; {});
 f.(type$, let$, func$, class$, interface$)~; {});
+[type$, let$, func$, class$, interface$];
 type type; type let; type func; type class; type interface;
 let type; let let; let func; let class; let interface;
 func type; func func ; func func; func class; func interface; =>;
@@ -177,6 +181,7 @@ type T = (public: T, secret: T, private: T, protected: T, final: T, abstract: T,
 func f(public: T, secret: T, private: T, protected: T, final: T, abstract: T, immutable: T, nominal: T, static: T, new: T, override: T, mutating: T, unfixed: T, extends: T, implements: T, inherits: T, narrows: T, widens: T): U {;}
 f.(public= expr, secret= expr, private= expr, protected= expr, final= expr, abstract= expr, immutable= expr, nominal= expr, static= expr, new= expr, override= expr, mutating= expr, unfixed= expr, extends= expr, implements= expr, inherits= expr, narrows= expr, widens= expr)~;
 f.(public$, secret$, private$, protected$, final$, abstract$, immutable$, nominal$, static$, new$, override$, mutating$, unfixed$, extends$, implements$, inherits$, narrows$, widens$)~;
+[public$, secret$, private$, protected$, final$, abstract$, immutable$, nominal$, static$, new$, override$, mutating$, unfixed$, extends$, implements$, inherits$, narrows$, widens$];
 type public; type secret; type private; type protected; type final; type abstract; type immutable; type nominal; type static; type new; type override; type mutating; type unfixed; type extends; type implements; type inherits; type narrows; type widens;
 let public; let secret; let private; let protected; let final; let abstract; let immutable; let nominal; let static; let new; let override; let mutating; let unfixed; let extends; let implements; let inherits; let narrows; let widens;
 func public; func secret; func private; func protected; func final; func abstract; func immutable; func nominal; func static; func new; func override; func mutating; func unfixed; func extends; func implements; func inherits; func narrows; func widens; =>;
@@ -188,6 +193,7 @@ type T = (unless: T, while: T, until: T, do: T, for: T, from: T, to: T, by: T, i
 func f(unless: T, while: T, until: T, do: T, for: T, from: T, to: T, by: T, in: T, break: T, continue: T, return: T, throw: T): U {;}
 f.(unless= expr, while= expr, until= expr, do= expr, for= expr, from= expr, to= expr, by= expr, in= expr, break= expr, continue= expr, return= expr, throw= expr)~;
 f.(unless$, while$, until$, do$, for$, from$, to$, by$, in$, break$, continue$, return$, throw$)~;
+[unless$, while$, until$, do$, for$, from$, to$, by$, in$, break$, continue$, return$, throw$];
 type unless; type while; type until; type do; type for; type from; type to; type by; type in; type break; type continue; type return; type throw;
 let unless; let while; let until; let do; let for; let from; let to; let by; let in; let break; let continue; let return; let throw;
 func unless; func while; func until; func do; func for; func from; func to; func by; func in; func break; func continue; func return; func throw; =>;
@@ -199,6 +205,7 @@ type T = (as: T) -> {U};
 func f(as: T): U {;}
 f.(as= expr)~;
 f.(as$)~;
+[as$];
 type as;
 let as;
 func as; =>;
@@ -221,13 +228,6 @@ type T = [as: T];
 [public= expr, secret= expr, private= expr, protected= expr, final= expr, abstract= expr, immutable= expr, nominal= expr, static= expr, new= expr, override= expr, mutating= expr, unfixed= expr, extends= expr, implements=expr, inherits=expr, narrows= expr, widens= expr];
 [unless= expr, while= expr, until= expr, do= expr, for= expr, from= expr, to= expr, by= expr, in= expr, break= expr, continue= expr, return= expr, throw= expr];
 [as= expr];
-[null$, false$, true$, never$, void$, bool$, int$, float$, str$, obj$, unknown$];
-[this$, super$, static$, hyper$];
-[mutable$, is$, isnt$, if$, then$, else$];
-[type$, let$, func$, class$, interface$];
-[public$, secret$, private$, protected$, final$, abstract$, immutable$, nominal$, static$, new$, override$, mutating$, unfixed$, extends$, implements$, inherits$, narrows$, widens$];
-[unless$, while$, until$, do$, for$, from$, to$, by$, in$, break$, continue$, return$, throw$];
-[as$];
 object.null; object.false; object.true; object.never; object.void; object.bool; object.int; object.float; object.str; object.obj; object.unknown;
 object.this; object.super; object.static; object.hyper;
 object.mutable; object.is; object.isnt; object.if; object.then; object.else;

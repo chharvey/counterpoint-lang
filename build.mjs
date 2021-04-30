@@ -613,7 +613,7 @@ await fs.promises.writeFile(path.join(path.dirname(new URL(import.meta.url).path
 									name: 'keyword.other.alias.cp',
 									match: '\\$',
 								},
-								{include: '#IdentifierProperty'},
+								{include: '#IdentifierArgument'},
 							],
 						},
 						{
