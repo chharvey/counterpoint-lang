@@ -69,3 +69,12 @@ export const FIELD = `
 	(\\b override \\b ${ OWS })?
 	${ VAR } ${ OWS } ${ ANNO_START }
 `.replace(/\s+/g, '');
+
+export const METHOD = `
+	(\\b static \\b ${ OWS })?
+	(\\b(?:public | secret | private | protected)\\b${ OWS })?
+	(\\b final \\b ${ OWS })?
+	(\\b override \\b ${ OWS })?
+	(\\b mutating \\b ${ OWS })?
+	${ VAR } ${ OWS } (?:< | \\()
+`.replace(/\s+/g, '');

@@ -543,10 +543,26 @@ class Foo {
 	final field: T = 42;
 	override field: T = 42;
 	field: Typ = 42;
+
+	static meth(): void {;}
+	public meth(): void {;}
+	secret meth(): void {;}
+	private meth(): void {;}
+	protected meth(): void {;}
+	final meth(): void {;}
+	override meth(): void {;}
+	mutating meth(): void {;}
+	meth<T>(): void {;}
+	meth(x: int): void {;}
+	meth(): int => 42;
 }
 
 % interface members
 interface Foo {
 	final field: this;
 	field: T;
+
+	mutating meth(): void;
+	meth<T>(): void;
+	meth(x: int): void;
 }

@@ -19,6 +19,7 @@ import {
 	CLASS,
 	INTERFACE,
 	FIELD,
+	METHOD,
 } from './src/selectors.js';
 import {
 	identifier,
@@ -523,7 +524,7 @@ await fs.promises.writeFile(path.join(path.dirname(new URL(import.meta.url).path
 						{include: '#CommentLine'},
 						{include: '#GenericParameters'},
 						{include: '#Parameters'},
-						annotation(lookaheads(['\\{', '=>'])),
+						annotation(lookaheads(['\\{', ARROW])),
 					],
 				},
 				{
@@ -714,7 +715,7 @@ await fs.promises.writeFile(path.join(path.dirname(new URL(import.meta.url).path
 					patterns: [
 						{include: '#GenericParameters'},
 						{include: '#Parameters'},
-						annotation(lookaheads(['\\{', '=>'])),
+						annotation(lookaheads(['\\{', ARROW])),
 						identifier('entity.name.function'),
 					],
 				},
@@ -820,6 +821,25 @@ await fs.promises.writeFile(path.join(path.dirname(new URL(import.meta.url).path
 						annotation(lookaheads([ASSN_START, ';'])),
 						assignment(lookaheads([';'])),
 						identifier('entity.name.field'),
+					],
+				},
+				{
+					name: 'meta.method.cp',
+					begin: lookaheads([METHOD]),
+					end:   `${ lookaheads(['\\{']) }|(${ ARROW })|(;)`,
+					endCaptures: {
+						1: {name: 'storage.type.cp'},
+						2: {name: 'punctuation.delimiter.cp'},
+					},
+					patterns: [
+						{
+							name: 'storage.modifier.cp',
+							match: '\\b(static|public|secret|private|protected|final|override|mutating)\\b',
+						},
+						{include: '#GenericParameters'},
+						{include: '#Parameters'},
+						annotation(lookaheads(['\\{', ARROW, ';'])),
+						identifier('entity.name.method'),
 					],
 				},
 			],
