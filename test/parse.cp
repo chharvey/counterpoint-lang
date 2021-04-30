@@ -128,17 +128,17 @@ func twice(x: int): int => x * 2;
 %% these should all fail parsing
 and thus be colored to indicate as such. %%
 % constants
-type T<null, false, true, never, void, bool, int, float, str, obj, unknown> = T;
-type T = (null: T, false: T, true: T, never: T, void: T, bool: T, int: T, float: T, str: T, obj: T, unknown: T) -> {U};
-func f(null: T, false: T, true: T, never: T, void: T, bool: T, int: T, float: T, str: T, obj: T, unknown: T): U {;}
-f.(null= expr, false= expr, true= expr, never= expr, void= expr, bool= expr, int= expr, float= expr, str= expr, obj= expr, unknown= expr)~;
-f.(null$, false$, true$, never$, void$, bool$, int$, float$, str$, obj$, unknown$)~;
-[null$, false$, true$, never$, void$, bool$, int$, float$, str$, obj$, unknown$];
-type null; type false; type true; type never; type void; type bool; type int; type float; type str; type obj; type unknown;
-let null; let false; let true; let never; let void; let bool; let int; let float; let str; let obj; let unknown;
-func null; func false; func true; func never; func void; func bool; func int; func float; func str; func obj; func unknown; =>;
-class null; class false; class true; class never; class void; class bool; class int; class float; class str; class obj; class unknown; {}
-interface null; interface false; interface true; interface never; interface void; interface bool; interface int; interface float; interface str; interface obj; interface unknown; {}
+type T<null, false, true, never, void, bool, int, float, str, obj, unknown, this> = T;
+type T = (null: T, false: T, true: T, never: T, void: T, bool: T, int: T, float: T, str: T, obj: T, unknown: T, this: T) -> {U};
+func f(null: T, false: T, true: T, never: T, void: T, bool: T, int: T, float: T, str: T, obj: T, unknown: T, this: T): U {;}
+f.(null= expr, false= expr, true= expr, never= expr, void= expr, bool= expr, int= expr, float= expr, str= expr, obj= expr, unknown= expr, this= expr)~;
+f.(null$, false$, true$, never$, void$, bool$, int$, float$, str$, obj$, unknown$, this$)~;
+[null$, false$, true$, never$, void$, bool$, int$, float$, str$, obj$, unknown$, this$];
+type null; type false; type true; type never; type void; type bool; type int; type float; type str; type obj; type unknown; type this;
+let null; let false; let true; let never; let void; let bool; let int; let float; let str; let obj; let unknown; let this;
+func null; func false; func true; func never; func void; func bool; func int; func float; func str; func obj; func unknown; func this; =>;
+class null; class false; class true; class never; class void; class bool; class int; class float; class str; class obj; class unknown; class this; {}
+interface null; interface false; interface true; interface never; interface void; interface bool; interface int; interface float; interface str; interface obj; interface unknown; interface this; {}
 % variables
 type T<this, super, static, hyper> = T;
 type T = (this: T, super: T, static: T, hyper: T) -> {U};
@@ -188,17 +188,17 @@ func public; func secret; func private; func protected; func final; func abstrac
 class public; class secret; class private; class protected; class final; class abstract; class immutable; class nominal; class static; class new; class override; class mutating; class unfixed; class extends; class implements; class inherits; class narrows; class widens; {}
 interface public; interface secret; interface private; interface protected; interface final; interface abstract; interface immutable; interface nominal; interface static; interface new; interface override; interface mutating; interface unfixed; interface extends; interface implements; interface inherits; interface narrows; interface widens; {}
 % control
-type T<unless, while, until, do, for, from, to, by, in, break, continue, return, throw> = T;
-type T = (unless: T, while: T, until: T, do: T, for: T, from: T, to: T, by: T, in: T, break: T, continue: T, return: T, throw: T) -> {U};
-func f(unless: T, while: T, until: T, do: T, for: T, from: T, to: T, by: T, in: T, break: T, continue: T, return: T, throw: T): U {;}
-f.(unless= expr, while= expr, until= expr, do= expr, for= expr, from= expr, to= expr, by= expr, in= expr, break= expr, continue= expr, return= expr, throw= expr)~;
-f.(unless$, while$, until$, do$, for$, from$, to$, by$, in$, break$, continue$, return$, throw$)~;
-[unless$, while$, until$, do$, for$, from$, to$, by$, in$, break$, continue$, return$, throw$];
-type unless; type while; type until; type do; type for; type from; type to; type by; type in; type break; type continue; type return; type throw;
-let unless; let while; let until; let do; let for; let from; let to; let by; let in; let break; let continue; let return; let throw;
-func unless; func while; func until; func do; func for; func from; func to; func by; func in; func break; func continue; func return; func throw; =>;
-class unless; class while; class until; class do; class for; class from; class to; class by; class in; class break; class continue; class return; class throw; {}
-interface unless; interface while; interface until; interface do; interface for; interface from; interface to; interface by; interface in; class break; interface continue; interface return; interface throw; {}
+type T<if, unless, then, else, while, until, do, for, from, to, by, in, break, continue, return, throw> = T;
+type T = (if: T, unless: T, then: T, else: T, while: T, until: T, do: T, for: T, from: T, to: T, by: T, in: T, break: T, continue: T, return: T, throw: T) -> {U};
+func f(if: T, unless: T, then: T, else: T, while: T, until: T, do: T, for: T, from: T, to: T, by: T, in: T, break: T, continue: T, return: T, throw: T): U {;}
+f.(if= expr, unless= expr, then= expr, else= expr, while= expr, until= expr, do= expr, for= expr, from= expr, to= expr, by= expr, in= expr, break= expr, continue= expr, return= expr, throw= expr)~;
+f.(if$, unless$, then$, else$ while$, until$, do$, for$, from$, to$, by$, in$, break$, continue$, return$, throw$)~;
+[if$, unless$, then$, else$, while$, until$, do$, for$, from$, to$, by$, in$, break$, continue$, return$, throw$];
+type if; type unless; type then; type else; type while; type until; type do; type for; type from; type to; type by; type in; type break; type continue; type return; type throw;
+let if; let unless; let then; let else; let while; let until; let do; let for; let from; let to; let by; let in; let break; let continue; let return; let throw;
+func if; func unless; func then; func else; func while; func until; func do; func for; func from; func to; func by; func in; func break; func continue; func return; func throw; =>;
+class if; class unless; class then; class else; class while; class until; class do; class for; class from; class to; class by; class in; class break; class continue; class return; class throw; {}
+interface if; interface unless; interface then; interface else; interface while; interface until; interface do; interface for; interface from; interface to; interface by; interface in; class break; interface continue; interface return; interface throw; {}
 % other
 type T<as> = T;
 type T = (as: T) -> {U};
@@ -214,26 +214,26 @@ interface as; {}
 
 %% these should *not* fail parsing
 because keywords are allowed identifiers here. %%
-type T = [null: T, false: T, true: T, never: T, void: T, bool: T, int: T, float: T, str: T, obj: T, unknown: T];
+type T = [null: T, false: T, true: T, never: T, void: T, bool: T, int: T, float: T, str: T, obj: T, unknown: T, this: T];
 type T = [this: T, super: T, static: T, hyper: T];
 type T = [mutable: T, is: T, isnt: T, if: T, then: T, else: T];
 type T = [type: T, let: T, func: T, class: T, interface: T];
 type T = [public: T, secret: T, private: T, protected: T, final: T, abstract: T, immutable: T, nominal: T, static: T, new: T, override: T, mutating: T, unfixed: T, extends: T, implements: T, inherits: T, narrows: T, widens: T];
-type T = [unless: T, while: T, until: T, do: T, for: T, from: T, to: T, by: T, in: T, break: T, continue: T, return: T, throw: T];
+type T = [if: T, unless: T, then: T, else: T, while: T, until: T, do: T, for: T, from: T, to: T, by: T, in: T, break: T, continue: T, return: T, throw: T];
 type T = [as: T];
-[null= expr, false= expr, true= expr, never= expr, void= expr, bool= expr, int= expr, float= expr, str= expr, obj= expr, unknown= expr];
+[null= expr, false= expr, true= expr, never= expr, void= expr, bool= expr, int= expr, float= expr, str= expr, obj= expr, unknown= expr, this= expr];
 [this= expr, super= expr, static= expr, hyper= expr];
 [mutable= expr, is= expr, isnt= expr, if= expr, then= expr, else= expr];
 [type= expr, let= expr, func= expr, class= expr, interface= expr];
 [public= expr, secret= expr, private= expr, protected= expr, final= expr, abstract= expr, immutable= expr, nominal= expr, static= expr, new= expr, override= expr, mutating= expr, unfixed= expr, extends= expr, implements=expr, inherits=expr, narrows= expr, widens= expr];
-[unless= expr, while= expr, until= expr, do= expr, for= expr, from= expr, to= expr, by= expr, in= expr, break= expr, continue= expr, return= expr, throw= expr];
+[if= expr, unless= expr, then= expr, else= expr, while= expr, until= expr, do= expr, for= expr, from= expr, to= expr, by= expr, in= expr, break= expr, continue= expr, return= expr, throw= expr];
 [as= expr];
-object.null; object.false; object.true; object.never; object.void; object.bool; object.int; object.float; object.str; object.obj; object.unknown;
+object.null; object.false; object.true; object.never; object.void; object.bool; object.int; object.float; object.str; object.obj; object.unknown; object.this;
 object.this; object.super; object.static; object.hyper;
 object.mutable; object.is; object.isnt; object.if; object.then; object.else;
 object.type; object.let; object.func; object.class; object.interface;
 object.public; object.secret; object.private; object.protected; object.final; object.abstract; object.immutable; object.nominal; object.static; object.new; object.override; object.mutating; object.unfixed; object.extends; object.implements; object.inherits; object.narrows; object.widens;
-object.unless; object.while; object.until; object.do; object.for; object.from; object.to; object.by; object.in; object.break; object.continue; object.return; object.throw;
+object.if; object.unless; object.then; object.else; object.while; object.until; object.do; object.for; object.from; object.to; object.by; object.in; object.break; object.continue; object.return; object.throw;
 object.as;
 
 

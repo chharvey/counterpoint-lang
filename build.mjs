@@ -57,7 +57,7 @@ await fs.promises.writeFile(path.join(path.dirname(new URL(import.meta.url).path
 				},
 				{
 					name: 'support.type.cp',
-					match: '\\b(never|void|bool|int|float|str|obj|unknown)\\b',
+					match: '\\b(never|void|bool|int|float|str|obj|unknown|this)\\b',
 				},
 				{
 					name: 'variable.language.cp',
@@ -487,6 +487,10 @@ await fs.promises.writeFile(path.join(path.dirname(new URL(import.meta.url).path
 						{include: '#Type'},
 					],
 				},
+				{
+					name: 'support.type.cp',
+					match: '\\b(this)\\b',
+				},
 				{include: '#PromiseType'},
 				unit('entity.name.type'),
 			],
@@ -633,6 +637,10 @@ await fs.promises.writeFile(path.join(path.dirname(new URL(import.meta.url).path
 						},
 						{include: '#Expression'},
 					],
+				},
+				{
+					name: 'variable.language.cp',
+					match: '\\b(this)\\b',
 				},
 				{include: '#Block'},
 				unit(),
