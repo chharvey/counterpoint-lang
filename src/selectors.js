@@ -61,3 +61,11 @@ export const INTERFACE = `
 	(\\b immutable \\b ${ OWS })?
 	(\\b interface \\b)
 `.replace(/\s+/g, '');
+
+export const FIELD = `
+	(\\b static \\b ${ OWS })?
+	(\\b(?:public | secret | private | protected)\\b${ OWS })?
+	(\\b final \\b ${ OWS })?
+	(\\b override \\b ${ OWS })?
+	${ VAR } ${ OWS } ${ ANNO_START }
+`.replace(/\s+/g, '');

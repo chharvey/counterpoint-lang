@@ -18,6 +18,7 @@ import {
 	DESTRUCTURE_ASSIGNEES,
 	CLASS,
 	INTERFACE,
+	FIELD,
 } from './src/selectors.js';
 import {
 	identifier,
@@ -719,7 +720,7 @@ await fs.promises.writeFile(path.join(path.dirname(new URL(import.meta.url).path
 				},
 				{
 					name: 'meta.declaration.class.cp',
-					begin: lookaheads([`(\\b(public|private)\\b)?${ OWS }${ CLASS }`]),
+					begin: lookaheads([`(\\b(public|private)\\b${ OWS })?${ CLASS }`]),
 					end:   lookaheads(['\\{']),
 					patterns: [
 						{
@@ -747,7 +748,7 @@ await fs.promises.writeFile(path.join(path.dirname(new URL(import.meta.url).path
 				},
 				{
 					name: 'meta.declaration.interface.cp',
-					begin: lookaheads([`(\\b(public|private)\\b)?${ OWS }${ INTERFACE }`]),
+					begin: lookaheads([`(\\b(public|private)\\b${ OWS })?${ INTERFACE }`]),
 					end:   lookaheads(['\\{']),
 					patterns: [
 						{
@@ -802,6 +803,27 @@ await fs.promises.writeFile(path.join(path.dirname(new URL(import.meta.url).path
 				{include: '#Expression'},
 			],
 		},
+		Member: {
+			patterns: [
+				{
+					name: 'meta.field.cp',
+					begin: lookaheads([FIELD]),
+					end:   ';',
+					endCaptures: {
+						0: {name: 'punctuation.delimiter.cp'},
+					},
+					patterns: [
+						{
+							name: 'storage.modifier.cp',
+							match: '\\b(static|public|secret|private|protected|final|override)\\b',
+						},
+						annotation(lookaheads([ASSN_START, ';'])),
+						assignment(lookaheads([';'])),
+						identifier('entity.name.field'),
+					],
+				},
+			],
+		},
 		Block: {
 			name: 'meta.block.cp',
 			begin: '\\{',
@@ -810,12 +832,14 @@ await fs.promises.writeFile(path.join(path.dirname(new URL(import.meta.url).path
 				0: {name: 'punctuation.delimiter.cp'},
 			},
 			patterns: [
+				{include: '#Member'},
 				{include: '#Statement'},
 			],
 		},
 	},
 	patterns: [
 		{include: '#Block'},
+		{include: '#Member'},
 		{include: '#Statement'},
 	],
 }));

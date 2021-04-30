@@ -532,3 +532,21 @@ type T = unknown & (immutable interface {});
 type T = unknown & (interface <T> {});
 type T = unknown & (interface extends Bar, Diz.<T> {});
 type T = unknown & (interface inherits Bar, Diz.<T> {});
+
+% class members
+class Foo {
+	static field: T = 42;
+	public field: T = 42;
+	secret field: T = 42;
+	private field: T = 42;
+	protected field: T = 42;
+	final field: T = 42;
+	override field: T = 42;
+	field: Typ = 42;
+}
+
+% interface members
+interface Foo {
+	final field: this;
+	field: T;
+}
