@@ -18,6 +18,8 @@ import {
 	DESTRUCTURE_ASSIGNEES,
 	CLASS,
 	INTERFACE,
+	FIELD,
+	METHOD,
 } from './src/selectors.js';
 import {
 	identifier,
@@ -57,7 +59,11 @@ await fs.promises.writeFile(path.join(path.dirname(new URL(import.meta.url).path
 				},
 				{
 					name: 'support.type.cp',
-					match: '\\b(never|void|bool|int|float|str|obj|unknown)\\b',
+					match: '\\b(never|void|bool|int|float|str|obj|unknown|this)\\b',
+				},
+				{
+					name: 'variable.language.cp',
+					match: '\\b(this|super|static|hyper)\\b',
 				},
 				{
 					name: 'keyword.operator.text.cp',
@@ -75,8 +81,9 @@ await fs.promises.writeFile(path.join(path.dirname(new URL(import.meta.url).path
 					name: 'storage.modifier.cp',
 					match: `
 						\\b(
-							  public | private                                   # access modifiers
+							  public | secret | private | protected              # access modifiers
 							| final | abstract | immutable | nominal             # class modifiers
+							| static | new | override | mutating                 # member modifiers
 							| unfixed                                            # variable modifiers
 							| extends | implements | inherits | narrows | widens # class/interface/type heritage
 						)\\b
@@ -482,6 +489,10 @@ await fs.promises.writeFile(path.join(path.dirname(new URL(import.meta.url).path
 						{include: '#Type'},
 					],
 				},
+				{
+					name: 'support.type.cp',
+					match: '\\b(this)\\b',
+				},
 				{include: '#PromiseType'},
 				unit('entity.name.type'),
 			],
@@ -513,7 +524,7 @@ await fs.promises.writeFile(path.join(path.dirname(new URL(import.meta.url).path
 						{include: '#CommentLine'},
 						{include: '#GenericParameters'},
 						{include: '#Parameters'},
-						annotation(lookaheads(['\\{', '=>'])),
+						annotation(lookaheads(['\\{', ARROW])),
 					],
 				},
 				{
@@ -608,7 +619,7 @@ await fs.promises.writeFile(path.join(path.dirname(new URL(import.meta.url).path
 									name: 'keyword.other.alias.cp',
 									match: '\\$',
 								},
-								{include: '#IdentifierProperty'},
+								{include: '#IdentifierArgument'},
 							],
 						},
 						{
@@ -628,6 +639,10 @@ await fs.promises.writeFile(path.join(path.dirname(new URL(import.meta.url).path
 						},
 						{include: '#Expression'},
 					],
+				},
+				{
+					name: 'variable.language.cp',
+					match: '\\b(this)\\b',
 				},
 				{include: '#Block'},
 				unit(),
@@ -700,13 +715,13 @@ await fs.promises.writeFile(path.join(path.dirname(new URL(import.meta.url).path
 					patterns: [
 						{include: '#GenericParameters'},
 						{include: '#Parameters'},
-						annotation(lookaheads(['\\{', '=>'])),
+						annotation(lookaheads(['\\{', ARROW])),
 						identifier('entity.name.function'),
 					],
 				},
 				{
 					name: 'meta.declaration.class.cp',
-					begin: lookaheads([`(\\b(public|private)\\b)?${ OWS }${ CLASS }`]),
+					begin: lookaheads([`(\\b(public|private)\\b${ OWS })?${ CLASS }`]),
 					end:   lookaheads(['\\{']),
 					patterns: [
 						{
@@ -734,7 +749,7 @@ await fs.promises.writeFile(path.join(path.dirname(new URL(import.meta.url).path
 				},
 				{
 					name: 'meta.declaration.interface.cp',
-					begin: lookaheads([`(\\b(public|private)\\b)?${ OWS }${ INTERFACE }`]),
+					begin: lookaheads([`(\\b(public|private)\\b${ OWS })?${ INTERFACE }`]),
 					end:   lookaheads(['\\{']),
 					patterns: [
 						{
@@ -789,6 +804,46 @@ await fs.promises.writeFile(path.join(path.dirname(new URL(import.meta.url).path
 				{include: '#Expression'},
 			],
 		},
+		Member: {
+			patterns: [
+				{
+					name: 'meta.field.cp',
+					begin: lookaheads([FIELD]),
+					end:   ';',
+					endCaptures: {
+						0: {name: 'punctuation.delimiter.cp'},
+					},
+					patterns: [
+						{
+							name: 'storage.modifier.cp',
+							match: '\\b(static|public|secret|private|protected|final|override)\\b',
+						},
+						annotation(lookaheads([ASSN_START, ';'])),
+						assignment(lookaheads([';'])),
+						identifier('entity.name.field'),
+					],
+				},
+				{
+					name: 'meta.method.cp',
+					begin: lookaheads([METHOD]),
+					end:   `${ lookaheads(['\\{']) }|(${ ARROW })|(;)`,
+					endCaptures: {
+						1: {name: 'storage.type.cp'},
+						2: {name: 'punctuation.delimiter.cp'},
+					},
+					patterns: [
+						{
+							name: 'storage.modifier.cp',
+							match: '\\b(static|public|secret|private|protected|final|override|mutating)\\b',
+						},
+						{include: '#GenericParameters'},
+						{include: '#Parameters'},
+						annotation(lookaheads(['\\{', ARROW, ';'])),
+						identifier('entity.name.method'),
+					],
+				},
+			],
+		},
 		Block: {
 			name: 'meta.block.cp',
 			begin: '\\{',
@@ -797,12 +852,14 @@ await fs.promises.writeFile(path.join(path.dirname(new URL(import.meta.url).path
 				0: {name: 'punctuation.delimiter.cp'},
 			},
 			patterns: [
+				{include: '#Member'},
 				{include: '#Statement'},
 			],
 		},
 	},
 	patterns: [
 		{include: '#Block'},
+		{include: '#Member'},
 		{include: '#Statement'},
 	],
 }));
