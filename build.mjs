@@ -180,6 +180,25 @@ await fs.promises.writeFile(path.join(path.dirname(new URL(import.meta.url).path
 				0: {name: 'punctuation.delimiter.cp'},
 			},
 		},
+		Captures: {
+			patterns: [
+				{
+					name: 'meta.captures.cp',
+					begin: '\\[',
+					end:   '\\]',
+					captures: {
+						0: {name: 'punctuation.delimiter.cp'},
+					},
+					patterns: [
+						{
+							name: 'punctuation.separator.cp',
+							match: ',',
+						},
+						identifier(),
+					],
+				},
+			],
+		},
 		GenericParameterPatterns: {
 			patterns: [
 				{
@@ -510,6 +529,7 @@ await fs.promises.writeFile(path.join(path.dirname(new URL(import.meta.url).path
 					patterns: [
 						{include: '#CommentBlock'},
 						{include: '#CommentLine'},
+						{include: '#Captures'},
 						{include: '#GenericParameters'},
 						{include: '#Parameters'},
 						annotation(lookaheads(['\\{', ARROW])),
@@ -701,6 +721,7 @@ await fs.promises.writeFile(path.join(path.dirname(new URL(import.meta.url).path
 						0: {name: 'storage.type.cp'},
 					},
 					patterns: [
+						{include: '#Captures'},
 						{include: '#GenericParameters'},
 						{include: '#Parameters'},
 						annotation(lookaheads(['\\{', ARROW])),

@@ -436,6 +436,19 @@ let lambdawithlinecomments: Function = <T, U> % hello
 	(a: T, b: U) % world
 	=> a || b;
 
+let lambdaWithCaptures: Function = [a, b ,](x) => a + b + x;
+let lambdaWithCaptures: Function = [
+	a,
+	`b`,
+](x) => a + b + x;
+let tuple: [Function] = [[a, b](x) => a + b + x];
+let record: [lambdaWithCaptures: Function] = [lambdaWithCaptures= [a, b](x) => a + b + x];
+func functionWithCaptures[a, b](x: int): int => a + b + x;
+func functionWithCaptures[
+	a,
+	`b`,
+](x: int): int => a + b + x;
+
 func returnFunc(): obj => (x: int): int => x + 1;
 func returnFunc(): {obj} => (x: int): int => x + 1;
 func returnFunc(): (x: int) -> {int} => (x) => x + 1;
