@@ -110,6 +110,7 @@ func twice(x: int): int => x * 2;
 		punn$,
 		##doublespread,
 		(a,)=   [4, 2],
+		(a ,)=  [4, 2],
 		(a,) => [4, 2],
 	)~;
 	structure.property + p;
