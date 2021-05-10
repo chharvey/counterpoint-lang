@@ -1,5 +1,6 @@
 import {
 	lookaheads,
+	lookbehinds,
 } from './helpers.js';
 
 
@@ -50,6 +51,21 @@ export const DESTRUCTURE_ASSIGNEES = `
 		,?
 	${ OWS }\\))
 `.replace(/\s+/g, '');
+
+export const FUNCTION = `
+	<${ OWS }${ VAR }${ OWS }(?:
+		\\b(?:narrows | widens)\\b | ${ ASSN_START } | , # annotated, or assigned, or more than 1 generic parameter
+		| >${ OWS }(?<aftertypeparams>                   # exactly 1 unannotated uninitialized generic parameter
+			\\(${ OWS }${ VAR }${ OWS }(?:
+				${ ANNO_START } | ${ ASSN_START } | , | \\b as \\b              # annotated, or assigned, or more than 1 parameter, or destrucured
+				| \\)${ OWS }(?<afterparams>${ ANNO_START } | ${ ARROW } | \\{) # exactly 1 unannotated uninitialized nondestructued parameter
+			)
+			| \\(${ OWS }\\)${ OWS }\\g<afterparams> # exactly 0 parameters
+		)
+	)
+	| \\g<aftertypeparams>
+	| ${ lookbehinds(['\\)']) }${ OWS }\\g<afterparams>
+`.replace(/\#.*\n|\s+/g, '');
 
 export const CLASS = `
 	(\\b (?:final | abstract) \\b ${ OWS })?

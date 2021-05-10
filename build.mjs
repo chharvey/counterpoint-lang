@@ -16,6 +16,7 @@ import {
 	ARROW,
 	DESTRUCTURE_PROPERTIES_OR_ARGUMENTS,
 	DESTRUCTURE_ASSIGNEES,
+	FUNCTION,
 	CLASS,
 	INTERFACE,
 	FIELD,
@@ -501,20 +502,7 @@ await fs.promises.writeFile(path.join(path.dirname(new URL(import.meta.url).path
 			patterns: [
 				{
 					name: 'meta.expression.func.cp',
-					begin: lookaheads([
-						`<${ OWS }${ VAR }${ OWS }(${ [
-							'\\b(narrows|widens)\\b', ASSN_START, ',', // annotated, or assigned, or more than 1 generic parameter
-							`>${ OWS }(?<aftertypeparams>${ [ // exactly 1 unannotated uninitialized generic parameter
-								`\\(${ OWS }${ VAR }${ OWS }(${ [
-									ANNO_START, ASSN_START, ',', '\\b(as)\\b', // annotated, or assigned, or more than 1 parameter, or destrucured
-									`\\)${ OWS }(?<afterparams>${ [ANNO_START, ARROW, '\\{'].join('|') })`, // exactly 1 unannotated uninitialized nondestructued parameter
-								].join('|') })`,
-								`\\(${ OWS }\\)${ OWS }\\g<afterparams>`, // exactly 0 parameters
-							].join('|') })`,
-						].join('|') })`,
-						`\\g<aftertypeparams>`,
-						`${ lookbehinds(['\\)']) }${ OWS }\\g<afterparams>`,
-					]),
+					begin: lookaheads([FUNCTION]),
 					end: [lookaheads(['\\{']), ARROW].join('|'),
 					endCaptures: {
 						0: {name: 'storage.type.cp'},
