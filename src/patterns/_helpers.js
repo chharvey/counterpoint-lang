@@ -1,12 +1,12 @@
 import {
 	lookaheads,
-} from './helpers.js';
+} from '../helpers.js';
 import {
 	OWS,
 	VAR,
 	ANNO_START,
 	ASSN_START,
-} from './selectors.js';
+} from '../selectors.js';
 
 
 

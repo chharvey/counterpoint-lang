@@ -15,7 +15,7 @@ import {
 	identifier,
 	annotation,
 	assignment,
-} from '../patterns.js';
+} from './_helpers.js';
 
 
 

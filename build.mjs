@@ -4,7 +4,7 @@ import * as path from 'path';
 import {
 	identifier,
 	destructure,
-} from './src/patterns.js';
+} from './src/patterns/index.js';
 import * as Pattern from './src/patterns/index.js';
 
 
