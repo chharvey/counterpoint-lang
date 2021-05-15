@@ -12,6 +12,7 @@ import {
 import {
 	identifier,
 	unit,
+	list,
 	assignment,
 } from './_helpers.js';
 
@@ -75,17 +76,10 @@ export const EXPRESSION__STRUCTURE__GROUPING = {
 };
 
 
-export const EXPRESSION__STRUCTURE__LIST = {
-	name: 'meta.expression.structure.list.cp',
-	begin: '\\[',
-	end:   '\\]',
-	captures: {
-		0: {name: 'punctuation.delimiter.cp'},
-	},
-	patterns: [
+export const EXPRESSION__STRUCTURE__LIST = list('meta.expression.structure.list.cp', '\\[', '\\]', [
 		{
 			name: 'punctuation.separator.cp',
-			match: '\\|->|,',
+			match: '\\|->',
 		},
 		{
 			begin: lookaheads([[VAR, OWS, '\\$'].join('')]),
@@ -114,8 +108,7 @@ export const EXPRESSION__STRUCTURE__LIST = {
 			match: '##|#',
 		},
 		{include: '#Expression'},
-	],
-};
+]);
 
 
 export const EXPRESSION = {

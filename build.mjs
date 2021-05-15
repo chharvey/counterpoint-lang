@@ -3,6 +3,7 @@ import * as path from 'path';
 
 import {
 	identifier,
+	list,
 	destructure,
 } from './src/patterns/index.js';
 import * as Pattern from './src/patterns/index.js';
@@ -16,7 +17,7 @@ await fs.promises.writeFile(path.join(path.dirname(new URL(import.meta.url).path
 	repository: {
 		Arguments:                     Pattern.ARGUMENTS,
 		Block:                         Pattern.BLOCK,
-		Captures:                      Pattern.CAPTURES,
+		Captures:                      list('meta.captures.cp', '\\[', '\\]', [identifier()]),
 		CommentBlock:                  Pattern.COMMENT_BLOCK,
 		CommentLine:                   Pattern.COMMENT_LINE,
 		DestructureArgument:           destructure('Argument',   {include: '#IdentifierArgument'}),
@@ -24,9 +25,9 @@ await fs.promises.writeFile(path.join(path.dirname(new URL(import.meta.url).path
 		DestructureParameter:          destructure('Parameter',  {include: '#IdentifierParameter'}, true),
 		DestructureProperty:           destructure('Property',   {include: '#IdentifierProperty'}),
 		DestructureVariable:           destructure('Variable',   {include: '#IdentifierVariable'},  true),
-		GenericArguments:              Pattern.GENERIC_ARGUMENTS,
+		GenericArguments:              list('meta.genericarguments.cp', '<', '>', [{include: '#Type'}]),
 		GenericParameterPatterns:      Pattern.GENERIC_PARAMETER_PATTERNS,
-		GenericParameters:             Pattern.GENERIC_PARAMETERS,
+		GenericParameters:             list('meta.genericparameters.cp', '<', '>', [{include: '#GenericParameterPatterns'}]),
 		Heritage:                      Pattern.HERITAGE,
 		IdentifierArgument:            identifier('variable.name'),
 		IdentifierParameter:           identifier('variable.parameter'),
@@ -39,7 +40,7 @@ await fs.promises.writeFile(path.join(path.dirname(new URL(import.meta.url).path
 		MemberMethod:                  Pattern.MEMBER__METHOD,
 		Number:                        Pattern.NUMBER,
 		ParameterPatterns:             Pattern.PARAMETER_PATTERNS,
-		Parameters:                    Pattern.PARAMETERS,
+		Parameters:                    list('meta.parameters.cp', '\\(', '\\)', [{include: '#ParameterPatterns'}]),
 		PossibleGenericParameter:      Pattern.POSSIBLE_GENERIC_PARAMETER,
 		PossibleParameter:             Pattern.POSSIBLE_PARAMETER,
 		PossibleTypeParameter:         Pattern.POSSIBLE_TYPE_PARAMETER,
@@ -51,7 +52,7 @@ await fs.promises.writeFile(path.join(path.dirname(new URL(import.meta.url).path
 		TypeFunction:                  Pattern.TYPE__FUNCTION,
 		TypeInterface:                 Pattern.TYPE__INTERFACE,
 		TypeParameterPatterns:         Pattern.TYPE_PARAMETER_PATTERNS,
-		TypeParameters:                Pattern.TYPE_PARAMETERS,
+		TypeParameters:                list('meta.parameters.cp', '\\(', '\\)', [{include: '#TypeParameterPatterns'}]),
 		TypeStructureGrouping:         Pattern.TYPE__STRUCTURE__GROUPING,
 		TypeStructureList:             Pattern.TYPE__STRUCTURE__LIST,
 		Expression:                    Pattern.EXPRESSION,

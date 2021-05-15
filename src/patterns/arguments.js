@@ -9,40 +9,13 @@ import {
 	DESTRUCTURE_PROPERTIES_OR_ARGUMENTS,
 } from '../selectors.js';
 import {
+	list,
 	assignment,
 } from './_helpers.js';
 
 
 
-export const GENERIC_ARGUMENTS = {
-	name: 'meta.genericarguments.cp',
-	begin: '<',
-	end:   '>',
-	captures: {
-		0: {name: 'punctuation.delimiter.cp'},
-	},
-	patterns: [
-		{
-			name: 'punctuation.separator.cp',
-			match: ',',
-		},
-		{include: '#Type'},
-	],
-};
-
-
-export const ARGUMENTS = {
-	name: 'meta.arguments.cp',
-	begin: '\\(',
-	end:   '\\)',
-	captures: {
-		0: {name: 'punctuation.delimiter.cp'},
-	},
-	patterns: [
-		{
-			name: 'punctuation.separator.cp',
-			match: ',',
-		},
+export const ARGUMENTS = list('meta.arguments.cp', '\\(', '\\)', [
 		{
 			begin: lookaheads([[VAR, OWS, '\\$'].join('')]),
 			end:   lookaheads([',', '\\)']),
@@ -70,8 +43,7 @@ export const ARGUMENTS = {
 			match: '##|#',
 		},
 		{include: '#Expression'},
-	],
-};
+]);
 
 
 export const TYPE_ACCESS = {

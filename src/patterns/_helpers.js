@@ -55,6 +55,25 @@ export function unit(varname = 'variable.other') {
 }
 
 
+export function list(name, begin, end, more_patterns) {
+	return {
+		name,
+		begin,
+		end,
+		captures: {
+			0: {name: 'punctuation.delimiter.cp'},
+		},
+		patterns: [
+			{
+				name: 'punctuation.separator.cp',
+				match: ',',
+			},
+			...more_patterns,
+		],
+	};
+}
+
+
 export function annotation(end, optional_allowed = false) {
 	return {
 		name: 'meta.annotation.cp',

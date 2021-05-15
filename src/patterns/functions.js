@@ -77,23 +77,6 @@ export const STATEMENT__DECLARATION__FUNC = {
 };
 
 
-export const CAPTURES = {
-	name: 'meta.captures.cp',
-	begin: '\\[',
-	end:   '\\]',
-	captures: {
-		0: {name: 'punctuation.delimiter.cp'},
-	},
-	patterns: [
-		{
-			name: 'punctuation.separator.cp',
-			match: ',',
-		},
-		identifier(),
-	],
-};
-
-
 export const GENERIC_PARAMETER_PATTERNS = {
 	patterns: [
 		{
@@ -131,57 +114,6 @@ export const PARAMETER_PATTERNS = {
 		annotation(lookaheads([ASSN_START, ',', '\\)'])),
 		assignment(lookaheads([',', '\\)'])),
 		{include: '#IdentifierParameter'},
-	],
-};
-
-
-export const GENERIC_PARAMETERS = {
-	name: 'meta.genericparameters.cp',
-	begin: '<',
-	end:   '>',
-	captures: {
-		0: {name: 'punctuation.delimiter.cp'},
-	},
-	patterns: [
-		{
-			name: 'punctuation.separator.cp',
-			match: ',',
-		},
-		{include: '#GenericParameterPatterns'},
-	],
-};
-
-
-export const TYPE_PARAMETERS = {
-	name: 'meta.parameters.cp',
-	begin: '\\(',
-	end:   '\\)',
-	captures: {
-		0: {name: 'punctuation.delimiter.cp'},
-	},
-	patterns: [
-		{
-			name: 'punctuation.separator.cp',
-			match: ',',
-		},
-		{include: '#TypeParameterPatterns'},
-	],
-};
-
-
-export const PARAMETERS = {
-	name: 'meta.parameters.cp',
-	begin: '\\(',
-	end:   '\\)',
-	captures: {
-		0: {name: 'punctuation.delimiter.cp'},
-	},
-	patterns: [
-		{
-			name: 'punctuation.separator.cp',
-			match: ',',
-		},
-		{include: '#ParameterPatterns'},
 	],
 };
 

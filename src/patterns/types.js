@@ -8,6 +8,7 @@ import {
 } from '../selectors.js';
 import {
 	unit,
+	list,
 	annotation,
 } from './_helpers.js';
 
@@ -40,18 +41,7 @@ export const TYPE__STRUCTURE__GROUPING = {
 };
 
 
-export const TYPE__STRUCTURE__LIST = {
-	name: 'meta.type.structure.list.cp',
-	begin: '\\[',
-	end:   '\\]',
-	captures: {
-		0: {name: 'punctuation.delimiter.cp'},
-	},
-	patterns: [
-		{
-			name: 'punctuation.separator.cp',
-			match: ',',
-		},
+export const TYPE__STRUCTURE__LIST = list('meta.type.structure.list.cp', '\\[', '\\]', [
 		{
 			begin: lookaheads([
 				[VAR, OWS, ANNO_START].join(''),
@@ -67,8 +57,7 @@ export const TYPE__STRUCTURE__LIST = {
 			match: '##|#',
 		},
 		{include: '#Type'},
-	],
-};
+]);
 
 
 export const TYPE = {
