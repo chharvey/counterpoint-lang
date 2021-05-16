@@ -54,7 +54,7 @@ export const KEYWORD = {
 			match: `
 				\\b(
 					  public | secret | private | protected              # access modifiers
-					| final | abstract | immutable | nominal             # class modifiers
+					| final | abstract | readonly | nominal              # class modifiers
 					| static | new | override | mutating                 # member modifiers
 					| unfixed                                            # variable modifiers
 					| extends | implements | inherits | narrows | widens # class/interface/type heritage

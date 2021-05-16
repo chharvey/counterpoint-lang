@@ -48,7 +48,7 @@ export const TYPE__INTERFACE = {
 			patterns: [
 				{
 					name: 'storage.modifier.cp',
-					match: '\\b(immutable)\\b',
+					match: '\\b(readonly)\\b',
 				},
 				{include: '#CommentBlock'},
 				{include: '#CommentLine'},
@@ -76,7 +76,7 @@ export const EXPRESSION__CLASS = {
 			patterns: [
 				{
 					name: 'storage.modifier.cp',
-					match: '\\b(final|abstract|immutable)\\b',
+					match: '\\b(final|abstract|readonly)\\b',
 				},
 				{include: '#CommentBlock'},
 				{include: '#CommentLine'},
@@ -109,7 +109,7 @@ export const STATEMENT__DECLARATION__CLASS = {
 			patterns: [
 				{
 					name: 'storage.modifier.cp',
-					match: '\\b(final|abstract|immutable|nominal)\\b',
+					match: '\\b(final|abstract|readonly|nominal)\\b',
 				},
 				{include: '#GenericParameters'},
 				{include: '#Captures'},
@@ -141,7 +141,7 @@ export const STATEMENT__DECLARATION__INTERFACE = {
 			patterns: [
 				{
 					name: 'storage.modifier.cp',
-					match: '\\b(immutable|nominal)\\b',
+					match: '\\b(readonly|nominal)\\b',
 				},
 				{include: '#GenericParameters'},
 				identifier('entity.name.class'),
