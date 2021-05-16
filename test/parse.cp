@@ -514,9 +514,14 @@ final class Foo {}
 abstract class Foo
 immutable class Foo {}
 class nominal Foo {}
+class Foo[a, b ,] {}
 class Foo<T> {}
 class Foo extends Bar, Diz.<T> {}
 class Foo implements Bar, Diz.<T> {}
+class ClassWithCaptures[
+	a,
+	`b`,
+] {};
 
 % class expressions
 let Foo: Class = Object && Class && (class {});
@@ -525,9 +530,14 @@ let Foo: Class = Object && Class && (private class {});
 let Foo: Class = Object && Class && (final class {});
 let Foo: Class = Object && Class && (abstract class {});
 let Foo: Class = Object && Class && (immutable class {});
+let Foo: Class = Object && Class && (class [a, b ,] extends Bar.<T> {});
 let Foo: Class = Object && Class && (class <T> extends Bar.<T> {});
 let Foo: Class = Object && Class && (class extends Bar, Diz.<T> {});
 let Foo: Class = Object && Class && (class implements Bar, Diz.<T> {});
+let classWithCaptures: Class = class [
+	a,
+	`b`,
+] {};
 
 % interface declarations
 interface Foo {}
