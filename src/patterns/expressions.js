@@ -131,7 +131,6 @@ export const EXPRESSION = {
 		{include: '#ExpressionAccess'},
 		{include: '#ExpressionStructureGrouping'},
 		{include: '#ExpressionStructureList'},
-		{include: '#Block'},
 		unit(),
 	],
 };

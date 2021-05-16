@@ -5,6 +5,7 @@ import {
 	OWS,
 	VAR,
 	ANNO_START,
+	BLOCK_END,
 } from '../selectors.js';
 import {
 	unit,
@@ -17,7 +18,7 @@ import {
 export const PROMISE_TYPE = {
 	name: 'meta.type.structure.promise.cp',
 	begin: '\\{',
-	end:   `\\}${ lookaheads(['\\}'], true) }`,
+	end:   BLOCK_END,
 	captures: {
 		0: {name: 'punctuation.delimiter.cp'},
 	},

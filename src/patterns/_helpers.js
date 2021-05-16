@@ -6,6 +6,7 @@ import {
 	VAR,
 	ANNO_START,
 	ASSN_START,
+	ARROW,
 } from '../selectors.js';
 
 
@@ -97,6 +98,20 @@ export function assignment(end, kind = '#Expression') {
 		},
 		patterns: [
 			{include: kind},
+		],
+	};
+}
+
+
+export function implicitReturn() {
+	return {
+		begin: ARROW,
+		end:   lookaheads([';']),
+		beginCaptures: {
+			0: {name: 'storage.type.cp'},
+		},
+		patterns: [
+			{include: '#Expression'},
 		],
 	};
 }

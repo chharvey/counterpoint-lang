@@ -15,6 +15,7 @@ import {
 	identifier,
 	annotation,
 	assignment,
+	implicitReturn,
 } from './_helpers.js';
 
 
@@ -45,7 +46,7 @@ export const TYPE__FUNCTION = {
 export const EXPRESSION__FUNCTION = {
 	name: 'meta.expression.func.cp',
 	begin: lookaheads([FUNCTION]),
-	end: [lookaheads(['\\{']), ARROW].join('|'),
+	end:   [lookbehinds(['\\}']), ARROW].join('|'),
 	endCaptures: {
 		0: {name: 'storage.type.cp'},
 	},
@@ -55,6 +56,7 @@ export const EXPRESSION__FUNCTION = {
 		{include: '#Captures'},
 		{include: '#GenericParameters'},
 		{include: '#Parameters'},
+		{include: '#Block'},
 		annotation(lookaheads(['\\{', ARROW])),
 	],
 };
@@ -63,15 +65,20 @@ export const EXPRESSION__FUNCTION = {
 export const STATEMENT__DECLARATION__FUNC = {
 	name: 'meta.declaration.func.cp',
 	begin: '\\b(func)\\b',
-	end:   [lookaheads(['\\{']), ARROW].join('|'),
-	captures: {
+	end:   [lookbehinds(['\\}']), ';'].join('|'),
+	beginCaptures: {
 		0: {name: 'storage.type.cp'},
+	},
+	endCaptures: {
+		0: {name: 'punctuation.delimiter.cp'},
 	},
 	patterns: [
 		{include: '#Captures'},
 		{include: '#GenericParameters'},
 		{include: '#Parameters'},
+		{include: '#Block'},
 		annotation(lookaheads(['\\{', ARROW])),
+		implicitReturn(),
 		identifier('entity.name.function'),
 	],
 };

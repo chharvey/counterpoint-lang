@@ -13,6 +13,7 @@ export const ANNO_START = ':';
 export const ASSN_START = `=${ lookaheads(['=', '>'], true) }`;
 export const TYPEARROW  = '->';
 export const ARROW      = '=>';
+export const BLOCK_END  = `\\}${ lookaheads(['\\}'], true) }`;
 
 export const DESTRUCTURE_PROPERTIES_OR_ARGUMENTS = `
 	(?<DestructurePropertiesOrArguments>\\(${ OWS }

@@ -213,6 +213,7 @@ type BinaryOperator = (
 type Const = () -> {int};
 type Const = (
 ) -> {int};
+type ReturnsTemplateType = () -> {'''a {{ string }} template type'''};
 
 type T = [a: boolean, b: int, c: T];
 let x: T = [a= false, b= 42, c$];

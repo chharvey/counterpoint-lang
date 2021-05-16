@@ -4,6 +4,7 @@ import {
 import {
 	OWS,
 	ASSN_START,
+	BLOCK_END,
 	DESTRUCTURE_ASSIGNEES,
 } from '../selectors.js';
 import {
@@ -135,7 +136,7 @@ export const STATEMENT = {
 export const BLOCK = {
 	name: 'meta.block.cp',
 	begin: '\\{',
-	end:   `\\}${ lookaheads(['\\}'], true) }`,
+	end:   BLOCK_END,
 	captures: {
 		0: {name: 'punctuation.delimiter.cp'},
 	},
