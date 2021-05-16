@@ -141,7 +141,6 @@ export const BLOCK = {
 		0: {name: 'punctuation.delimiter.cp'},
 	},
 	patterns: [
-		{include: '#Member'},
 		{include: '#Statement'},
 	],
 };

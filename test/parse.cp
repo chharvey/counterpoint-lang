@@ -175,6 +175,23 @@ let h: int = if true then 1 else 0;
 (unfixed h: int): int => h + 1;
 (%%unfixed%% h: int): int => h + 1;
 
+return (a + b);
+throw (c + d);
+return (
+	if (a + b) then c else d;
+);
+if (a + b) then c else d;
+unless (a + b) then { return (c); } else { throw (d); };
+{
+	return (a + b);
+	throw (c + d);
+	return (
+		if (a + b) then c else d;
+	);
+	if (a + b) then c else d;
+	unless (a + b) then { return (c); } else { throw (d); };
+}
+
 (x);
 (a == b);
 [a == b];
@@ -470,6 +487,7 @@ type T = unknown & (interface inherits Bar, Diz.<T> {});
 
 % class members
 class Foo {
+	% line comment
 	static field: T = 42;
 	public field: T = 42;
 	secret field: T = 42;
@@ -495,6 +513,9 @@ class Foo {
 		public readonly constructor_field7: int,
 	) {;}
 
+	%%
+	block comment
+	%%
 	static meth(): void {;}
 	public meth(): void {;}
 	secret meth(): void {;}
@@ -506,6 +527,11 @@ class Foo {
 	meth<T>(): void {;}
 	meth(x: int): void {;}
 	meth(): int => 42;
+
+	return(ab: void): void { return (ab); }
+	throw(cd: void): void { throw (cd); }
+	if(ef: void): void { if (a + b) then c else d; }
+	unless(gh: void): void { unless (a + b) then c else d; }
 }
 
 % interface members

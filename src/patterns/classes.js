@@ -6,6 +6,7 @@ import {
 	OWS,
 	ASSN_START,
 	ARROW,
+	BLOCK_END,
 	FIELD,
 	FIELD_CONSTRUCTOR,
 	CONSTRUCTOR,
@@ -62,7 +63,7 @@ export const TYPE__INTERFACE = {
 		{include: '#CommentBlock'},
 		{include: '#CommentLine'},
 		{include: '#Heritage'},
-		{include: '#Block'},
+		{include: '#ClassBody'},
 	],
 };
 
@@ -92,7 +93,7 @@ export const EXPRESSION__CLASS = {
 		{include: '#CommentBlock'},
 		{include: '#CommentLine'},
 		{include: '#Heritage'},
-		{include: '#Block'},
+		{include: '#ClassBody'},
 	],
 };
 
@@ -125,7 +126,7 @@ export const STATEMENT__DECLARATION__CLASS = {
 		{include: '#CommentBlock'},
 		{include: '#CommentLine'},
 		{include: '#Heritage'},
-		{include: '#Block'},
+		{include: '#ClassBody'},
 	],
 };
 
@@ -157,7 +158,7 @@ export const STATEMENT__DECLARATION__INTERFACE = {
 		{include: '#CommentBlock'},
 		{include: '#CommentLine'},
 		{include: '#Heritage'},
-		{include: '#Block'},
+		{include: '#ClassBody'},
 	],
 };
 
@@ -237,8 +238,16 @@ export const MEMBER__METHOD = {
 };
 
 
-export const MEMBER = {
+export const CLASS_BODY = {
+	name: 'meta.classbody.cp',
+	begin: '\\{',
+	end:   BLOCK_END,
+	captures: {
+		0: {name: 'punctuation.delimiter.cp'},
+	},
 	patterns: [
+		{include: '#CommentBlock'},
+		{include: '#CommentLine'},
 		{include: '#MemberField'},
 		{include: '#MemberConstructor'},
 		{include: '#MemberMethod'},

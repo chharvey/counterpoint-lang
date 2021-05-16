@@ -18,6 +18,7 @@ await fs.promises.writeFile(path.join(path.dirname(new URL(import.meta.url).path
 		Arguments:                     Pattern.ARGUMENTS,
 		Block:                         Pattern.BLOCK,
 		Captures:                      list('meta.captures.cp', '\\[', '\\]', [identifier()]),
+		ClassBody:                     Pattern.CLASS_BODY,
 		CommentBlock:                  Pattern.COMMENT_BLOCK,
 		CommentLine:                   Pattern.COMMENT_LINE,
 		ConstructorField:              Pattern.CONSTRUCTOR_FIELD,
@@ -38,7 +39,6 @@ await fs.promises.writeFile(path.join(path.dirname(new URL(import.meta.url).path
 		IdentifierType:                identifier('entity.name.type'),
 		IdentifierVariable:            identifier('entity.name.variable'),
 		Keyword:                       Pattern.KEYWORD,
-		Member:                        Pattern.MEMBER,
 		MemberConstructor:             Pattern.MEMBER__CONSTRUCTOR,
 		MemberField:                   Pattern.MEMBER__FIELD,
 		MemberMethod:                  Pattern.MEMBER__METHOD,
@@ -77,7 +77,6 @@ await fs.promises.writeFile(path.join(path.dirname(new URL(import.meta.url).path
 	},
 	patterns: [
 		{include: '#Block'},
-		{include: '#Member'},
 		{include: '#Statement'},
 	],
 }));
