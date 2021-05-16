@@ -1,5 +1,6 @@
 import {
 	lookaheads,
+	lookbehinds,
 } from './helpers.js';
 
 
@@ -49,4 +50,57 @@ export const DESTRUCTURE_ASSIGNEES = `
 		(?:${ OWS },${ OWS }\\g<DestructureAssigneeItemOrKey>)*
 		${ OWS },?
 	${ OWS }\\))
+`.replace(/\s+/g, '');
+
+export const FUNCTION = `
+	(?:
+		\\[${ OWS }
+			${ VAR }
+			(?:${ OWS },${ OWS }${ VAR })*
+			${ OWS },?
+		${ OWS }\\]
+	)?
+	(?:
+		<${ OWS }${ VAR }${ OWS }(?:
+			\\b(?:narrows | widens)\\b | ${ ASSN_START } | , # annotated, or assigned, or more than 1 generic parameter
+			| >${ OWS }(?<aftertypeparams>                   # exactly 1 unannotated uninitialized generic parameter
+				\\(${ OWS }${ VAR }${ OWS }(?:
+					${ ANNO_START } | ${ ASSN_START } | , | \\b as \\b              # annotated, or assigned, or more than 1 parameter, or destrucured
+					| \\)${ OWS }(?<afterparams>${ ANNO_START } | ${ ARROW } | \\{) # exactly 1 unannotated uninitialized nondestructued parameter
+				)
+				| \\(${ OWS }\\)${ OWS }\\g<afterparams> # exactly 0 parameters
+			)
+		)
+		| \\g<aftertypeparams>
+	)
+	| ${ lookbehinds(['\\)']) }${ OWS }\\g<afterparams>
+`.replace(/\#.*\n|\s+/g, '');
+
+export const FIELD = `
+	(\\b static \\b ${ OWS })?
+	(\\b(?:public | secret | private | protected)\\b ${ OWS })?
+	(\\b override \\b ${ OWS })?
+	(\\b(?:final | readonly)\\b ${ OWS })?
+	${ VAR } ${ OWS } ${ ANNO_START }
+`.replace(/\s+/g, '');
+
+export const FIELD_CONSTRUCTOR = `
+	\\b(?:public | secret | private | protected)\\b ${ OWS }
+	(\\b override \\b ${ OWS })?
+	(\\b(?:final | readonly)\\b ${ OWS })?
+	${ VAR } ${ OWS } ${ ANNO_START }
+`.replace(/\s+/g, '');
+
+export const CONSTRUCTOR = `
+	(\\b(?:public | secret | private | protected)\\b ${ OWS })?
+	\\b new \\b ${ OWS } (?:< | \\()
+`.replace(/\s+/g, '');
+
+export const METHOD = `
+	(\\b static \\b ${ OWS })?
+	(\\b(?:public | secret | private | protected)\\b ${ OWS })?
+	(\\b override \\b ${ OWS })?
+	(\\b final \\b ${ OWS })?
+	(\\b mutating \\b ${ OWS })?
+	${ VAR } ${ OWS } (?:< | \\()
 `.replace(/\s+/g, '');
