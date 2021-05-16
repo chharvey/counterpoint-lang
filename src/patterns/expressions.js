@@ -85,11 +85,11 @@ export const EXPRESSION__STRUCTURE__LIST = list('meta.expression.structure.list.
 			begin: lookaheads([[VAR, OWS, '\\$'].join('')]),
 			end:   lookaheads([',', '\\]']),
 			patterns: [
+				{include: '#IdentifierProperty'},
 				{
 					name: 'keyword.other.alias.cp',
 					match: '\\$',
 				},
-				{include: '#IdentifierArgument'},
 			],
 		},
 		{
@@ -98,9 +98,9 @@ export const EXPRESSION__STRUCTURE__LIST = list('meta.expression.structure.list.
 			]),
 			end: lookaheads([',', '\\]']),
 			patterns: [
+				{include: '#IdentifierProperty'},
 				{include: '#DestructureProperty'},
 				assignment(lookaheads([',', '\\]'])),
-				{include: '#IdentifierProperty'},
 			],
 		},
 		{

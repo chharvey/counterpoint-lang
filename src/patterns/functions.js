@@ -117,10 +117,10 @@ export const PARAMETER_PATTERNS = {
 			name: 'keyword.other.alias.cp',
 			match: '\\b(as)\\b',
 		},
+		{include: '#IdentifierParameter'},
 		{include: '#DestructureParameter'},
 		annotation(lookaheads([ASSN_START, ',', '\\)'])),
 		assignment(lookaheads([',', '\\)'])),
-		{include: '#IdentifierParameter'},
 	],
 };
 

@@ -20,11 +20,11 @@ export const ARGUMENTS = list('meta.arguments.cp', '\\(', '\\)', [
 			begin: lookaheads([[VAR, OWS, '\\$'].join('')]),
 			end:   lookaheads([',', '\\)']),
 			patterns: [
+				{include: '#IdentifierParameter'},
 				{
 					name: 'keyword.other.alias.cp',
 					match: '\\$',
 				},
-				{include: '#IdentifierArgument'},
 			],
 		},
 		{
@@ -33,9 +33,9 @@ export const ARGUMENTS = list('meta.arguments.cp', '\\(', '\\)', [
 			]),
 			end: lookaheads([',', '\\)']),
 			patterns: [
+				{include: '#IdentifierParameter'},
 				{include: '#DestructureArgument'},
 				assignment(lookaheads([',', '\\)'])),
-				{include: '#IdentifierArgument'},
 			],
 		},
 		{

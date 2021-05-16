@@ -172,9 +172,9 @@ export const CONSTRUCTOR_FIELD = {
 			name: 'storage.modifier.cp',
 			match: '\\b(public|secret|private|protected|override|final|readonly)\\b',
 		},
+		{include: '#IdentifierProperty'},
 		annotation(lookaheads([ASSN_START, ',', '\\)'])),
 		assignment(lookaheads([',', '\\)'])),
-		{include: '#IdentifierField'},
 	],
 };
 
@@ -191,9 +191,9 @@ export const MEMBER__FIELD = {
 			name: 'storage.modifier.cp',
 			match: '\\b(static|public|secret|private|protected|override|final|readonly)\\b',
 		},
+		{include: '#IdentifierProperty'},
 		annotation(lookaheads([ASSN_START, ';'])),
 		assignment(lookaheads([';'])),
-		{include: '#IdentifierField'},
 	],
 };
 
@@ -228,12 +228,12 @@ export const MEMBER__METHOD = {
 			name: 'storage.modifier.cp',
 			match: '\\b(static|public|secret|private|protected|override|final|mutating)\\b',
 		},
+		{include: '#IdentifierProperty'},
 		{include: '#GenericParameters'},
 		{include: '#Parameters'},
 		{include: '#Block'},
 		annotation(lookaheads(['\\{', ARROW, ';'])),
 		implicitReturn(),
-		identifier('entity.name.method'),
 	],
 };
 

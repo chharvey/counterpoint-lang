@@ -61,9 +61,9 @@ export const STATEMENT__DECLARATION__TYPE = {
 		0: {name: 'punctuation.delimiter.cp'},
 	},
 	patterns: [
+		{include: '#IdentifierType'},
 		{include: '#GenericParameters'},
 		assignment(lookaheads([';']), '#Type'),
-		identifier('entity.name.type'),
 	],
 };
 
@@ -83,10 +83,10 @@ export const STATEMENT__DECLARATION__LET = {
 			name: 'storage.modifier.cp',
 			match: '\\b(unfixed)\\b',
 		},
+		{include: '#IdentifierVariable'},
 		{include: '#DestructureVariable'},
 		annotation(lookaheads([ASSN_START])),
 		assignment(lookaheads([';'])),
-		identifier('entity.name.variable'),
 	],
 };
 
