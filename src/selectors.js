@@ -84,6 +84,11 @@ export const FIELD = `
 	${ VAR } ${ OWS } ${ ANNO_START }
 `.replace(/\s+/g, '');
 
+export const CONSTRUCTOR = `
+	(\\b(?:public | secret | private | protected)\\b ${ OWS })?
+	\\b new \\b ${ OWS } (?:< | \\()
+`.replace(/\s+/g, '');
+
 export const METHOD = `
 	(\\b static \\b ${ OWS })?
 	(\\b(?:public | secret | private | protected)\\b ${ OWS })?

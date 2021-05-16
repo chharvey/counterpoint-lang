@@ -568,6 +568,14 @@ class Foo {
 	readonly field: T = 42;
 	field: Typ = 42;
 
+	public new () {;}
+	secret new () {;}
+	private new () {;}
+	protected new () {;}
+	new (
+		constructor_param: int,
+	) {;}
+
 	static meth(): void {;}
 	public meth(): void {;}
 	secret meth(): void {;}

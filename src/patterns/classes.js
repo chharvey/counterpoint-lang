@@ -6,6 +6,7 @@ import {
 	ASSN_START,
 	ARROW,
 	FIELD,
+	CONSTRUCTOR,
 	METHOD,
 } from '../selectors.js';
 import {
@@ -172,6 +173,24 @@ export const MEMBER__FIELD = {
 	],
 };
 
+
+export const MEMBER__CONSTRUCTOR = {
+	name: 'meta.constructor.cp',
+	begin: lookaheads([CONSTRUCTOR]),
+	end:   lookaheads(['\\{']),
+	patterns: [
+		{
+			name: 'storage.modifier.cp',
+			match: '\\b(public|secret|private|protected|new)\\b',
+		},
+		{include: '#CommentBlock'},
+		{include: '#CommentLine'},
+		{include: '#GenericParameters'},
+		{include: '#Parameters'},
+	],
+};
+
+
 export const MEMBER__METHOD = {
 	name: 'meta.method.cp',
 	begin: lookaheads([METHOD]),
@@ -196,6 +215,7 @@ export const MEMBER__METHOD = {
 export const MEMBER = {
 	patterns: [
 		{include: '#MemberField'},
+		{include: '#MemberConstructor'},
 		{include: '#MemberMethod'},
 	],
 };
