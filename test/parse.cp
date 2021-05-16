@@ -509,10 +509,10 @@ g.(z= 3, (x, y as (b)) => null);
 % class declarations
 class Foo {}
 public class Foo {}
-private immutable class Foo {}
-final class Foo {}
-abstract class Foo
-immutable class Foo {}
+private class immutable Foo {}
+class final Foo {}
+class abstract Foo
+class immutable Foo {}
 class nominal Foo {}
 class Foo[a, b ,] {}
 class Foo<T> {}
@@ -527,9 +527,9 @@ class ClassWithCaptures[
 let Foo: Class = Object && Class && (class {});
 let Foo: Class = Object && Class && (public class {});
 let Foo: Class = Object && Class && (private class {});
-let Foo: Class = Object && Class && (final class {});
-let Foo: Class = Object && Class && (abstract class {});
-let Foo: Class = Object && Class && (immutable class {});
+let Foo: Class = Object && Class && (class final {});
+let Foo: Class = Object && Class && (class abstract {});
+let Foo: Class = Object && Class && (class immutable {});
 let Foo: Class = Object && Class && (class [a, b ,] extends Bar.<T> {});
 let Foo: Class = Object && Class && (class <T> extends Bar.<T> {});
 let Foo: Class = Object && Class && (class extends Bar, Diz.<T> {});
@@ -543,7 +543,7 @@ let classWithCaptures: Class = class [
 interface Foo {}
 public interface Foo {}
 private interface Foo {}
-immutable interface Foo {}
+interface immutable Foo {}
 interface nominal Foo {}
 interface Foo<T> {}
 interface Foo extends Bar, Diz.<T> {}
@@ -551,7 +551,7 @@ interface Foo inherits Bar, Diz.<T> {}
 
 % interface type expressions
 type T = unknown & (interface {});
-type T = unknown & (immutable interface {});
+type T = unknown & (interface immutable {});
 type T = unknown & (interface <T> {});
 type T = unknown & (interface extends Bar, Diz.<T> {});
 type T = unknown & (interface inherits Bar, Diz.<T> {});

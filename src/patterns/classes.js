@@ -5,8 +5,6 @@ import {
 	OWS,
 	ASSN_START,
 	ARROW,
-	CLASS,
-	INTERFACE,
 	FIELD,
 	METHOD,
 } from '../selectors.js';
@@ -38,13 +36,9 @@ export const HERITAGE = {
 
 export const TYPE__INTERFACE = {
 	name: 'meta.type.interface.cp',
-	begin: lookaheads([INTERFACE]),
+	begin: lookaheads(['\\b(interface)\\b']),
 	end:   lookaheads(['\\{']),
 	patterns: [
-		{
-			name: 'storage.modifier.cp',
-			match: '\\b(immutable)\\b',
-		},
 		{
 			begin: '\\b(interface)\\b',
 			end:   lookaheads(['\\b(extends|inherits)\\b', '\\{']),
@@ -52,25 +46,27 @@ export const TYPE__INTERFACE = {
 				0: {name: 'storage.type.cp'},
 			},
 			patterns: [
+				{
+					name: 'storage.modifier.cp',
+					match: '\\b(immutable)\\b',
+				},
 				{include: '#CommentBlock'},
+				{include: '#CommentLine'},
 				{include: '#GenericParameters'},
 			],
 		},
-		{include: '#Heritage'},
 		{include: '#CommentBlock'},
+		{include: '#CommentLine'},
+		{include: '#Heritage'},
 	],
 };
 
 
 export const EXPRESSION__CLASS = {
 	name: 'meta.expression.class.cp',
-	begin: lookaheads([CLASS]),
+	begin: lookaheads(['\\b(class)\\b']),
 	end:   lookaheads(['\\{']),
 	patterns: [
-		{
-			name: 'storage.modifier.cp',
-			match: '\\b(final|abstract|immutable)\\b',
-		},
 		{
 			begin: '\\b(class)\\b',
 			end:   lookaheads(['\\b(extends|implements)\\b', '\\{']),
@@ -78,6 +74,10 @@ export const EXPRESSION__CLASS = {
 				0: {name: 'storage.type.cp'},
 			},
 			patterns: [
+				{
+					name: 'storage.modifier.cp',
+					match: '\\b(final|abstract|immutable)\\b',
+				},
 				{include: '#CommentBlock'},
 				{include: '#CommentLine'},
 				{include: '#GenericParameters'},
@@ -93,12 +93,12 @@ export const EXPRESSION__CLASS = {
 
 export const STATEMENT__DECLARATION__CLASS = {
 	name: 'meta.declaration.class.cp',
-	begin: lookaheads([`(\\b(public|private)\\b${ OWS })?${ CLASS }`]),
+	begin: lookaheads([`(\\b(public|private)\\b${ OWS })?\\b(class)\\b`]),
 	end:   lookaheads(['\\{']),
 	patterns: [
 		{
 			name: 'storage.modifier.cp',
-			match: '\\b(public|private|final|abstract|immutable)\\b',
+			match: '\\b(public|private)\\b',
 		},
 		{
 			begin: '\\b(class)\\b',
@@ -109,7 +109,7 @@ export const STATEMENT__DECLARATION__CLASS = {
 			patterns: [
 				{
 					name: 'storage.modifier.cp',
-					match: '\\b(nominal)\\b',
+					match: '\\b(final|abstract|immutable|nominal)\\b',
 				},
 				{include: '#GenericParameters'},
 				{include: '#Captures'},
@@ -125,12 +125,12 @@ export const STATEMENT__DECLARATION__CLASS = {
 
 export const STATEMENT__DECLARATION__INTERFACE = {
 	name: 'meta.declaration.interface.cp',
-	begin: lookaheads([`(\\b(public|private)\\b${ OWS })?${ INTERFACE }`]),
+	begin: lookaheads([`(\\b(public|private)\\b${ OWS })?\\b(interface)\\b`]),
 	end:   lookaheads(['\\{']),
 	patterns: [
 		{
 			name: 'storage.modifier.cp',
-			match: '\\b(public|private|immutable)\\b',
+			match: '\\b(public|private)\\b',
 		},
 		{
 			begin: '\\b(interface)\\b',
@@ -141,14 +141,15 @@ export const STATEMENT__DECLARATION__INTERFACE = {
 			patterns: [
 				{
 					name: 'storage.modifier.cp',
-					match: '\\b(nominal)\\b',
+					match: '\\b(immutable|nominal)\\b',
 				},
 				{include: '#GenericParameters'},
 				identifier('entity.name.class'),
 			],
 		},
-		{include: '#Heritage'},
 		{include: '#CommentBlock'},
+		{include: '#CommentLine'},
+		{include: '#Heritage'},
 	],
 };
 

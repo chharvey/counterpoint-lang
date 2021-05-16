@@ -76,17 +76,6 @@ export const FUNCTION = `
 	| ${ lookbehinds(['\\)']) }${ OWS }\\g<afterparams>
 `.replace(/\#.*\n|\s+/g, '');
 
-export const CLASS = `
-	(\\b (?:final | abstract) \\b ${ OWS })?
-	(\\b immutable \\b ${ OWS })?
-	(\\b class \\b)
-`.replace(/\s+/g, '');
-
-export const INTERFACE = `
-	(\\b immutable \\b ${ OWS })?
-	(\\b interface \\b)
-`.replace(/\s+/g, '');
-
 export const FIELD = `
 	(\\b static \\b ${ OWS })?
 	(\\b(?:public | secret | private | protected)\\b${ OWS })?
