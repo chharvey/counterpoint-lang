@@ -436,6 +436,19 @@ let lambdawithlinecomments: Function = <T, U> % hello
 	(a: T, b: U) % world
 	=> a || b;
 
+let lambdaWithCaptures: Function = [a, b ,](x) => a + b + x;
+let lambdaWithCaptures: Function = [
+	a,
+	`b`,
+](x) => a + b + x;
+let tuple: [Function] = [[a, b](x) => a + b + x];
+let record: [lambdaWithCaptures: Function] = [lambdaWithCaptures= [a, b](x) => a + b + x];
+func functionWithCaptures[a, b](x: int): int => a + b + x;
+func functionWithCaptures[
+	a,
+	`b`,
+](x: int): int => a + b + x;
+
 func returnFunc(): obj => (x: int): int => x + 1;
 func returnFunc(): {obj} => (x: int): int => x + 1;
 func returnFunc(): (x: int) -> {int} => (x) => x + 1;
@@ -501,9 +514,14 @@ final class Foo {}
 abstract class Foo
 immutable class Foo {}
 class nominal Foo {}
+class Foo[a, b ,] {}
 class Foo<T> {}
 class Foo extends Bar, Diz.<T> {}
 class Foo implements Bar, Diz.<T> {}
+class ClassWithCaptures[
+	a,
+	`b`,
+] {};
 
 % class expressions
 let Foo: Class = Object && Class && (class {});
@@ -512,9 +530,14 @@ let Foo: Class = Object && Class && (private class {});
 let Foo: Class = Object && Class && (final class {});
 let Foo: Class = Object && Class && (abstract class {});
 let Foo: Class = Object && Class && (immutable class {});
+let Foo: Class = Object && Class && (class [a, b ,] extends Bar.<T> {});
 let Foo: Class = Object && Class && (class <T> extends Bar.<T> {});
 let Foo: Class = Object && Class && (class extends Bar, Diz.<T> {});
 let Foo: Class = Object && Class && (class implements Bar, Diz.<T> {});
+let classWithCaptures: Class = class [
+	a,
+	`b`,
+] {};
 
 % interface declarations
 interface Foo {}
