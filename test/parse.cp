@@ -563,8 +563,9 @@ class Foo {
 	secret field: T = 42;
 	private field: T = 42;
 	protected field: T = 42;
-	final field: T = 42;
 	override field: T = 42;
+	final field: T = 42;
+	readonly field: T = 42;
 	field: Typ = 42;
 
 	static meth(): void {;}
@@ -572,8 +573,8 @@ class Foo {
 	secret meth(): void {;}
 	private meth(): void {;}
 	protected meth(): void {;}
-	final meth(): void {;}
 	override meth(): void {;}
+	final meth(): void {;}
 	mutating meth(): void {;}
 	meth<T>(): void {;}
 	meth(x: int): void {;}
