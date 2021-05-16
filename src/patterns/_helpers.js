@@ -1,12 +1,12 @@
 import {
 	lookaheads,
-} from './helpers.js';
+} from '../helpers.js';
 import {
 	OWS,
 	VAR,
 	ANNO_START,
 	ASSN_START,
-} from './selectors.js';
+} from '../selectors.js';
 
 
 
@@ -50,6 +50,25 @@ export function unit(varname = 'variable.other') {
 				name: 'invalid.illegal.cp',
 				match: '__|_(?=\\b)',
 			},
+		],
+	};
+}
+
+
+export function list(name, begin, end, more_patterns) {
+	return {
+		name,
+		begin,
+		end,
+		captures: {
+			0: {name: 'punctuation.delimiter.cp'},
+		},
+		patterns: [
+			{
+				name: 'punctuation.separator.cp',
+				match: ',',
+			},
+			...more_patterns,
 		],
 	};
 }
