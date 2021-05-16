@@ -6,6 +6,7 @@ import {
 	ASSN_START,
 	ARROW,
 	FIELD,
+	FIELD_CONSTRUCTOR,
 	CONSTRUCTOR,
 	METHOD,
 } from '../selectors.js';
@@ -155,6 +156,22 @@ export const STATEMENT__DECLARATION__INTERFACE = {
 };
 
 
+export const CONSTRUCTOR_FIELD = {
+	name: 'meta.field.cp',
+	begin: lookaheads([FIELD_CONSTRUCTOR]),
+	end:   lookaheads([',', '\\)']),
+	patterns: [
+		{
+			name: 'storage.modifier.cp',
+			match: '\\b(public|secret|private|protected|override|final|readonly)\\b',
+		},
+		annotation(lookaheads([ASSN_START, ',', '\\)'])),
+		assignment(lookaheads([',', '\\)'])),
+		{include: '#IdentifierField'},
+	],
+};
+
+
 export const MEMBER__FIELD = {
 	name: 'meta.field.cp',
 	begin: lookaheads([FIELD]),
@@ -169,7 +186,7 @@ export const MEMBER__FIELD = {
 		},
 		annotation(lookaheads([ASSN_START, ';'])),
 		assignment(lookaheads([';'])),
-		identifier('entity.name.field'),
+		{include: '#IdentifierField'},
 	],
 };
 
@@ -186,7 +203,7 @@ export const MEMBER__CONSTRUCTOR = {
 		{include: '#CommentBlock'},
 		{include: '#CommentLine'},
 		{include: '#GenericParameters'},
-		{include: '#Parameters'},
+		{include: '#ConstructorParameters'},
 	],
 };
 
