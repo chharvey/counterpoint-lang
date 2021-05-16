@@ -5,6 +5,25 @@ true else % false
 	% a line comment
 	else true
 );
+if a then b else c;
+(if a then b else c);
+
+if true then {
+	return false;
+} else if false then {
+	return true;
+} else %%comm%% if null then {
+	return null;
+} else {
+	return;
+};
+if if a then b else c then {
+	if a then b else c;
+} else if (if a then b else c) then {
+	return (if a then b else c);
+} else {
+	while if a then b else c do { d; };
+};
 
 while %% this is a
 block comment
@@ -33,14 +52,18 @@ do {
 	true;
 } until false;
 
-for %% int %% i from %% start %% 1 to %% end %% 10 do {
+for %% int %% i from %% start %% 1 to %% end %% 10 by %% increment %% 2 do {
 	do {
 		if false then '''{{ 0 }} 0''' else '''{{ 1 }} 1''';
 		(if false then '''{{ 0 }} 0''' else '''{{ 1 }} 1''');
 		break 1;
 		continue;
 	} while false;
+	for x from if a then b else c to if a then b else c by if a then b else c do {
+		do { d; } while if a then b else c;
+	};
 };
+
 let break: str = 'break';
 let continue: str = 'continue';
 while continue do { break; break = '1'; };

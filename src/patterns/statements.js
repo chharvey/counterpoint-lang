@@ -10,26 +10,41 @@ import {
 	identifier,
 	annotation,
 	assignment,
+	control,
 } from './_helpers.js';
 
 
 
 export const STATEMENT__CONTROL = {
-	name: 'meta.control.cp',
-	begin: '\\b(if|unless|while|until|do|for|break|continue|return|throw)\\b',
-	end:   ';',
-	beginCaptures: {
-		0: {name: 'keyword.control.cp'},
-	},
-	endCaptures: {
-		0: {name: 'punctuation.delimiter.cp'},
-	},
 	patterns: [
+		control(['if', 'unless'], ['then', 'else', 'if', 'unless']),
+		control(['while', 'until', 'do'], ['do', 'while', 'until']),
+		control(['for'], ['from', 'to', 'by', 'in', 'do']),
 		{
-			name: 'keyword.control.cp',
-			match: '\\b(then|else|while|until|do|from|to|by|in)\\b',
+			name: 'meta.control.cp',
+			begin: `\\b(continue)\\b`,
+			end:   ';',
+			beginCaptures: {
+				0: {name: 'keyword.control.cp'},
+			},
+			endCaptures: {
+				0: {name: 'punctuation.delimiter.cp'},
+			},
 		},
-		{include: '#Expression'},
+		{
+			name: 'meta.control.cp',
+			begin: `\\b(break|return|throw)\\b`,
+			end:   ';',
+			beginCaptures: {
+				0: {name: 'keyword.control.cp'},
+			},
+			endCaptures: {
+				0: {name: 'punctuation.delimiter.cp'},
+			},
+			patterns: [
+				{include: '#Expression'},
+			],
+		},
 	],
 };
 
