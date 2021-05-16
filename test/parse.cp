@@ -449,6 +449,7 @@ class Foo[a, b ,] {}
 class Foo<T> {}
 class Foo extends Bar, Diz.<T> {}
 class Foo implements Bar, Diz.<T> {}
+class Foo extends Bar implements Diz.<T> {}
 class ClassWithCaptures[
 	a,
 	`b`,
@@ -463,6 +464,7 @@ let Foo: Class = Object && Class && (class [a, b ,] extends Bar.<T> {});
 let Foo: Class = Object && Class && (class <T> extends Bar.<T> {});
 let Foo: Class = Object && Class && (class extends Bar, Diz.<T> {});
 let Foo: Class = Object && Class && (class implements Bar, Diz.<T> {});
+let Foo: Class = Object && Class && (class extends Bar implements Diz.<T> {});
 let classWithCaptures: Class = class [
 	a,
 	`b`,
@@ -477,6 +479,7 @@ interface nominal Foo {}
 interface Foo<T> {}
 interface Foo extends Bar, Diz.<T> {}
 interface Foo inherits Bar, Diz.<T> {}
+interface Foo extends Bar inherits Diz.<T> {}
 
 % interface type expressions
 type T = unknown & (interface {});
@@ -484,6 +487,7 @@ type T = unknown & (interface readonly {});
 type T = unknown & (interface <T> {});
 type T = unknown & (interface extends Bar, Diz.<T> {});
 type T = unknown & (interface inherits Bar, Diz.<T> {});
+type T = unknown & (interface extends Bar inherits Diz.<T> {});
 
 % class members
 class Foo {

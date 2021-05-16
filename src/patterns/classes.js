@@ -24,17 +24,17 @@ import {
 export const HERITAGE = {
 	name: 'meta.heritage.cp',
 	begin: '\\b(extends|implements|inherits)\\b',
-	end:   lookaheads(['\\{']),
+	end:   lookaheads(['\\b(extends|implements|inherits)\\b', '\\{']),
 	beginCaptures: {
 		0: {name: 'storage.modifier.cp'},
 	},
 	patterns: [
+		{include: '#TypeAccess'},
+		identifier('entity.other.inherited-class'),
 		{
 			name: 'punctuation.separator.cp',
 			match: ',',
 		},
-		{include: '#IdentifierType'},
-		{include: '#TypeAccess'},
 	],
 };
 
