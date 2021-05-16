@@ -55,7 +55,7 @@ export const EXPRESSION__ACCESS = {
 			},
 			patterns: [
 				{include: '#Number'},
-				identifier('variable.other', true),
+				identifier('variable.other'),
 			],
 		},
 	],
@@ -113,21 +113,25 @@ export const EXPRESSION__STRUCTURE__LIST = list('meta.expression.structure.list.
 
 export const EXPRESSION = {
 	patterns: [
+		{
+			name: 'keyword.operator.punctuation.cp',
+			match: '<=|>=|!<|!>|==|!=|&&|!&|\\|\\||!\\||!|\\?|\\+|-|\\^|\\*|\\/|<|>|~',
+		},
+		{
+			name: 'keyword.operator.text.cp',
+			match: '\\b(is|isnt|if|then|else)\\b',
+		},
+		{
+			name: 'variable.language.cp',
+			match: '\\b(this)\\b',
+		},
 		{include: '#ExpressionFunction'},
 		{include: '#ExpressionClass'},
 		{include: '#ExpressionCall'},
 		{include: '#ExpressionAccess'},
 		{include: '#ExpressionStructureGrouping'},
 		{include: '#ExpressionStructureList'},
-		{
-			name: 'variable.language.cp',
-			match: '\\b(this)\\b',
-		},
 		{include: '#Block'},
 		unit(),
-		{
-			name: 'keyword.operator.punctuation.cp',
-			match: '<=|>=|!<|!>|==|!=|&&|!&|\\|\\||!\\||!|\\?|\\+|-|\\^|\\*|\\/|<|>|~',
-		},
 	],
 };

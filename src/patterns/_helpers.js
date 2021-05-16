@@ -10,7 +10,7 @@ import {
 
 
 
-export function identifier(varname = 'variable.other', allowReserved = false) {
+export function identifier(varname = 'variable.other') {
 	return {
 		patterns: [
 			{include: '#CommentBlock'},
@@ -23,7 +23,6 @@ export function identifier(varname = 'variable.other', allowReserved = false) {
 					0: {name: 'punctuation.delimiter.cp'},
 				},
 			},
-			(!allowReserved) ? {include: '#Keyword'} : {},
 			{
 				name: `${ varname }.cp`,
 				match: '\\b[A-Za-z_][A-Za-z0-9_]*\\b',
@@ -36,11 +35,10 @@ export function identifier(varname = 'variable.other', allowReserved = false) {
 export function unit(varname = 'variable.other') {
 	return {
 		patterns: [
-			{include: '#CommentBlock'},
-			{include: '#CommentLine'},
 			{include: '#Template'},
 			{include: '#String'},
 			{include: '#Number'},
+			{include: '#Keyword'},
 			identifier(varname),
 			{
 				/*

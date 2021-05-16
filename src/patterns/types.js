@@ -66,15 +66,19 @@ export const TYPE = {
 			name: 'keyword.operator.punctuation.cp',
 			match: `!|\\?|&|\\|`,
 		},
+		{
+			name: 'keyword.operator.text.cp',
+			match: '\\b(mutable)\\b',
+		},
+		{
+			name: 'support.type.cp',
+			match: '\\b(this)\\b',
+		},
 		{include: '#TypeFunction'},
 		{include: '#TypeInterface'},
 		{include: '#TypeAccess'},
 		{include: '#TypeStructureGrouping'},
 		{include: '#TypeStructureList'},
-		{
-			name: 'support.type.cp',
-			match: '\\b(this)\\b',
-		},
 		{include: '#PromiseType'},
 		unit('entity.name.type'),
 	],

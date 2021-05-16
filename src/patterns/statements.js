@@ -16,7 +16,7 @@ import {
 
 export const STATEMENT__CONTROL = {
 	name: 'meta.control.cp',
-	begin: '\\b(if|unless|while|until|do|for)\\b',
+	begin: '\\b(if|unless|while|until|do|for|break|continue|return|throw)\\b',
 	end:   ';',
 	beginCaptures: {
 		0: {name: 'keyword.control.cp'},
@@ -63,6 +63,10 @@ export const STATEMENT__DECLARATION__LET = {
 		0: {name: 'punctuation.delimiter.cp'},
 	},
 	patterns: [
+		{
+			name: 'storage.modifier.cp',
+			match: '\\b(unfixed)\\b',
+		},
 		{include: '#DestructureVariable'},
 		annotation(lookaheads([ASSN_START])),
 		assignment(lookaheads([';'])),

@@ -38,36 +38,8 @@ export const KEYWORD = {
 			match: '\\b(this|super|static|hyper)\\b',
 		},
 		{
-			name: 'keyword.operator.text.cp',
-			match: '\\b(mutable|is|isnt|if|then|else)\\b',
-		},
-		{
-			name: 'storage.type.cp',
-			match: '\\b(type|let|func|class|interface)\\b',
-		},
-		{
 			name: 'support.class.cp',
 			match: '\\b(Object|Class)\\b',
-		},
-		{
-			name: 'storage.modifier.cp',
-			match: `
-				\\b(
-					  public | secret | private | protected              # access modifiers
-					| final | abstract | readonly | nominal              # class modifiers
-					| static | new | override | mutating                 # member modifiers
-					| unfixed                                            # variable modifiers
-					| extends | implements | inherits | narrows | widens # class/interface/type heritage
-				)\\b
-			`.replace(/\#.*\n|\s+/g, ''),
-		},
-		{
-			name: 'keyword.control.cp',
-			match: '\\b(if|unless|then|else|while|until|do|for|from|to|by|in|break|continue|return|throw)\\b',
-		},
-		{
-			name: 'keyword.other.alias.cp',
-			match: '\\b(as)\\b',
 		},
 	],
 };
