@@ -175,6 +175,20 @@ let h: int = if true then 1 else 0;
 (unfixed h: int): int => h + 1;
 (%%unfixed%% h: int): int => h + 1;
 
+% augmentation:
+a ^= b;
+a *= b;
+a /= b;
+a += b;
+a -= b;
+a &&= b;
+a !&= b;
+a ||= b;
+c++;
+c--;
+c**;
+c--;
+
 return (a + b);
 throw (c + d);
 return (

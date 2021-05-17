@@ -112,6 +112,12 @@ export const STATEMENT = {
 		{include: '#StatementDeclarationFunc'},
 		{include: '#StatementDeclarationClass'},
 		{include: '#StatementDeclarationInterface'},
+		{include: '#StatementAugmentation'},
+		assignment(lookaheads([';'])),
+		{
+			name: 'punctuation.delimiter.cp',
+			match: ';',
+		},
 		{
 			begin: lookaheads([
 				[DESTRUCTURE_ASSIGNEES, OWS, ASSN_START].join(''),
@@ -122,13 +128,7 @@ export const STATEMENT = {
 				{include: '#DestructureAssignment'},
 			],
 		},
-		{
-			name: 'punctuation.delimiter.cp',
-			match: ';',
-		},
-		assignment(lookaheads([';'])),
 		{include: '#Expression'}, // must come after reassignment destructuring because of untyped lambda parameters
-		{include: '#StatementAugmentation'},
 	],
 };
 
