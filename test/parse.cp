@@ -5,6 +5,25 @@ true else % false
 	% a line comment
 	else true
 );
+if a then b else c;
+(if a then b else c);
+
+if true then {
+	return false;
+} else if false then {
+	return true;
+} else %%comm%% if null then {
+	return null;
+} else {
+	return;
+};
+if if a then b else c then {
+	if a then b else c;
+} else if (if a then b else c) then {
+	return (if a then b else c);
+} else {
+	while if a then b else c do { d; };
+};
 
 while %% this is a
 block comment
@@ -33,14 +52,18 @@ do {
 	true;
 } until false;
 
-for %% int %% i from %% start %% 1 to %% end %% 10 do {
+for %% int %% i from %% start %% 1 to %% end %% 10 by %% increment %% 2 do {
 	do {
 		if false then '''{{ 0 }} 0''' else '''{{ 1 }} 1''';
 		(if false then '''{{ 0 }} 0''' else '''{{ 1 }} 1''');
 		break 1;
 		continue;
 	} while false;
+	for x from if a then b else c to if a then b else c by if a then b else c do {
+		do { d; } while if a then b else c;
+	};
 };
+
 let break: str = 'break';
 let continue: str = 'continue';
 while continue do { break; break = '1'; };
@@ -126,117 +149,6 @@ func twice(x: int): int => x * 2;
 	awaiting~;
 }
 
-%% these should all fail parsing
-and thus be colored to indicate as such. %%
-% constants
-type T<null, false, true, never, void, bool, int, float, str, obj, unknown, this> = T;
-type T = (null: T, false: T, true: T, never: T, void: T, bool: T, int: T, float: T, str: T, obj: T, unknown: T, this: T) -> {U};
-func f(null: T, false: T, true: T, never: T, void: T, bool: T, int: T, float: T, str: T, obj: T, unknown: T, this: T): U {;}
-f.(null= expr, false= expr, true= expr, never= expr, void= expr, bool= expr, int= expr, float= expr, str= expr, obj= expr, unknown= expr, this= expr)~;
-f.(null$, false$, true$, never$, void$, bool$, int$, float$, str$, obj$, unknown$, this$)~;
-[null$, false$, true$, never$, void$, bool$, int$, float$, str$, obj$, unknown$, this$];
-type null; type false; type true; type never; type void; type bool; type int; type float; type str; type obj; type unknown; type this;
-let null; let false; let true; let never; let void; let bool; let int; let float; let str; let obj; let unknown; let this;
-func null; func false; func true; func never; func void; func bool; func int; func float; func str; func obj; func unknown; func this; =>;
-class null; class false; class true; class never; class void; class bool; class int; class float; class str; class obj; class unknown; class this; {}
-interface null; interface false; interface true; interface never; interface void; interface bool; interface int; interface float; interface str; interface obj; interface unknown; interface this; {}
-% variables
-type T<this, super, static, hyper> = T;
-type T = (this: T, super: T, static: T, hyper: T) -> {U};
-func f(this: T, super: T, static: T, hyper: T): U {;}
-f.(this= expr, super= expr, static= expr, hyper= expr)~;
-f.(this$, super$, static$, hyper$)~;
-[this$, super$, static$, hyper$];
-type this; type super; type static; type hyper;
-let this; let super; let static; let hyper;
-func this; func super; func static; func hyper; =>;
-class this; class super; class static; class hyper; {}
-interface this; interface super; interface static; interface hyper; {}
-% operators
-type T<mutable, is, isnt, if, then, else> = T;
-type T = (mutable: T, is: T, isnt: T, if: T, then: T, else: T) -> {U};
-func f(mutable: T, is: T, isnt: T, if: T, then: T, else: T): U {;}
-f.(mutable= expr, is= expr, isnt= expr, if= expr, then= expr, else= expr)~;
-f.(mutable$, is$, isnt$, if$, then$, else$)~;
-[mutable$, is$, isnt$, if$, then$, else$];
-type mutable; type is; type isnt; type if; type then; type else;
-let mutable; let is; let isnt; let if; let then; let else;
-func mutable; func is; func isnt; func if; func then; func else; =>;
-class mutable; class is; class isnt; class if; class then; class else; {}
-interface mutable; interface is; interface isnt; interface if; interface then; interface else; {}
-% storage types
-type T<type, let, func, class, interface> = T;
-type T = (type: T, let: T, func: T, class: T, interface: T) -> {U};
-func f(type: T, let: T, func: T, class: T, interface: T): U {;}
-f.(type= expr, let= expr, func= expr, class= expr, interface= expr)~; {});
-f.(type$, let$, func$, class$, interface$)~; {});
-[type$, let$, func$, class$, interface$];
-type type; type let; type func; type class; type interface;
-let type; let let; let func; let class; let interface;
-func type; func func ; func func; func class; func interface; =>;
-class type; class let; class func; class class; class interface; {}
-interface type; interface let; interface func; interface class; interface interface; {}
-% storage modifiers
-type T<public, secret, private, protected, final, abstract, readonly, nominal, static, new, override, mutating, unfixed, extends, implements, inherits, narrows, widens> = T;
-type T = (public: T, secret: T, private: T, protected: T, final: T, abstract: T, readonly: T, nominal: T, static: T, new: T, override: T, mutating: T, unfixed: T, extends: T, implements: T, inherits: T, narrows: T, widens: T) -> {U};
-func f(public: T, secret: T, private: T, protected: T, final: T, abstract: T, readonly: T, nominal: T, static: T, new: T, override: T, mutating: T, unfixed: T, extends: T, implements: T, inherits: T, narrows: T, widens: T): U {;}
-f.(public= expr, secret= expr, private= expr, protected= expr, final= expr, abstract= expr, readonly= expr, nominal= expr, static= expr, new= expr, override= expr, mutating= expr, unfixed= expr, extends= expr, implements= expr, inherits= expr, narrows= expr, widens= expr)~;
-f.(public$, secret$, private$, protected$, final$, abstract$, readonly$, nominal$, static$, new$, override$, mutating$, unfixed$, extends$, implements$, inherits$, narrows$, widens$)~;
-[public$, secret$, private$, protected$, final$, abstract$, readonly$, nominal$, static$, new$, override$, mutating$, unfixed$, extends$, implements$, inherits$, narrows$, widens$];
-type public; type secret; type private; type protected; type final; type abstract; type readonly; type nominal; type static; type new; type override; type mutating; type unfixed; type extends; type implements; type inherits; type narrows; type widens;
-let public; let secret; let private; let protected; let final; let abstract; let readonly; let nominal; let static; let new; let override; let mutating; let unfixed; let extends; let implements; let inherits; let narrows; let widens;
-func public; func secret; func private; func protected; func final; func abstract; func readonly; func nominal; func static; func new; func override; func mutating; func unfixed; func extends; func implements; func inherits; func narrows; func widens; =>;
-class public; class secret; class private; class protected; class final; class abstract; class readonly; class nominal; class static; class new; class override; class mutating; class unfixed; class extends; class implements; class inherits; class narrows; class widens; {}
-interface public; interface secret; interface private; interface protected; interface final; interface abstract; interface readonly; interface nominal; interface static; interface new; interface override; interface mutating; interface unfixed; interface extends; interface implements; interface inherits; interface narrows; interface widens; {}
-% control
-type T<if, unless, then, else, while, until, do, for, from, to, by, in, break, continue, return, throw> = T;
-type T = (if: T, unless: T, then: T, else: T, while: T, until: T, do: T, for: T, from: T, to: T, by: T, in: T, break: T, continue: T, return: T, throw: T) -> {U};
-func f(if: T, unless: T, then: T, else: T, while: T, until: T, do: T, for: T, from: T, to: T, by: T, in: T, break: T, continue: T, return: T, throw: T): U {;}
-f.(if= expr, unless= expr, then= expr, else= expr, while= expr, until= expr, do= expr, for= expr, from= expr, to= expr, by= expr, in= expr, break= expr, continue= expr, return= expr, throw= expr)~;
-f.(if$, unless$, then$, else$ while$, until$, do$, for$, from$, to$, by$, in$, break$, continue$, return$, throw$)~;
-[if$, unless$, then$, else$, while$, until$, do$, for$, from$, to$, by$, in$, break$, continue$, return$, throw$];
-type if; type unless; type then; type else; type while; type until; type do; type for; type from; type to; type by; type in; type break; type continue; type return; type throw;
-let if; let unless; let then; let else; let while; let until; let do; let for; let from; let to; let by; let in; let break; let continue; let return; let throw;
-func if; func unless; func then; func else; func while; func until; func do; func for; func from; func to; func by; func in; func break; func continue; func return; func throw; =>;
-class if; class unless; class then; class else; class while; class until; class do; class for; class from; class to; class by; class in; class break; class continue; class return; class throw; {}
-interface if; interface unless; interface then; interface else; interface while; interface until; interface do; interface for; interface from; interface to; interface by; interface in; class break; interface continue; interface return; interface throw; {}
-% other
-type T<as> = T;
-type T = (as: T) -> {U};
-func f(as: T): U {;}
-f.(as= expr)~;
-f.(as$)~;
-[as$];
-type as;
-let as;
-func as; =>;
-class as; {}
-interface as; {}
-
-%% these should *not* fail parsing
-because keywords are allowed identifiers here. %%
-type T = [null: T, false: T, true: T, never: T, void: T, bool: T, int: T, float: T, str: T, obj: T, unknown: T, this: T];
-type T = [this: T, super: T, static: T, hyper: T];
-type T = [mutable: T, is: T, isnt: T, if: T, then: T, else: T];
-type T = [type: T, let: T, func: T, class: T, interface: T];
-type T = [public: T, secret: T, private: T, protected: T, final: T, abstract: T, readonly: T, nominal: T, static: T, new: T, override: T, mutating: T, unfixed: T, extends: T, implements: T, inherits: T, narrows: T, widens: T];
-type T = [if: T, unless: T, then: T, else: T, while: T, until: T, do: T, for: T, from: T, to: T, by: T, in: T, break: T, continue: T, return: T, throw: T];
-type T = [as: T];
-[null= expr, false= expr, true= expr, never= expr, void= expr, bool= expr, int= expr, float= expr, str= expr, obj= expr, unknown= expr, this= expr];
-[this= expr, super= expr, static= expr, hyper= expr];
-[mutable= expr, is= expr, isnt= expr, if= expr, then= expr, else= expr];
-[type= expr, let= expr, func= expr, class= expr, interface= expr];
-[public= expr, secret= expr, private= expr, protected= expr, final= expr, abstract= expr, readonly= expr, nominal= expr, static= expr, new= expr, override= expr, mutating= expr, unfixed= expr, extends= expr, implements=expr, inherits=expr, narrows= expr, widens= expr];
-[if= expr, unless= expr, then= expr, else= expr, while= expr, until= expr, do= expr, for= expr, from= expr, to= expr, by= expr, in= expr, break= expr, continue= expr, return= expr, throw= expr];
-[as= expr];
-object.null; object.false; object.true; object.never; object.void; object.bool; object.int; object.float; object.str; object.obj; object.unknown; object.this;
-object.this; object.super; object.static; object.hyper;
-object.mutable; object.is; object.isnt; object.if; object.then; object.else;
-object.type; object.let; object.func; object.class; object.interface;
-object.public; object.secret; object.private; object.protected; object.final; object.abstract; object.readonly; object.nominal; object.static; object.new; object.override; object.mutating; object.unfixed; object.extends; object.implements; object.inherits; object.narrows; object.widens;
-object.if; object.unless; object.then; object.else; object.while; object.until; object.do; object.for; object.from; object.to; object.by; object.in; object.break; object.continue; object.return; object.throw;
-object.as;
-
 
 %%% The value of `a`. %%
 let a: null | bool = +42 && null;
@@ -262,6 +174,37 @@ g = if true then {1;} else {0;};
 let h: int = if true then 1 else 0;
 (unfixed h: int): int => h + 1;
 (%%unfixed%% h: int): int => h + 1;
+
+% augmentation:
+a ^= b;
+a *= b;
+a /= b;
+a += b;
+a -= b;
+a &&= b;
+a !&= b;
+a ||= b;
+c++;
+c--;
+c**;
+c--;
+
+return (a + b);
+throw (c + d);
+return (
+	if (a + b) then c else d;
+);
+if (a + b) then c else d;
+unless (a + b) then { return (c); } else { throw (d); };
+{
+	return (a + b);
+	throw (c + d);
+	return (
+		if (a + b) then c else d;
+	);
+	if (a + b) then c else d;
+	unless (a + b) then { return (c); } else { throw (d); };
+}
 
 (x);
 (a == b);
@@ -301,6 +244,7 @@ type BinaryOperator = (
 type Const = () -> {int};
 type Const = (
 ) -> {int};
+type ReturnsTemplateType = () -> {'''a {{ string }} template type'''};
 
 type T = [a: boolean, b: int, c: T];
 let x: T = [a= false, b= 42, c$];
@@ -510,15 +454,16 @@ g.(z= 3, (x, y as (b)) => null);
 % class declarations
 class Foo {}
 public class Foo {}
-private class readonly Foo {}
+private class Foo {}
 class final Foo {}
-class abstract Foo
+class abstract Foo {}
 class readonly Foo {}
 class nominal Foo {}
 class Foo[a, b ,] {}
 class Foo<T> {}
 class Foo extends Bar, Diz.<T> {}
 class Foo implements Bar, Diz.<T> {}
+class Foo extends Bar implements Diz.<T> {}
 class ClassWithCaptures[
 	a,
 	`b`,
@@ -526,8 +471,6 @@ class ClassWithCaptures[
 
 % class expressions
 let Foo: Class = Object && Class && (class {});
-let Foo: Class = Object && Class && (public class {});
-let Foo: Class = Object && Class && (private class {});
 let Foo: Class = Object && Class && (class final {});
 let Foo: Class = Object && Class && (class abstract {});
 let Foo: Class = Object && Class && (class readonly {});
@@ -535,6 +478,7 @@ let Foo: Class = Object && Class && (class [a, b ,] extends Bar.<T> {});
 let Foo: Class = Object && Class && (class <T> extends Bar.<T> {});
 let Foo: Class = Object && Class && (class extends Bar, Diz.<T> {});
 let Foo: Class = Object && Class && (class implements Bar, Diz.<T> {});
+let Foo: Class = Object && Class && (class extends Bar implements Diz.<T> {});
 let classWithCaptures: Class = class [
 	a,
 	`b`,
@@ -549,6 +493,7 @@ interface nominal Foo {}
 interface Foo<T> {}
 interface Foo extends Bar, Diz.<T> {}
 interface Foo inherits Bar, Diz.<T> {}
+interface Foo extends Bar inherits Diz.<T> {}
 
 % interface type expressions
 type T = unknown & (interface {});
@@ -556,9 +501,11 @@ type T = unknown & (interface readonly {});
 type T = unknown & (interface <T> {});
 type T = unknown & (interface extends Bar, Diz.<T> {});
 type T = unknown & (interface inherits Bar, Diz.<T> {});
+type T = unknown & (interface extends Bar inherits Diz.<T> {});
 
 % class members
 class Foo {
+	% line comment
 	static field: T = 42;
 	public field: T = 42;
 	secret field: T = 42;
@@ -584,6 +531,9 @@ class Foo {
 		public readonly constructor_field7: int,
 	) {;}
 
+	%%
+	block comment
+	%%
 	static meth(): void {;}
 	public meth(): void {;}
 	secret meth(): void {;}
@@ -595,6 +545,11 @@ class Foo {
 	meth<T>(): void {;}
 	meth(x: int): void {;}
 	meth(): int => 42;
+
+	return(ab: void): void { return (ab); }
+	throw(cd: void): void { throw (cd); }
+	if(ef: void): void { if (a + b) then c else d; }
+	unless(gh: void): void { unless (a + b) then c else d; }
 }
 
 % interface members

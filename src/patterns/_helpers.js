@@ -6,11 +6,13 @@ import {
 	VAR,
 	ANNO_START,
 	ASSN_START,
+	ARROW,
+	DESTRUCTURE_PROPERTIES_OR_ARGUMENTS,
 } from '../selectors.js';
 
 
 
-export function identifier(varname = 'variable.other', allowReserved = false) {
+export function identifier(varname = 'variable.other') {
 	return {
 		patterns: [
 			{include: '#CommentBlock'},
@@ -23,7 +25,6 @@ export function identifier(varname = 'variable.other', allowReserved = false) {
 					0: {name: 'punctuation.delimiter.cp'},
 				},
 			},
-			(!allowReserved) ? {include: '#Keyword'} : {},
 			{
 				name: `${ varname }.cp`,
 				match: '\\b[A-Za-z_][A-Za-z0-9_]*\\b',
@@ -36,11 +37,10 @@ export function identifier(varname = 'variable.other', allowReserved = false) {
 export function unit(varname = 'variable.other') {
 	return {
 		patterns: [
-			{include: '#CommentBlock'},
-			{include: '#CommentLine'},
 			{include: '#Template'},
 			{include: '#String'},
 			{include: '#Number'},
+			{include: '#Keyword'},
 			identifier(varname),
 			{
 				/*
@@ -104,39 +104,98 @@ export function assignment(end, kind = '#Expression') {
 }
 
 
-export function destructure(subtype, identifiers, annot = false) {
+export function implicitReturn() {
 	return {
-		name: `meta.destructure.${ subtype.toLowerCase() }.cp`,
-		begin: '\\(',
-		end:   '\\)',
-		captures: {
+		begin: ARROW,
+		end:   lookaheads([';']),
+		beginCaptures: {
+			0: {name: 'storage.type.cp'},
+		},
+		patterns: [
+			{include: '#Expression'},
+		],
+	};
+}
+
+
+export function propertyOrArgumentLabel(close_delim, identifier_kind, destructure_kind) {
+	return {
+		patterns: [
+			{
+				begin: lookaheads([[VAR, OWS, `(\\$|${ ASSN_START })`].join('')]),
+				end:   lookaheads([',', close_delim]),
+				patterns: [
+					{include: identifier_kind},
+					assignment(lookaheads([',', close_delim])),
+					{
+						name: 'keyword.other.alias.cp',
+						match: '\\$',
+					},
+				],
+			},
+			{
+				begin: lookaheads([
+					[DESTRUCTURE_PROPERTIES_OR_ARGUMENTS, OWS, ASSN_START].join(''),
+				]),
+				end: lookaheads([',', close_delim]),
+				patterns: [
+					{include: destructure_kind},
+					assignment(lookaheads([',', close_delim])),
+				],
+			},
+		],
+	};
+}
+
+
+export function destructure(subtype, identifiers, param_or_var = false) {
+	return list(`meta.destructure.${ subtype.toLowerCase() }.cp`, '\\(', '\\)', [
+		{include: `#Destructure${ subtype }`},
+		{
+			begin: lookaheads([[VAR, OWS, '\\b(as)\\b'].join('')]),
+			end:   '\\b(as)\\b',
+			endCaptures: {
+				0: {name: 'keyword.other.alias.cp'}
+			},
+			patterns: [
+				{include: '#IdentifierProperty'},
+			],
+		},
+		{
+			name: 'keyword.other.alias.cp',
+			match: '\\$',
+		},
+		(param_or_var) ? {
+			name: 'storage.modifier.cp',
+			match: '\\b(unfixed)\\b',
+		} : {},
+		(param_or_var) ? annotation(lookaheads([',', '\\)'])) : {},
+		// // if adding destructure defaults:
+		// annotation(lookaheads([ASSN_START, ',', '\\)'])),
+		// assignment(lookaheads([',', '\\)'])),
+		identifiers,
+	]);
+}
+
+
+export function control(begin_keywords, contain_keywords) {
+	return {
+		name: 'meta.control.cp',
+		begin: `\\b(${ begin_keywords.join('|') })\\b`,
+		end:   ';',
+		beginCaptures: {
+			0: {name: 'keyword.control.cp'},
+		},
+		endCaptures: {
 			0: {name: 'punctuation.delimiter.cp'},
 		},
 		patterns: [
 			{
-				name: 'punctuation.separator.cp',
-				match: ',',
+				name: 'keyword.control.cp',
+				match: `\\b(${ contain_keywords.join('|') })\\b`,
 			},
-			{
-				begin: lookaheads([`${ VAR }${ OWS }\\b(as)\\b`]),
-				end:   '\\b(as)\\b',
-				endCaptures: {
-					0: {name: 'keyword.other.alias.cp'}
-				},
-				patterns: [
-					{include: '#IdentifierProperty'},
-				],
-			},
-			{
-				name: 'keyword.other.alias.cp',
-				match: '\\$',
-			},
-			{include: `#Destructure${ subtype }`},
-			(annot) ? annotation(lookaheads([',', '\\)'])) : {},
-			// // if adding destructure defaults:
-			// annotation(lookaheads([ASSN_START, ',', '\\)'])),
-			// assignment(lookaheads([',', '\\)'])),
-			identifiers,
+			{include: '#Expression'},
+			{include: '#Block'},
 		],
 	};
 }

@@ -1,10 +1,12 @@
 import {
 	lookaheads,
+	lookbehinds,
 } from '../helpers.js';
 import {
 	OWS,
 	ASSN_START,
 	ARROW,
+	BLOCK_END,
 	FIELD,
 	FIELD_CONSTRUCTOR,
 	CONSTRUCTOR,
@@ -14,6 +16,7 @@ import {
 	identifier,
 	annotation,
 	assignment,
+	implicitReturn,
 } from './_helpers.js';
 
 
@@ -21,17 +24,17 @@ import {
 export const HERITAGE = {
 	name: 'meta.heritage.cp',
 	begin: '\\b(extends|implements|inherits)\\b',
-	end:   lookaheads(['\\{']),
+	end:   lookaheads(['\\b(extends|implements|inherits)\\b', '\\{']),
 	beginCaptures: {
 		0: {name: 'storage.modifier.cp'},
 	},
 	patterns: [
+		{include: '#TypeAccess'},
+		identifier('entity.other.inherited-class'),
 		{
 			name: 'punctuation.separator.cp',
 			match: ',',
 		},
-		{include: '#IdentifierType'},
-		{include: '#TypeAccess'},
 	],
 };
 
@@ -39,7 +42,7 @@ export const HERITAGE = {
 export const TYPE__INTERFACE = {
 	name: 'meta.type.interface.cp',
 	begin: lookaheads(['\\b(interface)\\b']),
-	end:   lookaheads(['\\{']),
+	end:   lookbehinds(['\\}']),
 	patterns: [
 		{
 			begin: '\\b(interface)\\b',
@@ -60,6 +63,7 @@ export const TYPE__INTERFACE = {
 		{include: '#CommentBlock'},
 		{include: '#CommentLine'},
 		{include: '#Heritage'},
+		{include: '#ClassBody'},
 	],
 };
 
@@ -67,7 +71,7 @@ export const TYPE__INTERFACE = {
 export const EXPRESSION__CLASS = {
 	name: 'meta.expression.class.cp',
 	begin: lookaheads(['\\b(class)\\b']),
-	end:   lookaheads(['\\{']),
+	end:   lookbehinds(['\\}']),
 	patterns: [
 		{
 			begin: '\\b(class)\\b',
@@ -89,6 +93,7 @@ export const EXPRESSION__CLASS = {
 		{include: '#CommentBlock'},
 		{include: '#CommentLine'},
 		{include: '#Heritage'},
+		{include: '#ClassBody'},
 	],
 };
 
@@ -96,7 +101,7 @@ export const EXPRESSION__CLASS = {
 export const STATEMENT__DECLARATION__CLASS = {
 	name: 'meta.declaration.class.cp',
 	begin: lookaheads([`(\\b(public|private)\\b${ OWS })?\\b(class)\\b`]),
-	end:   lookaheads(['\\{']),
+	end:   lookbehinds(['\\}']),
 	patterns: [
 		{
 			name: 'storage.modifier.cp',
@@ -121,6 +126,7 @@ export const STATEMENT__DECLARATION__CLASS = {
 		{include: '#CommentBlock'},
 		{include: '#CommentLine'},
 		{include: '#Heritage'},
+		{include: '#ClassBody'},
 	],
 };
 
@@ -128,7 +134,7 @@ export const STATEMENT__DECLARATION__CLASS = {
 export const STATEMENT__DECLARATION__INTERFACE = {
 	name: 'meta.declaration.interface.cp',
 	begin: lookaheads([`(\\b(public|private)\\b${ OWS })?\\b(interface)\\b`]),
-	end:   lookaheads(['\\{']),
+	end:   lookbehinds(['\\}']),
 	patterns: [
 		{
 			name: 'storage.modifier.cp',
@@ -152,6 +158,7 @@ export const STATEMENT__DECLARATION__INTERFACE = {
 		{include: '#CommentBlock'},
 		{include: '#CommentLine'},
 		{include: '#Heritage'},
+		{include: '#ClassBody'},
 	],
 };
 
@@ -165,9 +172,9 @@ export const CONSTRUCTOR_FIELD = {
 			name: 'storage.modifier.cp',
 			match: '\\b(public|secret|private|protected|override|final|readonly)\\b',
 		},
+		{include: '#IdentifierProperty'},
 		annotation(lookaheads([ASSN_START, ',', '\\)'])),
 		assignment(lookaheads([',', '\\)'])),
-		{include: '#IdentifierField'},
 	],
 };
 
@@ -184,9 +191,9 @@ export const MEMBER__FIELD = {
 			name: 'storage.modifier.cp',
 			match: '\\b(static|public|secret|private|protected|override|final|readonly)\\b',
 		},
+		{include: '#IdentifierProperty'},
 		annotation(lookaheads([ASSN_START, ';'])),
 		assignment(lookaheads([';'])),
-		{include: '#IdentifierField'},
 	],
 };
 
@@ -194,7 +201,7 @@ export const MEMBER__FIELD = {
 export const MEMBER__CONSTRUCTOR = {
 	name: 'meta.constructor.cp',
 	begin: lookaheads([CONSTRUCTOR]),
-	end:   lookaheads(['\\{']),
+	end:   lookbehinds(['\\}']),
 	patterns: [
 		{
 			name: 'storage.modifier.cp',
@@ -204,6 +211,7 @@ export const MEMBER__CONSTRUCTOR = {
 		{include: '#CommentLine'},
 		{include: '#GenericParameters'},
 		{include: '#ConstructorParameters'},
+		{include: '#Block'},
 	],
 };
 
@@ -211,26 +219,35 @@ export const MEMBER__CONSTRUCTOR = {
 export const MEMBER__METHOD = {
 	name: 'meta.method.cp',
 	begin: lookaheads([METHOD]),
-	end:   `${ lookaheads(['\\{']) }|(${ ARROW })|(;)`,
+	end:   [lookbehinds(['\\}']), ';'].join('|'),
 	endCaptures: {
-		1: {name: 'storage.type.cp'},
-		2: {name: 'punctuation.delimiter.cp'},
+		0: {name: 'punctuation.delimiter.cp'},
 	},
 	patterns: [
 		{
 			name: 'storage.modifier.cp',
 			match: '\\b(static|public|secret|private|protected|override|final|mutating)\\b',
 		},
+		{include: '#IdentifierProperty'},
 		{include: '#GenericParameters'},
 		{include: '#Parameters'},
+		{include: '#Block'},
 		annotation(lookaheads(['\\{', ARROW, ';'])),
-		identifier('entity.name.method'),
+		implicitReturn(),
 	],
 };
 
 
-export const MEMBER = {
+export const CLASS_BODY = {
+	name: 'meta.classbody.cp',
+	begin: '\\{',
+	end:   BLOCK_END,
+	captures: {
+		0: {name: 'punctuation.delimiter.cp'},
+	},
 	patterns: [
+		{include: '#CommentBlock'},
+		{include: '#CommentLine'},
 		{include: '#MemberField'},
 		{include: '#MemberConstructor'},
 		{include: '#MemberMethod'},

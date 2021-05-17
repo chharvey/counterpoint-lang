@@ -5,6 +5,7 @@ import {
 	OWS,
 	VAR,
 	ANNO_START,
+	BLOCK_END,
 } from '../selectors.js';
 import {
 	unit,
@@ -17,7 +18,7 @@ import {
 export const PROMISE_TYPE = {
 	name: 'meta.type.structure.promise.cp',
 	begin: '\\{',
-	end:   `\\}${ lookaheads(['\\}'], true) }`,
+	end:   BLOCK_END,
 	captures: {
 		0: {name: 'punctuation.delimiter.cp'},
 	},
@@ -42,21 +43,19 @@ export const TYPE__STRUCTURE__GROUPING = {
 
 
 export const TYPE__STRUCTURE__LIST = list('meta.type.structure.list.cp', '\\[', '\\]', [
-		{
-			begin: lookaheads([
-				[VAR, OWS, ANNO_START].join(''),
-			]),
-			end: lookaheads([',', '\\]']),
-			patterns: [
-				annotation(lookaheads([',', '\\]'])),
-				{include: '#IdentifierProperty'},
-			],
-		},
-		{
-			name: 'keyword.other.spread.cp',
-			match: '##|#',
-		},
-		{include: '#Type'},
+	{
+		name: 'keyword.other.spread.cp',
+		match: '##|#',
+	},
+	{
+		begin: lookaheads([[VAR, OWS, ANNO_START].join('')]),
+		end:   lookaheads([',', '\\]']),
+		patterns: [
+			{include: '#IdentifierProperty'},
+			annotation(lookaheads([',', '\\]'])),
+		],
+	},
+	{include: '#Type'}, // must come after annotations because of record type keys
 ]);
 
 
@@ -66,15 +65,19 @@ export const TYPE = {
 			name: 'keyword.operator.punctuation.cp',
 			match: `!|\\?|&|\\|`,
 		},
+		{
+			name: 'keyword.operator.text.cp',
+			match: '\\b(mutable)\\b',
+		},
+		{
+			name: 'support.type.cp',
+			match: '\\b(this)\\b',
+		},
 		{include: '#TypeFunction'},
 		{include: '#TypeInterface'},
 		{include: '#TypeAccess'},
 		{include: '#TypeStructureGrouping'},
 		{include: '#TypeStructureList'},
-		{
-			name: 'support.type.cp',
-			match: '\\b(this)\\b',
-		},
 		{include: '#PromiseType'},
 		unit('entity.name.type'),
 	],

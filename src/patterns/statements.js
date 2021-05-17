@@ -4,32 +4,48 @@ import {
 import {
 	OWS,
 	ASSN_START,
+	BLOCK_END,
 	DESTRUCTURE_ASSIGNEES,
 } from '../selectors.js';
 import {
 	identifier,
 	annotation,
 	assignment,
+	control,
 } from './_helpers.js';
 
 
 
 export const STATEMENT__CONTROL = {
-	name: 'meta.control.cp',
-	begin: '\\b(if|unless|while|until|do|for)\\b',
-	end:   ';',
-	beginCaptures: {
-		0: {name: 'keyword.control.cp'},
-	},
-	endCaptures: {
-		0: {name: 'punctuation.delimiter.cp'},
-	},
 	patterns: [
+		control(['if', 'unless'], ['then', 'else', 'if', 'unless']),
+		control(['while', 'until', 'do'], ['do', 'while', 'until']),
+		control(['for'], ['from', 'to', 'by', 'in', 'do']),
 		{
-			name: 'keyword.control.cp',
-			match: '\\b(then|else|while|until|do|from|to|by|in)\\b',
+			name: 'meta.control.cp',
+			begin: `\\b(continue)\\b`,
+			end:   ';',
+			beginCaptures: {
+				0: {name: 'keyword.control.cp'},
+			},
+			endCaptures: {
+				0: {name: 'punctuation.delimiter.cp'},
+			},
 		},
-		{include: '#Expression'},
+		{
+			name: 'meta.control.cp',
+			begin: `\\b(break|return|throw)\\b`,
+			end:   ';',
+			beginCaptures: {
+				0: {name: 'keyword.control.cp'},
+			},
+			endCaptures: {
+				0: {name: 'punctuation.delimiter.cp'},
+			},
+			patterns: [
+				{include: '#Expression'},
+			],
+		},
 	],
 };
 
@@ -45,9 +61,9 @@ export const STATEMENT__DECLARATION__TYPE = {
 		0: {name: 'punctuation.delimiter.cp'},
 	},
 	patterns: [
+		{include: '#IdentifierType'},
 		{include: '#GenericParameters'},
 		assignment(lookaheads([';']), '#Type'),
-		identifier('entity.name.type'),
 	],
 };
 
@@ -63,10 +79,14 @@ export const STATEMENT__DECLARATION__LET = {
 		0: {name: 'punctuation.delimiter.cp'},
 	},
 	patterns: [
+		{
+			name: 'storage.modifier.cp',
+			match: '\\b(unfixed)\\b',
+		},
+		{include: '#IdentifierVariable'},
 		{include: '#DestructureVariable'},
 		annotation(lookaheads([ASSN_START])),
 		assignment(lookaheads([';'])),
-		identifier('entity.name.variable'),
 	],
 };
 
@@ -92,6 +112,12 @@ export const STATEMENT = {
 		{include: '#StatementDeclarationFunc'},
 		{include: '#StatementDeclarationClass'},
 		{include: '#StatementDeclarationInterface'},
+		{include: '#StatementAugmentation'},
+		assignment(lookaheads([';'])),
+		{
+			name: 'punctuation.delimiter.cp',
+			match: ';',
+		},
 		{
 			begin: lookaheads([
 				[DESTRUCTURE_ASSIGNEES, OWS, ASSN_START].join(''),
@@ -102,13 +128,7 @@ export const STATEMENT = {
 				{include: '#DestructureAssignment'},
 			],
 		},
-		{
-			name: 'punctuation.delimiter.cp',
-			match: ';',
-		},
-		assignment(lookaheads([';'])),
-		{include: '#Expression'},
-		{include: '#StatementAugmentation'},
+		{include: '#Expression'}, // must come after reassignment destructuring because of untyped lambda parameters
 	],
 };
 
@@ -116,12 +136,11 @@ export const STATEMENT = {
 export const BLOCK = {
 	name: 'meta.block.cp',
 	begin: '\\{',
-	end:   `\\}${ lookaheads(['\\}'], true) }`,
+	end:   BLOCK_END,
 	captures: {
 		0: {name: 'punctuation.delimiter.cp'},
 	},
 	patterns: [
-		{include: '#Member'},
 		{include: '#Statement'},
 	],
 };
