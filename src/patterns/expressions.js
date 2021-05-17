@@ -6,14 +6,12 @@ import {
 	OWS,
 	INT,
 	VAR,
-	ASSN_START,
-	DESTRUCTURE_PROPERTIES_OR_ARGUMENTS,
 } from '../selectors.js';
 import {
 	identifier,
 	unit,
 	list,
-	assignment,
+	propertyOrArgumentLabel,
 } from './_helpers.js';
 
 
@@ -77,37 +75,16 @@ export const EXPRESSION__STRUCTURE__GROUPING = {
 
 
 export const EXPRESSION__STRUCTURE__LIST = list('meta.expression.structure.list.cp', '\\[', '\\]', [
-		{
-			name: 'punctuation.separator.cp',
-			match: '\\|->',
-		},
-		{
-			begin: lookaheads([[VAR, OWS, '\\$'].join('')]),
-			end:   lookaheads([',', '\\]']),
-			patterns: [
-				{include: '#IdentifierProperty'},
-				{
-					name: 'keyword.other.alias.cp',
-					match: '\\$',
-				},
-			],
-		},
-		{
-			begin: lookaheads([
-				[`(${ VAR }|${ DESTRUCTURE_PROPERTIES_OR_ARGUMENTS })`, OWS, ASSN_START].join(''),
-			]),
-			end: lookaheads([',', '\\]']),
-			patterns: [
-				{include: '#IdentifierProperty'},
-				{include: '#DestructureProperty'},
-				assignment(lookaheads([',', '\\]'])),
-			],
-		},
-		{
-			name: 'keyword.other.spread.cp',
-			match: '##|#',
-		},
-		{include: '#Expression'},
+	{
+		name: 'keyword.other.spread.cp',
+		match: '##|#',
+	},
+	{
+		name: 'punctuation.separator.cp',
+		match: '\\|->',
+	},
+	propertyOrArgumentLabel('\\]', '#IdentifierProperty', '#DestructureProperty'),
+	{include: '#Expression'}, // must come after property destructuring because of untyped lambda parameters
 ]);
 
 

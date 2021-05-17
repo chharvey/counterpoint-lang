@@ -7,6 +7,7 @@ import {
 	ANNO_START,
 	ASSN_START,
 	ARROW,
+	DESTRUCTURE_PROPERTIES_OR_ARGUMENTS,
 } from '../selectors.js';
 
 
@@ -117,41 +118,63 @@ export function implicitReturn() {
 }
 
 
-export function destructure(subtype, identifiers, annot = false) {
+export function propertyOrArgumentLabel(close_delim, identifier_kind, destructure_kind) {
 	return {
-		name: `meta.destructure.${ subtype.toLowerCase() }.cp`,
-		begin: '\\(',
-		end:   '\\)',
-		captures: {
-			0: {name: 'punctuation.delimiter.cp'},
-		},
 		patterns: [
 			{
-				name: 'punctuation.separator.cp',
-				match: ',',
-			},
-			{
-				begin: lookaheads([`${ VAR }${ OWS }\\b(as)\\b`]),
-				end:   '\\b(as)\\b',
-				endCaptures: {
-					0: {name: 'keyword.other.alias.cp'}
-				},
+				begin: lookaheads([[VAR, OWS, `(\\$|${ ASSN_START })`].join('')]),
+				end:   lookaheads([',', close_delim]),
 				patterns: [
-					{include: '#IdentifierProperty'},
+					{include: identifier_kind},
+					assignment(lookaheads([',', close_delim])),
+					{
+						name: 'keyword.other.alias.cp',
+						match: '\\$',
+					},
 				],
 			},
 			{
-				name: 'keyword.other.alias.cp',
-				match: '\\$',
+				begin: lookaheads([
+					[DESTRUCTURE_PROPERTIES_OR_ARGUMENTS, OWS, ASSN_START].join(''),
+				]),
+				end: lookaheads([',', close_delim]),
+				patterns: [
+					{include: destructure_kind},
+					assignment(lookaheads([',', close_delim])),
+				],
 			},
-			{include: `#Destructure${ subtype }`},
-			(annot) ? annotation(lookaheads([',', '\\)'])) : {},
-			// // if adding destructure defaults:
-			// annotation(lookaheads([ASSN_START, ',', '\\)'])),
-			// assignment(lookaheads([',', '\\)'])),
-			identifiers,
 		],
 	};
+}
+
+
+export function destructure(subtype, identifiers, param_or_var = false) {
+	return list(`meta.destructure.${ subtype.toLowerCase() }.cp`, '\\(', '\\)', [
+		{include: `#Destructure${ subtype }`},
+		{
+			begin: lookaheads([[VAR, OWS, '\\b(as)\\b'].join('')]),
+			end:   '\\b(as)\\b',
+			endCaptures: {
+				0: {name: 'keyword.other.alias.cp'}
+			},
+			patterns: [
+				{include: '#IdentifierProperty'},
+			],
+		},
+		{
+			name: 'keyword.other.alias.cp',
+			match: '\\$',
+		},
+		(param_or_var) ? {
+			name: 'storage.modifier.cp',
+			match: '\\b(unfixed)\\b',
+		} : {},
+		(param_or_var) ? annotation(lookaheads([',', '\\)'])) : {},
+		// // if adding destructure defaults:
+		// annotation(lookaheads([ASSN_START, ',', '\\)'])),
+		// assignment(lookaheads([',', '\\)'])),
+		identifiers,
+	]);
 }
 
 

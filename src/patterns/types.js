@@ -43,21 +43,19 @@ export const TYPE__STRUCTURE__GROUPING = {
 
 
 export const TYPE__STRUCTURE__LIST = list('meta.type.structure.list.cp', '\\[', '\\]', [
-		{
-			begin: lookaheads([
-				[VAR, OWS, ANNO_START].join(''),
-			]),
-			end: lookaheads([',', '\\]']),
-			patterns: [
-				annotation(lookaheads([',', '\\]'])),
-				{include: '#IdentifierProperty'},
-			],
-		},
-		{
-			name: 'keyword.other.spread.cp',
-			match: '##|#',
-		},
-		{include: '#Type'},
+	{
+		name: 'keyword.other.spread.cp',
+		match: '##|#',
+	},
+	{
+		begin: lookaheads([[VAR, OWS, ANNO_START].join('')]),
+		end:   lookaheads([',', '\\]']),
+		patterns: [
+			{include: '#IdentifierProperty'},
+			annotation(lookaheads([',', '\\]'])),
+		],
+	},
+	{include: '#Type'}, // must come after annotations because of record type keys
 ]);
 
 

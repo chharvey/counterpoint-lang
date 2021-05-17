@@ -127,7 +127,7 @@ export const STATEMENT = {
 			match: ';',
 		},
 		assignment(lookaheads([';'])),
-		{include: '#Expression'},
+		{include: '#Expression'}, // must come after reassignment destructuring because of untyped lambda parameters
 		{include: '#StatementAugmentation'},
 	],
 };
