@@ -38,7 +38,7 @@ export const TYPE__FUNCTION = {
 		{include: '#CommentLine'},
 		{include: '#GenericParameters'},
 		{include: '#TypeParameters'},
-		{include: '#PromiseType'},
+		{include: '#TypeStructurePromise'},
 	],
 };
 
