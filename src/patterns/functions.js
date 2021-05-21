@@ -114,6 +114,10 @@ export const TYPE_PARAMETER_PATTERNS = {
 export const PARAMETER_PATTERNS = {
 	patterns: [
 		{
+			name: 'storage.modifier.cp',
+			match: '\\b(unfixed)\\b',
+		},
+		{
 			name: 'keyword.other.alias.cp',
 			match: '\\b(as)\\b',
 		},
@@ -155,7 +159,7 @@ export const POSSIBLE_TYPE_PARAMETER = {
 
 /** Parameter of function expression, if on separate line. */
 export const POSSIBLE_PARAMETER = {
-	begin: lookaheads([[VAR, OWS, `(${ [
+	begin: lookaheads([[`(\\b(unfixed)\\b${ OWS })?`, VAR, OWS, `(${ [
 		ANNO_START, ASSN_START, ',', '\\b(as)\\b', // annotated, or assigned, or more than 1 parameter, or destructured
 	].join('|') })`].join('')]),
 	end: `,|${ lookaheads(['\\)']) }`,

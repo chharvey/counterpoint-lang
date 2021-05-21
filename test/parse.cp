@@ -358,12 +358,14 @@ let lambda: Function = (
 	a: int,
 	a      = 42,
 	a: int = 42,
+	unfixed b,
 ) { return a * 2; };
 let lambda: Function = (
 	a,
 	a: int,
 	a      = 42,
 	a: int = 42,
+	unfixed b,
 ) => a * 2;
 let lambda: Function = <
 	T,
