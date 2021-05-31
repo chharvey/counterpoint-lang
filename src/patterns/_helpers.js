@@ -74,10 +74,10 @@ export function list(name, begin, end, more_patterns) {
 }
 
 
-export function annotation(end, optional_allowed = false) {
+export function annotation(end) {
 	return {
 		name: 'meta.annotation.cp',
-		begin: ((optional_allowed) ? '\\??' : '').concat(ANNO_START),
+		begin: ANNO_START,
 		end,
 		beginCaptures: {
 			0: {name: 'punctuation.delimiter.cp'},

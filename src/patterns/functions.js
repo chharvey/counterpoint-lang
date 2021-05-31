@@ -105,7 +105,7 @@ export const GENERIC_PARAMETER_PATTERNS = {
 
 export const TYPE_PARAMETER_PATTERNS = {
 	patterns: [
-		annotation(lookaheads([',', '\\)']), true),
+		annotation(lookaheads([',', '\\)'])),
 		{include: '#IdentifierParameter'},
 	],
 };
@@ -146,7 +146,7 @@ export const POSSIBLE_GENERIC_PARAMETER = {
 
 /** Parameter of function type, if on separate line. */
 export const POSSIBLE_TYPE_PARAMETER = {
-	begin: lookaheads([[VAR, OWS, '\\??', ANNO_START].join('')]),
+	begin: lookaheads([[VAR, OWS, ANNO_START].join('')]),
 	end:   `,|${ lookaheads(['\\)']) }`,
 	endCaptures: {
 		0: {name: 'punctuation.separator.cp'},
