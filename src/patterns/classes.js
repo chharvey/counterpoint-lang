@@ -41,59 +41,43 @@ export const HERITAGE = {
 
 export const TYPE__INTERFACE = {
 	name: 'meta.type.interface.cp',
-	begin: lookaheads(['\\b(interface)\\b']),
+	begin: '\\b(interface)\\b',
 	end:   lookbehinds(['\\}']),
+	beginCaptures: {
+		0: {name: 'storage.type.cp'},
+	},
 	patterns: [
-		{
-			begin: '\\b(interface)\\b',
-			end:   lookaheads(['\\b(extends|inherits)\\b', '\\{']),
-			beginCaptures: {
-				0: {name: 'storage.type.cp'},
-			},
-			patterns: [
-				{
-					name: 'storage.modifier.cp',
-					match: '\\b(readonly)\\b',
-				},
-				{include: '#CommentBlock'},
-				{include: '#CommentLine'},
-				{include: '#GenericParameters'},
-			],
-		},
 		{include: '#CommentBlock'},
 		{include: '#CommentLine'},
+		{include: '#GenericParameters'},
 		{include: '#Heritage'},
 		{include: '#ClassBody'},
+		{
+			name: 'storage.modifier.cp',
+			match: '\\b(readonly)\\b',
+		},
 	],
 };
 
 
 export const EXPRESSION__CLASS = {
 	name: 'meta.expression.class.cp',
-	begin: lookaheads(['\\b(class)\\b']),
+	begin: '\\b(class)\\b',
 	end:   lookbehinds(['\\}']),
+	beginCaptures: {
+		0: {name: 'storage.type.cp'},
+	},
 	patterns: [
-		{
-			begin: '\\b(class)\\b',
-			end:   lookaheads(['\\b(extends|implements)\\b', '\\{']),
-			beginCaptures: {
-				0: {name: 'storage.type.cp'},
-			},
-			patterns: [
-				{
-					name: 'storage.modifier.cp',
-					match: '\\b(final|abstract|readonly)\\b',
-				},
-				{include: '#CommentBlock'},
-				{include: '#CommentLine'},
-				{include: '#GenericParameters'},
-				{include: '#Captures'},
-			],
-		},
 		{include: '#CommentBlock'},
 		{include: '#CommentLine'},
+		{include: '#Captures'},
+		{include: '#GenericParameters'},
 		{include: '#Heritage'},
 		{include: '#ClassBody'},
+		{
+			name: 'storage.modifier.cp',
+			match: '\\b(final|abstract|readonly)\\b',
+		},
 	],
 };
 
@@ -103,30 +87,23 @@ export const STATEMENT__DECLARATION__CLASS = {
 	begin: lookaheads([`(\\b(public|private)\\b${ OWS })?\\b(class)\\b`]),
 	end:   lookbehinds(['\\}']),
 	patterns: [
+		{include: '#Captures'},
+		{include: '#GenericParameters'},
+		{include: '#Heritage'},
+		{include: '#ClassBody'},
 		{
 			name: 'storage.modifier.cp',
 			match: '\\b(public|private)\\b',
 		},
 		{
-			begin: '\\b(class)\\b',
-			end:   lookaheads(['\\b(extends|implements)\\b', '\\{']),
-			beginCaptures: {
-				0: {name: 'storage.type.cp'},
-			},
-			patterns: [
-				{
-					name: 'storage.modifier.cp',
-					match: '\\b(final|abstract|readonly|nominal)\\b',
-				},
-				{include: '#GenericParameters'},
-				{include: '#Captures'},
-				identifier('entity.name.class'),
-			],
+			name: 'storage.type.cp',
+			match: '\\b(class)\\b',
 		},
-		{include: '#CommentBlock'},
-		{include: '#CommentLine'},
-		{include: '#Heritage'},
-		{include: '#ClassBody'},
+		{
+			name: 'storage.modifier.cp',
+			match: '\\b(final|abstract|readonly|nominal)\\b',
+		},
+		identifier('entity.name.class'), // must come after keywords
 	],
 };
 
@@ -136,29 +113,22 @@ export const STATEMENT__DECLARATION__INTERFACE = {
 	begin: lookaheads([`(\\b(public|private)\\b${ OWS })?\\b(interface)\\b`]),
 	end:   lookbehinds(['\\}']),
 	patterns: [
+		{include: '#GenericParameters'},
+		{include: '#Heritage'},
+		{include: '#ClassBody'},
 		{
 			name: 'storage.modifier.cp',
 			match: '\\b(public|private)\\b',
 		},
 		{
-			begin: '\\b(interface)\\b',
-			end:   lookaheads(['\\b(extends|inherits)\\b', '\\{']),
-			beginCaptures: {
-				0: {name: 'storage.type.cp'},
-			},
-			patterns: [
-				{
-					name: 'storage.modifier.cp',
-					match: '\\b(readonly|nominal)\\b',
-				},
-				{include: '#GenericParameters'},
-				identifier('entity.name.class'),
-			],
+			name: 'storage.type.cp',
+			match: '\\b(interface)\\b',
 		},
-		{include: '#CommentBlock'},
-		{include: '#CommentLine'},
-		{include: '#Heritage'},
-		{include: '#ClassBody'},
+		{
+			name: 'storage.modifier.cp',
+			match: '\\b(readonly|nominal)\\b',
+		},
+		identifier('entity.name.class'), // must come after keywords
 	],
 };
 
