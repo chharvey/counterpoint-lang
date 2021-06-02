@@ -73,9 +73,21 @@ export const STATEMENT__DECLARATION__FUNC = {
 		{include: '#GenericParameters'},
 		{include: '#Parameters'},
 		{include: '#Block'},
-		annotation(lookaheads(['\\{', ARROW])),
+		annotation(lookaheads(['\\b(implements)\\b', '\\{', ARROW])),
 		implicitReturn(),
-		identifier('entity.name.function'),
+		{
+			name: 'meta.heritage.cp',
+			begin: '\\b(implements)\\b',
+			end:   lookaheads(['\\{', ARROW]),
+			beginCaptures: {
+				0: {name: 'storage.modifier.cp'},
+			},
+			patterns: [
+				{include: '#TypeAccess'},
+				{include: '#IdentifierType'},
+			],
+		},
+		identifier('entity.name.function'), // must come after `implements`
 	],
 };
 
