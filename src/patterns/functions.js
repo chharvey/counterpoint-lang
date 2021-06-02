@@ -9,6 +9,7 @@ import {
 	ASSN_START,
 	TYPEARROW,
 	ARROW,
+	FUNCTIONTYPE,
 	FUNCTION,
 } from '../selectors.js';
 import {
@@ -22,12 +23,7 @@ import {
 
 export const TYPE__FUNCTION = {
 	name: 'meta.type.func.cp',
-	begin: lookaheads([
-		'<',
-		`\\(${ OWS }\\)`,
-		`\\(${ OWS }${ VAR }${ OWS }\\??${ ANNO_START }`,
-		`${ lookbehinds(['\\)']) }${ OWS }${ TYPEARROW }`,
-	]),
+	begin: lookaheads([FUNCTIONTYPE]),
 	end: lookbehinds(['\\}']),
 	patterns: [
 		{
@@ -106,7 +102,14 @@ export const GENERIC_PARAMETER_PATTERNS = {
 export const TYPE_PARAMETER_PATTERNS = {
 	patterns: [
 		annotation(lookaheads([',', '\\)'])),
-		{include: '#IdentifierParameter'},
+		{
+			begin: lookaheads([`${ VAR }${ OWS }${ ANNO_START }`]),
+			end:   lookaheads([ANNO_START]),
+			patterns: [
+				{include: '#IdentifierParameter'},
+			],
+		},
+		{include: '#Type'}, // must come after `variable.parameter.cp` so that it isn’t confused with `entity.name.type.cp`
 	],
 };
 
@@ -146,7 +149,7 @@ export const POSSIBLE_GENERIC_PARAMETER = {
 
 /** Parameter of function type, if on separate line. */
 export const POSSIBLE_TYPE_PARAMETER = {
-	begin: lookaheads([[VAR, OWS, ANNO_START].join('')]),
+	begin: lookaheads([`(${ VAR }${ OWS })?${ ANNO_START }`]),
 	end:   `,|${ lookaheads(['\\)']) }`,
 	endCaptures: {
 		0: {name: 'punctuation.separator.cp'},

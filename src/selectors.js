@@ -53,6 +53,20 @@ export const DESTRUCTURE_ASSIGNEES = `
 	${ OWS }\\))
 `.replace(/\s+/g, '');
 
+export const FUNCTIONTYPE = `
+	<                # any generic parameters
+	| \\(${ OWS }(?:
+		\\)${ OWS }(?<aftertypeparams> ${ TYPEARROW }) # exactly 0 type parameters
+		| ${ ANNO_START }                              # annotated unnamed type parameter
+		#| (?:\\b mutable \\b | \\b this \\b)?${ VAR }${ OWS }[?!\\&\\|]?(?:
+		| ${ VAR }${ OWS }(?:
+			\\)${ OWS }\\g<aftertypeparams> # exactly 1 unnamed type parameter
+			| ${ ANNO_START } | ,           # annotated named type parameter, or more than 1 type parameter
+		)
+	)
+	| ${ lookbehinds(['\\)']) }${ OWS }\\g<aftertypeparams>
+`.replace(/\#.*\n|\s+/g, '');
+
 export const FUNCTION = `
 	(?:
 		\\[${ OWS }
@@ -62,18 +76,20 @@ export const FUNCTION = `
 		${ OWS }\\]
 	)?
 	(?:
-		<${ OWS }${ VAR }${ OWS }(?:
-			\\b(?:narrows | widens)\\b | ${ ASSN_START } | , # annotated, or assigned, or more than 1 generic parameter
-			| >${ OWS }(?<aftertypeparams>                   # exactly 1 unannotated uninitialized generic parameter
-				\\(${ OWS } \\b unfixed \\b                                        # unfixed parameter
-				| \\(${ OWS }${ VAR }${ OWS }(?:
-					${ ANNO_START } | ${ ASSN_START } | , | \\b as \\b              # annotated, or assigned, or more than 1 parameter, or destrucured
-					| \\)${ OWS }(?<afterparams>${ ANNO_START } | ${ ARROW } | \\{) # exactly 1 unannotated uninitialized nondestructued parameter
+		(?<aftergenericparams>
+			\\(${ OWS }(?:
+				\\)${ OWS }(?<afterparams>${ ANNO_START } | ${ ARROW } | \\{) # exactly 0 parameters
+				| \\b unfixed \\b                                             # unfixed parameter
+				| ${ VAR }${ OWS }(?:
+					\\)${ OWS }\\g<afterparams>                          # exactly 1 unannotated uninitialized nondestructued parameter
+					| ${ ANNO_START } | ${ ASSN_START } | , | \\b as \\b # annotated, or assigned, or more than 1 parameter, or destructured
 				)
-				| \\(${ OWS }\\)${ OWS }\\g<afterparams> # exactly 0 parameters
 			)
 		)
-		| \\g<aftertypeparams>
+		| <${ OWS }${ VAR }${ OWS }(?:
+			>${ OWS }\\g<aftergenericparams>                   # exactly 1 unannotated uninitialized generic parameter
+			| \\b(?:narrows | widens)\\b | ${ ASSN_START } | , # annotated, or assigned, or more than 1 generic parameter
+		)
 	)
 	| ${ lookbehinds(['\\)']) }${ OWS }\\g<afterparams>
 `.replace(/\#.*\n|\s+/g, '');
