@@ -239,6 +239,19 @@ let rec: mutable [a: int] = [a= 42];
 let map: mutable obj = [42 |-> '42.0'];
 
 
+public let x: float = 0.0;
+private let y: float = 0.0;
+public type X = float | int;
+private type Y = float | int;
+public type A<T> = float | T;
+private type B<T> = float | T;
+
+type Or<T, U> = T | U;
+type Or<T, U, V> = Or.<T, U> | V;
+% typefunc Or<T, U> => T | U;
+% typefunc Or<T, U, V> => Or.<T, U> | V;
+
+
 'a string that
 contains a % comment
 and then a new line

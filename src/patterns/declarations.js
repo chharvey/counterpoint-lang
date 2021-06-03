@@ -2,6 +2,7 @@ import {
 	lookaheads,
 } from '../helpers.js';
 import {
+	OWS,
 	ASSN_START,
 } from '../selectors.js';
 import {
@@ -12,41 +13,51 @@ import {
 
 export const DECLARATION__TYPE = {
 	name: 'meta.declaration.type.cp',
-	begin: '\\b(type)\\b',
+	begin: lookaheads([`(\\b(public|private)\\b${ OWS })?\\b(type)\\b`]),
 	end:   ';',
-	beginCaptures: {
-		0: {name: 'storage.type.cp'},
-	},
 	endCaptures: {
 		0: {name: 'punctuation.delimiter.cp'},
 	},
 	patterns: [
-		{include: '#IdentifierType'},
 		{include: '#GenericParameters'},
 		assignment(lookaheads([';']), '#Type'),
+		{
+			name: 'storage.modifier.cp',
+			match: '\\b(public|private)\\b',
+		},
+		{
+			name: 'storage.type.cp',
+			match: '\\b(type)\\b',
+		},
+		{include: '#IdentifierType'}, // must come after keywords
 	],
 };
 
 
 export const DECLARATION__LET = {
 	name: 'meta.declaration.let.cp',
-	begin: '\\b(let)\\b',
+	begin: lookaheads([`(\\b(public|private)\\b${ OWS })?\\b(let)\\b`]),
 	end:   ';',
-	beginCaptures: {
-		0: {name: 'storage.type.cp'},
-	},
 	endCaptures: {
 		0: {name: 'punctuation.delimiter.cp'},
 	},
 	patterns: [
+		{include: '#DestructureVariable'},
+		annotation(lookaheads([ASSN_START])),
+		assignment(lookaheads([';'])),
+		{
+			name: 'storage.modifier.cp',
+			match: '\\b(public|private)\\b',
+		},
+		{
+			name: 'storage.type.cp',
+			match: '\\b(let)\\b',
+		},
 		{
 			name: 'storage.modifier.cp',
 			match: '\\b(unfixed)\\b',
 		},
-		{include: '#IdentifierVariable'},
-		{include: '#DestructureVariable'},
-		annotation(lookaheads([ASSN_START])),
-		assignment(lookaheads([';'])),
+		{include: '#IdentifierVariable'}, // must come after keywords
 	],
 };
 
