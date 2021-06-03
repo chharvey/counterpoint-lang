@@ -7,6 +7,8 @@ true else % false
 );
 if a then b else c;
 (if a then b else c);
+if a then {b} else {c, 'error'};
+(if a then {b} else {c});
 
 if true then {
 	return false;

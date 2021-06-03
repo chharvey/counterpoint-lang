@@ -95,5 +95,10 @@ export const BLOCK = {
 	patterns: [
 		{include: '#Declaration'},
 		{include: '#Statement'},
+		{
+			// used only for promise literal expressions
+			name: 'punctuation.separator.cp',
+			match: ',',
+		},
 	],
 };

@@ -26,6 +26,7 @@ let x: <T widens U, U = Set.<null>>(a: Set.<T>, b: Set.<U>) -> {bool} = null;
 %-- function expression statements --%
 (unfixed h: int): int => h + 1;
 (%%unfixed%% h: int): int => h + 1;
+(): Promise.<int> => {42};
 
 
 
@@ -104,6 +105,9 @@ func %%comm%% nothing(): void {
 	let x: unknown = 0;
 	return;
 }
+func returnPromise(): {int} => {42};
+func returnPromise(): {int} => ({42, 'error'});
+func returnPromise(): {int} { return {42}; }
 func error(): never {
 	throw if true then 'error' else 'an error';
 	throw (if true then 'error' else 'an error');

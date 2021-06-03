@@ -1,6 +1,7 @@
 import * as fs from 'fs';
 import * as path from 'path';
 
+import * as Selector from './src/selectors.js';
 import {
 	identifier,
 	list,
@@ -41,6 +42,7 @@ await fs.promises.writeFile(path.join(path.dirname(new URL(import.meta.url).path
 		ExpressionFunction:            Pattern.EXPRESSION__FUNCTION,
 		ExpressionStructureGrouping:   Pattern.EXPRESSION__STRUCTURE__GROUPING,
 		ExpressionStructureList:       Pattern.EXPRESSION__STRUCTURE__LIST,
+		ExpressionStructurePromise:    list('meta.expression.structure.promise.cp', '\\{', Selector.BLOCK_END, [{include: '#Expression'}]),
 		GenericArguments:              list('meta.genericarguments.cp', '<', '>', [{include: '#Type'}]),
 		GenericParameterPatterns:      Pattern.GENERIC_PARAMETER_PATTERNS,
 		GenericParameters:             list('meta.genericparameters.cp', '<', '>', [{include: '#GenericParameterPatterns'}]),

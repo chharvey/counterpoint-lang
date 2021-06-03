@@ -114,6 +114,7 @@ export const EXPRESSION = {
 		{include: '#ExpressionAccess'},
 		{include: '#ExpressionStructureGrouping'},
 		{include: '#ExpressionStructureList'},
+		{include: '#Block'}, // serves as '#ExpressionStructurePromise'
 		unit(),
 	],
 };
