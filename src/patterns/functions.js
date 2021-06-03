@@ -13,7 +13,6 @@ import {
 	FUNCTION,
 } from '../selectors.js';
 import {
-	identifier,
 	annotation,
 	assignment,
 	implicitReturn,
@@ -92,7 +91,7 @@ export const DECLARATION__FUNC = {
 				{include: '#IdentifierType'},
 			],
 		},
-		identifier('entity.name.function'), // must come after keywords
+		{include: '#IdentifierFunction'}, // must come after keywords
 	],
 };
 

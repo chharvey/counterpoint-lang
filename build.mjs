@@ -45,6 +45,8 @@ await fs.promises.writeFile(path.join(path.dirname(new URL(import.meta.url).path
 		GenericParameterPatterns:      Pattern.GENERIC_PARAMETER_PATTERNS,
 		GenericParameters:             list('meta.genericparameters.cp', '<', '>', [{include: '#GenericParameterPatterns'}]),
 		Heritage:                      Pattern.HERITAGE,
+		IdentifierClass:               identifier('entity.name.class'),
+		IdentifierFunction:            identifier('entity.name.function'),
 		IdentifierParameter:           identifier('variable.parameter'),
 		IdentifierProperty:            identifier('entity.name.method'),
 		IdentifierType:                identifier('entity.name.type'),

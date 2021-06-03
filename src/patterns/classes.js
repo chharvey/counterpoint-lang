@@ -103,7 +103,7 @@ export const DECLARATION__CLASS = {
 			name: 'storage.modifier.cp',
 			match: '\\b(final|abstract|readonly|nominal)\\b',
 		},
-		identifier('entity.name.class'), // must come after keywords
+		{include: '#IdentifierClass'}, // must come after keywords
 	],
 };
 
@@ -128,7 +128,7 @@ export const DECLARATION__INTERFACE = {
 			name: 'storage.modifier.cp',
 			match: '\\b(readonly|nominal)\\b',
 		},
-		identifier('entity.name.class'), // must come after keywords
+		{include: '#IdentifierClass'}, // must come after keywords
 	],
 };
 
