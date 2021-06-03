@@ -15,19 +15,6 @@ import {
 
 
 
-export const PROMISE_TYPE = {
-	name: 'meta.type.structure.promise.cp',
-	begin: '\\{',
-	end:   BLOCK_END,
-	captures: {
-		0: {name: 'punctuation.delimiter.cp'},
-	},
-	patterns: [
-		{include: '#Type'},
-	],
-};
-
-
 export const TYPE__STRUCTURE__GROUPING = {
 	name: 'meta.type.structure.grouping.cp',
 	begin: '\\(',
@@ -59,6 +46,19 @@ export const TYPE__STRUCTURE__LIST = list('meta.type.structure.list.cp', '\\[', 
 ]);
 
 
+export const TYPE__STRUCTURE__PROMISE = {
+	name: 'meta.type.structure.promise.cp',
+	begin: '\\{',
+	end:   BLOCK_END,
+	captures: {
+		0: {name: 'punctuation.delimiter.cp'},
+	},
+	patterns: [
+		{include: '#Type'},
+	],
+};
+
+
 export const TYPE = {
 	patterns: [
 		{
@@ -78,7 +78,7 @@ export const TYPE = {
 		{include: '#TypeAccess'},
 		{include: '#TypeStructureGrouping'},
 		{include: '#TypeStructureList'},
-		{include: '#PromiseType'},
+		{include: '#TypeStructurePromise'},
 		unit('entity.name.type'),
 	],
 };

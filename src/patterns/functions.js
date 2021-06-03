@@ -9,6 +9,7 @@ import {
 	ASSN_START,
 	TYPEARROW,
 	ARROW,
+	FUNCTIONTYPE,
 	FUNCTION,
 } from '../selectors.js';
 import {
@@ -22,12 +23,7 @@ import {
 
 export const TYPE__FUNCTION = {
 	name: 'meta.type.func.cp',
-	begin: lookaheads([
-		'<',
-		`\\(${ OWS }\\)`,
-		`\\(${ OWS }${ VAR }${ OWS }\\??${ ANNO_START }`,
-		`${ lookbehinds(['\\)']) }${ OWS }${ TYPEARROW }`,
-	]),
+	begin: lookaheads([FUNCTIONTYPE]),
 	end: lookbehinds(['\\}']),
 	patterns: [
 		{
@@ -38,7 +34,7 @@ export const TYPE__FUNCTION = {
 		{include: '#CommentLine'},
 		{include: '#GenericParameters'},
 		{include: '#TypeParameters'},
-		{include: '#PromiseType'},
+		{include: '#TypeStructurePromise'},
 	],
 };
 
@@ -64,11 +60,8 @@ export const EXPRESSION__FUNCTION = {
 
 export const STATEMENT__DECLARATION__FUNC = {
 	name: 'meta.declaration.func.cp',
-	begin: '\\b(func)\\b',
+	begin: lookaheads([`(\\b(public|private)\\b${ OWS })?\\b(func)\\b`]),
 	end:   [lookbehinds(['\\}']), ';'].join('|'),
-	beginCaptures: {
-		0: {name: 'storage.type.cp'},
-	},
 	endCaptures: {
 		0: {name: 'punctuation.delimiter.cp'},
 	},
@@ -77,9 +70,29 @@ export const STATEMENT__DECLARATION__FUNC = {
 		{include: '#GenericParameters'},
 		{include: '#Parameters'},
 		{include: '#Block'},
-		annotation(lookaheads(['\\{', ARROW])),
+		annotation(lookaheads(['\\b(implements)\\b', '\\{', ARROW])),
 		implicitReturn(),
-		identifier('entity.name.function'),
+		{
+			name: 'storage.modifier.cp',
+			match: '\\b(public|private)\\b',
+		},
+		{
+			name: 'storage.type.cp',
+			match: '\\b(func)\\b',
+		},
+		{
+			name: 'meta.heritage.cp',
+			begin: '\\b(implements)\\b',
+			end:   lookaheads(['\\{', ARROW]),
+			beginCaptures: {
+				0: {name: 'storage.modifier.cp'},
+			},
+			patterns: [
+				{include: '#TypeAccess'},
+				{include: '#IdentifierType'},
+			],
+		},
+		identifier('entity.name.function'), // must come after keywords
 	],
 };
 
@@ -105,14 +118,25 @@ export const GENERIC_PARAMETER_PATTERNS = {
 
 export const TYPE_PARAMETER_PATTERNS = {
 	patterns: [
-		annotation(lookaheads([',', '\\)']), true),
-		{include: '#IdentifierParameter'},
+		annotation(lookaheads([',', '\\)'])),
+		{
+			begin: lookaheads([`${ VAR }${ OWS }${ ANNO_START }`]),
+			end:   lookaheads([ANNO_START]),
+			patterns: [
+				{include: '#IdentifierParameter'},
+			],
+		},
+		{include: '#Type'}, // must come after `variable.parameter.cp` so that it isn’t confused with `entity.name.type.cp`
 	],
 };
 
 
 export const PARAMETER_PATTERNS = {
 	patterns: [
+		{
+			name: 'storage.modifier.cp',
+			match: '\\b(unfixed)\\b',
+		},
 		{
 			name: 'keyword.other.alias.cp',
 			match: '\\b(as)\\b',
@@ -142,7 +166,7 @@ export const POSSIBLE_GENERIC_PARAMETER = {
 
 /** Parameter of function type, if on separate line. */
 export const POSSIBLE_TYPE_PARAMETER = {
-	begin: lookaheads([[VAR, OWS, '\\??', ANNO_START].join('')]),
+	begin: lookaheads([`(${ VAR }${ OWS })?${ ANNO_START }`]),
 	end:   `,|${ lookaheads(['\\)']) }`,
 	endCaptures: {
 		0: {name: 'punctuation.separator.cp'},
@@ -155,7 +179,7 @@ export const POSSIBLE_TYPE_PARAMETER = {
 
 /** Parameter of function expression, if on separate line. */
 export const POSSIBLE_PARAMETER = {
-	begin: lookaheads([[VAR, OWS, `(${ [
+	begin: lookaheads([[`(\\b(unfixed)\\b${ OWS })?`, VAR, OWS, `(${ [
 		ANNO_START, ASSN_START, ',', '\\b(as)\\b', // annotated, or assigned, or more than 1 parameter, or destructured
 	].join('|') })`].join('')]),
 	end: `,|${ lookaheads(['\\)']) }`,
