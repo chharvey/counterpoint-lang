@@ -89,7 +89,7 @@ export function annotation(end) {
 }
 
 
-export function assignment(end, kind = '#Expression') {
+export function assignment(end, include = '#Expression') {
 	return {
 		name: 'meta.assignment.cp',
 		begin: ASSN_START,
@@ -98,21 +98,22 @@ export function assignment(end, kind = '#Expression') {
 			0: {name: 'punctuation.delimiter.cp'},
 		},
 		patterns: [
-			{include: kind},
+			{include},
 		],
 	};
 }
 
 
-export function implicitReturn() {
+export function implicitReturn(include = '#Expression') {
 	return {
+		name: 'meta.implicitreturn.cp',
 		begin: ARROW,
 		end:   lookaheads([';']),
 		beginCaptures: {
 			0: {name: 'storage.type.cp'},
 		},
 		patterns: [
-			{include: '#Expression'},
+			{include},
 		],
 	};
 }

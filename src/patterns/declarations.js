@@ -8,6 +8,7 @@ import {
 import {
 	annotation,
 	assignment,
+	implicitReturn,
 } from './_helpers.js';
 
 
@@ -28,6 +29,29 @@ export const DECLARATION__TYPE = {
 		{
 			name: 'storage.type.cp',
 			match: '\\b(type)\\b',
+		},
+		{include: '#IdentifierType'}, // must come after keywords
+	],
+};
+
+
+export const DECLARATION__TYPEFUNC = {
+	name: 'meta.declaration.typefunc.cp',
+	begin: lookaheads([`(\\b(public|private)\\b${ OWS })?\\b(typefunc)\\b`]),
+	end:   ';',
+	endCaptures: {
+		0: {name: 'punctuation.delimiter.cp'},
+	},
+	patterns: [
+		{include: '#GenericParameters'},
+		implicitReturn('#Type'),
+		{
+			name: 'storage.modifier.cp',
+			match: '\\b(public|private)\\b',
+		},
+		{
+			name: 'storage.type.cp',
+			match: '\\b(typefunc)\\b',
 		},
 		{include: '#IdentifierType'}, // must come after keywords
 	],
@@ -65,6 +89,7 @@ export const DECLARATION__LET = {
 export const DECLARATION = {
 	patterns: [
 		{include: '#DeclarationType'},
+		{include: '#DeclarationTypefunc'},
 		{include: '#DeclarationLet'},
 		{include: '#DeclarationFunc'},
 		{include: '#DeclarationClass'},
