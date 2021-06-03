@@ -6,6 +6,7 @@ import {
 	OWS,
 	INT,
 	VAR,
+	ARROW,
 } from '../selectors.js';
 import {
 	identifier,
@@ -101,6 +102,11 @@ export const EXPRESSION = {
 		{
 			name: 'variable.language.cp',
 			match: '\\b(this)\\b',
+		},
+		{
+			// for cases like `(x: int): {int} => x + 1;` where the `}` incorrectly ends the function
+			name: 'storage.type.cp',
+			match: ARROW,
 		},
 		{include: '#ExpressionFunction'},
 		{include: '#ExpressionClass'},

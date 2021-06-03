@@ -127,6 +127,7 @@ func functionWithCaptures[
 
 func returnFunc(): obj => (x: int): int => x + 1;
 func returnFunc(): {obj} => (x: int): int => x + 1;
+func returnFunc(): obj => (x: int): {int} => x + 1;
 func returnFunc(): (x: int) -> {int} => (x) => x + 1;
 
 func add<T>(x: T, y: T): T implements BinaryOperator.<T> {
