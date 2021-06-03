@@ -13,7 +13,6 @@ import {
 	FUNCTION,
 } from '../selectors.js';
 import {
-	identifier,
 	annotation,
 	assignment,
 	implicitReturn,
@@ -58,7 +57,7 @@ export const EXPRESSION__FUNCTION = {
 };
 
 
-export const STATEMENT__DECLARATION__FUNC = {
+export const DECLARATION__FUNC = {
 	name: 'meta.declaration.func.cp',
 	begin: lookaheads([`(\\b(public|private)\\b${ OWS })?\\b(func)\\b`]),
 	end:   [lookbehinds(['\\}']), ';'].join('|'),
@@ -92,7 +91,7 @@ export const STATEMENT__DECLARATION__FUNC = {
 				{include: '#IdentifierType'},
 			],
 		},
-		identifier('entity.name.function'), // must come after keywords
+		{include: '#IdentifierFunction'}, // must come after keywords
 	],
 };
 

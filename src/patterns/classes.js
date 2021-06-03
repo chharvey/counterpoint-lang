@@ -82,7 +82,7 @@ export const EXPRESSION__CLASS = {
 };
 
 
-export const STATEMENT__DECLARATION__CLASS = {
+export const DECLARATION__CLASS = {
 	name: 'meta.declaration.class.cp',
 	begin: lookaheads([`(\\b(public|private)\\b${ OWS })?\\b(class)\\b`]),
 	end:   lookbehinds(['\\}']),
@@ -103,12 +103,12 @@ export const STATEMENT__DECLARATION__CLASS = {
 			name: 'storage.modifier.cp',
 			match: '\\b(final|abstract|readonly|nominal)\\b',
 		},
-		identifier('entity.name.class'), // must come after keywords
+		{include: '#IdentifierClass'}, // must come after keywords
 	],
 };
 
 
-export const STATEMENT__DECLARATION__INTERFACE = {
+export const DECLARATION__INTERFACE = {
 	name: 'meta.declaration.interface.cp',
 	begin: lookaheads([`(\\b(public|private)\\b${ OWS })?\\b(interface)\\b`]),
 	end:   lookbehinds(['\\}']),
@@ -128,7 +128,7 @@ export const STATEMENT__DECLARATION__INTERFACE = {
 			name: 'storage.modifier.cp',
 			match: '\\b(readonly|nominal)\\b',
 		},
-		identifier('entity.name.class'), // must come after keywords
+		{include: '#IdentifierClass'}, // must come after keywords
 	],
 };
 
