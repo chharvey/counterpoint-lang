@@ -133,3 +133,6 @@ func add<T>(x: T, y: T): T implements BinaryOperator.<T> {
 	return x + y;
 }
 func add<T>(x: T, y: T): T implements BinaryOperator.<T> => x + y;
+
+public func subtract(a: N, b: N): N { return a - b; }
+private func subtract(a: N, b: N): N => a - b;

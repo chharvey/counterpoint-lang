@@ -60,11 +60,8 @@ export const EXPRESSION__FUNCTION = {
 
 export const STATEMENT__DECLARATION__FUNC = {
 	name: 'meta.declaration.func.cp',
-	begin: '\\b(func)\\b',
+	begin: lookaheads([`(\\b(public|private)\\b${ OWS })?\\b(func)\\b`]),
 	end:   [lookbehinds(['\\}']), ';'].join('|'),
-	beginCaptures: {
-		0: {name: 'storage.type.cp'},
-	},
 	endCaptures: {
 		0: {name: 'punctuation.delimiter.cp'},
 	},
@@ -75,6 +72,14 @@ export const STATEMENT__DECLARATION__FUNC = {
 		{include: '#Block'},
 		annotation(lookaheads(['\\b(implements)\\b', '\\{', ARROW])),
 		implicitReturn(),
+		{
+			name: 'storage.modifier.cp',
+			match: '\\b(public|private)\\b',
+		},
+		{
+			name: 'storage.type.cp',
+			match: '\\b(func)\\b',
+		},
 		{
 			name: 'meta.heritage.cp',
 			begin: '\\b(implements)\\b',
@@ -87,7 +92,7 @@ export const STATEMENT__DECLARATION__FUNC = {
 				{include: '#IdentifierType'},
 			],
 		},
-		identifier('entity.name.function'), // must come after `implements`
+		identifier('entity.name.function'), // must come after keywords
 	],
 };
 
