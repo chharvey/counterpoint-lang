@@ -8,8 +8,6 @@ import {
 	DESTRUCTURE_ASSIGNEES,
 } from '../selectors.js';
 import {
-	identifier,
-	annotation,
 	assignment,
 	control,
 } from './_helpers.js';
@@ -50,47 +48,6 @@ export const STATEMENT__CONTROL = {
 };
 
 
-export const STATEMENT__DECLARATION__TYPE = {
-	name: 'meta.declaration.type.cp',
-	begin: '\\b(type)\\b',
-	end:   ';',
-	beginCaptures: {
-		0: {name: 'storage.type.cp'},
-	},
-	endCaptures: {
-		0: {name: 'punctuation.delimiter.cp'},
-	},
-	patterns: [
-		{include: '#IdentifierType'},
-		{include: '#GenericParameters'},
-		assignment(lookaheads([';']), '#Type'),
-	],
-};
-
-
-export const STATEMENT__DECLARATION__LET = {
-	name: 'meta.declaration.let.cp',
-	begin: '\\b(let)\\b',
-	end:   ';',
-	beginCaptures: {
-		0: {name: 'storage.type.cp'},
-	},
-	endCaptures: {
-		0: {name: 'punctuation.delimiter.cp'},
-	},
-	patterns: [
-		{
-			name: 'storage.modifier.cp',
-			match: '\\b(unfixed)\\b',
-		},
-		{include: '#IdentifierVariable'},
-		{include: '#DestructureVariable'},
-		annotation(lookaheads([ASSN_START])),
-		assignment(lookaheads([';'])),
-	],
-};
-
-
 export const STATEMENT__AUGMENTATION = {
 	name: 'meta.augmentation.cp',
 	begin: '&&=|!&=|\\|\\|=|!\\|=|\\^=|\\*=|\\/=|\\+=|-=|\\+\\+|--|\\*\\*|\\/\\/',
@@ -107,11 +64,6 @@ export const STATEMENT__AUGMENTATION = {
 export const STATEMENT = {
 	patterns: [
 		{include: '#StatementControl'},
-		{include: '#StatementDeclarationType'},
-		{include: '#StatementDeclarationLet'},
-		{include: '#StatementDeclarationFunc'},
-		{include: '#StatementDeclarationClass'},
-		{include: '#StatementDeclarationInterface'},
 		{include: '#StatementAugmentation'},
 		assignment(lookaheads([';'])),
 		{
@@ -141,6 +93,7 @@ export const BLOCK = {
 		0: {name: 'punctuation.delimiter.cp'},
 	},
 	patterns: [
+		{include: '#Declaration'},
 		{include: '#Statement'},
 	],
 };

@@ -82,7 +82,7 @@ export const EXPRESSION__CLASS = {
 };
 
 
-export const STATEMENT__DECLARATION__CLASS = {
+export const DECLARATION__CLASS = {
 	name: 'meta.declaration.class.cp',
 	begin: lookaheads([`(\\b(public|private)\\b${ OWS })?\\b(class)\\b`]),
 	end:   lookbehinds(['\\}']),
@@ -108,7 +108,7 @@ export const STATEMENT__DECLARATION__CLASS = {
 };
 
 
-export const STATEMENT__DECLARATION__INTERFACE = {
+export const DECLARATION__INTERFACE = {
 	name: 'meta.declaration.interface.cp',
 	begin: lookaheads([`(\\b(public|private)\\b${ OWS })?\\b(interface)\\b`]),
 	end:   lookbehinds(['\\}']),

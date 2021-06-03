@@ -58,7 +58,7 @@ export const EXPRESSION__FUNCTION = {
 };
 
 
-export const STATEMENT__DECLARATION__FUNC = {
+export const DECLARATION__FUNC = {
 	name: 'meta.declaration.func.cp',
 	begin: lookaheads([`(\\b(public|private)\\b${ OWS })?\\b(func)\\b`]),
 	end:   [lookbehinds(['\\}']), ';'].join('|'),
