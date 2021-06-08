@@ -46,7 +46,7 @@ export const EXPRESSION__ACCESS = {
 	patterns: [
 		{
 			name: 'meta.expression.access.cp',
-			begin: ['(\\.)', lookaheads([[OWS, '\\['].join('')])].join(''),
+			begin: ['(\\.|\\?\\.|\\!\\.)', lookaheads([[OWS, '\\['].join('')])].join(''),
 			end:   lookbehinds(['\\]']),
 			beginCaptures: {
 				1: {name: 'keyword.operator.punctuation.cp'},
@@ -57,7 +57,7 @@ export const EXPRESSION__ACCESS = {
 		},
 		{
 			name: 'meta.expression.access.cp',
-			begin: ['(\\.)', lookaheads([`${ OWS }(${ INT }|${ VAR })`])].join(''),
+			begin: ['(\\.|\\?\\.|\\!\\.)', lookaheads([`${ OWS }(${ INT }|${ VAR })`])].join(''),
 			end:   lookbehinds(['[A-Za-z0-9_]', '`']),
 			beginCaptures: {
 				1: {name: 'keyword.operator.punctuation.cp'},
@@ -103,7 +103,7 @@ export const EXPRESSION = {
 	patterns: [
 		{
 			name: 'keyword.operator.punctuation.cp',
-			match: '<=|>=|!<|!>|==|!=|&&|!&|\\|\\||!\\||!|\\?|\\+|-|\\^|\\*|\\/|<|>|~',
+			match: '<=|>=|!<|!>|==|!=|&&|!&|\\|\\||!\\||\\^|\\*|\\/|<|>|~',
 		},
 		{
 			name: 'keyword.operator.text.cp',
@@ -126,5 +126,10 @@ export const EXPRESSION = {
 		{include: '#ExpressionStructureList'},
 		{include: '#Block'}, // serves as '#ExpressionStructurePromise'
 		unit(),
+		{
+			// must come after `#ExpressionAccess` and `unit`
+			name: 'keyword.operator.punctuation.cp',
+			match: '!|\\?|\\+|-',
+		},
 	],
 };
