@@ -1,5 +1,6 @@
 import {
 	lookaheads,
+	lookbehinds,
 } from '../helpers.js';
 import {
 	OWS,
@@ -13,6 +14,20 @@ import {
 	annotation,
 } from './_helpers.js';
 
+
+
+export const TYPE_CALL = {
+	name: 'meta.type.call.cp',
+	begin: ['(\\.)', lookaheads([[OWS, '<'].join('')])].join(''),
+	end:   lookbehinds(['>']),
+	beginCaptures: {
+		1: {name: 'keyword.operator.punctuation.cp'},
+	},
+	patterns: [
+		{include: '#CommentBlock'},
+		{include: '#GenericArguments'},
+	],
+};
 
 
 export const TYPE__STRUCTURE__GROUPING = {
@@ -75,7 +90,7 @@ export const TYPE = {
 		},
 		{include: '#TypeFunction'},
 		{include: '#TypeInterface'},
-		{include: '#TypeAccess'},
+		{include: '#TypeCall'},
 		{include: '#TypeStructureGrouping'},
 		{include: '#TypeStructureList'},
 		{include: '#TypeStructurePromise'},

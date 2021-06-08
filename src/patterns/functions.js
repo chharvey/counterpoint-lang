@@ -87,7 +87,7 @@ export const DECLARATION__FUNC = {
 				0: {name: 'storage.modifier.cp'},
 			},
 			patterns: [
-				{include: '#TypeAccess'},
+				{include: '#TypeCall'},
 				{include: '#IdentifierType'},
 			],
 		},

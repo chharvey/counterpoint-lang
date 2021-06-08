@@ -29,7 +29,7 @@ export const HERITAGE = {
 		0: {name: 'storage.modifier.cp'},
 	},
 	patterns: [
-		{include: '#TypeAccess'},
+		{include: '#TypeCall'},
 		identifier('entity.other.inherited-class'),
 		{
 			name: 'punctuation.separator.cp',

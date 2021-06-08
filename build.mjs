@@ -70,7 +70,7 @@ await fs.promises.writeFile(path.join(path.dirname(new URL(import.meta.url).path
 		String:                        Pattern.STRING,
 		Template:                      Pattern.TEMPLATE,
 		Type:                          Pattern.TYPE,
-		TypeAccess:                    Pattern.TYPE_ACCESS,
+		TypeCall:                      Pattern.TYPE_CALL,
 		TypeFunction:                  Pattern.TYPE__FUNCTION,
 		TypeInterface:                 Pattern.TYPE__INTERFACE,
 		TypeParameterPatterns:         Pattern.TYPE_PARAMETER_PATTERNS,
