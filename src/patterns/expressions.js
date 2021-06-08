@@ -17,6 +17,16 @@ import {
 
 
 
+export const ARGUMENTS = list('meta.arguments.cp', '\\(', '\\)', [
+	{
+		name: 'keyword.other.spread.cp',
+		match: '##|#',
+	},
+	propertyOrArgumentLabel('\\)', '#IdentifierParameter', '#DestructureArgument'),
+	{include: '#Expression'}, // must come after argument destructuring because of untyped lambda parameters
+]);
+
+
 export const EXPRESSION__CALL = {
 	name: 'meta.expression.call.cp',
 	begin: ['(\\.)', lookaheads([[OWS, '(<|\\()'].join('')])].join(''),

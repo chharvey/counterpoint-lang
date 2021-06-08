@@ -1,5 +1,4 @@
 export * from './_helpers.js';
-export * from './arguments.js';
 export * from './classes.js';
 export * from './declarations.js';
 export * from './expressions.js';
