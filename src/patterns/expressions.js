@@ -103,7 +103,7 @@ export const EXPRESSION = {
 	patterns: [
 		{
 			name: 'keyword.operator.punctuation.cp',
-			match: '<=|>=|!<|!>|==|!=|&&|!&|\\|\\||!\\||\\^|\\*|\\/|<|>|~',
+			match: '<=|>=|!<|!>|==|!=|&&|!&|\\|\\||!\\||\\^|\\*|\\/|~',
 		},
 		{
 			name: 'keyword.operator.text.cp',
@@ -127,9 +127,12 @@ export const EXPRESSION = {
 		{include: '#Block'}, // serves as '#ExpressionStructurePromise'
 		unit(),
 		{
-			// must come after `#ExpressionAccess` and `unit`
 			name: 'keyword.operator.punctuation.cp',
-			match: '!|\\?|\\+|-',
+			match: `
+				< | >      # must come after '#ExpressionFunction'
+				| ! | \\?  # must come after '#ExpressionAccess'
+				| \\+ | -  # must come after 'unit'
+			`.replace(/\#.*\n|\s+/g, ''),
 		},
 	],
 };
