@@ -36,6 +36,7 @@ export const EXPRESSION__CALL = {
 	},
 	patterns: [
 		{include: '#CommentBlock'},
+		{include: '#CommentLine'},
 		{include: '#GenericArguments'},
 		{include: '#Arguments'},
 	],
