@@ -171,6 +171,14 @@ func twice(x: int): int => x * 2;
 	awaiting~;
 }
 
+% Type claims
+(5 / 3) :: <float & Numeric.<T>> - 2.0;
+[(5 / 3) :: %%comm%% <float>];
+[(5 / 3) :: %comm
+	<float>];
+f.((5 / 3) %%comm%% :: <Float.<T>>);
+f.((5 / 3) %comm
+	:: <Float.<T>>);
 
 %%% The value of `a`. %%
 let a: null | bool = +42 && null;

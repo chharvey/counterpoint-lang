@@ -27,6 +27,30 @@ export const ARGUMENTS = list('meta.arguments.cp', '\\(', '\\)', [
 ]);
 
 
+export const EXPRESSION__CLAIM = {
+	name: 'meta.expression.claim.cp',
+	begin: '::',
+	end:   lookbehinds(['>']),
+	beginCaptures: {
+		0: {name: 'keyword.operator.punctuation.cp'},
+	},
+	patterns: [
+		{include: '#CommentBlock'},
+		{include: '#CommentLine'},
+		{
+			begin: '<',
+			end:   '>',
+			captures: {
+				0: {name: 'punctuation.delimiter.cp'},
+			},
+			patterns: [
+				{include: '#Type'},
+			],
+		},
+	],
+};
+
+
 export const EXPRESSION__CALL = {
 	name: 'meta.expression.call.cp',
 	begin: ['(\\.)', lookaheads([[OWS, '(<|\\()'].join('')])].join(''),
@@ -121,6 +145,7 @@ export const EXPRESSION = {
 		},
 		{include: '#ExpressionFunction'},
 		{include: '#ExpressionClass'},
+		{include: '#ExpressionClaim'},
 		{include: '#ExpressionCall'},
 		{include: '#ExpressionAccess'},
 		{include: '#ExpressionStructureGrouping'},
