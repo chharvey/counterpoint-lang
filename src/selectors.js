@@ -58,7 +58,6 @@ export const FUNCTIONTYPE = `
 	| \\(${ OWS }(?:
 		\\)${ OWS }(?<aftertypeparams> ${ TYPEARROW }) # exactly 0 type parameters
 		| ${ ANNO_START }                              # annotated unnamed type parameter
-		#| (?:\\b mutable \\b | \\b this \\b)?${ VAR }${ OWS }[?!\\&\\|]?(?:
 		| ${ VAR }${ OWS }(?:
 			\\)${ OWS }\\g<aftertypeparams> # exactly 1 unnamed type parameter
 			| ${ ANNO_START } | ,           # annotated named type parameter, or more than 1 type parameter
