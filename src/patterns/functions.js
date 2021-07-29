@@ -23,17 +23,15 @@ import {
 export const TYPE__FUNCTION = {
 	name: 'meta.type.func.cp',
 	begin: lookaheads([FUNCTIONTYPE]),
-	end: lookbehinds(['\\}']),
+	end:   TYPEARROW,
+	endCaptures: {
+		0: {name: 'keyword.operator.punctuation.cp'},
+	},
 	patterns: [
-		{
-			name: 'keyword.operator.punctuation.cp',
-			match: TYPEARROW,
-		},
 		{include: '#CommentBlock'},
 		{include: '#CommentLine'},
 		{include: '#GenericParameters'},
 		{include: '#TypeParameters'},
-		{include: '#TypeStructurePromise'},
 	],
 };
 

@@ -1,7 +1,7 @@
 %-- type declarations, function types --%
 type BinaryOperator = <N narrows int>(a: N, b?: N) -> {N};
-type BinaryOperator = (a: N, b?: N) -> {N};
-type BinaryOperatorUnnamed = (T & U, ?: int | Object, ?: bool) -> {float};
+type BinaryOperator = (a: N, b?: N) -> N | M;
+type BinaryOperatorUnnamed = (T & U, ?: int | Object, ?: bool) -> (float) -> int;
 type BinaryOperatorUnnamed = (?: int | Object, [T, U], ?: (bool!) -> {void}) -> {float};
 type BinaryOperator = <
 	N narrows int,
