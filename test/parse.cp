@@ -104,10 +104,12 @@ func twice(x: int): int => x * 2;
 	x >= y;
 	x !< y;
 	x !> y;
-	x == y;
-	x != y;
 	x is y;
 	x isnt y;
+	x === y;
+	x !== y;
+	x == y;
+	x != y;
 	x && y;
 	x || y;
 	x !& y;
@@ -129,6 +131,8 @@ func twice(x: int): int => x * 2;
 	array!.[index];
 	funkshin. (call / a, #spread + b, 3, label %% args %% = c, punn$, ##doublespread)~;
 	funkshin.<T>%%c%%(call / a, #spread + b, 3, label %% args %% = c, punn$, ##doublespread)~;
+	funkshin.<T>%c
+		(call / a, #spread + b, 3, label %% args %% = c, punn$, ##doublespread)~;
 	funkshin.%%c%%(
 		call / a,
 		#spread + b,

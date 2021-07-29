@@ -36,6 +36,7 @@ export const EXPRESSION__CALL = {
 	},
 	patterns: [
 		{include: '#CommentBlock'},
+		{include: '#CommentLine'},
 		{include: '#GenericArguments'},
 		{include: '#Arguments'},
 	],
@@ -103,7 +104,7 @@ export const EXPRESSION = {
 	patterns: [
 		{
 			name: 'keyword.operator.punctuation.cp',
-			match: '<=|>=|!<|!>|==|!=|&&|!&|\\|\\||!\\||\\^|\\*|\\/|~',
+			match: '===|!==|<=|>=|!<|!>|==|!=|&&|!&|\\|\\||!\\||\\^|\\*|\\/|~',
 		},
 		{
 			name: 'keyword.operator.text.cp',
