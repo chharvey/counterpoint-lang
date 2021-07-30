@@ -195,8 +195,8 @@ export function control(begin_keywords, contain_keywords) {
 				name: 'keyword.control.cp',
 				match: `\\b(${ contain_keywords.join('|') })\\b`,
 			},
-			{include: '#Expression'},
 			{include: '#Block'},
+			{include: '#Expression'},
 		],
 	};
 }

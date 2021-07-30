@@ -7,6 +7,7 @@ import {
 	INT,
 	VAR,
 	ARROW,
+	BLOCK_END,
 } from '../selectors.js';
 import {
 	identifier,
@@ -100,6 +101,15 @@ export const EXPRESSION__STRUCTURE__LIST = list('meta.expression.structure.list.
 ]);
 
 
+export const EXPRESSION__STRUCTURE__SET = list('meta.expression.structure.set.cp', '\\{', BLOCK_END, [
+	{
+		name: 'keyword.other.spread.cp',
+		match: '#',
+	},
+	{include: '#Expression'},
+]);
+
+
 export const EXPRESSION = {
 	patterns: [
 		{
@@ -115,7 +125,7 @@ export const EXPRESSION = {
 			match: '\\b(this)\\b',
 		},
 		{
-			// for cases like `(x: int): {int} => x + 1;` where the `}` incorrectly ends the function
+			// for cases like `(x: int): int{} => Set.([x + 1]);` where the `}` incorrectly ends the function
 			name: 'storage.type.cp',
 			match: ARROW,
 		},
@@ -125,7 +135,7 @@ export const EXPRESSION = {
 		{include: '#ExpressionAccess'},
 		{include: '#ExpressionStructureGrouping'},
 		{include: '#ExpressionStructureList'},
-		{include: '#Block'}, // serves as '#ExpressionStructurePromise'
+		{include: '#ExpressionStructureSet'},
 		unit(),
 		{
 			name: 'keyword.operator.punctuation.cp',

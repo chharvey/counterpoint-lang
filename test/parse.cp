@@ -7,8 +7,8 @@ true else % false
 );
 if a then b else c;
 (if a then b else c);
-if a then {b} else {c, 'error'};
-(if a then {b} else {c});
+if a then {#b} else {c, d};
+(if a then {#b} else {c});
 
 if true then {
 	return false;
@@ -232,7 +232,7 @@ unless (a + b) then { return (c); } else { throw (d); };
 ((h: int = 0): int => h + 1);
 [(h: int = 0): int => h + 1];
 [fun= (h: int): int => h + 1];
-type T = [fun: (a: int) -> {int}];
+type T = [fun: (a: int) -> int];
 
 type `floàt | bōōl` = `floàt | bōōl` | float | bool;
 type SpreadTest = [T, #Spread] | [name: T, ##DoubleSpread];

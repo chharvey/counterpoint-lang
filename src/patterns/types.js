@@ -61,16 +61,13 @@ export const TYPE__STRUCTURE__LIST = list('meta.type.structure.list.cp', '\\[', 
 ]);
 
 
-export const TYPE__STRUCTURE__PROMISE = {
-	name: 'meta.type.structure.promise.cp',
+export const TYPE__STRUCTURE__SET = {
+	name: 'meta.type.structure.set.cp',
 	begin: '\\{',
 	end:   BLOCK_END,
 	captures: {
 		0: {name: 'punctuation.delimiter.cp'},
 	},
-	patterns: [
-		{include: '#Type'},
-	],
 };
 
 
@@ -93,7 +90,7 @@ export const TYPE = {
 		{include: '#TypeCall'},
 		{include: '#TypeStructureGrouping'},
 		{include: '#TypeStructureList'},
-		{include: '#TypeStructurePromise'},
+		{include: '#TypeStructureSet'},
 		unit('entity.name.type'),
 	],
 };
