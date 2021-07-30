@@ -92,10 +92,6 @@ export const EXPRESSION__STRUCTURE__LIST = list('meta.expression.structure.list.
 		name: 'keyword.other.spread.cp',
 		match: '##|#',
 	},
-	{
-		name: 'punctuation.separator.cp',
-		match: '\\|->',
-	},
 	propertyOrArgumentLabel('\\]', '#IdentifierProperty', '#DestructureProperty'),
 	{include: '#Expression'}, // must come after property destructuring because of untyped lambda parameters
 ]);
@@ -105,6 +101,10 @@ export const EXPRESSION__STRUCTURE__SET = list('meta.expression.structure.set.cp
 	{
 		name: 'keyword.other.spread.cp',
 		match: '#',
+	},
+	{
+		name: 'punctuation.separator.cp',
+		match: '\\|->',
 	},
 	{include: '#Expression'},
 ]);

@@ -120,8 +120,10 @@ func twice(x: int): int => x * 2;
 	type X = T?;
 	[a, [b, b], (c + c), #spread];
 	[a= 3, c= 5, key= value, punn$, ##doublespread];
-	[+a |-> -b, ];
-	[+3 |-> -5, ];
+	{+a, -b, #spread, };
+	{+3, -5, #spread, };
+	{+a |-> -b, };
+	{+3 |-> -5, };
 	if true then 1 else 0;
 	null || (if true then 1 else 0);
 	array && [key$];
@@ -258,7 +260,7 @@ let unfixed w: null = null;
 let unfixed w: T = T;
 let arr: mutable [int] = [42];
 let rec: mutable [a: int] = [a= 42];
-let map: mutable obj = [42 |-> '42.0'];
+let map: mutable obj = {42 |-> '42.0'};
 
 
 public let x: float = 0.0;
