@@ -28,6 +28,10 @@ export const TYPE__FUNCTION = {
 		0: {name: 'keyword.operator.punctuation.cp'},
 	},
 	patterns: [
+		{
+			name: 'storage.modifier.cp',
+			match: '\\b(async)\\b',
+		},
 		{include: '#CommentBlock'},
 		{include: '#CommentLine'},
 		{include: '#GenericParameters'},
@@ -44,6 +48,10 @@ export const EXPRESSION__FUNCTION = {
 		0: {name: 'storage.type.cp'},
 	},
 	patterns: [
+		{
+			name: 'storage.modifier.cp',
+			match: '\\b(async)\\b',
+		},
 		{include: '#CommentBlock'},
 		{include: '#CommentLine'},
 		{include: '#Captures'},
@@ -57,7 +65,7 @@ export const EXPRESSION__FUNCTION = {
 
 export const DECLARATION__FUNC = {
 	name: 'meta.declaration.func.cp',
-	begin: lookaheads([`(\\b(public|private)\\b${ OWS })?\\b(func)\\b`]),
+	begin: lookaheads([`(\\b(public|private)\\b${ OWS })?\\b(func)\\b(${ OWS }\\b(async)\\b)?`]),
 	end:   [lookbehinds(['\\}']), ';'].join('|'),
 	endCaptures: {
 		0: {name: 'punctuation.delimiter.cp'},
@@ -76,6 +84,10 @@ export const DECLARATION__FUNC = {
 		{
 			name: 'storage.type.cp',
 			match: '\\b(func)\\b',
+		},
+		{
+			name: 'storage.modifier.cp',
+			match: '\\b(async)\\b',
 		},
 		{
 			name: 'meta.heritage.cp',

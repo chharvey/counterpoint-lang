@@ -54,19 +54,23 @@ export const DESTRUCTURE_ASSIGNEES = `
 `.replace(/\s+/g, '');
 
 export const FUNCTIONTYPE = `
-	<                # any generic parameters
-	| \\(${ OWS }(?:
-		\\)${ OWS }(?<aftertypeparams> ${ TYPEARROW }) # exactly 0 type parameters
-		| ${ ANNO_START }                              # annotated unnamed type parameter
-		| ${ VAR }${ OWS }(?:
-			\\)${ OWS }\\g<aftertypeparams> # exactly 1 unnamed type parameter
-			| ${ ANNO_START } | ,           # annotated named type parameter, or more than 1 type parameter
+	(?:\\b async \\b${ OWS })?
+	(?:
+		<                # any generic parameters
+		| \\(${ OWS }(?:
+			\\)${ OWS }(?<aftertypeparams> ${ TYPEARROW }) # exactly 0 type parameters
+			| ${ ANNO_START }                              # annotated unnamed type parameter
+			| ${ VAR }${ OWS }(?:
+				\\)${ OWS }\\g<aftertypeparams> # exactly 1 unnamed type parameter
+				| ${ ANNO_START } | ,           # annotated named type parameter, or more than 1 type parameter
+			)
 		)
+		| ${ lookbehinds(['\\)']) }${ OWS }\\g<aftertypeparams>
 	)
-	| ${ lookbehinds(['\\)']) }${ OWS }\\g<aftertypeparams>
 `.replace(/\#.*\n|\s+/g, '');
 
 export const FUNCTION = `
+	(?:\\b async \\b ${ OWS })?
 	(?:
 		\\[${ OWS }
 			${ VAR }
@@ -119,5 +123,6 @@ export const METHOD = `
 	(\\b override \\b ${ OWS })?
 	(\\b final \\b ${ OWS })?
 	(\\b mutating \\b ${ OWS })?
+	(?:\\b async \\b ${ OWS })?
 	${ VAR } ${ OWS } (?:< | \\()
 `.replace(/\s+/g, '');

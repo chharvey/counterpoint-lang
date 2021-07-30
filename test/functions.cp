@@ -21,11 +21,13 @@ type Const = (
 type ReturnsTemplateType = () -> '''a {{ string }} template type''';
 let x: <T widens U, U = Set.<null>>(a: Set.<T>, b: Set.<U>) -> bool = null;
 
+type AsyncFuncType = async (p: int, q: rat) -> float;
 
 
 %-- function expression statements --%
 (unfixed h: int): int => h + 1;
 (%%unfixed%% h: int): int => h + 1;
+async (p: int, q: rat): float => p~~ * q~~;
 
 
 
@@ -52,6 +54,7 @@ let lambda: Function = <T           = V>() {};
 let lambda: Function = <T narrows U = V>() {};
 let not_lambda: NotFunction = a < b > (c);
 let not_lambda: NotFunction = a.<b>(c);
+let async_lambda: AsyncFunction = async (p: int, q: rat): float => p~~ * q~~;
 
 let lambda: Function = (
 	a,
@@ -137,3 +140,6 @@ func add<T>(x: T, y: T): T implements BinaryOperator.<T> => x + y;
 
 public func subtract(a: N, b: N): N { return a - b; }
 private func subtract(a: N, b: N): N => a - b;
+
+func async asyncFunc(p: int, q: rat): float => p~~ * q~~;
+func async asyncFunc(p: int, q: rat): float { return p~~ * q~~; }

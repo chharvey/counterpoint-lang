@@ -97,6 +97,7 @@ class Foo {
 	override meth(): void {;}
 	final meth(): void {;}
 	mutating meth(): void {;}
+	async meth(): void {;}
 	meth<T>(): void {;}
 	meth(x: int): void {;}
 	meth(): int => 42;
@@ -113,6 +114,7 @@ interface Foo {
 	field: T;
 
 	mutating meth(): void;
+	async meth(): void;
 	meth<T>(): void;
 	meth(x: int): void;
 }
