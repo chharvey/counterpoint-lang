@@ -61,14 +61,17 @@ export const TYPE__STRUCTURE__LIST = list('meta.type.structure.list.cp', '\\[', 
 ]);
 
 
-export const TYPE__STRUCTURE__SET = {
-	name: 'meta.type.structure.set.cp',
-	begin: '\\{',
-	end:   BLOCK_END,
-	captures: {
-		0: {name: 'punctuation.delimiter.cp'},
+export const TYPE__STRUCTURE__SET = list('meta.type.structure.set.cp', '\\{', BLOCK_END, [
+	{
+		name: 'keyword.other.spread.cp',
+		match: '#',
 	},
-};
+	{
+		name: 'punctuation.separator.cp',
+		match: '\\|->',
+	},
+	{include: '#Type'},
+]);
 
 
 export const TYPE = {
