@@ -275,7 +275,7 @@ type Or<T, U, V> = Or.<T, U> | V;
 typefunc Or<T, U> => T | U{};
 typefunc Or<T, U, V> => Or.<T, U> | V;
 public typefunc Or<T, U> => {T |-> U};
-private typefunc Or<T, U, V> => Or.<T, U> | V;
+private typefunc Or<T, U, V> => Or.<T, U> | [:V];
 
 
 'a string that

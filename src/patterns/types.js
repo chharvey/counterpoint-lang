@@ -50,7 +50,7 @@ export const TYPE__STRUCTURE__LIST = list('meta.type.structure.list.cp', '\\[', 
 		match: '##|#',
 	},
 	{
-		begin: lookaheads([[VAR, OWS, ANNO_START].join('')]),
+		begin: lookaheads([`(${ VAR }${ OWS })?${ ANNO_START }`]),
 		end:   lookaheads([',', '\\]']),
 		patterns: [
 			{include: '#IdentifierProperty'},
