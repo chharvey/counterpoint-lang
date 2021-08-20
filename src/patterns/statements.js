@@ -85,10 +85,6 @@ export const STATEMENT__IMPORT = {
 		{include: '#IdentifierVariable'},
 		list('meta.import.list', '\\(', '\\)', [
 			{
-				name: 'keyword.control.cp',
-				match: '\\b(await)\\b',
-			},
-			{
 				name: 'keyword.other.alias.cp',
 				match: '\\b(as)\\b',
 			},

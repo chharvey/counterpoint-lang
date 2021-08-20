@@ -19,7 +19,7 @@ Alias;
 
 from 'module-path' import (A, B);
 from 'module-path' import type (A, B);
-from 'module-path' import (A, await B);
+from 'module-path' import await (A, B);
 from 'module-path' import (A, %% a %% B %% b %%);
 from 'module-path' import (
 	A,
@@ -29,7 +29,8 @@ A;
 B;
 
 from 'module-path' import (A as Alias, B);
-from 'module-path' import (await A as Alias, B);
+from 'module-path' import type (A as Alias, B);
+from 'module-path' import await (A as Alias, B);
 from 'module-path' import (A %% a %% as %% b %% Alias, B);
 from 'module-path' import (
 	A % a
@@ -51,7 +52,7 @@ Bundle.B;
 
 from 'module-path' import (A as Alias, B) as Bundle;
 from 'module-path' import type (A as Alias, B) as Bundle;
-from 'module-path' import (await A as Alias, B) as Bundle;
+from 'module-path' import await (A as Alias, B) as Bundle;
 A;            %> ReferenceError01
 B;            %> ReferenceError01
 Bundle;       %> ReferenceError03 "`Bundle` refers to a module, but is used as a value."
@@ -61,6 +62,7 @@ Bundle.B;
 
 from 'module-path' import all as Bundle;
 from 'module-path' import type all as Bundle;
+from 'module-path' import await all as Bundle;
 all;   %> ParseError (not an identifier)
 Bundle;
 
