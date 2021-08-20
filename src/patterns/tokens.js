@@ -39,7 +39,7 @@ export const KEYWORD = {
 		},
 		{
 			name: 'support.class.cp',
-			match: '\\b(Object|Class)\\b',
+			match: '\\b(Object|Class|List|Hash|Set|Map)\\b',
 		},
 	],
 };

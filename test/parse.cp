@@ -146,6 +146,11 @@ func twice(x: int): int => x * 2;
 		(a ,)=  [4, 2],
 		(a,) => [4, 2],
 	)~;
+	List.<T>();
+	Hash.<T>();
+	Set.<T>();
+	Map.<T, U>();
+	Mapping.<T, U>();
 	structure.property + p;
 	structure.`pr op` + p;
 	structure.%%dot%%property + p;
@@ -274,6 +279,7 @@ type Or<T, U> = T | U;
 type Or<T, U, V> = Or.<T, U> | V;
 typefunc Or<T, U> => T | U{};
 typefunc Or<T, U, V> => Or.<T, U> | V;
+public typefunc Map<T, U> => {T -> U};
 public typefunc Mapping<T, U> => {T -> U};
 private typefunc Or<T, U, V> => Or.<T, U> | [:V];
 
