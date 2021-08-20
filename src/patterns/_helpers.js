@@ -6,7 +6,7 @@ import {
 	VAR,
 	ANNO_START,
 	ASSN_START,
-	ARROW,
+	FATARROW,
 	DESTRUCTURE_PROPERTIES_OR_ARGUMENTS,
 } from '../selectors.js';
 
@@ -107,7 +107,7 @@ export function assignment(end, include = '#Expression') {
 export function implicitReturn(include = '#Expression') {
 	return {
 		name: 'meta.implicitreturn.cp',
-		begin: ARROW,
+		begin: FATARROW,
 		end:   lookaheads([';']),
 		beginCaptures: {
 			0: {name: 'storage.type.cp'},

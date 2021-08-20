@@ -6,7 +6,8 @@ import {
 	OWS,
 	INT,
 	VAR,
-	ARROW,
+	THINARROW,
+	FATARROW,
 	BLOCK_END,
 } from '../selectors.js';
 import {
@@ -104,7 +105,7 @@ export const EXPRESSION__STRUCTURE__SET = list('meta.expression.structure.set.cp
 	},
 	{
 		name: 'punctuation.separator.cp',
-		match: '\\|->',
+		match: THINARROW,
 	},
 	{include: '#Expression'},
 ]);
@@ -127,7 +128,7 @@ export const EXPRESSION = {
 		{
 			// for cases like `(x: int): int{} => Set.([x + 1]);` where the `}` incorrectly ends the function
 			name: 'storage.type.cp',
-			match: ARROW,
+			match: FATARROW,
 		},
 		{include: '#ExpressionFunction'},
 		{include: '#ExpressionClass'},

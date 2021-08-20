@@ -7,8 +7,7 @@ import {
 	VAR,
 	ANNO_START,
 	ASSN_START,
-	TYPEARROW,
-	ARROW,
+	FATARROW,
 	FUNCTIONTYPE,
 	FUNCTION,
 } from '../selectors.js';
@@ -23,7 +22,7 @@ import {
 export const TYPE__FUNCTION = {
 	name: 'meta.type.func.cp',
 	begin: lookaheads([FUNCTIONTYPE]),
-	end:   TYPEARROW,
+	end:   FATARROW,
 	endCaptures: {
 		0: {name: 'keyword.operator.punctuation.cp'},
 	},
@@ -43,7 +42,7 @@ export const TYPE__FUNCTION = {
 export const EXPRESSION__FUNCTION = {
 	name: 'meta.expression.func.cp',
 	begin: lookaheads([FUNCTION]),
-	end:   [lookbehinds(['\\}']), ARROW].join('|'),
+	end:   [lookbehinds(['\\}']), FATARROW].join('|'),
 	endCaptures: {
 		0: {name: 'storage.type.cp'},
 	},
@@ -58,7 +57,7 @@ export const EXPRESSION__FUNCTION = {
 		{include: '#GenericParameters'},
 		{include: '#Parameters'},
 		{include: '#Block'},
-		annotation(lookaheads(['\\{', ARROW])),
+		annotation(lookaheads(['\\{', FATARROW])),
 	],
 };
 
@@ -75,7 +74,7 @@ export const DECLARATION__FUNC = {
 		{include: '#GenericParameters'},
 		{include: '#Parameters'},
 		{include: '#Block'},
-		annotation(lookaheads(['\\b(implements)\\b', '\\{', ARROW])),
+		annotation(lookaheads(['\\b(implements)\\b', '\\{', FATARROW])),
 		implicitReturn(),
 		{
 			name: 'storage.modifier.cp',
@@ -92,7 +91,7 @@ export const DECLARATION__FUNC = {
 		{
 			name: 'meta.heritage.cp',
 			begin: '\\b(implements)\\b',
-			end:   lookaheads(['\\{', ARROW]),
+			end:   lookaheads(['\\{', FATARROW]),
 			beginCaptures: {
 				0: {name: 'storage.modifier.cp'},
 			},

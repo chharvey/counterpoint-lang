@@ -5,7 +5,7 @@ import {
 import {
 	OWS,
 	ASSN_START,
-	ARROW,
+	FATARROW,
 	BLOCK_END,
 	FIELD,
 	FIELD_CONSTRUCTOR,
@@ -202,7 +202,7 @@ export const MEMBER__METHOD = {
 		{include: '#GenericParameters'},
 		{include: '#Parameters'},
 		{include: '#Block'},
-		annotation(lookaheads(['\\{', ARROW, ';'])),
+		annotation(lookaheads(['\\{', FATARROW, ';'])),
 		implicitReturn(),
 	],
 };

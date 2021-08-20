@@ -6,6 +6,8 @@ import {
 	OWS,
 	VAR,
 	ANNO_START,
+	THINARROW,
+	FATARROW,
 	BLOCK_END,
 } from '../selectors.js';
 import {
@@ -67,8 +69,8 @@ export const TYPE__STRUCTURE__SET = list('meta.type.structure.set.cp', '\\{', BL
 		match: '#',
 	},
 	{
-		name: 'punctuation.separator.cp',
-		match: '\\|->',
+		name: 'keyword.operator.punctuation.cp',
+		match: THINARROW,
 	},
 	{include: '#Type'},
 ]);
@@ -87,6 +89,13 @@ export const TYPE = {
 		{
 			name: 'support.type.cp',
 			match: '\\b(this)\\b',
+		},
+		{
+			// for cases like `type T = (
+			// 	x: int,
+			// ) => int`
+			name: 'keyword.operator.punctuation.cp',
+			match: FATARROW,
 		},
 		{include: '#TypeFunction'},
 		{include: '#TypeInterface'},

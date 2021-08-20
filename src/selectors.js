@@ -11,8 +11,8 @@ export const VAR = '(?:\\b[A-Za-z_][A-Za-z0-9_]*\\b|`.*`)';
 
 export const ANNO_START = '(?:\\:|\\?\\:)';
 export const ASSN_START = `=${ lookaheads(['=', '>'], true) }`;
-export const TYPEARROW  = '->';
-export const ARROW      = '=>';
+export const THINARROW  = '->';
+export const FATARROW   = '=>';
 export const BLOCK_END  = `\\}${ lookaheads(['\\}'], true) }`;
 
 export const DESTRUCTURE_PROPERTIES_OR_ARGUMENTS = `
@@ -58,14 +58,13 @@ export const FUNCTIONTYPE = `
 	(?:
 		<                # any generic parameters
 		| \\(${ OWS }(?:
-			\\)${ OWS }(?<aftertypeparams> ${ TYPEARROW }) # exactly 0 type parameters
-			| ${ ANNO_START }                              # annotated unnamed type parameter
+			\\)${ OWS }(?<aftertypeparams> ${ FATARROW }) # exactly 0 type parameters
+			| ${ ANNO_START }                             # annotated unnamed type parameter
 			| ${ VAR }${ OWS }(?:
 				\\)${ OWS }\\g<aftertypeparams> # exactly 1 unnamed type parameter
 				| ${ ANNO_START } | ,           # annotated named type parameter, or more than 1 type parameter
 			)
 		)
-		| ${ lookbehinds(['\\)']) }${ OWS }\\g<aftertypeparams>
 	)
 `.replace(/\#.*\n|\s+/g, '');
 
@@ -81,8 +80,8 @@ export const FUNCTION = `
 	(?:
 		(?<aftergenericparams>
 			\\(${ OWS }(?:
-				\\)${ OWS }(?<afterparams>${ ANNO_START } | ${ ARROW } | \\{) # exactly 0 parameters
-				| \\b unfixed \\b                                             # unfixed parameter
+				\\)${ OWS }(?<afterparams>${ ANNO_START } | ${ FATARROW } | \\{) # exactly 0 parameters
+				| \\b unfixed \\b                                                # unfixed parameter
 				| ${ VAR }${ OWS }(?:
 					\\)${ OWS }\\g<afterparams>                          # exactly 1 unannotated uninitialized nondestructued parameter
 					| ${ ANNO_START } | ${ ASSN_START } | , | \\b as \\b # annotated, or assigned, or more than 1 parameter, or destructured
