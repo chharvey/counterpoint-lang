@@ -75,7 +75,7 @@ export const STATEMENT__IMPORT = {
 	patterns: [
 		{
 			name: 'keyword.control.cp',
-			match: '\\b(import)\\b',
+			match: '\\b(import|type|await|all)\\b',
 		},
 		{
 			name: 'keyword.other.alias.cp',
@@ -84,6 +84,10 @@ export const STATEMENT__IMPORT = {
 		{include: '#String'},
 		{include: '#IdentifierVariable'},
 		list('meta.import.list', '\\(', '\\)', [
+			{
+				name: 'keyword.control.cp',
+				match: '\\b(await)\\b',
+			},
 			{
 				name: 'keyword.other.alias.cp',
 				match: '\\b(as)\\b',
