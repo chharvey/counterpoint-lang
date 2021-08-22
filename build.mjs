@@ -66,6 +66,7 @@ await fs.promises.writeFile(path.join(path.dirname(new URL(import.meta.url).path
 		Statement:                     Pattern.STATEMENT,
 		StatementAugmentation:         Pattern.STATEMENT__AUGMENTATION,
 		StatementControl:              Pattern.STATEMENT__CONTROL,
+		StatementControlConditional:   Pattern.STATEMENT__CONTROL__CONDITIONAL,
 		String:                        Pattern.STRING,
 		Template:                      Pattern.TEMPLATE,
 		Type:                          Pattern.TYPE,

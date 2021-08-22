@@ -10,6 +10,10 @@ if a then b else c;
 if a then {#b} else {c, d};
 (if a then {#b} else {c});
 
+if if a then b else c then d else e;
+if a then if b then c else d else e;
+if a then b else if c then d else e;
+
 if true then {
 	return false;
 } else if false then {
