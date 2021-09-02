@@ -133,6 +133,19 @@ export const DECLARATION__INTERFACE = {
 };
 
 
+export const STATIC__BLOCK = {
+	name: 'meta.staticblock.cp',
+	begin: [`(\\b(?:static)\\b)${ OWS }`, lookaheads(['\\{'])].join(''),
+	end:   lookbehinds(['\\}']),
+	beginCaptures: {
+		1: {name: 'storage.modifier.cp'},
+	},
+	patterns: [
+		{include: '#ClassBody'},
+	],
+};
+
+
 export const CONSTRUCTOR_FIELD = {
 	name: 'meta.field.cp',
 	begin: lookaheads([FIELD_CONSTRUCTOR]),
@@ -159,7 +172,7 @@ export const MEMBER__FIELD = {
 	patterns: [
 		{
 			name: 'storage.modifier.cp',
-			match: '\\b(static|public|secret|private|protected|override|final|readonly)\\b',
+			match: '\\b(public|secret|private|protected|override|final|readonly)\\b',
 		},
 		{include: '#IdentifierProperty'},
 		annotation(lookaheads([ASSN_START, ';'])),
@@ -196,7 +209,7 @@ export const MEMBER__METHOD = {
 	patterns: [
 		{
 			name: 'storage.modifier.cp',
-			match: '\\b(static|public|secret|private|protected|override|final|mutating|async)\\b',
+			match: '\\b(public|secret|private|protected|override|final|mutating|async)\\b',
 		},
 		{include: '#IdentifierProperty'},
 		{include: '#GenericParameters'},
@@ -218,6 +231,7 @@ export const CLASS_BODY = {
 	patterns: [
 		{include: '#CommentBlock'},
 		{include: '#CommentLine'},
+		{include: '#StaticBlock'},
 		{include: '#MemberField'},
 		{include: '#MemberConstructor'},
 		{include: '#MemberMethod'},

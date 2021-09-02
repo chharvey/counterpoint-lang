@@ -97,7 +97,6 @@ export const FUNCTION = `
 `.replace(/\#.*\n|\s+/g, '');
 
 export const FIELD = `
-	(\\b static \\b ${ OWS })?
 	(\\b(?:public | secret | private | protected)\\b ${ OWS })?
 	(\\b override \\b ${ OWS })?
 	(\\b(?:final | readonly)\\b ${ OWS })?
@@ -117,7 +116,6 @@ export const CONSTRUCTOR = `
 `.replace(/\s+/g, '');
 
 export const METHOD = `
-	(\\b static \\b ${ OWS })?
 	(\\b(?:public | secret | private | protected)\\b ${ OWS })?
 	(\\b override \\b ${ OWS })?
 	(\\b final \\b ${ OWS })?

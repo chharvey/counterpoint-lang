@@ -60,8 +60,13 @@ type T = unknown & (interface extends Bar inherits Diz.<T> {});
 
 % class members
 class Foo {
+	static {
+		field: T = 42;
+		meth(): void {;}
+	}
+
+
 	% line comment
-	static field: T = 42;
 	public field: T = 42;
 	secret field: T = 42;
 	private field: T = 42;
@@ -89,7 +94,6 @@ class Foo {
 	%%
 	block comment
 	%%
-	static meth(): void {;}
 	public meth(): void {;}
 	secret meth(): void {;}
 	private meth(): void {;}
