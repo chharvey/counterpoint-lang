@@ -134,10 +134,14 @@ func returnFunc(): {obj} => (x: int): int => x + 1;
 func returnFunc(): obj => (x: int): {int} => x + 1;
 func returnFunc(): (x: int) -> {int} => (x) => x + 1;
 
-func add<T>(x: T, y: T): T implements BinaryOperator.<T> {
+func add<T> implements BinaryOperator.<T> (x: T, y: T): T {
 	return x + y;
 }
-func add<T>(x: T, y: T): T implements BinaryOperator.<T> => x + y;
+func add<T> implements BinaryOperator.<T> (x: T, y: T): T => x + y;
+func addCaptures<T> implements BinaryOperator.<T> [z](x: T, y: T): T {
+	return x + y + z;
+}
+func addCaptures<T> implements BinaryOperator.<T> [z](x: T, y: T): T => x + y + z;
 
 public func subtract(a: N, b: N): N { return a - b; }
 private func subtract(a: N, b: N): N => a - b;
