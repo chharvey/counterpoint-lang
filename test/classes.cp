@@ -63,6 +63,15 @@ class Foo {
 	static {
 		field: T = 42;
 		meth(): void {;}
+		public methodGroup {
+			override (): void {;}
+			final (): void {;}
+			mutating (): void {;}
+			async (): void {;}
+			<T>(): void {;}
+			(x: int): void {;}
+			(): int => 42;
+		}
 	}
 
 
@@ -110,6 +119,16 @@ class Foo {
 	throw(cd: void): void { throw (cd); }
 	if(ef: void): void { if (a + b) then c else d; }
 	unless(gh: void): void { unless (a + b) then c else d; }
+
+	public methodGroup {
+		override (): void {;}
+		final (): void {;}
+		mutating (): void {;}
+		async (): void {;}
+		<T>(): void {;}
+		(x: int): void {;}
+		(): int => 42;
+	}
 }
 
 % interface members
@@ -121,4 +140,11 @@ interface Foo {
 	async meth(): void;
 	meth<T>(): void;
 	meth(x: int): void;
+
+	public methodGroup {
+		mutating (): void;
+		async (): void;
+		<T>(): void;
+		(x: int): void;
+	}
 }

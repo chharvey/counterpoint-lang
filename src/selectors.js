@@ -121,5 +121,10 @@ export const METHOD = `
 	(\\b final \\b ${ OWS })?
 	(\\b mutating \\b ${ OWS })?
 	(?:\\b async \\b ${ OWS })?
-	${ VAR } ${ OWS } (?:< | \\()
+	(?:${ VAR } ${ OWS })? (?:< | \\()
+`.replace(/\s+/g, '');
+
+export const METHODGROUP = `
+	(\\b(?:public | secret | private | protected)\\b ${ OWS })?
+	${ VAR } ${ OWS } \\{
 `.replace(/\s+/g, '');

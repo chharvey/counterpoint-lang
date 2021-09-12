@@ -11,6 +11,7 @@ import {
 	FIELD_CONSTRUCTOR,
 	CONSTRUCTOR,
 	METHOD,
+	METHODGROUP,
 } from '../selectors.js';
 import {
 	identifier,
@@ -221,6 +222,33 @@ export const MEMBER__METHOD = {
 };
 
 
+export const MEMBER__METHODGROUP = {
+	name: 'meta.methodgroup.cp',
+	begin: lookaheads([METHODGROUP]),
+	end:   lookbehinds(['\\}']),
+	patterns: [
+		{
+			name: 'storage.modifier.cp',
+			match: '\\b(public|secret|private|protected)\\b',
+		},
+		{include: '#IdentifierProperty'},
+		{
+			name: 'meta.methodgroupbody.cp',
+			begin: '\\{',
+			end:   BLOCK_END,
+			captures: {
+				0: {name: 'punctuation.delimiter.cp'},
+			},
+			patterns: [
+				{include: '#CommentBlock'},
+				{include: '#CommentLine'},
+				{include: '#MemberMethod'},
+			],
+		},
+	],
+};
+
+
 export const CLASS_BODY = {
 	name: 'meta.classbody.cp',
 	begin: '\\{',
@@ -235,5 +263,6 @@ export const CLASS_BODY = {
 		{include: '#MemberField'},
 		{include: '#MemberConstructor'},
 		{include: '#MemberMethod'},
+		{include: '#MemberMethodgroup'},
 	],
 };
