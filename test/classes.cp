@@ -62,7 +62,9 @@ type T = unknown & (interface extends Bar inherits Diz.<T> {});
 class Foo {
 	static {
 		field: T = 42;
-		meth(): void {;}
+		meth(): void {
+			super; static; hyper; method; this;
+		}
 		public methodGroup {
 			override (): void {;}
 			final (): void {;}
@@ -70,6 +72,9 @@ class Foo {
 			async (): void {;}
 			<T>(): void {;}
 			(x: int): void {;}
+			(): void {
+				super; static; hyper; method; this;
+			}
 			(): int => 42;
 		}
 	}
@@ -114,6 +119,9 @@ class Foo {
 	async meth(): void {;}
 	meth<T>(): void {;}
 	meth(x: int): void {;}
+	meth(): void {
+		super; static; hyper; method; this;
+	}
 	meth(): int => 42;
 
 	return(ab: void): void { return (ab); }
@@ -144,6 +152,9 @@ class Foo {
 		async (): void {;}
 		<T>(): void {;}
 		(x: int): void {;}
+		(): void {
+			super; static; hyper; method; this;
+		}
 		(): int => 42;
 	}
 }
