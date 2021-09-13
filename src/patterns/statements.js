@@ -14,11 +14,62 @@ import {
 
 
 
+export const STATEMENT__CONTROL__CONDITIONAL = {
+	begin: lookaheads(['\\b(if|unless)\\b']),
+	end:   lookaheads([';']),
+	patterns: [
+		{
+			begin: '\\b(if|unless)\\b',
+			end:   lookaheads(['\\b(then)\\b']),
+			beginCaptures: {
+				0: {name: 'keyword.control.cp'},
+			},
+			patterns: [
+				{include: '#Expression'},
+			],
+		},
+		{
+			begin: '\\b(then)\\b',
+			end:   lookaheads(['\\b(else)\\b']),
+			beginCaptures: {
+				0: {name: 'keyword.control.cp'},
+			},
+			patterns: [
+				{include: '#Block'},
+				{include: '#Expression'}, // include #Expression in case this isn’t a control statement but a conditional expression statement
+			],
+		},
+		{
+			begin: '\\b(else)\\b',
+			end:   lookaheads([';']),
+			beginCaptures: {
+				0: {name: 'keyword.control.cp'},
+			},
+			patterns: [
+				{include: '#StatementControlConditional'},
+				{include: '#Block'},
+				{include: '#Expression'}, // include #Expression in case this isn’t a control statement but a conditional expression statement
+			],
+		},
+	],
+};
+
+
 export const STATEMENT__CONTROL = {
 	patterns: [
-		control(['if', 'unless'], ['then', 'else', 'if', 'unless']),
 		control(['while', 'until', 'do'], ['do', 'while', 'until']),
 		control(['for'], ['from', 'to', 'by', 'in', 'do']),
+		{
+			name: 'meta.control.cp',
+			begin: lookaheads(['\\b(if|unless)\\b']),
+			end:   ';',
+			endCaptures: {
+				0: {name: 'punctuation.delimiter.cp'},
+			},
+			patterns: [
+				{include: '#StatementControlConditional'},
+			]
+		},
 		{
 			name: 'meta.control.cp',
 			begin: `\\b(continue)\\b`,

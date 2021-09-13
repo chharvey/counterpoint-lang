@@ -97,7 +97,6 @@ export const FUNCTION = `
 `.replace(/\#.*\n|\s+/g, '');
 
 export const FIELD = `
-	(\\b static \\b ${ OWS })?
 	(\\b(?:public | secret | private | protected)\\b ${ OWS })?
 	(\\b override \\b ${ OWS })?
 	(\\b(?:final | readonly)\\b ${ OWS })?
@@ -113,15 +112,25 @@ export const FIELD_CONSTRUCTOR = `
 
 export const CONSTRUCTOR = `
 	(\\b(?:public | secret | private | protected)\\b ${ OWS })?
-	\\b new \\b ${ OWS } (?:< | \\()
+	(?:\\b async \\b ${ OWS })?
+	(?:\\b new \\b ${ OWS })? \\(
+`.replace(/\s+/g, '');
+
+export const CONSTRUCTORGROUP = `
+	(\\b(?:public | secret | private | protected)\\b ${ OWS })?
+	\\b new \\b ${ OWS } \\{
 `.replace(/\s+/g, '');
 
 export const METHOD = `
-	(\\b static \\b ${ OWS })?
 	(\\b(?:public | secret | private | protected)\\b ${ OWS })?
 	(\\b override \\b ${ OWS })?
 	(\\b final \\b ${ OWS })?
 	(\\b mutating \\b ${ OWS })?
 	(?:\\b async \\b ${ OWS })?
-	${ VAR } ${ OWS } (?:< | \\()
+	(?:${ VAR } ${ OWS })? (?:< | \\()
+`.replace(/\s+/g, '');
+
+export const METHODGROUP = `
+	(\\b(?:public | secret | private | protected)\\b ${ OWS })?
+	${ VAR } ${ OWS } \\{
 `.replace(/\s+/g, '');
