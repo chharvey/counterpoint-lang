@@ -112,7 +112,13 @@ export const FIELD_CONSTRUCTOR = `
 
 export const CONSTRUCTOR = `
 	(\\b(?:public | secret | private | protected)\\b ${ OWS })?
-	\\b new \\b ${ OWS } (?:< | \\()
+	(?:\\b async \\b ${ OWS })?
+	(?:\\b new \\b ${ OWS })? \\(
+`.replace(/\s+/g, '');
+
+export const CONSTRUCTORGROUP = `
+	(\\b(?:public | secret | private | protected)\\b ${ OWS })?
+	\\b new \\b ${ OWS } \\{
 `.replace(/\s+/g, '');
 
 export const METHOD = `
@@ -121,5 +127,10 @@ export const METHOD = `
 	(\\b final \\b ${ OWS })?
 	(\\b mutating \\b ${ OWS })?
 	(?:\\b async \\b ${ OWS })?
-	${ VAR } ${ OWS } (?:< | \\()
+	(?:${ VAR } ${ OWS })? (?:< | \\()
+`.replace(/\s+/g, '');
+
+export const METHODGROUP = `
+	(\\b(?:public | secret | private | protected)\\b ${ OWS })?
+	${ VAR } ${ OWS } \\{
 `.replace(/\s+/g, '');
