@@ -70,11 +70,27 @@ export const DECLARATION__FUNC = {
 		0: {name: 'punctuation.delimiter.cp'},
 	},
 	patterns: [
-		{include: '#Captures'},
 		{include: '#GenericParameters'},
+		{include: '#Captures'},
 		{include: '#Parameters'},
 		{include: '#Block'},
-		annotation(lookaheads(['\\b(implements)\\b', '\\{', FATARROW])),
+		{
+			name: 'storage.modifier.cp',
+			match: '\\b(async)\\b',
+		},
+		{
+			name: 'meta.heritage.cp',
+			begin: '\\b(implements)\\b',
+			end:   lookaheads(['\\[', '\\(']),
+			beginCaptures: {
+				0: {name: 'storage.modifier.cp'},
+			},
+			patterns: [
+				{include: '#TypeCall'},
+				{include: '#IdentifierType'},
+			],
+		},
+		annotation(lookaheads(['\\{', FATARROW])),
 		implicitReturn(),
 		{
 			name: 'storage.modifier.cp',
@@ -83,22 +99,6 @@ export const DECLARATION__FUNC = {
 		{
 			name: 'storage.type.cp',
 			match: '\\b(func)\\b',
-		},
-		{
-			name: 'storage.modifier.cp',
-			match: '\\b(async)\\b',
-		},
-		{
-			name: 'meta.heritage.cp',
-			begin: '\\b(implements)\\b',
-			end:   lookaheads(['\\{', FATARROW]),
-			beginCaptures: {
-				0: {name: 'storage.modifier.cp'},
-			},
-			patterns: [
-				{include: '#TypeCall'},
-				{include: '#IdentifierType'},
-			],
 		},
 		{include: '#IdentifierFunction'}, // must come after keywords
 	],

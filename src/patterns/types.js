@@ -4,6 +4,7 @@ import {
 } from '../helpers.js';
 import {
 	OWS,
+	INT,
 	VAR,
 	ANNO_START,
 	THINARROW,
@@ -11,6 +12,7 @@ import {
 	BLOCK_END,
 } from '../selectors.js';
 import {
+	identifier,
 	unit,
 	list,
 	annotation,
@@ -28,6 +30,20 @@ export const TYPE_CALL = {
 	patterns: [
 		{include: '#CommentBlock'},
 		{include: '#GenericArguments'},
+	],
+};
+
+
+export const TYPE__ACCESS = {
+	name: 'meta.type.access.cp',
+	begin: ['(\\.)', lookaheads([`${ OWS }(${ INT }|${ VAR })`])].join(''),
+	end:   lookbehinds(['[A-Za-z0-9_`]']),
+	beginCaptures: {
+		1: {name: 'keyword.operator.punctuation.cp'},
+	},
+	patterns: [
+		{include: '#Number'},
+		identifier('variable.other'),
 	],
 };
 
@@ -100,6 +116,7 @@ export const TYPE = {
 		{include: '#TypeFunction'},
 		{include: '#TypeInterface'},
 		{include: '#TypeCall'},
+		{include: '#TypeAccess'},
 		{include: '#TypeStructureGrouping'},
 		{include: '#TypeStructureList'},
 		{include: '#TypeStructureSet'},
