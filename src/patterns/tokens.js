@@ -35,11 +35,11 @@ export const KEYWORD = {
 		},
 		{
 			name: 'variable.language.cp',
-			match: '\\b(this|super|static|hyper)\\b',
+			match: '\\b(this|super|static|hyper|method)\\b',
 		},
 		{
 			name: 'support.class.cp',
-			match: '\\b(Object|Class)\\b',
+			match: '\\b(Object|Class|List|Hash|Set|Map)\\b',
 		},
 	],
 };

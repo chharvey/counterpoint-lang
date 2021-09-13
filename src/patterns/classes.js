@@ -5,12 +5,14 @@ import {
 import {
 	OWS,
 	ASSN_START,
-	ARROW,
+	FATARROW,
 	BLOCK_END,
 	FIELD,
 	FIELD_CONSTRUCTOR,
 	CONSTRUCTOR,
+	CONSTRUCTORGROUP,
 	METHOD,
+	METHODGROUP,
 } from '../selectors.js';
 import {
 	identifier,
@@ -133,6 +135,19 @@ export const DECLARATION__INTERFACE = {
 };
 
 
+export const STATIC__BLOCK = {
+	name: 'meta.staticblock.cp',
+	begin: [`(\\b(?:static)\\b)${ OWS }`, lookaheads(['\\{'])].join(''),
+	end:   lookbehinds(['\\}']),
+	beginCaptures: {
+		1: {name: 'storage.modifier.cp'},
+	},
+	patterns: [
+		{include: '#ClassBody'},
+	],
+};
+
+
 export const CONSTRUCTOR_FIELD = {
 	name: 'meta.field.cp',
 	begin: lookaheads([FIELD_CONSTRUCTOR]),
@@ -159,7 +174,7 @@ export const MEMBER__FIELD = {
 	patterns: [
 		{
 			name: 'storage.modifier.cp',
-			match: '\\b(static|public|secret|private|protected|override|final|readonly)\\b',
+			match: '\\b(public|secret|private|protected|override|final|readonly)\\b',
 		},
 		{include: '#IdentifierProperty'},
 		annotation(lookaheads([ASSN_START, ';'])),
@@ -175,13 +190,39 @@ export const MEMBER__CONSTRUCTOR = {
 	patterns: [
 		{
 			name: 'storage.modifier.cp',
-			match: '\\b(public|secret|private|protected|new)\\b',
+			match: '\\b(public|secret|private|protected|async|new)\\b',
 		},
 		{include: '#CommentBlock'},
 		{include: '#CommentLine'},
 		{include: '#GenericParameters'},
 		{include: '#ConstructorParameters'},
 		{include: '#Block'},
+	],
+};
+
+
+export const MEMBER__CONSTRUCTORGROUP = {
+	name: 'meta.constructorgroup.cp',
+	begin: lookaheads([CONSTRUCTORGROUP]),
+	end:   lookbehinds(['\\}']),
+	patterns: [
+		{
+			name: 'storage.modifier.cp',
+			match: '\\b(public|secret|private|protected|new)\\b',
+		},
+		{
+			name: 'meta.constructorgroupbody.cp',
+			begin: '\\{',
+			end:   BLOCK_END,
+			captures: {
+				0: {name: 'punctuation.delimiter.cp'},
+			},
+			patterns: [
+				{include: '#CommentBlock'},
+				{include: '#CommentLine'},
+				{include: '#MemberConstructor'},
+			],
+		},
 	],
 };
 
@@ -196,14 +237,41 @@ export const MEMBER__METHOD = {
 	patterns: [
 		{
 			name: 'storage.modifier.cp',
-			match: '\\b(static|public|secret|private|protected|override|final|mutating)\\b',
+			match: '\\b(public|secret|private|protected|override|final|mutating|async)\\b',
 		},
 		{include: '#IdentifierProperty'},
 		{include: '#GenericParameters'},
 		{include: '#Parameters'},
 		{include: '#Block'},
-		annotation(lookaheads(['\\{', ARROW, ';'])),
+		annotation(lookaheads(['\\{', FATARROW, ';'])),
 		implicitReturn(),
+	],
+};
+
+
+export const MEMBER__METHODGROUP = {
+	name: 'meta.methodgroup.cp',
+	begin: lookaheads([METHODGROUP]),
+	end:   lookbehinds(['\\}']),
+	patterns: [
+		{
+			name: 'storage.modifier.cp',
+			match: '\\b(public|secret|private|protected)\\b',
+		},
+		{include: '#IdentifierProperty'},
+		{
+			name: 'meta.methodgroupbody.cp',
+			begin: '\\{',
+			end:   BLOCK_END,
+			captures: {
+				0: {name: 'punctuation.delimiter.cp'},
+			},
+			patterns: [
+				{include: '#CommentBlock'},
+				{include: '#CommentLine'},
+				{include: '#MemberMethod'},
+			],
+		},
 	],
 };
 
@@ -218,8 +286,11 @@ export const CLASS_BODY = {
 	patterns: [
 		{include: '#CommentBlock'},
 		{include: '#CommentLine'},
+		{include: '#StaticBlock'},
 		{include: '#MemberField'},
 		{include: '#MemberConstructor'},
+		{include: '#MemberConstructorgroup'},
 		{include: '#MemberMethod'},
+		{include: '#MemberMethodgroup'},
 	],
 };

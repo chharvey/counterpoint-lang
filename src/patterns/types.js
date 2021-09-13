@@ -6,6 +6,8 @@ import {
 	OWS,
 	VAR,
 	ANNO_START,
+	THINARROW,
+	FATARROW,
 	BLOCK_END,
 } from '../selectors.js';
 import {
@@ -50,7 +52,7 @@ export const TYPE__STRUCTURE__LIST = list('meta.type.structure.list.cp', '\\[', 
 		match: '##|#',
 	},
 	{
-		begin: lookaheads([[VAR, OWS, ANNO_START].join('')]),
+		begin: lookaheads([`(${ VAR }${ OWS })?${ ANNO_START }`]),
 		end:   lookaheads([',', '\\]']),
 		patterns: [
 			{include: '#IdentifierProperty'},
@@ -61,17 +63,17 @@ export const TYPE__STRUCTURE__LIST = list('meta.type.structure.list.cp', '\\[', 
 ]);
 
 
-export const TYPE__STRUCTURE__PROMISE = {
-	name: 'meta.type.structure.promise.cp',
-	begin: '\\{',
-	end:   BLOCK_END,
-	captures: {
-		0: {name: 'punctuation.delimiter.cp'},
+export const TYPE__STRUCTURE__SET = list('meta.type.structure.set.cp', '\\{', BLOCK_END, [
+	{
+		name: 'keyword.other.spread.cp',
+		match: '#',
 	},
-	patterns: [
-		{include: '#Type'},
-	],
-};
+	{
+		name: 'keyword.operator.punctuation.cp',
+		match: THINARROW,
+	},
+	{include: '#Type'},
+]);
 
 
 export const TYPE = {
@@ -88,12 +90,19 @@ export const TYPE = {
 			name: 'support.type.cp',
 			match: '\\b(this)\\b',
 		},
+		{
+			// for cases like `type T = (
+			// 	x: int,
+			// ) => int`
+			name: 'keyword.operator.punctuation.cp',
+			match: FATARROW,
+		},
 		{include: '#TypeFunction'},
 		{include: '#TypeInterface'},
 		{include: '#TypeCall'},
 		{include: '#TypeStructureGrouping'},
 		{include: '#TypeStructureList'},
-		{include: '#TypeStructurePromise'},
+		{include: '#TypeStructureSet'},
 		unit('entity.name.type'),
 	],
 };
