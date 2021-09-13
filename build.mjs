@@ -55,6 +55,7 @@ await fs.promises.writeFile(path.join(path.dirname(new URL(import.meta.url).path
 		IdentifierVariable:            identifier('entity.name.variable'),
 		Keyword:                       Pattern.KEYWORD,
 		MemberConstructor:             Pattern.MEMBER__CONSTRUCTOR,
+		MemberConstructorgroup:        Pattern.MEMBER__CONSTRUCTORGROUP,
 		MemberField:                   Pattern.MEMBER__FIELD,
 		MemberMethod:                  Pattern.MEMBER__METHOD,
 		MemberMethodgroup:             Pattern.MEMBER__METHODGROUP,

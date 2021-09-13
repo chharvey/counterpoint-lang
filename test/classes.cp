@@ -89,6 +89,7 @@ class Foo {
 	secret new () {;}
 	private new () {;}
 	protected new () {;}
+	async new () {;}
 	new (
 		constructor_param: int,
 		public constructor_field1: int,
@@ -119,6 +120,22 @@ class Foo {
 	throw(cd: void): void { throw (cd); }
 	if(ef: void): void { if (a + b) then c else d; }
 	unless(gh: void): void { unless (a + b) then c else d; }
+
+	% constructor group
+	private new {
+		() {;}
+		async () {;}
+		(
+			constructor_param: int,
+			public constructor_field1: int,
+			secret constructor_field2: int,
+			private constructor_field3: int,
+			protected constructor_field4: int,
+			public override constructor_field5: int,
+			public final constructor_field6: int,
+			public readonly constructor_field7: int,
+		) {;}
+	}
 
 	public methodGroup {
 		override (): void {;}

@@ -10,6 +10,7 @@ import {
 	FIELD,
 	FIELD_CONSTRUCTOR,
 	CONSTRUCTOR,
+	CONSTRUCTORGROUP,
 	METHOD,
 	METHODGROUP,
 } from '../selectors.js';
@@ -189,13 +190,39 @@ export const MEMBER__CONSTRUCTOR = {
 	patterns: [
 		{
 			name: 'storage.modifier.cp',
-			match: '\\b(public|secret|private|protected|new)\\b',
+			match: '\\b(public|secret|private|protected|async|new)\\b',
 		},
 		{include: '#CommentBlock'},
 		{include: '#CommentLine'},
 		{include: '#GenericParameters'},
 		{include: '#ConstructorParameters'},
 		{include: '#Block'},
+	],
+};
+
+
+export const MEMBER__CONSTRUCTORGROUP = {
+	name: 'meta.constructorgroup.cp',
+	begin: lookaheads([CONSTRUCTORGROUP]),
+	end:   lookbehinds(['\\}']),
+	patterns: [
+		{
+			name: 'storage.modifier.cp',
+			match: '\\b(public|secret|private|protected|new)\\b',
+		},
+		{
+			name: 'meta.constructorgroupbody.cp',
+			begin: '\\{',
+			end:   BLOCK_END,
+			captures: {
+				0: {name: 'punctuation.delimiter.cp'},
+			},
+			patterns: [
+				{include: '#CommentBlock'},
+				{include: '#CommentLine'},
+				{include: '#MemberConstructor'},
+			],
+		},
 	],
 };
 
@@ -262,6 +289,7 @@ export const CLASS_BODY = {
 		{include: '#StaticBlock'},
 		{include: '#MemberField'},
 		{include: '#MemberConstructor'},
+		{include: '#MemberConstructorgroup'},
 		{include: '#MemberMethod'},
 		{include: '#MemberMethodgroup'},
 	],
