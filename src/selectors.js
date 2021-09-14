@@ -9,7 +9,7 @@ export const OWS = '(?:\\s+|(%%(?:%?[^%])*%%))*';
 export const INT = '(?:\\+|-)?(?:\\\\[bqodxz])?[0-9a-z_]+';
 export const VAR = '(?:\\b[A-Za-z_][A-Za-z0-9_]*\\b|`.*`)';
 
-export const ANNO_START = '(?:\\:|\\?\\:)';
+export const ANNO_START = `(?:\\:${ lookaheads(['\\:'], true) }|\\?\\:)`;
 export const ASSN_START = `=${ lookaheads(['=', '>'], true) }`;
 export const THINARROW  = '->';
 export const FATARROW   = '=>';

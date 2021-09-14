@@ -29,6 +29,21 @@ export const ARGUMENTS = list('meta.arguments.cp', '\\(', '\\)', [
 ]);
 
 
+export const EXPRESSION__CLAIM = {
+	name: 'meta.expression.claim.cp',
+	begin: '<',
+	end:   `>|${ lookaheads(['[\\)\\]\\},;]', THINARROW]) }`,
+	captures: {
+		0: {name: 'punctuation.delimiter.cp'},
+	},
+	patterns: [
+		{include: '#CommentBlock'},
+		{include: '#CommentLine'},
+		{include: '#Type'},
+	],
+};
+
+
 export const EXPRESSION__CALL = {
 	name: 'meta.expression.call.cp',
 	begin: ['(\\.)', lookaheads([[OWS, '(<|\\()'].join('')])].join(''),
@@ -132,6 +147,7 @@ export const EXPRESSION = {
 		},
 		{include: '#ExpressionFunction'},
 		{include: '#ExpressionClass'},
+		{include: '#ExpressionClaim'},
 		{include: '#ExpressionCall'},
 		{include: '#ExpressionAccess'},
 		{include: '#ExpressionStructureGrouping'},

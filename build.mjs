@@ -38,6 +38,7 @@ await fs.promises.writeFile(path.join(path.dirname(new URL(import.meta.url).path
 		Expression:                    Pattern.EXPRESSION,
 		ExpressionAccess:              Pattern.EXPRESSION__ACCESS,
 		ExpressionCall:                Pattern.EXPRESSION__CALL,
+		ExpressionClaim:               Pattern.EXPRESSION__CLAIM,
 		ExpressionClass:               Pattern.EXPRESSION__CLASS,
 		ExpressionFunction:            Pattern.EXPRESSION__FUNCTION,
 		ExpressionStructureGrouping:   Pattern.EXPRESSION__STRUCTURE__GROUPING,
