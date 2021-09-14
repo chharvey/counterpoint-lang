@@ -6,7 +6,9 @@ import {
 	OWS,
 	INT,
 	VAR,
-	ARROW,
+	THINARROW,
+	FATARROW,
+	BLOCK_END,
 } from '../selectors.js';
 import {
 	identifier,
@@ -83,7 +85,7 @@ export const EXPRESSION__ACCESS = {
 		{
 			name: 'meta.expression.access.cp',
 			begin: ['(\\.|\\?\\.|\\!\\.)', lookaheads([`${ OWS }(${ INT }|${ VAR })`])].join(''),
-			end:   lookbehinds(['[A-Za-z0-9_]', '`']),
+			end:   lookbehinds(['[A-Za-z0-9_`]']),
 			beginCaptures: {
 				1: {name: 'keyword.operator.punctuation.cp'},
 			},
@@ -115,12 +117,21 @@ export const EXPRESSION__STRUCTURE__LIST = list('meta.expression.structure.list.
 		name: 'keyword.other.spread.cp',
 		match: '##|#',
 	},
-	{
-		name: 'punctuation.separator.cp',
-		match: '\\|->',
-	},
 	propertyOrArgumentLabel('\\]', '#IdentifierProperty', '#DestructureProperty'),
 	{include: '#Expression'}, // must come after property destructuring because of untyped lambda parameters
+]);
+
+
+export const EXPRESSION__STRUCTURE__SET = list('meta.expression.structure.set.cp', '\\{', BLOCK_END, [
+	{
+		name: 'keyword.other.spread.cp',
+		match: '#',
+	},
+	{
+		name: 'punctuation.separator.cp',
+		match: THINARROW,
+	},
+	{include: '#Expression'},
 ]);
 
 
@@ -139,9 +150,9 @@ export const EXPRESSION = {
 			match: '\\b(this)\\b',
 		},
 		{
-			// for cases like `(x: int): {int} => x + 1;` where the `}` incorrectly ends the function
+			// for cases like `(x: int): int{} => Set.([x + 1]);` where the `}` incorrectly ends the function
 			name: 'storage.type.cp',
-			match: ARROW,
+			match: FATARROW,
 		},
 		{include: '#ExpressionFunction'},
 		{include: '#ExpressionClass'},
@@ -150,7 +161,7 @@ export const EXPRESSION = {
 		{include: '#ExpressionAccess'},
 		{include: '#ExpressionStructureGrouping'},
 		{include: '#ExpressionStructureList'},
-		{include: '#Block'}, // serves as '#ExpressionStructurePromise'
+		{include: '#ExpressionStructureSet'},
 		unit(),
 		{
 			name: 'keyword.operator.punctuation.cp',

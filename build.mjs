@@ -1,7 +1,6 @@
 import * as fs from 'fs';
 import * as path from 'path';
 
-import * as Selector from './src/selectors.js';
 import {
 	identifier,
 	list,
@@ -44,7 +43,7 @@ await fs.promises.writeFile(path.join(path.dirname(new URL(import.meta.url).path
 		ExpressionFunction:            Pattern.EXPRESSION__FUNCTION,
 		ExpressionStructureGrouping:   Pattern.EXPRESSION__STRUCTURE__GROUPING,
 		ExpressionStructureList:       Pattern.EXPRESSION__STRUCTURE__LIST,
-		ExpressionStructurePromise:    list('meta.expression.structure.promise.cp', '\\{', Selector.BLOCK_END, [{include: '#Expression'}]),
+		ExpressionStructureSet:        Pattern.EXPRESSION__STRUCTURE__SET,
 		GenericArguments:              list('meta.genericarguments.cp', '<', '>', [{include: '#Type'}]),
 		GenericParameterPatterns:      Pattern.GENERIC_PARAMETER_PATTERNS,
 		GenericParameters:             list('meta.genericparameters.cp', '<', '>', [{include: '#GenericParameterPatterns'}]),
@@ -57,8 +56,10 @@ await fs.promises.writeFile(path.join(path.dirname(new URL(import.meta.url).path
 		IdentifierVariable:            identifier('entity.name.variable'),
 		Keyword:                       Pattern.KEYWORD,
 		MemberConstructor:             Pattern.MEMBER__CONSTRUCTOR,
+		MemberConstructorgroup:        Pattern.MEMBER__CONSTRUCTORGROUP,
 		MemberField:                   Pattern.MEMBER__FIELD,
 		MemberMethod:                  Pattern.MEMBER__METHOD,
+		MemberMethodgroup:             Pattern.MEMBER__METHODGROUP,
 		Number:                        Pattern.NUMBER,
 		ParameterPatterns:             Pattern.PARAMETER_PATTERNS,
 		Parameters:                    list('meta.parameters.cp', '\\(', '\\)', [{include: '#ParameterPatterns'}]),
@@ -68,9 +69,14 @@ await fs.promises.writeFile(path.join(path.dirname(new URL(import.meta.url).path
 		Statement:                     Pattern.STATEMENT,
 		StatementAugmentation:         Pattern.STATEMENT__AUGMENTATION,
 		StatementControl:              Pattern.STATEMENT__CONTROL,
+		StatementControlConditional:   Pattern.STATEMENT__CONTROL__CONDITIONAL,
+		StatementExport:               Pattern.STATEMENT__EXPORT,
+		StatementImport:               Pattern.STATEMENT__IMPORT,
+		StaticBlock:                   Pattern.STATIC__BLOCK,
 		String:                        Pattern.STRING,
 		Template:                      Pattern.TEMPLATE,
 		Type:                          Pattern.TYPE,
+		TypeAccess:                    Pattern.TYPE__ACCESS,
 		TypeCall:                      Pattern.TYPE_CALL,
 		TypeFunction:                  Pattern.TYPE__FUNCTION,
 		TypeInterface:                 Pattern.TYPE__INTERFACE,
@@ -78,7 +84,7 @@ await fs.promises.writeFile(path.join(path.dirname(new URL(import.meta.url).path
 		TypeParameters:                list('meta.parameters.cp', '\\(', '\\)', [{include: '#TypeParameterPatterns'}]),
 		TypeStructureGrouping:         Pattern.TYPE__STRUCTURE__GROUPING,
 		TypeStructureList:             Pattern.TYPE__STRUCTURE__LIST,
-		TypeStructurePromise:          Pattern.TYPE__STRUCTURE__PROMISE,
+		TypeStructureSet:              Pattern.TYPE__STRUCTURE__SET,
 	},
 	patterns: [
 		{include: '#Block'},

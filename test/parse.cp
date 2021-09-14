@@ -7,8 +7,12 @@ true else % false
 );
 if a then b else c;
 (if a then b else c);
-if a then {b} else {c, 'error'};
-(if a then {b} else {c});
+if a then {#b} else {c, d};
+(if a then {#b} else {c});
+
+if if a then b else c then d else e;
+if a then if b then c else d else e;
+if a then b else if c then d else e;
 
 if true then {
 	return false;
@@ -120,8 +124,10 @@ func twice(x: int): int => x * 2;
 	type X = T?;
 	[a, [b, b], (c + c), #spread];
 	[a= 3, c= 5, key= value, punn$, ##doublespread];
-	[+a |-> -b, ];
-	[+3 |-> -5, ];
+	{+a, -b, #spread, };
+	{+3, -5, #spread, };
+	{+a -> -b, };
+	{+3 -> -5, };
 	if true then 1 else 0;
 	null || (if true then 1 else 0);
 	array && [key$];
@@ -144,6 +150,11 @@ func twice(x: int): int => x * 2;
 		(a ,)=  [4, 2],
 		(a,) => [4, 2],
 	)~;
+	List.<T>();
+	Hash.<T>();
+	Set.<T>();
+	Map.<T, U>();
+	Mapping.<T, U>();
 	structure.property + p;
 	structure.`pr op` + p;
 	structure.%%dot%%property + p;
@@ -240,7 +251,7 @@ unless (a + b) then { return (c); } else { throw (d); };
 ((h: int = 0): int => h + 1);
 [(h: int = 0): int => h + 1];
 [fun= (h: int): int => h + 1];
-type T = [fun: (a: int) -> {int}];
+type T = [fun: (a: int) => int];
 
 type `floàt | bōōl` = `floàt | bōōl` | float | bool;
 type SpreadTest = [T, #Spread] | [name: T, ##DoubleSpread];
@@ -266,7 +277,7 @@ let unfixed w: null = null;
 let unfixed w: T = T;
 let arr: mutable [int] = [42];
 let rec: mutable [a: int] = [a= 42];
-let map: mutable obj = [42 |-> '42.0'];
+let map: mutable {int -> str} = {42 -> '42.0', 43 -> '43.0'};
 
 
 public let x: float = 0.0;
@@ -278,10 +289,11 @@ private type B<T> = float | T;
 
 type Or<T, U> = T | U;
 type Or<T, U, V> = Or.<T, U> | V;
-typefunc Or<T, U> => T | U;
+typefunc Or<T, U> => T | U{};
 typefunc Or<T, U, V> => Or.<T, U> | V;
-public typefunc Or<T, U> => T | U;
-private typefunc Or<T, U, V> => Or.<T, U> | V;
+public typefunc Map<T, U> => {T -> U};
+public typefunc Mapping<T, U> => {T -> U};
+private typefunc Or<T, U, V> => Or.<T, U> | [:V];
 
 
 'a string that

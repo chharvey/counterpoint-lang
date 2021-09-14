@@ -86,8 +86,8 @@ func twice(x: int): int => x * 2;
 	a = b;
 	[a, b, c];
 	[a= 3, c= 5];
-	[+a |-> -b, ]
-	[+3 |-> -5, ]
+	[+a -> -b, ]
+	[+3 -> -5, ]
 	1+2 % lexes as 2 numbers: `1` and `+2`
 	1+ 2 % lexes as number, punct, number
 )

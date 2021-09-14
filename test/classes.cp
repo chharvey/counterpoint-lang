@@ -60,8 +60,27 @@ type T = unknown & (interface extends Bar inherits Diz.<T> {});
 
 % class members
 class Foo {
+	static {
+		field: T = 42;
+		meth(): void {
+			super; static; hyper; method; this;
+		}
+		public methodGroup {
+			override (): void {;}
+			final (): void {;}
+			mutating (): void {;}
+			async (): void {;}
+			<T>(): void {;}
+			(x: int): void {;}
+			(): void {
+				super; static; hyper; method; this;
+			}
+			(): int => 42;
+		}
+	}
+
+
 	% line comment
-	static field: T = 42;
 	public field: T = 42;
 	secret field: T = 42;
 	private field: T = 42;
@@ -75,6 +94,7 @@ class Foo {
 	secret new () {;}
 	private new () {;}
 	protected new () {;}
+	async new () {;}
 	new (
 		constructor_param: int,
 		public constructor_field1: int,
@@ -89,7 +109,6 @@ class Foo {
 	%%
 	block comment
 	%%
-	static meth(): void {;}
 	public meth(): void {;}
 	secret meth(): void {;}
 	private meth(): void {;}
@@ -97,14 +116,47 @@ class Foo {
 	override meth(): void {;}
 	final meth(): void {;}
 	mutating meth(): void {;}
+	async meth(): void {;}
 	meth<T>(): void {;}
 	meth(x: int): void {;}
+	meth(): void {
+		super; static; hyper; method; this;
+	}
 	meth(): int => 42;
 
 	return(ab: void): void { return (ab); }
 	throw(cd: void): void { throw (cd); }
 	if(ef: void): void { if (a + b) then c else d; }
 	unless(gh: void): void { unless (a + b) then c else d; }
+
+	% constructor group
+	private new {
+		() {;}
+		async () {;}
+		(
+			constructor_param: int,
+			public constructor_field1: int,
+			secret constructor_field2: int,
+			private constructor_field3: int,
+			protected constructor_field4: int,
+			public override constructor_field5: int,
+			public final constructor_field6: int,
+			public readonly constructor_field7: int,
+		) {;}
+	}
+
+	public methodGroup {
+		override (): void {;}
+		final (): void {;}
+		mutating (): void {;}
+		async (): void {;}
+		<T>(): void {;}
+		(x: int): void {;}
+		(): void {
+			super; static; hyper; method; this;
+		}
+		(): int => 42;
+	}
 }
 
 % interface members
@@ -113,6 +165,14 @@ interface Foo {
 	field: T;
 
 	mutating meth(): void;
+	async meth(): void;
 	meth<T>(): void;
 	meth(x: int): void;
+
+	public methodGroup {
+		mutating (): void;
+		async (): void;
+		<T>(): void;
+		(x: int): void;
+	}
 }

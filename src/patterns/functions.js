@@ -7,8 +7,7 @@ import {
 	VAR,
 	ANNO_START,
 	ASSN_START,
-	TYPEARROW,
-	ARROW,
+	FATARROW,
 	FUNCTIONTYPE,
 	FUNCTION,
 } from '../selectors.js';
@@ -23,17 +22,19 @@ import {
 export const TYPE__FUNCTION = {
 	name: 'meta.type.func.cp',
 	begin: lookaheads([FUNCTIONTYPE]),
-	end: lookbehinds(['\\}']),
+	end:   FATARROW,
+	endCaptures: {
+		0: {name: 'keyword.operator.punctuation.cp'},
+	},
 	patterns: [
 		{
-			name: 'keyword.operator.punctuation.cp',
-			match: TYPEARROW,
+			name: 'storage.modifier.cp',
+			match: '\\b(async)\\b',
 		},
 		{include: '#CommentBlock'},
 		{include: '#CommentLine'},
 		{include: '#GenericParameters'},
 		{include: '#TypeParameters'},
-		{include: '#TypeStructurePromise'},
 	],
 };
 
@@ -41,35 +42,55 @@ export const TYPE__FUNCTION = {
 export const EXPRESSION__FUNCTION = {
 	name: 'meta.expression.func.cp',
 	begin: lookaheads([FUNCTION]),
-	end:   [lookbehinds(['\\}']), ARROW].join('|'),
+	end:   [lookbehinds(['\\}']), FATARROW].join('|'),
 	endCaptures: {
 		0: {name: 'storage.type.cp'},
 	},
 	patterns: [
+		{
+			name: 'storage.modifier.cp',
+			match: '\\b(async)\\b',
+		},
 		{include: '#CommentBlock'},
 		{include: '#CommentLine'},
 		{include: '#Captures'},
 		{include: '#GenericParameters'},
 		{include: '#Parameters'},
 		{include: '#Block'},
-		annotation(lookaheads(['\\{', ARROW])),
+		annotation(lookaheads(['\\{', FATARROW])),
 	],
 };
 
 
 export const DECLARATION__FUNC = {
 	name: 'meta.declaration.func.cp',
-	begin: lookaheads([`(\\b(public|private)\\b${ OWS })?\\b(func)\\b`]),
+	begin: lookaheads([`(\\b(public|private)\\b${ OWS })?\\b(func)\\b(${ OWS }\\b(async)\\b)?`]),
 	end:   [lookbehinds(['\\}']), ';'].join('|'),
 	endCaptures: {
 		0: {name: 'punctuation.delimiter.cp'},
 	},
 	patterns: [
-		{include: '#Captures'},
 		{include: '#GenericParameters'},
+		{include: '#Captures'},
 		{include: '#Parameters'},
 		{include: '#Block'},
-		annotation(lookaheads(['\\b(implements)\\b', '\\{', ARROW])),
+		{
+			name: 'storage.modifier.cp',
+			match: '\\b(async)\\b',
+		},
+		{
+			name: 'meta.heritage.cp',
+			begin: '\\b(implements)\\b',
+			end:   lookaheads(['\\[', '\\(']),
+			beginCaptures: {
+				0: {name: 'storage.modifier.cp'},
+			},
+			patterns: [
+				{include: '#TypeCall'},
+				{include: '#IdentifierType'},
+			],
+		},
+		annotation(lookaheads(['\\{', FATARROW])),
 		implicitReturn(),
 		{
 			name: 'storage.modifier.cp',
@@ -78,18 +99,6 @@ export const DECLARATION__FUNC = {
 		{
 			name: 'storage.type.cp',
 			match: '\\b(func)\\b',
-		},
-		{
-			name: 'meta.heritage.cp',
-			begin: '\\b(implements)\\b',
-			end:   lookaheads(['\\{', ARROW]),
-			beginCaptures: {
-				0: {name: 'storage.modifier.cp'},
-			},
-			patterns: [
-				{include: '#TypeCall'},
-				{include: '#IdentifierType'},
-			],
 		},
 		{include: '#IdentifierFunction'}, // must come after keywords
 	],
