@@ -31,24 +31,15 @@ export const ARGUMENTS = list('meta.arguments.cp', '\\(', '\\)', [
 
 export const EXPRESSION__CLAIM = {
 	name: 'meta.expression.claim.cp',
-	begin: '::',
-	end:   lookbehinds(['>']),
-	beginCaptures: {
-		0: {name: 'keyword.operator.punctuation.cp'},
+	begin: '<',
+	end:   `>|${ lookaheads(['[\\)\\]\\},;]', THINARROW]) }`,
+	captures: {
+		0: {name: 'punctuation.delimiter.cp'},
 	},
 	patterns: [
 		{include: '#CommentBlock'},
 		{include: '#CommentLine'},
-		{
-			begin: '<',
-			end:   '>',
-			captures: {
-				0: {name: 'punctuation.delimiter.cp'},
-			},
-			patterns: [
-				{include: '#Type'},
-			],
-		},
+		{include: '#Type'},
 	],
 };
 

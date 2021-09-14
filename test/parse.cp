@@ -183,13 +183,14 @@ func twice(x: int): int => x * 2;
 }
 
 % Type claims
-(5 / 3) :: <float & Numeric.<T>> - 2.0;
-[(5 / 3) :: %%comm%% <float>];
-[(5 / 3) :: %comm
-	<float>];
-f.((5 / 3) %%comm%% :: <Float.<T>>);
-f.((5 / 3) %comm
-	:: <Float.<T>>);
+<float & Numeric.<T>>(5 / 3) - 2.0;
+<float & Numeric.<T>>five_thirds - 2.0;
+[<float>%%comm%%(5 / 3)];
+[<float>%comm
+	(5 / 3)];
+f.(<Float.<T>>%%comm%%(5 / 3));
+f.(<Float.<T>>%comm
+	(5 / 3));
 
 %%% The value of `a`. %%
 let a: null | bool = +42 && null;
