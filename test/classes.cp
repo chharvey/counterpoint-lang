@@ -66,8 +66,6 @@ class Foo {
 			super; static; hyper; method; this;
 		}
 		public methodGroup {
-			override (): void {;}
-			final (): void {;}
 			mutating (): void {;}
 			async (): void {;}
 			<T>(): void {;}
@@ -77,6 +75,8 @@ class Foo {
 			}
 			(): int => 42;
 		}
+		public override methodGroup { (): void {;} }
+		public final methodGroup { (): void {;} }
 	}
 
 
@@ -146,8 +146,6 @@ class Foo {
 	}
 
 	public methodGroup {
-		override (): void {;}
-		final (): void {;}
 		mutating (): void {;}
 		async (): void {;}
 		<T>(): void {;}
@@ -157,6 +155,8 @@ class Foo {
 		}
 		(): int => 42;
 	}
+	public override methodGroup { (): void {;} }
+	public final methodGroup { (): void {;} }
 }
 
 % interface members

@@ -256,7 +256,7 @@ export const MEMBER__METHODGROUP = {
 	patterns: [
 		{
 			name: 'storage.modifier.cp',
-			match: '\\b(public|secret|private|protected)\\b',
+			match: '\\b(public|secret|private|protected|override|final)\\b',
 		},
 		{include: '#IdentifierProperty'},
 		{
