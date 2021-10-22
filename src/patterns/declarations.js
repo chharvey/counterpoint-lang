@@ -30,6 +30,10 @@ export const DECLARATION__TYPE = {
 			name: 'storage.type.cp',
 			match: '\\b(type)\\b',
 		},
+		{
+			name: 'storage.modifier.cp',
+			match: '\\b(nominal)\\b',
+		},
 		{include: '#IdentifierType'}, // must come after keywords
 	],
 };
