@@ -119,7 +119,7 @@ export const EXPRESSION__STRUCTURE__SET = list('meta.expression.structure.set.cp
 		match: '#',
 	},
 	{
-		name: 'punctuation.separator.cp',
+		name: 'keyword.operator.punctuation.cp',
 		match: THINARROW,
 	},
 	{include: '#Expression'},
