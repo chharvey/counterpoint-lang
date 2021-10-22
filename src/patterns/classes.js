@@ -26,7 +26,7 @@ import {
 export const HERITAGE = {
 	name: 'meta.heritage.cp',
 	begin: '\\b(extends|implements|inherits)\\b',
-	end:   lookaheads(['\\b(extends|implements|inherits)\\b', '\\{']),
+	end:   lookaheads(['\\b(extends|implements|inherits)\\b', '\\[', '\\{']),
 	beginCaptures: {
 		0: {name: 'storage.modifier.cp'},
 	},
@@ -72,9 +72,9 @@ export const EXPRESSION__CLASS = {
 	patterns: [
 		{include: '#CommentBlock'},
 		{include: '#CommentLine'},
-		{include: '#Captures'},
 		{include: '#GenericParameters'},
 		{include: '#Heritage'},
+		{include: '#Captures'},
 		{include: '#ClassBody'},
 		{
 			name: 'storage.modifier.cp',
@@ -89,9 +89,9 @@ export const DECLARATION__CLASS = {
 	begin: lookaheads([`(\\b(public|private)\\b${ OWS })?\\b(class)\\b`]),
 	end:   lookbehinds(['\\}']),
 	patterns: [
-		{include: '#Captures'},
 		{include: '#GenericParameters'},
 		{include: '#Heritage'},
+		{include: '#Captures'},
 		{include: '#ClassBody'},
 		{
 			name: 'storage.modifier.cp',

@@ -53,8 +53,8 @@ export const EXPRESSION__FUNCTION = {
 		},
 		{include: '#CommentBlock'},
 		{include: '#CommentLine'},
-		{include: '#Captures'},
 		{include: '#GenericParameters'},
+		{include: '#Captures'},
 		{include: '#Parameters'},
 		{include: '#Block'},
 		annotation(lookaheads(['\\{', FATARROW])),
@@ -76,7 +76,11 @@ export const DECLARATION__FUNC = {
 		{include: '#Block'},
 		{
 			name: 'storage.modifier.cp',
-			match: '\\b(async)\\b',
+			match: '\\b(public|private|async)\\b',
+		},
+		{
+			name: 'storage.type.cp',
+			match: '\\b(func)\\b',
 		},
 		{
 			name: 'meta.heritage.cp',
@@ -92,14 +96,6 @@ export const DECLARATION__FUNC = {
 		},
 		annotation(lookaheads(['\\{', FATARROW])),
 		implicitReturn(),
-		{
-			name: 'storage.modifier.cp',
-			match: '\\b(public|private)\\b',
-		},
-		{
-			name: 'storage.type.cp',
-			match: '\\b(func)\\b',
-		},
 		{include: '#IdentifierFunction'}, // must come after keywords
 	],
 };

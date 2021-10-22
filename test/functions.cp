@@ -90,6 +90,9 @@ let lambdawithlinecomments: Function = <T, U> % hello
 	=> a || b;
 
 let lambdaWithCaptures: Function = [a, b ,](x) => a + b + x;
+let lambdaWithCaptures: Function = <T>[a, b ,](x) => a + b + x;
+let lambdaWithCaptures: Function = <T, U>[a, b ,](x) => a + b + x;
+let lambdaWithGeneric:  Function = <T>(x) => a + b + x;
 let lambdaWithCaptures: Function = [
 	a,
 	`b`,

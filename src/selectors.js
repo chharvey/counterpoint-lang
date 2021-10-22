@@ -71,14 +71,14 @@ export const FUNCTIONTYPE = `
 export const FUNCTION = `
 	(?:\\b async \\b ${ OWS })?
 	(?:
-		\\[${ OWS }
-			${ VAR }
-			(?:${ OWS },${ OWS }${ VAR })*
-			${ OWS },?
-		${ OWS }\\]
-	)?
-	(?:
 		(?<aftergenericparams>
+			(?: # captures
+				\\[${ OWS }
+					${ VAR }
+					(?:${ OWS },${ OWS }${ VAR })*
+					${ OWS },?
+				${ OWS }\\]
+			)?
 			\\(${ OWS }(?:
 				\\)${ OWS }(?<afterparams>${ ANNO_START } | ${ FATARROW } | \\{) # exactly 0 parameters
 				| \\b unfixed \\b                                                # unfixed parameter

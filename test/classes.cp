@@ -6,12 +6,13 @@ class final Foo {}
 class abstract Foo {}
 class readonly Foo {}
 class nominal Foo {}
-class Foo[a, b ,] {}
 class Foo<T> {}
 class Foo extends Bar, Diz.<T> {}
 class Foo implements Bar, Diz.<T> {}
 class Foo extends Bar implements Diz.<T> {}
-class ClassWithCaptures[
+class Foo [a, b ,] {}
+class Foo<T> extends Bar, Diz.<T> [a, b] {}
+class ClassWithCaptures [
 	a,
 	`b`,
 ] {};
@@ -23,11 +24,11 @@ let Foo: Class = Object && Class && (class {});
 let Foo: Class = Object && Class && (class final {});
 let Foo: Class = Object && Class && (class abstract {});
 let Foo: Class = Object && Class && (class readonly {});
-let Foo: Class = Object && Class && (class [a, b ,] extends Bar.<T> {});
 let Foo: Class = Object && Class && (class <T> extends Bar.<T> {});
 let Foo: Class = Object && Class && (class extends Bar, Diz.<T> {});
 let Foo: Class = Object && Class && (class implements Bar, Diz.<T> {});
 let Foo: Class = Object && Class && (class extends Bar implements Diz.<T> {});
+let Foo: Class = Object && Class && (class extends Bar.<T> [a, b ,] {});
 let classWithCaptures: Class = class [
 	a,
 	`b`,
