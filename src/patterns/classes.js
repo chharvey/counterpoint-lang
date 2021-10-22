@@ -190,7 +190,7 @@ export const MEMBER__CONSTRUCTOR = {
 	patterns: [
 		{
 			name: 'storage.modifier.cp',
-			match: '\\b(public|secret|private|protected|async|new)\\b',
+			match: '\\b(public|secret|private|protected|new)\\b',
 		},
 		{include: '#CommentBlock'},
 		{include: '#CommentLine'},

@@ -95,7 +95,6 @@ class Foo {
 	secret new () {;}
 	private new () {;}
 	protected new () {;}
-	async new () {;}
 	new (
 		constructor_param: int,
 		public constructor_field1: int,
@@ -133,7 +132,6 @@ class Foo {
 	% constructor group
 	private new {
 		() {;}
-		async () {;}
 		(
 			constructor_param: int,
 			public constructor_field1: int,
