@@ -63,6 +63,9 @@ Bundle.B;
 from 'module-path' import all as Bundle;
 from 'module-path' import type all as Bundle;
 from 'module-path' import await all as Bundle;
+from ('module-path-1', 'module-path-2') import all as Bundle;
+from ('module-path-1', 'module-path-2') import type all as Bundle;
+from ('module-path-1', 'module-path-2') import await all as Bundle;
 all;   %> ParseError (not an identifier)
 Bundle;
 
