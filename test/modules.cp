@@ -71,3 +71,5 @@ Bundle;
 
 
 export 'module-path';
+export 'module-path' as Bundle;
+export ('module-path-1', 'module-path-2') as Bundle;

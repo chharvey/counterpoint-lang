@@ -157,7 +157,15 @@ export const STATEMENT__EXPORT = {
 		0: {name: 'punctuation.delimiter.cp'},
 	},
 	patterns: [
+		{
+			name: 'keyword.other.alias.cp',
+			match: '\\b(as)\\b',
+		},
 		{include: '#String'},
+		{include: '#IdentifierVariable'},
+		list('meta.export.list', '\\(', '\\)', [
+			{include: '#String'},
+		]),
 	],
 };
 
