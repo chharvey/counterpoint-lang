@@ -91,7 +91,7 @@ export const STATEMENT__CONTROL = {
 
 export const STATEMENT__AUGMENTATION = {
 	name: 'meta.augmentation.cp',
-	begin: '&&=|!&=|\\|\\|=|!\\|=|\\^=|\\*=|\\/=|\\+=|-=|\\+\\+|--|\\*\\*|\\/\\/',
+	begin: '&&=|!&=|\\|\\|=|!\\|=|\\^=|\\*=|\\/=|\\+=|-=',
 	end: lookaheads([';']),
 	beginCaptures: {
 		0: {name: 'punctuation.delimiter.cp'},

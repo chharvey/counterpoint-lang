@@ -130,7 +130,7 @@ export const EXPRESSION = {
 	patterns: [
 		{
 			name: 'keyword.operator.punctuation.cp',
-			match: '===|!==|<=|>=|!<|!>|==|!=|&&|!&|\\|\\||!\\||\\^|\\*|\\/|~',
+			match: '===|!==|<=|>=|!<|!>|==|!=|&&|!&|\\|\\||!\\||\\^|\\*|\\/|~~|\\+\\+',
 		},
 		{
 			name: 'keyword.operator.text.cp',

@@ -135,10 +135,10 @@ func twice(x: int): int => x * 2;
 	array.%%dot%%[index];
 	array?.[index];
 	array!.[index];
-	funkshin. (call / a, #spread + b, 3, label %% args %% = c, punn$, ##doublespread)~;
-	funkshin.<T>%%c%%(call / a, #spread + b, 3, label %% args %% = c, punn$, ##doublespread)~;
+	funkshin. (call / a, #spread + b, 3, label %% args %% = c, punn$, ##doublespread)~~;
+	funkshin.<T>%%c%%(call / a, #spread + b, 3, label %% args %% = c, punn$, ##doublespread)++;
 	funkshin.<T>%c
-		(call / a, #spread + b, 3, label %% args %% = c, punn$, ##doublespread)~;
+		(call / a, #spread + b, 3, label %% args %% = c, punn$, ##doublespread)~~;
 	funkshin.%%c%%(
 		call / a,
 		#spread + b,
@@ -149,7 +149,7 @@ func twice(x: int): int => x * 2;
 		(a,)=   [4, 2],
 		(a ,)=  [4, 2],
 		(a,) => [4, 2],
-	)~;
+	)++;
 	List.<T>();
 	Hash.<T>();
 	Set.<T>();
@@ -179,7 +179,8 @@ func twice(x: int): int => x * 2;
 	array!.+1;
 	array!.-\b1;
 	array!.+\b1;
-	awaiting~;
+	awaiting~~;
+	nexting++;
 }
 
 % Type claims
