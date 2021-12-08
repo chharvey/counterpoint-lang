@@ -154,5 +154,5 @@ private func subtract(a: N, b: N): N => a - b;
 
 func async asyncFunc(p: int, q: rat): float => p~~ * q~~;
 func async asyncFunc(p: int, q: rat): float { return p~~ * q~~; }
-func gen genFunc(p: int, q: rat): float { yield p * q; }
+func gen genFunc(p: int, q: rat): float { yield # p * q; }
 func async gen asyncGenFunc(p: int, q: rat): float { yield p~~ * q~~; }

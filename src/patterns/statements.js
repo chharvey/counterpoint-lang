@@ -82,6 +82,10 @@ export const STATEMENT__CONTROL = {
 				0: {name: 'punctuation.delimiter.cp'},
 			},
 			patterns: [
+				{
+					name: 'keyword.other.spread.cp',
+					match: '#',
+				},
 				{include: '#Expression'},
 			],
 		},
