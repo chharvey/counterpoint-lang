@@ -237,7 +237,7 @@ export const MEMBER__METHOD = {
 	patterns: [
 		{
 			name: 'storage.modifier.cp',
-			match: '\\b(public|secret|private|protected|override|final|mutating|async)\\b',
+			match: '\\b(public|secret|private|protected|override|final|mutating|async|gen)\\b',
 		},
 		{include: '#IdentifierProperty'},
 		{include: '#GenericParameters'},

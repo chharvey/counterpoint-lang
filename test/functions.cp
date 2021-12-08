@@ -22,6 +22,8 @@ type ReturnsTemplateType = () => '''a {{ string }} template type''';
 let x: <T widens U, U = Set.<null>>(a: Set.<T>, b: Set.<U>) => bool = null;
 
 type AsyncFuncType = async (p: int, q: rat) => float;
+type GenFuncType = gen (p: int, q: rat) => float;
+type AsyncGenFuncType = async gen (p: int, q: rat) => float;
 
 
 %-- function expression statements --%
@@ -55,6 +57,8 @@ let lambda: Function = <T narrows U = V>() {};
 let not_lambda: NotFunction = a < b > (c);
 let not_lambda: NotFunction = a.<b>(c);
 let async_lambda: AsyncFunction = async (p: int, q: rat): float => p~~ * q~~;
+let gen_lambda: GenFunction = gen (p: int, q: rat): float { p * q; };
+let async_gen_lambda: AsyncGenFunction = async gen (p: int, q: rat): float { p~~ * q~~; };
 
 let lambda: Function = (
 	a,
@@ -150,3 +154,5 @@ private func subtract(a: N, b: N): N => a - b;
 
 func async asyncFunc(p: int, q: rat): float => p~~ * q~~;
 func async asyncFunc(p: int, q: rat): float { return p~~ * q~~; }
+func gen genFunc(p: int, q: rat): float { p * q; }
+func async gen asyncGenFunc(p: int, q: rat): float { p~~ * q~~; }
