@@ -73,18 +73,7 @@ export const STATEMENT__CONTROL = {
 		},
 		{
 			name: 'meta.control.cp',
-			begin: `\\b(continue)\\b`,
-			end:   ';',
-			beginCaptures: {
-				0: {name: 'keyword.control.cp'},
-			},
-			endCaptures: {
-				0: {name: 'punctuation.delimiter.cp'},
-			},
-		},
-		{
-			name: 'meta.control.cp',
-			begin: `\\b(break|return|throw)\\b`,
+			begin: `\\b(break|continue|return|yield|throw)\\b`,
 			end:   ';',
 			beginCaptures: {
 				0: {name: 'keyword.control.cp'},
