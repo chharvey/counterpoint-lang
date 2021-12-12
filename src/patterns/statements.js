@@ -10,6 +10,7 @@ import {
 } from '../selectors.js';
 import {
 	list,
+	annotation,
 	assignment,
 } from './_helpers.js';
 
@@ -101,8 +102,10 @@ export const STATEMENT__CONTROL = {
 			patterns: [
 				{include: '#CommentBlock'},
 				{include: '#CommentLine'},
+				{include: '#DestructureVariable'},
+				annotation(lookaheads(['\\b(from|of)\\b'])),
 				{
-					begin: '\\b(from|to|by)\\b',
+					begin: '\\b(from|to|by|of)\\b',
 					end:   lookaheads(['\\b(to|by|do)\\b']),
 					beginCaptures: {
 						0: {name: 'keyword.control.cp'},
