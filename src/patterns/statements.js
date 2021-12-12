@@ -1,5 +1,6 @@
 import {
 	lookaheads,
+	lookbehinds,
 } from '../helpers.js';
 import {
 	OWS,
@@ -10,7 +11,6 @@ import {
 import {
 	list,
 	assignment,
-	control,
 } from './_helpers.js';
 
 
@@ -58,8 +58,6 @@ export const STATEMENT__CONTROL__CONDITIONAL = {
 
 export const STATEMENT__CONTROL = {
 	patterns: [
-		control(['while', 'until', 'do'], ['do', 'while', 'until']),
-		control(['for'], ['from', 'to', 'by', 'in', 'do']),
 		{
 			name: 'meta.control.cp',
 			begin: lookaheads(['\\b(if|unless)\\b']),
@@ -72,8 +70,63 @@ export const STATEMENT__CONTROL = {
 			]
 		},
 		{
+			name:  'meta.control.cp',
+			begin: '\\b(while|until|do)\\b',
+			end:   ';',
+			beginCaptures: {
+				0: {name: 'keyword.control.cp'},
+			},
+			endCaptures: {
+				0: {name: 'punctuation.delimiter.cp'},
+			},
+			patterns: [
+				{
+					name: 'keyword.control.cp',
+					match: '\\b(do|while|until)\\b',
+				},
+				{include: '#Block'},
+				{include: '#Expression'},
+			],
+		},
+		{
+			name:  'meta.control.cp',
+			begin: '\\b(for)\\b',
+			end:   ';',
+			beginCaptures: {
+				0: {name: 'keyword.control.cp'},
+			},
+			endCaptures: {
+				0: {name: 'punctuation.delimiter.cp'},
+			},
+			patterns: [
+				{include: '#CommentBlock'},
+				{include: '#CommentLine'},
+				{
+					begin: '\\b(from|to|by)\\b',
+					end:   lookaheads(['\\b(to|by|do)\\b']),
+					beginCaptures: {
+						0: {name: 'keyword.control.cp'},
+					},
+					patterns: [
+						{include: '#Expression'},
+					],
+				},
+				{
+					begin: '\\b(do)\\b',
+					end:   lookbehinds(['\\}']),
+					beginCaptures: {
+						0: {name: 'keyword.control.cp'},
+					},
+					patterns: [
+						{include: '#Block'},
+					],
+				},
+				{include: '#IdentifierVariable'}, // must come after keywords
+			],
+		},
+		{
 			name: 'meta.control.cp',
-			begin: `\\b(break|continue|return|yield|throw)\\b`,
+			begin: '\\b(break|continue|return|yield|throw)\\b',
 			end:   ';',
 			beginCaptures: {
 				0: {name: 'keyword.control.cp'},

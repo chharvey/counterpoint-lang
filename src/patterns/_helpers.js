@@ -177,26 +177,3 @@ export function destructure(subtype, identifiers, param_or_var = false) {
 		identifiers,
 	]);
 }
-
-
-export function control(begin_keywords, contain_keywords) {
-	return {
-		name: 'meta.control.cp',
-		begin: `\\b(${ begin_keywords.join('|') })\\b`,
-		end:   ';',
-		beginCaptures: {
-			0: {name: 'keyword.control.cp'},
-		},
-		endCaptures: {
-			0: {name: 'punctuation.delimiter.cp'},
-		},
-		patterns: [
-			{
-				name: 'keyword.control.cp',
-				match: `\\b(${ contain_keywords.join('|') })\\b`,
-			},
-			{include: '#Block'},
-			{include: '#Expression'},
-		],
-	};
-}
