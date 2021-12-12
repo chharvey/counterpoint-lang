@@ -71,6 +71,7 @@ for %% int %% i from %% start %% 1 to %% end %% 10 by %% increment %% 2 do {
 };
 for i: int from 10 to 20 do {};
 
+for await item of asynclist.() do {};
 for item of list do {};
 for item: T of list do {};
 for (item, i) of entries do {};
