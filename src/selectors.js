@@ -133,5 +133,6 @@ export const METHODGROUP = `
 	(\\b(?:public | secret | private | protected)\\b ${ OWS })?
 	(\\b override \\b ${ OWS })?
 	(\\b final \\b ${ OWS })?
+	(\\b mutating \\b ${ OWS })?
 	${ VAR } ${ OWS } \\{
 `.replace(/\s+/g, '');

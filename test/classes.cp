@@ -67,7 +67,7 @@ class Foo {
 			super; static; hyper; method; this;
 		}
 		public methodGroup {
-			mutating (): void {;}
+			(): void {;}
 			async (): void {;}
 			<T>(): void {;}
 			(x: int): void {;}
@@ -78,6 +78,7 @@ class Foo {
 		}
 		public override methodGroup { (): void {;} }
 		public final methodGroup { (): void {;} }
+		public mutating methodGroup { (): void {;} }
 	}
 
 
@@ -145,7 +146,7 @@ class Foo {
 	}
 
 	public methodGroup {
-		mutating (): void {;}
+		(): void {;}
 		async (): void {;}
 		<T>(): void {;}
 		(x: int): void {;}
@@ -156,6 +157,7 @@ class Foo {
 	}
 	public override methodGroup { (): void {;} }
 	public final methodGroup { (): void {;} }
+	public mutating methodGroup { (): void {;} }
 }
 
 % interface members
@@ -169,9 +171,10 @@ interface Foo {
 	meth(x: int): void;
 
 	public methodGroup {
-		mutating (): void;
+		(): void;
 		async (): void;
 		<T>(): void;
 		(x: int): void;
 	}
+	public mutating methodGroup { (): void; }
 }
