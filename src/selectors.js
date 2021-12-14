@@ -55,6 +55,7 @@ export const DESTRUCTURE_ASSIGNEES = `
 
 export const FUNCTIONTYPE = `
 	(?:\\b async \\b${ OWS })?
+	(?:\\b gen \\b${ OWS })?
 	(?:
 		<                # any generic parameters
 		| \\(${ OWS }(?:
@@ -70,6 +71,7 @@ export const FUNCTIONTYPE = `
 
 export const FUNCTION = `
 	(?:\\b async \\b ${ OWS })?
+	(?:\\b gen \\b ${ OWS })?
 	(?:
 		(?<aftergenericparams>
 			(?: # captures
@@ -126,6 +128,7 @@ export const METHOD = `
 	(\\b final \\b ${ OWS })?
 	(\\b mutating \\b ${ OWS })?
 	(?:\\b async \\b ${ OWS })?
+	(?:\\b gen \\b ${ OWS })?
 	(?:${ VAR } ${ OWS })? (?:< | \\()
 `.replace(/\s+/g, '');
 

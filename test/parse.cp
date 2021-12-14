@@ -69,6 +69,20 @@ for %% int %% i from %% start %% 1 to %% end %% 10 by %% increment %% 2 do {
 		do { d; } while if a then b else c;
 	};
 };
+for i: int from 10 to 20 do {};
+
+for await item of asynclist.() do {};
+for item of list do {};
+for item: T of list do {};
+for (item, i) of entries do {};
+for (item: T, i: int) of entries do {};
+for (a$, b$): S of records do {};
+for (a as alpha, b as bravo) of records do {};
+for (a as (alpha, bravo): S, c as (charlie$, delta$): S) of records do {};
+for prop of (x: int): int => 2 * x do {};
+for prop of (x: int): int { return 2 * x; } do {};
+for prop of (x, y) => y * x do {};
+for prop of (x, y) { return y * x; } do {};
 
 let break: str = 'break';
 let continue: str = 'continue';
@@ -135,10 +149,10 @@ func twice(x: int): int => x * 2;
 	array.%%dot%%[index];
 	array?.[index];
 	array!.[index];
-	funkshin. (call / a, #spread + b, 3, label %% args %% = c, punn$, ##doublespread)~;
-	funkshin.<T>%%c%%(call / a, #spread + b, 3, label %% args %% = c, punn$, ##doublespread)~;
+	funkshin. (call / a, #spread + b, 3, label %% args %% = c, punn$, ##doublespread)~~;
+	funkshin.<T>%%c%%(call / a, #spread + b, 3, label %% args %% = c, punn$, ##doublespread)++;
 	funkshin.<T>%c
-		(call / a, #spread + b, 3, label %% args %% = c, punn$, ##doublespread)~;
+		(call / a, #spread + b, 3, label %% args %% = c, punn$, ##doublespread)~~;
 	funkshin.%%c%%(
 		call / a,
 		#spread + b,
@@ -149,7 +163,7 @@ func twice(x: int): int => x * 2;
 		(a,)=   [4, 2],
 		(a ,)=  [4, 2],
 		(a,) => [4, 2],
-	)~;
+	)++;
 	List.<T>();
 	Hash.<T>();
 	Set.<T>();
@@ -179,7 +193,8 @@ func twice(x: int): int => x * 2;
 	array!.+1;
 	array!.-\b1;
 	array!.+\b1;
-	awaiting~;
+	awaiting~~;
+	nexting++;
 }
 
 % Type claims

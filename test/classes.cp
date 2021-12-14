@@ -69,6 +69,7 @@ class Foo {
 		public methodGroup {
 			(): void {;}
 			async (): void {;}
+			gen (): void {;}
 			<T>(): void {;}
 			(x: int): void {;}
 			(): void {
@@ -118,6 +119,7 @@ class Foo {
 	final meth(): void {;}
 	mutating meth(): void {;}
 	async meth(): void {;}
+	gen meth(): void {;}
 	meth<T>(): void {;}
 	meth(x: int): void {;}
 	meth(): void {
@@ -148,6 +150,7 @@ class Foo {
 	public methodGroup {
 		(): void {;}
 		async (): void {;}
+		gen (): void {;}
 		<T>(): void {;}
 		(x: int): void {;}
 		(): void {
@@ -167,12 +170,14 @@ interface Foo {
 
 	mutating meth(): void;
 	async meth(): void;
+	gen meth(): void;
 	meth<T>(): void;
 	meth(x: int): void;
 
 	public methodGroup {
 		(): void;
 		async (): void;
+		gen (): void;
 		<T>(): void;
 		(x: int): void;
 	}

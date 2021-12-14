@@ -1,5 +1,6 @@
 import {
 	lookaheads,
+	lookbehinds,
 } from '../helpers.js';
 import {
 	OWS,
@@ -9,8 +10,8 @@ import {
 } from '../selectors.js';
 import {
 	list,
+	annotation,
 	assignment,
-	control,
 } from './_helpers.js';
 
 
@@ -58,8 +59,6 @@ export const STATEMENT__CONTROL__CONDITIONAL = {
 
 export const STATEMENT__CONTROL = {
 	patterns: [
-		control(['while', 'until', 'do'], ['do', 'while', 'until']),
-		control(['for'], ['from', 'to', 'by', 'in', 'do']),
 		{
 			name: 'meta.control.cp',
 			begin: lookaheads(['\\b(if|unless)\\b']),
@@ -72,19 +71,8 @@ export const STATEMENT__CONTROL = {
 			]
 		},
 		{
-			name: 'meta.control.cp',
-			begin: `\\b(continue)\\b`,
-			end:   ';',
-			beginCaptures: {
-				0: {name: 'keyword.control.cp'},
-			},
-			endCaptures: {
-				0: {name: 'punctuation.delimiter.cp'},
-			},
-		},
-		{
-			name: 'meta.control.cp',
-			begin: `\\b(break|return|throw)\\b`,
+			name:  'meta.control.cp',
+			begin: '\\b(while|until|do)\\b',
 			end:   ';',
 			beginCaptures: {
 				0: {name: 'keyword.control.cp'},
@@ -93,6 +81,71 @@ export const STATEMENT__CONTROL = {
 				0: {name: 'punctuation.delimiter.cp'},
 			},
 			patterns: [
+				{
+					name: 'keyword.control.cp',
+					match: '\\b(do|while|until)\\b',
+				},
+				{include: '#Block'},
+				{include: '#Expression'},
+			],
+		},
+		{
+			name:  'meta.control.cp',
+			begin: '\\b(for)\\b',
+			end:   ';',
+			beginCaptures: {
+				0: {name: 'keyword.control.cp'},
+			},
+			endCaptures: {
+				0: {name: 'punctuation.delimiter.cp'},
+			},
+			patterns: [
+				{include: '#CommentBlock'},
+				{include: '#CommentLine'},
+				{include: '#DestructureVariable'},
+				annotation(lookaheads(['\\b(from|of)\\b'])),
+				{
+					name:  'keyword.control.cp',
+					match: 'await',
+				},
+				{
+					begin: '\\b(from|to|by|of)\\b',
+					end:   lookaheads(['\\b(to|by|do)\\b']),
+					beginCaptures: {
+						0: {name: 'keyword.control.cp'},
+					},
+					patterns: [
+						{include: '#Expression'},
+					],
+				},
+				{
+					begin: '\\b(do)\\b',
+					end:   lookbehinds(['\\}']),
+					beginCaptures: {
+						0: {name: 'keyword.control.cp'},
+					},
+					patterns: [
+						{include: '#Block'},
+					],
+				},
+				{include: '#IdentifierVariable'}, // must come after keywords
+			],
+		},
+		{
+			name: 'meta.control.cp',
+			begin: '\\b(break|continue|return|yield|throw)\\b',
+			end:   ';',
+			beginCaptures: {
+				0: {name: 'keyword.control.cp'},
+			},
+			endCaptures: {
+				0: {name: 'punctuation.delimiter.cp'},
+			},
+			patterns: [
+				{
+					name: 'keyword.other.spread.cp',
+					match: '#',
+				},
 				{include: '#Expression'},
 			],
 		},
@@ -102,7 +155,7 @@ export const STATEMENT__CONTROL = {
 
 export const STATEMENT__AUGMENTATION = {
 	name: 'meta.augmentation.cp',
-	begin: '&&=|!&=|\\|\\|=|!\\|=|\\^=|\\*=|\\/=|\\+=|-=|\\+\\+|--|\\*\\*|\\/\\/',
+	begin: '&&=|!&=|\\|\\|=|!\\|=|\\^=|\\*=|\\/=|\\+=|-=',
 	end: lookaheads([';']),
 	beginCaptures: {
 		0: {name: 'punctuation.delimiter.cp'},
