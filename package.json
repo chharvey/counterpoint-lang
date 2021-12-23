@@ -23,7 +23,7 @@
     "Programming Languages"
   ],
   "author": "Chris Harvey <chrisharvey2pi@gmail.com> (https://chharvey.github.io/)",
-  "license": "AGPL-3.0-or-later",
+  "license": "GPL-3.0-or-later",
   "bugs": {
     "url": "https://github.com/chharvey/counterpoint-lang/issues"
   },
