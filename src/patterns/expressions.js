@@ -37,8 +37,6 @@ export const EXPRESSION__CLAIM = {
 		0: {name: 'punctuation.delimiter.cp'},
 	},
 	patterns: [
-		{include: '#CommentBlock'},
-		{include: '#CommentLine'},
 		{include: '#Type'},
 	],
 };

@@ -292,8 +292,11 @@ let unfixed w: bool | T | `floàt | bōōl` = bool;
 let unfixed w: 3.2 = 3.2 == 3.2;
 let unfixed w: null = null;
 let unfixed w: T = T;
-let arr: mutable [int] = [42];
+let tup: mutable [int] = [42];
 let rec: mutable [a: int] = [a= 42];
+let list: mutable int[] = List.<int>([42]);
+let hash: mutable [:int] = Hash.<int>([a= 42]);
+let set: mutable int{} = Set.<int>([42]);
 let map: mutable {int -> str} = {42 -> '42.0', 43 -> '43.0'};
 
 
