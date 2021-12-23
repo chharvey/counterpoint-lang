@@ -106,7 +106,7 @@ export const STATEMENT__CONTROL = {
 				annotation(lookaheads(['\\b(from|of)\\b'])),
 				{
 					name:  'keyword.control.cp',
-					match: 'await',
+					match: '\\b(await)\\b',
 				},
 				{
 					begin: '\\b(from|to|by|of)\\b',

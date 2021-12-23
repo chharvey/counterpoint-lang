@@ -31,11 +31,11 @@ export const KEYWORD = {
 		},
 		{
 			name: 'support.type.cp',
-			match: '\\b(never|void|bool|int|float|str|obj|unknown|this)\\b',
+			match: '\\b(never|void|bool|int|float|str|obj|unknown)\\b',
 		},
 		{
 			name: 'variable.language.cp',
-			match: '\\b(this|super|static|hyper|method)\\b',
+			match: '\\b(super|static|hyper|method)\\b',
 		},
 		{
 			name: 'support.class.cp',
