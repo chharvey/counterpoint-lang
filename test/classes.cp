@@ -63,6 +63,8 @@ type T = unknown & (interface extends Bar inherits Diz.<T> {});
 class Foo {
 	static {
 		field: T = 42;
+		init {
+		}
 		meth(): void {
 			super; static; hyper; method; this;
 		}
@@ -107,6 +109,9 @@ class Foo {
 		public final constructor_field6: int,
 		public readonly constructor_field7: int,
 	) {;}
+
+	init {
+	}
 
 	%%
 	block comment

@@ -58,6 +58,7 @@ await fs.promises.writeFile(path.join(path.dirname(new URL(import.meta.url).path
 		MemberConstructor:             Pattern.MEMBER__CONSTRUCTOR,
 		MemberConstructorgroup:        Pattern.MEMBER__CONSTRUCTORGROUP,
 		MemberField:                   Pattern.MEMBER__FIELD,
+		MemberInit:                    Pattern.MEMBER__INIT,
 		MemberMethod:                  Pattern.MEMBER__METHOD,
 		MemberMethodgroup:             Pattern.MEMBER__METHODGROUP,
 		Number:                        Pattern.NUMBER,

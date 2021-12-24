@@ -227,6 +227,20 @@ export const MEMBER__CONSTRUCTORGROUP = {
 };
 
 
+export const MEMBER__INIT = {
+	name:  'meta.init.cp',
+	begin: `\\b(init)\\b`,
+	beginCaptures: {
+		0: {name: 'storage.modifier.cp'},
+	},
+	end:   lookbehinds(['\\}']),
+	patterns: [
+		{include: '#CommentBlock'},
+		{include: '#CommentLine'},
+		{include: '#Block'},
+	],
+};
+
 export const MEMBER__METHOD = {
 	name: 'meta.method.cp',
 	begin: lookaheads([METHOD]),
@@ -290,6 +304,7 @@ export const CLASS_BODY = {
 		{include: '#MemberField'},
 		{include: '#MemberConstructor'},
 		{include: '#MemberConstructorgroup'},
+		{include: '#MemberInit'},
 		{include: '#MemberMethod'},
 		{include: '#MemberMethodgroup'},
 	],
