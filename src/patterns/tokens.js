@@ -50,7 +50,7 @@ export const NUMBER = {
 		{
 			name: 'constant.numeric.radix.cp',
 			match: `(\\+|-)?(${ [
-				digits('[0-1]',    'b'), // `\\\\b[0-1](_?[0-1])*`
+				digits('[0-1]',    'b'), // `\\\\b([0-1]_?)*[0-1]`
 				digits('[0-3]',    'q'),
 				digits('[0-7]',    'o'),
 				digits('[0-9]',    'd'),
