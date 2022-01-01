@@ -76,7 +76,7 @@ export const STRING = {
 	patterns: [
 		{
 			name: 'constant.character.escape.cp',
-			match: `(\\\\)u\\{(${ digits('[0-9a-f]') })\\}`,
+			match: `(\\\\)u\\{(${ digits('[0-9a-f]') })?\\}`,
 			captures: {
 				1: {name: 'punctuation.delimiter.cp'},
 				2: {name: 'constant.numeric.hex.cp'},
