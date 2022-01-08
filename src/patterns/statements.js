@@ -5,6 +5,7 @@ import {
 import {
 	OWS,
 	ASSN_START,
+	THINARROW,
 	BLOCK_END,
 	DESTRUCTURE_ASSIGNEES,
 } from '../selectors.js';
@@ -32,7 +33,7 @@ export const STATEMENT__CONTROL__CONDITIONAL = {
 		},
 		{
 			begin: '\\b(then)\\b',
-			end:   lookaheads(['\\b(else)\\b']),
+			end:   lookaheads(['\\b(else)\\b', ';']),
 			beginCaptures: {
 				0: {name: 'keyword.control.cp'},
 			},
@@ -260,9 +261,21 @@ export const BLOCK = {
 		{include: '#Declaration'},
 		{include: '#Statement'},
 		{
-			// used only for set literal expressions
-			name: 'punctuation.separator.cp',
-			match: ',',
+			// used only for set/map literal expressions
+			patterns: [
+				{
+					name: 'keyword.other.spread.cp',
+					match: '#',
+				},
+				{
+					name: 'punctuation.separator.cp',
+					match: ',',
+				},
+				{
+					name: 'keyword.operator.punctuation.cp',
+					match: THINARROW,
+				},
+			],
 		},
 	],
 };

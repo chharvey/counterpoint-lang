@@ -7,7 +7,8 @@ true else % false
 );
 if a then b else c;
 (if a then b else c);
-if a then {#b} else {c, d};
+if a then {#b} else {c, d} || {e -> f};
+if a then { run.(); };
 (if a then {#b} else {c});
 
 if if a then b else c then d else e;
