@@ -60,7 +60,7 @@ export const NUMBER = {
 		},
 		{
 			name: 'constant.numeric.decimal.cp',
-			match: `(\\+|-)?${ digits('[0-9]') }(\\.(${ digits('[0-9]') }(e(\\+|-)?${ digits('[0-9]') })?)?)?`,
+			match: `(\\+|-)?${ digits('[0-9]') }(\\.${ digits('[0-9]') }(e(\\+|-)?${ digits('[0-9]') })?)?`,
 		},
 	],
 };

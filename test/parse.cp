@@ -149,7 +149,7 @@ func twice(x: int): int => x * 2;
 	if true then 1 else 0;
 	null || (if true then 1 else 0);
 	array && [key$];
-	array.[index];
+	array.1.[index];
 	array.%%dot%%[index];
 	array?.[index];
 	array!.[index];
