@@ -87,6 +87,21 @@ export const EXPRESSION__ACCESS = {
 };
 
 
+export const EXPRESSION__ASSIGNEE = {
+	patterns: [
+		{
+			name: 'keyword.operator.punctuation.cp',
+			match: '~~|\\+\\+',
+		},
+		{include: '#DestructureAssignment'},
+		{include: '#ExpressionClaim'},
+		{include: '#ExpressionCall'},
+		{include: '#ExpressionAccess'},
+		identifier(),
+	],
+};
+
+
 export const EXPRESSION__STRUCTURE__GROUPING = {
 	name: 'meta.expression.structure.grouping.cp',
 	begin: '\\(',

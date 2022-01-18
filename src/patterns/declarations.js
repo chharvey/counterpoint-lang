@@ -79,15 +79,7 @@ export const DECLARATION__CLAIM = {
 		0: {name: 'punctuation.delimiter.cp'},
 	},
 	patterns: [
-		{
-			name: 'keyword.operator.punctuation.cp',
-			match: '~~|\\+\\+',
-		},
-		{include: '#DestructureAssignment'},
-		{include: '#ExpressionClaim'},
-		{include: '#ExpressionCall'},
-		{include: '#ExpressionAccess'},
-		unit(),
+		{include: '#ExpressionAssignee'},
 		annotation(lookaheads([';'])),
 	],
 };
@@ -104,15 +96,7 @@ export const DECLARATION__ASSIGNMENT = {
 		0: {name: 'punctuation.delimiter.cp'},
 	},
 	patterns: [
-		{
-			name: 'keyword.operator.punctuation.cp',
-			match: '~~|\\+\\+',
-		},
-		{include: '#DestructureAssignment'},
-		{include: '#ExpressionClaim'},
-		{include: '#ExpressionCall'},
-		{include: '#ExpressionAccess'},
-		unit(),
+		{include: '#ExpressionAssignee'},
 		assignment(lookaheads([';'])),
 		{
 			name:  'meta.augmentation.cp',
