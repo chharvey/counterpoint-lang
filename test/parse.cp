@@ -417,3 +417,19 @@ g.(z= 3, (x, y as (b)) => null);
 (x.[i + j], y.[j])   = [1, 2];
 (if$, by as b.j)     = [if= 1, by= 2];
 ((x$), (y as (b.j))) = [[x= 1], [y= [2]]];
+
+
+% claim statements:
+claim x: T;
+claim x.<U>(42)~~.y++.0.['prop' || 'key']: T;
+claim (x, y): int;
+claim (x: int, y: int);
+claim (if$, by as b): int;
+claim (x$: int, y as b: int);
+claim ((unfixed x), (y as (b))): int;
+
+claim (x.1, y.2): T;
+claim (x.i, y.j): T;
+claim (x.[i + j], y.[j]): T;
+claim (if$, by as b.j): T;
+claim ((x$), (y as (b.j))): T;

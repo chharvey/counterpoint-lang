@@ -24,6 +24,7 @@ await fs.promises.writeFile(path.join(path.dirname(new URL(import.meta.url).path
 		ConstructorField:              Pattern.CONSTRUCTOR_FIELD,
 		ConstructorParameters:         list('meta.parameters.cp', '\\(', '\\)', [{include: '#ConstructorField'}, {include: '#ParameterPatterns'}]),
 		Declaration:                   Pattern.DECLARATION,
+		DeclarationClaim:              Pattern.DECLARATION__CLAIM,
 		DeclarationClass:              Pattern.DECLARATION__CLASS,
 		DeclarationFunc:               Pattern.DECLARATION__FUNC,
 		DeclarationInterface:          Pattern.DECLARATION__INTERFACE,

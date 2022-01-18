@@ -6,6 +6,7 @@ import {
 	ASSN_START,
 } from '../selectors.js';
 import {
+	unit,
 	annotation,
 	assignment,
 	implicitReturn,
@@ -90,12 +91,38 @@ export const DECLARATION__LET = {
 };
 
 
+export const DECLARATION__CLAIM = {
+	name:  'meta.declaration.claim.cp',
+	begin: '\\b(claim)\\b',
+	end:   ';',
+	beginCaptures: {
+		0: {name: 'storage.type.cp'},
+	},
+	endCaptures: {
+		0: {name: 'punctuation.delimiter.cp'},
+	},
+	patterns: [
+		{
+			name: 'keyword.operator.punctuation.cp',
+			match: '~~|\\+\\+',
+		},
+		{include: '#DestructureAssignment'},
+		{include: '#ExpressionClaim'},
+		{include: '#ExpressionCall'},
+		{include: '#ExpressionAccess'},
+		unit(),
+		annotation(lookaheads([';'])),
+	],
+};
+
+
 export const DECLARATION = {
 	patterns: [
 		{include: '#DeclarationType'},
 		{include: '#DeclarationTypefunc'},
 		{include: '#DeclarationLet'},
 		{include: '#DeclarationFunc'},
+		{include: '#DeclarationClaim'},
 		{include: '#DeclarationClass'},
 		{include: '#DeclarationInterface'},
 	],
