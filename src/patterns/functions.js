@@ -62,6 +62,29 @@ export const EXPRESSION__FUNCTION = {
 };
 
 
+export const DECLARATION__TYPEFUNC = {
+	name: 'meta.declaration.typefunc.cp',
+	begin: lookaheads([`(\\b(public|private)\\b${ OWS })?\\b(typefunc)\\b`]),
+	end:   ';',
+	endCaptures: {
+		0: {name: 'punctuation.delimiter.cp'},
+	},
+	patterns: [
+		{include: '#GenericParameters'},
+		implicitReturn('#Type'),
+		{
+			name: 'storage.modifier.cp',
+			match: '\\b(public|private)\\b',
+		},
+		{
+			name: 'storage.type.cp',
+			match: '\\b(typefunc)\\b',
+		},
+		{include: '#IdentifierType'}, // must come after keywords
+	],
+};
+
+
 export const DECLARATION__FUNC = {
 	name: 'meta.declaration.func.cp',
 	begin: lookaheads([`(\\b(public|private)\\b${ OWS })?\\b(func)\\b(${ OWS }\\b(async)\\b)?(${ OWS }\\b(gen)\\b)?`]),
