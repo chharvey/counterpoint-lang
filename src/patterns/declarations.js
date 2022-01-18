@@ -116,6 +116,42 @@ export const DECLARATION__CLAIM = {
 };
 
 
+export const DECLARATION__ASSIGNMENT = {
+	name:  'meta.declaration.assignment.cp',
+	begin: '\\b(set)\\b',
+	end:   ';',
+	beginCaptures: {
+		0: {name: 'storage.type.cp'},
+	},
+	endCaptures: {
+		0: {name: 'punctuation.delimiter.cp'},
+	},
+	patterns: [
+		{
+			name: 'keyword.operator.punctuation.cp',
+			match: '~~|\\+\\+',
+		},
+		{include: '#DestructureAssignment'},
+		{include: '#ExpressionClaim'},
+		{include: '#ExpressionCall'},
+		{include: '#ExpressionAccess'},
+		unit(),
+		assignment(lookaheads([';'])),
+		{
+			name:  'meta.augmentation.cp',
+			begin: '&&=|!&=|\\|\\|=|!\\|=|\\^=|\\*=|\\/=|\\+=|-=',
+			end:   lookaheads([';']),
+			beginCaptures: {
+				0: {name: 'punctuation.delimiter.cp'},
+			},
+			patterns: [
+				{include: '#Expression'},
+			],
+		},
+	],
+};
+
+
 export const DECLARATION = {
 	patterns: [
 		{include: '#DeclarationType'},
@@ -123,6 +159,7 @@ export const DECLARATION = {
 		{include: '#DeclarationLet'},
 		{include: '#DeclarationFunc'},
 		{include: '#DeclarationClaim'},
+		{include: '#DeclarationAssignment'},
 		{include: '#DeclarationClass'},
 		{include: '#DeclarationInterface'},
 	],

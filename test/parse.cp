@@ -87,7 +87,7 @@ for prop of (x, y) { return y * x; } do {};
 
 let break: str = 'break';
 let continue: str = 'continue';
-while continue do { break; break = '1'; };
+while continue do { break; set break = '1'; };
 let x: bool = break == continue;
 
 %%
@@ -227,26 +227,25 @@ let %%unfixed%% `unfixed`: int =
 	+ -\x1379fz
 	+ -\z1379fz
 ;
-g = 42;
-g = 42 == 42;
-g == 42;
-g = if true then 1 else 0;
-g = if true then {1;} else {0;};
+set %%c%% g = 42;
+set g = 42 == 42;
+set g == 42;
+set g = if true then 1 else 0;
+set g = if true then {1,} else {0,};
+set g.<U>(42)~~.y++.0.['prop' || 'key'] = 42;
+
+
 let h: int = if true then 1 else 0;
 
 % augmentation:
-a ^= b;
-a *= b;
-a /= b;
-a += b;
-a -= b;
-a &&= b;
-a !&= b;
-a ||= b;
-c++;
-c--;
-c**;
-c--;
+set a ^= b;
+set a *= b;
+set a /= b;
+set a += b;
+set a -= b;
+set a &&= b;
+set a !&= b;
+set a ||= b;
 
 return (a + b);
 throw (c + d);
@@ -411,12 +410,12 @@ g.(z= 3, (x, y)        => null);
 g.(z= 3, (x, y as (b)) => null);
 
 % reassignment destructuring:
-(x, y) %%c%%         = [1, 2];
-(x.1, y.2)           = [1, 2];
-(x.i, y.j)           = [1, 2];
-(x.[i + j], y.[j])   = [1, 2];
-(if$, by as b.j)     = [if= 1, by= 2];
-((x$), (y as (b.j))) = [[x= 1], [y= [2]]];
+set (x, y) %%c%%         = [1, 2];
+set (x.1, y.2)           = [1, 2];
+set (x.i, y.j)           = [1, 2];
+set (x.[i + j], y.[j])   = [1, 2];
+set (if$, by as b.j)     = [if= 1, by= 2];
+set ((x$), (y as (b.j))) = [[x= 1], [y= [2]]];
 
 
 % claim statements:

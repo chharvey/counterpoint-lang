@@ -154,19 +154,6 @@ export const STATEMENT__CONTROL = {
 };
 
 
-export const STATEMENT__AUGMENTATION = {
-	name: 'meta.augmentation.cp',
-	begin: '&&=|!&=|\\|\\|=|!\\|=|\\^=|\\*=|\\/=|\\+=|-=',
-	end: lookaheads([';']),
-	beginCaptures: {
-		0: {name: 'punctuation.delimiter.cp'},
-	},
-	patterns: [
-		{include: '#Expression'},
-	],
-};
-
-
 export const STATEMENT__IMPORT = {
 	name: 'meta.import.cp',
 	begin: '\\b(from)\\b',
@@ -226,26 +213,15 @@ export const STATEMENT__EXPORT = {
 
 export const STATEMENT = {
 	patterns: [
+		{include: '#Declaration'},
 		{include: '#StatementControl'},
-		{include: '#StatementAugmentation'},
 		{include: '#StatementImport'},
 		{include: '#StatementExport'},
-		assignment(lookaheads([';'])),
+		{include: '#Expression'},
 		{
 			name: 'punctuation.delimiter.cp',
 			match: ';',
 		},
-		{
-			begin: lookaheads([
-				[DESTRUCTURE_ASSIGNEES, OWS, ASSN_START].join(''),
-			]),
-			end: lookaheads([ASSN_START]),
-			patterns: [
-				{include: '#CommentBlock'},
-				{include: '#DestructureAssignment'},
-			],
-		},
-		{include: '#Expression'}, // must come after reassignment destructuring because of untyped lambda parameters
 	],
 };
 
@@ -258,7 +234,6 @@ export const BLOCK = {
 		0: {name: 'punctuation.delimiter.cp'},
 	},
 	patterns: [
-		{include: '#Declaration'},
 		{include: '#Statement'},
 		{
 			// used only for set/map literal expressions
