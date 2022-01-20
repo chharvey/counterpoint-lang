@@ -25,6 +25,10 @@ set g == 42;
 set g = if true then 1 else 0;
 set g = if true then {1,} else {0,};
 set g.<U>(42)~~.y++.0.['prop' || 'key'] = 42;
+set this.g = 42;
+set super.g = 42;
+set static.g = 42;
+set hyper.g = 42;
 
 let h: int = if true then 1 else 0;
 

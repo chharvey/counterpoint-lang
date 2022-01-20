@@ -80,7 +80,7 @@ export const EXPRESSION__ACCESS = {
 			},
 			patterns: [
 				{include: '#Number'},
-				identifier('variable.other'),
+				identifier(),
 			],
 		},
 	],
@@ -93,6 +93,11 @@ export const EXPRESSION__ASSIGNEE = {
 			name: 'keyword.operator.punctuation.cp',
 			match: '~~|\\+\\+',
 		},
+		{
+			name: 'variable.language.cp',
+			match: '\\b(this)\\b',
+		},
+		{include: '#Keyword'},
 		{include: '#DestructureAssignment'},
 		{include: '#ExpressionClaim'},
 		{include: '#ExpressionCall'},
