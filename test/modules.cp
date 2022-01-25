@@ -42,34 +42,18 @@ A;     %> ReferenceError01
 Alias;
 B;
 
-from 'module-path' import (A, B) as Bundle;
-from 'module-path' import %% a %% (A, B) %% b %% as %% c %% Bundle %% d %%;
-A;        %> ReferenceError01
-B;        %> ReferenceError01
-Bundle;   %> ReferenceError03 "`Bundle` refers to a module, but is used as a value."
-Bundle.A;
-Bundle.B;
-
-from 'module-path' import (A as Alias, B) as Bundle;
-from 'module-path' import type (A as Alias, B) as Bundle;
-from 'module-path' import await (A as Alias, B) as Bundle;
-A;            %> ReferenceError01
-B;            %> ReferenceError01
-Bundle;       %> ReferenceError03 "`Bundle` refers to a module, but is used as a value."
-Bundle.A;     %> ReferenceError01 % (treat `Bundle.A` as a variable)
-Bundle.Alias;
-Bundle.B;
-
-from 'module-path' import all as Bundle;
-from 'module-path' import type all as Bundle;
-from 'module-path' import await all as Bundle;
-from ('module-path-1', 'module-path-2') import all as Bundle;
-from ('module-path-1', 'module-path-2') import type all as Bundle;
-from ('module-path-1', 'module-path-2') import await all as Bundle;
-all;   %> ParseError (not an identifier)
-Bundle;
+from 'module-path' import all as Namespace;
+from 'module-path' import type all as Namespace;
+from 'module-path' import await all as Namespace;
+from 'module-path' import %% a %% all %% b %% as %% c %% Namespace %% d %%;
+all;         %> ParseError (not an identifier)
+A;           %> ReferenceError01
+B;           %> ReferenceError01
+Namespace;   %> ReferenceError03 "`Namespace` refers to a module, but is used as a value."
+Namespace.A;
+Namespace.B;
 
 
 export 'module-path';
-export 'module-path' as Bundle;
-export ('module-path-1', 'module-path-2') as Bundle;
+export 'module-path' as Namespace;
+export ('module-path-1', 'module-path-2') as Namespace;

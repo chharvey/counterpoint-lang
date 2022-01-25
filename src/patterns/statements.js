@@ -180,7 +180,6 @@ export const STATEMENT__IMPORT = {
 				name: 'keyword.other.alias.cp',
 				match: '\\b(as)\\b',
 			},
-			{include: '#String'},
 			{include: '#IdentifierVariable'},
 		]),
 	],
