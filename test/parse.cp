@@ -85,11 +85,6 @@ for prop of (x: int): int { return 2 * x; } do {};
 for prop of (x, y) => y * x do {};
 for prop of (x, y) { return y * x; } do {};
 
-let break: str = 'break';
-let continue: str = 'continue';
-while continue do { break; break = '1'; };
-let x: bool = break == continue;
-
 %%
 	hello
 	%% 'nesting' isnt allowed %%
@@ -211,43 +206,6 @@ f.(<Float.<T>>%%comm%%(5 / 3));
 f.(<Float.<T>>%comm
 	(5 / 3));
 
-%%% The value of `a`. %%
-let a: null | bool = +42 && null;
-let b: int = 004_2. || false;
-let c: float = [-42.2_4, true];
-let d: str = 42.2e4_2;
-let e: obj = 42.2e+4_2;
-let f: %% comm %% TypeF | String = 'f';
-
-let %%unfixed%% `unfixed`: int =
-	  -\b1379fz
-	+ -\q1379fz
-	+ -\o1379fz
-	+ -\d1379fz
-	+ -\x1379fz
-	+ -\z1379fz
-;
-g = 42;
-g = 42 == 42;
-g == 42;
-g = if true then 1 else 0;
-g = if true then {1;} else {0;};
-let h: int = if true then 1 else 0;
-
-% augmentation:
-a ^= b;
-a *= b;
-a /= b;
-a += b;
-a -= b;
-a &&= b;
-a !&= b;
-a ||= b;
-c++;
-c--;
-c**;
-c--;
-
 return (a + b);
 throw (c + d);
 return (
@@ -273,51 +231,6 @@ unless (a + b) then { return (c); } else { throw (d); };
 [fun= (h: int): int => h + 1];
 type T = [fun: (a: int) => int];
 
-type `floàt | bōōl` = `floàt | bōōl` | float | bool;
-type SpreadTest = [T, #Spread] | [name: T, ##DoubleSpread];
-type nominal SpreadTest = [T, #Spread] | [name: T, ##DoubleSpread];
-type SpreadTest = [
-	T,
-	#Spread,
-] | [
-	name: T,
-	##DoubleSpread,
-];
-type T<U> = U & V
-	.<W>;
-type U<V narrows W.<int>> = V | W.<X>;
-type U<V = W.<int>> = V | W.%%c%%<X>;
-
-type T = [a: boolean, b: int, c: T];
-let x: T = [a= false, b= 42, c$];
-
-let `flō || bōōl` = `flō || bōōl` || flo || boo;
-let unfixed w: bool | T | `floàt | bōōl` = bool;
-let unfixed w: 3.2 = 3.2 == 3.2;
-let unfixed w: null = null;
-let unfixed w: T = T;
-let tup: mutable [int] = [42];
-let rec: mutable [a: int] = [a= 42];
-let list: mutable int[] = List.<int>([42]);
-let hash: mutable [:int] = Hash.<int>([a= 42]);
-let set: mutable int{} = Set.<int>([42]);
-let map: mutable {int -> str} = {42 -> '42.0', 43 -> '43.0'};
-
-
-public let x: float = 0.0;
-private let y: float = 0.0;
-public type X = float | int;
-private type Y = float | int;
-public type A<T> = float | T;
-private type B<T> = float | T;
-
-type Or<T, U> = T | U;
-type Or<T, U, V> = Or.<T, U> | V;
-typefunc Or<T, U> => T | U{};
-typefunc Or<T, U, V> => Or.<T, U> | V;
-public typefunc Map<T, U> => {T -> U};
-public typefunc Mapping<T, U> => {T -> U};
-private typefunc Or<T, U, V> => Or.<T, U> | [:V];
 
 
 'a string that
@@ -367,14 +280,6 @@ replace newlines with spaces.';
 ''';
 
 
-
-% variable destructuring:
-let (x, y): int            = [1, 2];
-let (x: int, y: int)       = [1, 2];
-let (if$, by as b): int    = [if= 1, by= 2];
-let (x$: int, y as b: int) = [x= 1, y= 2];
-let ((unfixed x), (y as (b))): int = [[1], [y= [2]]];
-
 % function parameter destructuring:
 func f(param as (x, y): int            = [1, 2]):       int => x + y;
 func f(param as (x: int, y: int)       = [1, 2]):       int => x + y;
@@ -409,11 +314,3 @@ g.(z= 3, ((x$), (y as (b)))= [[x= 1], [y= [2]]]);
 g.((x));
 g.(z= 3, (x, y)        => null);
 g.(z= 3, (x, y as (b)) => null);
-
-% reassignment destructuring:
-(x, y) %%c%%         = [1, 2];
-(x.1, y.2)           = [1, 2];
-(x.i, y.j)           = [1, 2];
-(x.[i + j], y.[j])   = [1, 2];
-(if$, by as b.j)     = [if= 1, by= 2];
-((x$), (y as (b.j))) = [[x= 1], [y= [2]]];

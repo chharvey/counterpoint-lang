@@ -6,6 +6,7 @@ import {
 	ASSN_START,
 } from '../selectors.js';
 import {
+	unit,
 	annotation,
 	assignment,
 	implicitReturn,
@@ -33,29 +34,6 @@ export const DECLARATION__TYPE = {
 		{
 			name: 'storage.modifier.cp',
 			match: '\\b(nominal)\\b',
-		},
-		{include: '#IdentifierType'}, // must come after keywords
-	],
-};
-
-
-export const DECLARATION__TYPEFUNC = {
-	name: 'meta.declaration.typefunc.cp',
-	begin: lookaheads([`(\\b(public|private)\\b${ OWS })?\\b(typefunc)\\b`]),
-	end:   ';',
-	endCaptures: {
-		0: {name: 'punctuation.delimiter.cp'},
-	},
-	patterns: [
-		{include: '#GenericParameters'},
-		implicitReturn('#Type'),
-		{
-			name: 'storage.modifier.cp',
-			match: '\\b(public|private)\\b',
-		},
-		{
-			name: 'storage.type.cp',
-			match: '\\b(typefunc)\\b',
 		},
 		{include: '#IdentifierType'}, // must come after keywords
 	],
@@ -90,12 +68,59 @@ export const DECLARATION__LET = {
 };
 
 
+export const DECLARATION__CLAIM = {
+	name:  'meta.declaration.claim.cp',
+	begin: '\\b(claim)\\b',
+	end:   ';',
+	beginCaptures: {
+		0: {name: 'storage.type.cp'},
+	},
+	endCaptures: {
+		0: {name: 'punctuation.delimiter.cp'},
+	},
+	patterns: [
+		{include: '#ExpressionAssignee'},
+		annotation(lookaheads([';'])),
+	],
+};
+
+
+export const DECLARATION__ASSIGNMENT = {
+	name:  'meta.declaration.assignment.cp',
+	begin: '\\b(set)\\b',
+	end:   ';',
+	beginCaptures: {
+		0: {name: 'storage.type.cp'},
+	},
+	endCaptures: {
+		0: {name: 'punctuation.delimiter.cp'},
+	},
+	patterns: [
+		{include: '#ExpressionAssignee'},
+		assignment(lookaheads([';'])),
+		{
+			name:  'meta.augmentation.cp',
+			begin: '&&=|!&=|\\|\\|=|!\\|=|\\^=|\\*=|\\/=|\\+=|-=',
+			end:   lookaheads([';']),
+			beginCaptures: {
+				0: {name: 'punctuation.delimiter.cp'},
+			},
+			patterns: [
+				{include: '#Expression'},
+			],
+		},
+	],
+};
+
+
 export const DECLARATION = {
 	patterns: [
 		{include: '#DeclarationType'},
 		{include: '#DeclarationTypefunc'},
 		{include: '#DeclarationLet'},
 		{include: '#DeclarationFunc'},
+		{include: '#DeclarationClaim'},
+		{include: '#DeclarationAssignment'},
 		{include: '#DeclarationClass'},
 		{include: '#DeclarationInterface'},
 	],
