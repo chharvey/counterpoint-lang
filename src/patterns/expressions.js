@@ -32,7 +32,7 @@ export const ARGUMENTS = list('meta.arguments.cp', '\\(', '\\)', [
 export const EXPRESSION__CLAIM = {
 	name: 'meta.expression.claim.cp',
 	begin: '<',
-	end:   `>|${ lookaheads(['[\\)\\]\\},;]', THINARROW, '\\b(then|do|to|by)\\b']) }`,
+	end:   `>|${ lookaheads(['[\\)\\]\\},;]', THINARROW, '\\b(then|else|do|to|by)\\b']) }`,
 	captures: {
 		0: {name: 'punctuation.delimiter.cp'},
 	},
