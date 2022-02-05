@@ -100,7 +100,7 @@ export const FUNCTION = `
 
 export const FIELD = `
 	(\\b(?:public | secret | private | protected)\\b ${ OWS })?
-	(\\b override \\b ${ OWS })?
+	(\\b(?:override | claim)\\b ${ OWS })?
 	(\\b(?:final | readonly)\\b ${ OWS })?
 	${ VAR } ${ OWS } ${ ANNO_START }
 `.replace(/\s+/g, '');
@@ -124,7 +124,7 @@ export const CONSTRUCTORGROUP = `
 
 export const METHOD = `
 	(\\b(?:public | secret | private | protected)\\b ${ OWS })?
-	(\\b override \\b ${ OWS })?
+	(\\b(?:override | claim)\\b ${ OWS })?
 	(\\b final \\b ${ OWS })?
 	(\\b mutating \\b ${ OWS })?
 	(?:\\b async \\b ${ OWS })?
@@ -134,7 +134,7 @@ export const METHOD = `
 
 export const METHODGROUP = `
 	(\\b(?:public | secret | private | protected)\\b ${ OWS })?
-	(\\b override \\b ${ OWS })?
+	(\\b(?:override | claim)\\b ${ OWS })?
 	(\\b final \\b ${ OWS })?
 	(\\b mutating \\b ${ OWS })?
 	${ VAR } ${ OWS } \\{

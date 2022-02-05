@@ -92,6 +92,7 @@ class Foo {
 	final field: T = 42;
 	readonly field: T = 42;
 	field: Typ = 42;
+	claim field: Typ;
 
 	public new () {;}
 	secret new () {;}
@@ -126,6 +127,8 @@ class Foo {
 		super; static; hyper; method; this;
 	}
 	meth(): int => 42;
+	abstractMethod(): void;
+	claim meth(): void;
 
 	return(ab: void): void { return (ab); }
 	throw(cd: void): void { throw (cd); }
@@ -158,9 +161,10 @@ class Foo {
 		}
 		(): int => 42;
 	}
-	public override methodGroup { (): void {;} }
-	public final methodGroup { (): void {;} }
-	public mutating methodGroup { (): void {;} }
+	override methodGroup { (): void {;} }
+	final methodGroup { (): void {;} }
+	mutating methodGroup { (): void {;} }
+	claim methodGroup { (): void; }
 }
 
 % interface members

@@ -174,7 +174,7 @@ export const MEMBER__FIELD = {
 	patterns: [
 		{
 			name: 'storage.modifier.cp',
-			match: '\\b(public|secret|private|protected|override|final|readonly)\\b',
+			match: '\\b(public|secret|private|protected|override|claim|final|readonly)\\b',
 		},
 		{include: '#IdentifierProperty'},
 		annotation(lookaheads([ASSN_START, ';'])),
@@ -237,7 +237,7 @@ export const MEMBER__METHOD = {
 	patterns: [
 		{
 			name: 'storage.modifier.cp',
-			match: '\\b(public|secret|private|protected|override|final|mutating|async|gen)\\b',
+			match: '\\b(public|secret|private|protected|override|claim|final|mutating|async|gen)\\b',
 		},
 		{include: '#IdentifierProperty'},
 		{include: '#GenericParameters'},
@@ -256,7 +256,7 @@ export const MEMBER__METHODGROUP = {
 	patterns: [
 		{
 			name: 'storage.modifier.cp',
-			match: '\\b(public|secret|private|protected|override|final|mutating)\\b',
+			match: '\\b(public|secret|private|protected|override|claim|final|mutating)\\b',
 		},
 		{include: '#IdentifierProperty'},
 		{
