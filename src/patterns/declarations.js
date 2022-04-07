@@ -15,7 +15,7 @@ import {
 
 export const DECLARATION__TYPE = {
 	name: 'meta.declaration.type.cp',
-	begin: lookaheads([`(\\b(public|private)\\b${ OWS })?\\b(type)\\b`]),
+	begin: lookaheads([`(\\b(public|secret|private)\\b${ OWS })?\\b(type)\\b`]),
 	end:   ';',
 	endCaptures: {
 		0: {name: 'punctuation.delimiter.cp'},
@@ -25,7 +25,7 @@ export const DECLARATION__TYPE = {
 		assignment(lookaheads([';']), '#Type'),
 		{
 			name: 'storage.modifier.cp',
-			match: '\\b(public|private)\\b',
+			match: '\\b(public|secret|private)\\b',
 		},
 		{
 			name: 'storage.type.cp',
@@ -42,7 +42,7 @@ export const DECLARATION__TYPE = {
 
 export const DECLARATION__LET = {
 	name: 'meta.declaration.let.cp',
-	begin: lookaheads([`(\\b(public|private)\\b${ OWS })?\\b(let)\\b`]),
+	begin: lookaheads([`(\\b(public|secret|private)\\b${ OWS })?\\b(let)\\b`]),
 	end:   ';',
 	endCaptures: {
 		0: {name: 'punctuation.delimiter.cp'},
@@ -53,7 +53,7 @@ export const DECLARATION__LET = {
 		assignment(lookaheads([';'])),
 		{
 			name: 'storage.modifier.cp',
-			match: '\\b(public|private)\\b',
+			match: '\\b(public|secret|private)\\b',
 		},
 		{
 			name: 'storage.type.cp',

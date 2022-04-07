@@ -77,10 +77,13 @@ claim x: T;
 claim x.<U>(42)~~.y++.0.['prop' || 'key']: T;
 
 public let x: float = 0.0;
+secret let x: float = 0.0;
 private let y: float = 0.0;
 public type X = float | int;
+secret type X = float | int;
 private type Y = float | int;
 public type A<T> = float | T;
+secret type A<T> = float | T;
 private type B<T> = float | T;
 
 type Or<T, U> = T | U;
@@ -88,7 +91,7 @@ type Or<T, U, V> = Or.<T, U> | V;
 typefunc Or<T, U> => T | U{};
 typefunc Or<T, U, V> => Or.<T, U> | V;
 public typefunc Map<T, U> => {T -> U};
-public typefunc Mapping<T, U> => {T -> U};
+secret typefunc Mapping<T, U> => {T -> U};
 private typefunc Or<T, U, V> => Or.<T, U> | [:V];
 
 

@@ -86,7 +86,7 @@ export const EXPRESSION__CLASS = {
 
 export const DECLARATION__CLASS = {
 	name: 'meta.declaration.class.cp',
-	begin: lookaheads([`(\\b(public|private)\\b${ OWS })?\\b(class)\\b`]),
+	begin: lookaheads([`(\\b(public|secret|private)\\b${ OWS })?\\b(class)\\b`]),
 	end:   lookbehinds(['\\}']),
 	patterns: [
 		{include: '#GenericParameters'},
@@ -95,7 +95,7 @@ export const DECLARATION__CLASS = {
 		{include: '#ClassBody'},
 		{
 			name: 'storage.modifier.cp',
-			match: '\\b(public|private)\\b',
+			match: '\\b(public|secret|private)\\b',
 		},
 		{
 			name: 'storage.type.cp',
@@ -112,7 +112,7 @@ export const DECLARATION__CLASS = {
 
 export const DECLARATION__INTERFACE = {
 	name: 'meta.declaration.interface.cp',
-	begin: lookaheads([`(\\b(public|private)\\b${ OWS })?\\b(interface)\\b`]),
+	begin: lookaheads([`(\\b(public|secret|private)\\b${ OWS })?\\b(interface)\\b`]),
 	end:   lookbehinds(['\\}']),
 	patterns: [
 		{include: '#GenericParameters'},
@@ -120,7 +120,7 @@ export const DECLARATION__INTERFACE = {
 		{include: '#ClassBody'},
 		{
 			name: 'storage.modifier.cp',
-			match: '\\b(public|private)\\b',
+			match: '\\b(public|secret|private)\\b',
 		},
 		{
 			name: 'storage.type.cp',

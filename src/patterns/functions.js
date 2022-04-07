@@ -64,7 +64,7 @@ export const EXPRESSION__FUNCTION = {
 
 export const DECLARATION__TYPEFUNC = {
 	name: 'meta.declaration.typefunc.cp',
-	begin: lookaheads([`(\\b(public|private)\\b${ OWS })?\\b(typefunc)\\b`]),
+	begin: lookaheads([`(\\b(public|secret|private)\\b${ OWS })?\\b(typefunc)\\b`]),
 	end:   ';',
 	endCaptures: {
 		0: {name: 'punctuation.delimiter.cp'},
@@ -74,7 +74,7 @@ export const DECLARATION__TYPEFUNC = {
 		implicitReturn('#Type'),
 		{
 			name: 'storage.modifier.cp',
-			match: '\\b(public|private)\\b',
+			match: '\\b(public|secret|private)\\b',
 		},
 		{
 			name: 'storage.type.cp',
@@ -87,7 +87,7 @@ export const DECLARATION__TYPEFUNC = {
 
 export const DECLARATION__FUNC = {
 	name: 'meta.declaration.func.cp',
-	begin: lookaheads([`(\\b(public|private)\\b${ OWS })?\\b(func)\\b(${ OWS }\\b(async)\\b)?(${ OWS }\\b(gen)\\b)?`]),
+	begin: lookaheads([`(\\b(public|secret|private)\\b${ OWS })?\\b(func)\\b(${ OWS }\\b(async)\\b)?(${ OWS }\\b(gen)\\b)?`]),
 	end:   [lookbehinds(['\\}']), ';'].join('|'),
 	endCaptures: {
 		0: {name: 'punctuation.delimiter.cp'},
@@ -99,7 +99,7 @@ export const DECLARATION__FUNC = {
 		{include: '#Block'},
 		{
 			name: 'storage.modifier.cp',
-			match: '\\b(public|private|async|gen)\\b',
+			match: '\\b(public|secret|private|async|gen)\\b',
 		},
 		{
 			name: 'storage.type.cp',

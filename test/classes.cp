@@ -1,6 +1,7 @@
 % class declarations
 class Foo {}
 public class Foo {}
+secret class Foo {}
 private class Foo {}
 class final Foo {}
 class abstract Foo {}
@@ -39,6 +40,7 @@ let classWithCaptures: Class = class [
 % interface declarations
 interface Foo {}
 public interface Foo {}
+secret interface Foo {}
 private interface Foo {}
 interface readonly Foo {}
 interface nominal Foo {}

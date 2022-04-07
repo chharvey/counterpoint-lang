@@ -150,6 +150,7 @@ func addCaptures<T> implements BinaryOperator.<T> [z](x: T, y: T): T {
 func addCaptures<T> implements BinaryOperator.<T> [z](x: T, y: T): T => x + y + z;
 
 public func subtract(a: N, b: N): N { return a - b; }
+secret func subtract(a: N, b: N): N => a - b;
 private func subtract(a: N, b: N): N => a - b;
 
 func async asyncFunc(p: int, q: rat): float => p~~ * q~~;
