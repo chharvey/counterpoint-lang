@@ -21,9 +21,12 @@ type Const = (
 type ReturnsTemplateType = () => '''a {{ string }} template type''';
 let x: <T widens U, U = Set.<null>>(a: Set.<T>, b: Set.<U>) => bool = null;
 
-type AsyncFuncType = async (p: int, q: rat) => float;
-type GenFuncType = gen (p: int, q: rat) => float;
+type AsyncFuncType    = async     (p: int, q: rat) => float;
+type GenFuncType      = gen       (p: int, q: rat) => float;
 type AsyncGenFuncType = async gen (p: int, q: rat) => float;
+type AsyncFuncType    = async     (int | rat) => float;
+type GenFuncType      = gen       (int | rat) => float;
+type AsyncGenFuncType = async gen (int | rat) => float;
 
 
 %-- function expression statements --%

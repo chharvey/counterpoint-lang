@@ -54,9 +54,8 @@ export const DESTRUCTURE_ASSIGNEES = `
 `.replace(/\s+/g, '');
 
 export const FUNCTIONTYPE = `
-	(?:\\b async \\b${ OWS })?
-	(?:\\b gen \\b${ OWS })?
-	(?:
+	(?:\\b(?:async | gen)\\b${ OWS })
+	| (?:
 		<                # any generic parameters
 		| \\(${ OWS }(?:
 			\\)${ OWS }(?<aftertypeparams> ${ FATARROW }) # exactly 0 type parameters
@@ -70,9 +69,8 @@ export const FUNCTIONTYPE = `
 `.replace(/\#.*\n|\s+/g, '');
 
 export const FUNCTION = `
-	(?:\\b async \\b ${ OWS })?
-	(?:\\b gen \\b ${ OWS })?
-	(?:
+	(?:\\b(?:async | gen)\\b ${ OWS })
+	| (?:
 		(?<aftergenericparams>
 			(?: # captures
 				\\[${ OWS }
