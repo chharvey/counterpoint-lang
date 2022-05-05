@@ -164,7 +164,7 @@ func twice(x: int): int => x * 2;
 		(a,) => [4, 2],
 	)++;
 	List.<T>();
-	Hash.<T>();
+	Dict.<T>();
 	Set.<T>();
 	Map.<T, U>();
 	Mapping.<T, U>();
