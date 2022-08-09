@@ -44,7 +44,7 @@ export const EXPRESSION__CLAIM = {
 
 export const EXPRESSION__CALL = {
 	name: 'meta.expression.call.cp',
-	begin: ['(\\.)', lookaheads([[OWS, '(<|\\()'].join('')])].join(''),
+	begin: ['(\\.|\\?\\.|\\!\\.)', lookaheads([[OWS, '(<|\\()'].join('')])].join(''),
 	end:   lookbehinds(['\\)']),
 	beginCaptures: {
 		1: {name: 'keyword.operator.punctuation.cp'},
@@ -175,8 +175,8 @@ export const EXPRESSION = {
 		{
 			name: 'keyword.operator.punctuation.cp',
 			match: `
-				< | >      # must come after '#ExpressionFunction'
-				| ! | \\?  # must come after '#ExpressionAccess'
+				< | >      # must come after '#ExpressionFunction', '#ExpressionClaim', and '#ExpressionCall'
+				| ! | \\?  # must come after '#ExpressionCall' and '#ExpressionAccess'
 				| \\+ | -  # must come after 'unit'
 			`.replace(/\#.*\n|\s+/g, ''),
 		},
