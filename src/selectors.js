@@ -11,6 +11,8 @@ export const VAR = '(?:\\b[A-Za-z_][A-Za-z0-9_]*\\b|`.*`)';
 
 export const ANNO_START = `(?:\\:${ lookaheads(['\\:'], true) }|\\?\\:)`;
 export const ASSN_START = `=${ lookaheads(['=', '>'], true) }`;
+export const DEST_START = '\\(';
+export const DEST_END   = '\\)';
 export const THINARROW  = '->';
 export const FATARROW   = '=>';
 export const BLOCK_END  = `\\}${ lookaheads(['\\}'], true) }`;
@@ -107,7 +109,10 @@ export const FIELD_CONSTRUCTOR = `
 	\\b(?:public | secret | private | protected)\\b ${ OWS }
 	(\\b override \\b ${ OWS })?
 	(\\b(?:final | readonly)\\b ${ OWS })?
-	${ VAR } ${ OWS } ${ ANNO_START }
+	(?:
+		(${ VAR } ${ OWS } \\b as \\b ${ OWS })? (\\b unfixed \\b ${ OWS })? ${ VAR } ${ OWS } ${ ANNO_START }
+		| ${ VAR } ${ OWS } \\b as \\b ${ OWS } ${ DEST_START }
+	)
 `.replace(/\s+/g, '');
 
 export const CONSTRUCTOR = `

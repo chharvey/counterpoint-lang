@@ -155,9 +155,14 @@ export const CONSTRUCTOR_FIELD = {
 	patterns: [
 		{
 			name: 'storage.modifier.cp',
-			match: '\\b(public|secret|private|protected|override|final|readonly)\\b',
+			match: '\\b(public|secret|private|protected|override|final|readonly|unfixed)\\b',
+		},
+		{
+			name: 'keyword.other.alias.cp',
+			match: '\\b(as)\\b',
 		},
 		{include: '#IdentifierProperty'},
+		{include: '#DestructureParameter'},
 		annotation(lookaheads([ASSN_START, ',', '\\)'])),
 		assignment(lookaheads([',', '\\)'])),
 	],
