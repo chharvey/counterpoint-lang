@@ -8,8 +8,6 @@ import {
 	ANNO_START,
 	ASSN_START,
 	FATARROW,
-	FUNCTIONTYPE,
-	FUNCTION,
 } from '../selectors.js';
 import {
 	annotation,
@@ -21,15 +19,18 @@ import {
 
 export const TYPE__FUNCTION = {
 	name: 'meta.type.func.cp',
-	begin: lookaheads([FUNCTIONTYPE]),
+	begin: '\\b(fn|async|gen)\\b',
 	end:   FATARROW,
+	beginCaptures: {
+		0: {name: 'storage.modifier.cp'},
+	},
 	endCaptures: {
 		0: {name: 'keyword.operator.punctuation.cp'},
 	},
 	patterns: [
 		{
 			name: 'storage.modifier.cp',
-			match: '\\b(async|gen)\\b',
+			match: '\\b(gen)\\b',
 		},
 		{include: '#CommentBlock'},
 		{include: '#CommentLine'},
@@ -41,15 +42,18 @@ export const TYPE__FUNCTION = {
 
 export const EXPRESSION__FUNCTION = {
 	name: 'meta.expression.func.cp',
-	begin: lookaheads([FUNCTION]),
+	begin: '\\b(fn|async|gen)\\b',
 	end:   [lookbehinds(['\\}']), FATARROW].join('|'),
+	beginCaptures: {
+		0: {name: 'storage.modifier.cp'},
+	},
 	endCaptures: {
 		0: {name: 'storage.type.cp'},
 	},
 	patterns: [
 		{
 			name: 'storage.modifier.cp',
-			match: '\\b(async|gen)\\b',
+			match: '\\b(gen)\\b',
 		},
 		{include: '#CommentBlock'},
 		{include: '#CommentLine'},
@@ -172,48 +176,5 @@ export const PARAMETER_PATTERNS = {
 		{include: '#DestructureParameter'},
 		annotation(lookaheads([ASSN_START, ',', '\\)'])),
 		assignment(lookaheads([',', '\\)'])),
-	],
-};
-
-
-/** Generic parameter, if on separate line. */
-export const POSSIBLE_GENERIC_PARAMETER = {
-	begin: lookaheads([[VAR, OWS, `(${ [
-		'\\b(narrows|widens)\\b', ASSN_START, ',', // annotated, or more than 1 generic parameter
-	].join('|') })`].join('')]),
-	end: `,|${ lookaheads(['>']) }`,
-	endCaptures: {
-		0: {name: 'punctuation.separator.cp'},
-	},
-	patterns: [
-		{include: '#GenericParameterPatterns'},
-	],
-};
-
-
-/** Parameter of function type, if on separate line. */
-export const POSSIBLE_TYPE_PARAMETER = {
-	begin: lookaheads([`(${ VAR }${ OWS })?${ ANNO_START }`]),
-	end:   `,|${ lookaheads(['\\)']) }`,
-	endCaptures: {
-		0: {name: 'punctuation.separator.cp'},
-	},
-	patterns: [
-		{include: '#TypeParameterPatterns'},
-	],
-};
-
-
-/** Parameter of function expression, if on separate line. */
-export const POSSIBLE_PARAMETER = {
-	begin: lookaheads([[`(\\b(unfixed)\\b${ OWS })?`, VAR, OWS, `(${ [
-		ANNO_START, ASSN_START, ',', '\\b(as)\\b', // annotated, or assigned, or more than 1 parameter, or destructured
-	].join('|') })`].join('')]),
-	end: `,|${ lookaheads(['\\)']) }`,
-	endCaptures: {
-		0: {name: 'punctuation.separator.cp'},
-	},
-	patterns: [
-		{include: '#ParameterPatterns'},
 	],
 };

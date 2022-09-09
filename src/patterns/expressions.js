@@ -115,7 +115,6 @@ export const EXPRESSION__STRUCTURE__GROUPING = {
 		0: {name: 'punctuation.delimiter.cp'},
 	},
 	patterns: [
-		{include: '#PossibleParameter'},
 		{include: '#Expression'},
 	],
 };
@@ -159,7 +158,7 @@ export const EXPRESSION = {
 			match: '\\b(this)\\b',
 		},
 		{
-			// for cases like `(x: int): int{} => Set.([x + 1]);` where the `}` incorrectly ends the function
+			// for cases like `fn (x: int): int{} => Set.([x + 1]);` where the `}` incorrectly ends the function
 			name: 'storage.type.cp',
 			match: FATARROW,
 		},

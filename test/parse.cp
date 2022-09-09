@@ -80,10 +80,10 @@ for (item: T, i: int) of entries do {};
 for (a$, b$): S of records do {};
 for (a as alpha, b as bravo) of records do {};
 for (a as (alpha, bravo): S, c as (charlie$, delta$): S) of records do {};
-for prop of (x: int): int => 2 * x do {};
-for prop of (x: int): int { return 2 * x; } do {};
-for prop of (x, y) => y * x do {};
-for prop of (x, y) { return y * x; } do {};
+for prop of fn (x: int): int => 2 * x do {};
+for prop of fn (x: int): int { return 2 * x; } do {};
+for prop of fn (x, y) => y * x do {};
+for prop of fn (x, y) { return y * x; } do {};
 
 %%
 	hello
@@ -166,7 +166,7 @@ func twice(x: int): int => x * 2;
 		##doublespread,
 		(a,)=   [4, 2],
 		(a ,)=  [4, 2],
-		(a,) => [4, 2],
+		fn (a,) => [4, 2],
 	)++;
 	List.<T>();
 	Dict.<T>();
@@ -231,10 +231,10 @@ unless (a + b) then { return (c); } else { throw (d); };
 (x);
 (a == b);
 [a == b];
-((h: int = 0): int => h + 1);
-[(h: int = 0): int => h + 1];
-[fun= (h: int): int => h + 1];
-type T = [fun: (a: int) => int];
+(fn (h: int = 0): int => h + 1);
+[fn (h: int = 0): int => h + 1];
+[fun= fn (h: int): int => h + 1];
+type T = [fun: fn (a: int) => int];
 
 
 
@@ -291,16 +291,16 @@ func f(param as (x: int, y: int)       = [1, 2]):       int => x + y;
 func f(until as (if$, by as b): int  = [if= 1, by= 2]): int => if + b;
 func f(param as (x$: int, y as b: int) = [x= 1, y= 2]): int => x + b;
 func f(param as ((unfixed x), (y as (b))): int = [[1], [y= [2]]]): int => x + b;
-let f: obj = (param as (x, y): int            = [1, 2]):       int => x + y;
-let f: obj = (param as (x: int, y: int)       = [1, 2]):       int => x + y;
-let f: obj = (until as (if$, by as b): int  = [if= 1, by= 2]): int => if + b;
-let f: obj = (param as (x$: int, y as b: int) = [x= 1, y= 2]): int => x + b;
-let f: obj = (param as ((unfixed x), (y as (b))): int = [[1], [y= [2]]]): int => x + b;
-let f: obj = (param as (x, y): int            = [1, 2]):       int { return x + y; };
-let f: obj = (param as (x: int, y: int)       = [1, 2]):       int { return x + y; };
-let f: obj = (until as (if$, by as b): int  = [if= 1, by= 2]): int { return if + b; };
-let f: obj = (param as (x$: int, y as b: int) = [x= 1, y= 2]): int { return x + b; };
-let f: obj = (param as ((unfixed x), (y as (b))): int = [[1], [y= [2]]]): int { return x + b; };
+let f: obj = fn (param as (x, y): int            = [1, 2]):       int => x + y;
+let f: obj = fn (param as (x: int, y: int)       = [1, 2]):       int => x + y;
+let f: obj = fn (until as (if$, by as b): int  = [if= 1, by= 2]): int => if + b;
+let f: obj = fn (param as (x$: int, y as b: int) = [x= 1, y= 2]): int => x + b;
+let f: obj = fn (param as ((unfixed x), (y as (b))): int = [[1], [y= [2]]]): int => x + b;
+let f: obj = fn (param as (x, y): int            = [1, 2]):       int { return x + y; };
+let f: obj = fn (param as (x: int, y: int)       = [1, 2]):       int { return x + y; };
+let f: obj = fn (until as (if$, by as b): int  = [if= 1, by= 2]): int { return if + b; };
+let f: obj = fn (param as (x$: int, y as b: int) = [x= 1, y= 2]): int { return x + b; };
+let f: obj = fn (param as ((unfixed x), (y as (b))): int = [[1], [y= [2]]]): int { return x + b; };
 
 % record property destructuring:
 [(x, y)=       [1, 2]];
@@ -308,8 +308,8 @@ let f: obj = (param as ((unfixed x), (y as (b))): int = [[1], [y= [2]]]): int { 
 [((x$), (y as (b)))= [[x= 1], [y= [2]]]];
 % not destructuring:
 [(x)];
-[(x, y)        => null];
-[(x, y as (b)) => null];
+[fn (x, y)        => null];
+[fn (x, y as (b)) => null];
 
 % function argument destructuring:
 g.(z= 3, (x, y)=       [1, 2]);
@@ -317,5 +317,5 @@ g.(z= 3, (if$, by as b)= [if= 1, by= 2]);
 g.(z= 3, ((x$), (y as (b)))= [[x= 1], [y= [2]]]);
 % not destructuring:
 g.((x));
-g.(z= 3, (x, y)        => null);
-g.(z= 3, (x, y as (b)) => null);
+g.(z= 3, fn (x, y)        => null);
+g.(z= 3, fn (x, y as (b)) => null);

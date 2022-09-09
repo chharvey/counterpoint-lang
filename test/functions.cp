@@ -1,25 +1,25 @@
 %-- type declarations, function types --%
-type BinaryOperator = <N narrows int>(a: N, b?: N) => N;
-type BinaryOperator = (a: N, b?: N) => N | M;
-type BinaryOperatorUnnamed = (T & U, ?: int | Object, ?: bool) => (float) => int;
-type BinaryOperatorUnnamed = (?: int | Object, ?: [T, U], ?: (bool!) => void) => float;
-type BinaryOperator = <
+type BinaryOperator = fn <N narrows int>(a: N, b?: N) => N;
+type BinaryOperator = fn (a: N, b?: N) => N | M;
+type BinaryOperatorUnnamed = fn (T & U, ?: int | Object, ?: bool) => fn (float) => int;
+type BinaryOperatorUnnamed = fn (?: int | Object, ?: [T, U], ?: fn (bool!) => void) => float;
+type BinaryOperator = fn <
 	N narrows int,
 >(
 	`a`: N,
 	b?:  N,
 	c%%c%%: N,
 ) %%c%% => N;
-type BinaryOperator = (
+type BinaryOperator = fn (
 	`a`: N,
 	b?:  N,
 	c%%c%%: N,
 ) %%c%% => N;
-type Const = () => int;
-type Const = (
+type Const = fn () => int;
+type Const = fn (
 ) => int;
-type ReturnsTemplateType = () => '''a {{ string }} template type''';
-let x: <T widens U, U = Set.<null>>(a: Set.<T>, b: Set.<U>) => bool = null;
+type ReturnsTemplateType = fn () => '''a {{ string }} template type''';
+let x: fn <T widens U, U = Set.<null>>(a: Set.<T>, b: Set.<U>) => bool = null;
 
 type AsyncFuncType    = async     (p: int, q: rat) => float;
 type GenFuncType      = gen       (p: int, q: rat) => float;
@@ -30,82 +30,82 @@ type AsyncGenFuncType = async gen (int | rat) => float;
 
 
 %-- function expression statements --%
-(unfixed h: int): int => h + 1;
-(%%unfixed%% h: int): int => h + 1;
+fn (unfixed h: int): int => h + 1;
+fn (%%unfixed%% h: int): int => h + 1;
 async (p: int, q: rat): float => p~~ * q~~;
 
 
 
 %-- variable declarations, function expressions --%
-let x: (a: str) => str = (a: str): str => '''<x>{{ a }}</x>''';
-let x: (a: str) => str = (a: str): str {
+let x: fn (a: str) => str = fn (a: str): str => '''<x>{{ a }}</x>''';
+let x: fn (a: str) => str = fn (a: str): str {
 	func y(): void {;}
 	let x: str = 'x';
 	return '''<{{ x }}>{{ a }}</{{ x }}>''';
 };
-let lambda: Function = (           )      { return a * 2; };
-let lambda: Function = (a          )      { return a * 2; };
-let lambda: Function = (a: int     ): int { return a * 2; };
-let lambda: Function = (a      = 42): int { return a * 2; };
-let lambda: Function = (a: int = 42): int { return a * 2; };
-let lambda: Function = (           )      => a * 2;
-let lambda: Function = (a          )      => a * 2;
-let lambda: Function = (a: int     ): int => a * 2;
-let lambda: Function = (a      = 42): int => a * 2;
-let lambda: Function = (a: int = 42): int => a * 2;
-let lambda: Function = <T              >() {};
-let lambda: Function = <T narrows U    >() {};
-let lambda: Function = <T           = V>() {};
-let lambda: Function = <T narrows U = V>() {};
+let lambda: Function = fn (           )      { return a * 2; };
+let lambda: Function = fn (a          )      { return a * 2; };
+let lambda: Function = fn (a: int     ): int { return a * 2; };
+let lambda: Function = fn (a      = 42): int { return a * 2; };
+let lambda: Function = fn (a: int = 42): int { return a * 2; };
+let lambda: Function = fn (           )      => a * 2;
+let lambda: Function = fn (a          )      => a * 2;
+let lambda: Function = fn (a: int     ): int => a * 2;
+let lambda: Function = fn (a      = 42): int => a * 2;
+let lambda: Function = fn (a: int = 42): int => a * 2;
+let lambda: Function = fn <T              >() {};
+let lambda: Function = fn <T narrows U    >() {};
+let lambda: Function = fn <T           = V>() {};
+let lambda: Function = fn <T narrows U = V>() {};
 let not_lambda: NotFunction = a < b > (c);
 let not_lambda: NotFunction = a.<b>(c);
 let async_lambda: AsyncFunction = async (p: int, q: rat): float => p~~ * q~~;
 let gen_lambda: GenFunction = gen (p: int, q: rat): float { yield p * q; };
 let async_gen_lambda: AsyncGenFunction = async gen (p: int, q: rat): float { yield p~~ * q~~; };
 
-let lambda: Function = (
+let lambda: Function = fn (
 	a,
 	a: int,
 	a      = 42,
 	a: int = 42,
 	unfixed b,
 ) { return a * 2; };
-let lambda: Function = (
+let lambda: Function = fn (
 	a,
 	a: int,
 	a      = 42,
 	a: int = 42,
 	unfixed b,
 ) => a * 2;
-let lambda: Function = <
+let lambda: Function = fn <
 	T,
 	T narrows U,
 	T = V,
 	T narrows U = V,
 >() {};
 
-let nestedfunctions: (a: (x: int) %%c%% => %%c%% int) %%c%% => %%c%% bool
-	= (a: (x: int) %%c%% => %%c%% int = (x) %%c%% => %%c%% x * 2) %%c%% => %%c%% !!a;
+let nestedfunctions: fn (a: fn (x: int) %%c%% => %%c%% int) %%c%% => %%c%% bool
+	= fn (a: fn (x: int) %%c%% => %%c%% int = fn (x) %%c%% => %%c%% x * 2) %%c%% => %%c%% !!a;
 
-let lambdawithblockcomments: Function = <T, U>%%hello%%(a: T, b: U): obj %%world%% => a || b;
-let lambdawithblockcomments: Function = <T, U>%%hello%%(a: T, b: U) %%world%% => a || b;
-let lambdawithlinecomments: Function = <T, U> % hello
+let lambdawithblockcomments: Function = fn <T, U>%%hello%%(a: T, b: U): obj %%world%% => a || b;
+let lambdawithblockcomments: Function = fn <T, U>%%hello%%(a: T, b: U) %%world%% => a || b;
+let lambdawithlinecomments: Function = fn <T, U> % hello
 	(a: T, b: U): obj % world
 	=> a || b;
-let lambdawithlinecomments: Function = <T, U> % hello
+let lambdawithlinecomments: Function = fn <T, U> % hello
 	(a: T, b: U) % world
 	=> a || b;
 
-let lambdaWithCaptures: Function = [a, b ,](x) => a + b + x;
-let lambdaWithCaptures: Function = <T>[a, b ,](x) => a + b + x;
-let lambdaWithCaptures: Function = <T, U>[a, b ,](x) => a + b + x;
-let lambdaWithGeneric:  Function = <T>(x) => a + b + x;
-let lambdaWithCaptures: Function = [
+let lambdaWithCaptures: Function = fn [a, b ,](x) => a + b + x;
+let lambdaWithCaptures: Function = fn <T>[a, b ,](x) => a + b + x;
+let lambdaWithCaptures: Function = fn <T, U>[a, b ,](x) => a + b + x;
+let lambdaWithGeneric:  Function = fn <T>(x) => a + b + x;
+let lambdaWithCaptures: Function = fn [
 	a,
 	`b`,
 ](x) => a + b + x;
-let tuple: [Function] = [[a, b](x) => a + b + x];
-let record: [lambdaWithCaptures: Function] = [lambdaWithCaptures= [a, b](x) => a + b + x];
+let tuple: [Function] = [fn [a, b](x) => a + b + x];
+let record: [lambdaWithCaptures: Function] = [lambdaWithCaptures= fn [a, b](x) => a + b + x];
 
 
 
@@ -127,8 +127,8 @@ func parameterNoAlias(q: unknown): null => null;
 func append<T widens bool>(arr: Array.<T> = [], it: T): void {
 	arr.push.<T>(it)~;
 }
-func derivative<T narrows float>(lambda: (y: T) => T, delta: T): (x: T) => T {
-	return (x: T): T => (lambda.(x + delta)~ - lambda.(x)~) / delta;
+func derivative<T narrows float>(lambda: fn (y: T) => T, delta: T): fn (x: T) => T {
+	return fn (x: T): T => (lambda.(x + delta)~ - lambda.(x)~) / delta;
 }
 func subset<T = Set.<null>, U widens T>(a: Set.<T>, b: Set.<U>): bool {;}
 
@@ -138,10 +138,10 @@ func functionWithCaptures[
 	`b`,
 ](x: int): int => a + b + x;
 
-func returnFunc(): obj => (x: int): int => x + 1;
-func returnFunc(): obj{} => (x: int): int => x + 1;
-func returnFunc(): obj => (x: int): int{} => x + 1;
-func returnFunc(): (x: int) => int => (x) => x + 1;
+func returnFunc(): obj                => fn (x: int): int   => x + 1;
+func returnFunc(): obj{}              => fn (x: int): int   => x + 1;
+func returnFunc(): obj                => fn (x: int): int{} => x + 1;
+func returnFunc(): fn (x: int) => int => fn (x) => x + 1;
 
 func add<T> implements BinaryOperator.<T> (x: T, y: T): T {
 	return x + y;

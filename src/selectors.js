@@ -55,48 +55,7 @@ export const DESTRUCTURE_ASSIGNEES = `
 	${ OWS }\\))
 `.replace(/\s+/g, '');
 
-export const FUNCTIONTYPE = `
-	(?:\\b(?:async | gen)\\b${ OWS })
-	| (?:
-		<                # any generic parameters
-		| \\(${ OWS }(?:
-			\\)${ OWS }(?<aftertypeparams> ${ FATARROW }) # exactly 0 type parameters
-			| ${ ANNO_START }                             # annotated unnamed type parameter
-			| ${ VAR }${ OWS }(?:
-				\\)${ OWS }\\g<aftertypeparams> # exactly 1 unnamed type parameter
-				| ${ ANNO_START } | ,           # annotated named type parameter, or more than 1 type parameter
-			)
-		)
-	)
-`.replace(/\#.*\n|\s+/g, '');
 
-export const FUNCTION = `
-	(?:\\b(?:async | gen)\\b ${ OWS })
-	| (?:
-		(?<aftergenericparams>
-			(?: # captures
-				\\[${ OWS }
-					${ VAR }
-					(?:${ OWS },${ OWS }${ VAR })*
-					${ OWS },?
-				${ OWS }\\]
-			)?
-			\\(${ OWS }(?:
-				\\)${ OWS }(?<afterparams>${ ANNO_START } | ${ FATARROW } | \\{) # exactly 0 parameters
-				| \\b unfixed \\b                                                # unfixed parameter
-				| ${ VAR }${ OWS }(?:
-					\\)${ OWS }\\g<afterparams>                          # exactly 1 unannotated uninitialized nondestructued parameter
-					| ${ ANNO_START } | ${ ASSN_START } | , | \\b as \\b # annotated, or assigned, or more than 1 parameter, or destructured
-				)
-			)
-		)
-		| <${ OWS }${ VAR }${ OWS }(?:
-			>${ OWS }\\g<aftergenericparams>                   # exactly 1 unannotated uninitialized generic parameter
-			| \\b(?:narrows | widens)\\b | ${ ASSN_START } | , # annotated, or assigned, or more than 1 generic parameter
-		)
-	)
-	| ${ lookbehinds(['\\)']) }${ OWS }\\g<afterparams>
-`.replace(/\#.*\n|\s+/g, '');
 
 export const FIELD = `
 	(\\b(?:public | secret | private | protected)\\b ${ OWS })?
