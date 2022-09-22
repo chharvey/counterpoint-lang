@@ -248,7 +248,7 @@ export const MEMBER__METHOD = {
 		{include: '#GenericParameters'},
 		{include: '#Parameters'},
 		{include: '#Block'},
-		annotation(lookaheads(['\\{', FATARROW, ';'])),
+		annotation(lookaheads(['\\{', FATARROW, ';']), false),
 		implicitReturn(),
 	],
 };

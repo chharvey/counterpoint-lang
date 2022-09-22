@@ -92,7 +92,7 @@ export const TYPE__STRUCTURE__SET = list('meta.type.structure.set.cp', '\\{', BL
 ]);
 
 
-export const TYPE = {
+export const TYPENONFUNCTION = {
 	patterns: [
 		{
 			name: 'keyword.operator.punctuation.cp',
@@ -113,7 +113,6 @@ export const TYPE = {
 			name: 'keyword.operator.punctuation.cp',
 			match: FATARROW,
 		},
-		{include: '#TypeFunction'},
 		{include: '#TypeInterface'},
 		{include: '#TypeCall'},
 		{include: '#TypeAccess'},
@@ -121,5 +120,13 @@ export const TYPE = {
 		{include: '#TypeStructureList'},
 		{include: '#TypeStructureSet'},
 		unit('entity.name.type'),
+	],
+};
+
+
+export const TYPE = {
+	patterns: [
+		{include: '#TypeFunction'}, // must come before `unit` so `async` and `gen` keywords are marked correctly
+		{include: '#Typenonfunction'},
 	],
 };

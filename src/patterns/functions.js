@@ -57,7 +57,7 @@ export const EXPRESSION__FUNCTION = {
 		{include: '#Captures'},
 		{include: '#Parameters'},
 		{include: '#Block'},
-		annotation(lookaheads(['\\{', FATARROW])),
+		annotation(lookaheads(['\\{', FATARROW]), false),
 	],
 };
 
@@ -117,7 +117,7 @@ export const DECLARATION__FUNC = {
 				{include: '#IdentifierType'},
 			],
 		},
-		annotation(lookaheads(['\\{', FATARROW])),
+		annotation(lookaheads(['\\{', FATARROW]), false),
 		implicitReturn(),
 		{include: '#IdentifierFunction'}, // must come after keywords
 	],

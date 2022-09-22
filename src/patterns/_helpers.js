@@ -76,7 +76,7 @@ export function list(name, begin, end, more_patterns) {
 }
 
 
-export function annotation(end) {
+export function annotation(end, allow_function_type = true) {
 	return {
 		name: 'meta.annotation.cp',
 		begin: ANNO_START,
@@ -85,7 +85,7 @@ export function annotation(end) {
 			0: {name: 'punctuation.delimiter.cp'},
 		},
 		patterns: [
-			{include: '#Type'},
+			{include: (allow_function_type) ? '#Type' : '#Typenonfunction'},
 		],
 	};
 }

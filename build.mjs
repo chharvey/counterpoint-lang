@@ -87,6 +87,7 @@ await fs.promises.writeFile(path.join(path.dirname(new URL(import.meta.url).path
 		TypeStructureGrouping:         Pattern.TYPE__STRUCTURE__GROUPING,
 		TypeStructureList:             Pattern.TYPE__STRUCTURE__LIST,
 		TypeStructureSet:              Pattern.TYPE__STRUCTURE__SET,
+		Typenonfunction:               Pattern.TYPENONFUNCTION,
 	},
 	patterns: [
 		{include: '#Block'},

@@ -127,7 +127,7 @@ func parameterNoAlias(q: unknown): null => null;
 func append<T widens bool>(arr: Array.<T> = [], it: T): void {
 	arr.push.<T>(it)~;
 }
-func derivative<T narrows float>(lambda: (y: T) => T, delta: T): (x: T) => T {
+func derivative<T narrows float>(lambda: (y: T) => T, delta: T): ((x: T) => T) {
 	return (x: T): T => (lambda.(x + delta)~ - lambda.(x)~) / delta;
 }
 func subset<T = Set.<null>, U widens T>(a: Set.<T>, b: Set.<U>): bool {;}
@@ -139,9 +139,23 @@ func functionWithCaptures[
 ](x: int): int => a + b + x;
 
 func returnFunc(): obj => (x: int): int => x + 1;
+func returnFunc(): (obj) => (x: int): int => x + 1;
 func returnFunc(): obj{} => (x: int): int => x + 1;
 func returnFunc(): obj => (x: int): int{} => x + 1;
-func returnFunc(): (x: int) => int => (x) => x + 1;
+func returnFunc(): ((x: int) => int) => (x) => x + 1;
+func returnAsyncFunc(): (async (x: int) => int) => async (x) => x~~ + 1;
+
+func returnFunc(): ((A) => (B)) => (a) => b;
+func returnInstance(): interface {
+	x: int;
+	y(): int;
+	z(): (str) => int;
+} => (class {
+	public x: int = 0;
+	public y(): int => 0;
+	public y(): (int) => 0;
+	public z(): ((str) => int) => (s: str) => str.length;
+}).();
 
 func add<T> implements BinaryOperator.<T> (x: T, y: T): T {
 	return x + y;
