@@ -6,12 +6,12 @@ type BinaryOperatorUnnamed = (?: int | Object, ?: [T, U], ?: (bool!) => void) =>
 type BinaryOperator = <
 	N narrows int,
 >(
-	`a`: N,
+	'a': N,
 	b?:  N,
 	c%%c%%: N,
 ) %%c%% => N;
 type BinaryOperator = (
-	`a`: N,
+	'a': N,
 	b?:  N,
 	c%%c%%: N,
 ) %%c%% => N;
@@ -102,7 +102,7 @@ let lambdaWithCaptures: Function = <T, U>[a, b ,](x) => a + b + x;
 let lambdaWithGeneric:  Function = <T>(x) => a + b + x;
 let lambdaWithCaptures: Function = [
 	a,
-	`b`,
+	'b',
 ](x) => a + b + x;
 let tuple: [Function] = [[a, b](x) => a + b + x];
 let record: [lambdaWithCaptures: Function] = [lambdaWithCaptures= [a, b](x) => a + b + x];
@@ -110,7 +110,7 @@ let record: [lambdaWithCaptures: Function] = [lambdaWithCaptures= [a, b](x) => a
 
 
 %-- function declarations --%
-func `func`(param: annot = initial): void {;}
+func 'func'(param: annot = initial): void {;}
 func add(a: int = 0, b: int = 0): int { return a + b; }
 func subtract(unfixed a: int = 0, %%unfixed%% b: int = a): int => a - b;
 func %%comm%% nothing(): void {
@@ -135,7 +135,7 @@ func subset<T = Set.<null>, U widens T>(a: Set.<T>, b: Set.<U>): bool {;}
 func functionWithCaptures[a, b](x: int): int => a + b + x;
 func functionWithCaptures[
 	a,
-	`b`,
+	'b',
 ](x: int): int => a + b + x;
 
 func returnFunc(): obj => (x: int): int => x + 1;

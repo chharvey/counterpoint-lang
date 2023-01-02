@@ -20,9 +20,9 @@ export function identifier(varname = 'variable.other') {
 			{include: '#CommentBlock'},
 			{include: '#CommentLine'},
 			{
-				name: `${ varname }.quoted.cp`,
-				begin: '`',
-				end:   '`',
+				name: `${ varname }.quoted.single.cp`,
+				begin: '\'',
+				end:   '\'',
 				captures: {
 					0: {name: 'punctuation.delimiter.cp'},
 				},

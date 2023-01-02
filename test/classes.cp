@@ -15,7 +15,7 @@ class Foo [a, b ,] {}
 class Foo<T> extends Bar, Diz.<T> [a, b] {}
 class ClassWithCaptures [
 	a,
-	`b`,
+	'b',
 ] {};
 
 
@@ -32,7 +32,7 @@ let Foo: Class = Object && Class && (class extends Bar implements Diz.<T> {});
 let Foo: Class = Object && Class && (class extends Bar.<T> [a, b ,] {});
 let classWithCaptures: Class = class [
 	a,
-	`b`,
+	'b',
 ] {};
 
 

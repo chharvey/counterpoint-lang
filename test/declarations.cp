@@ -11,7 +11,7 @@ let d: str = 42.2e4_2;
 let e: obj = 42.2e+4_2;
 let f: %% comm %% TypeF | String = "f";
 
-let %%unfixed%% `unfixed`: int =
+let %%unfixed%% 'unfixed': int =
 	  -\b1379fz
 	+ -\q1379fz
 	+ -\o1379fz
@@ -43,7 +43,7 @@ set a !&= b;
 set a ||= b;
 
 
-type `floàt | bōōl` = `floàt | bōōl` | float | bool;
+type 'bōōl | floàt' = 'floàt | bōōl' | float | bool;
 type SpreadTest = [T, #Spread] | [name: T, ##DoubleSpread];
 type nominal SpreadTest = [T, #Spread] | [name: T, ##DoubleSpread];
 type SpreadTest = [
@@ -61,8 +61,8 @@ type U<V = W.<int>> = V | W.%%c%%<X>;
 type T = [a: boolean, b: int, c: T];
 let x: T = [a= false, b= 42, c$];
 
-let `flō || bōōl` = `flō || bōōl` || flo || boo;
-let unfixed w: bool | T | `floàt | bōōl` = bool;
+let 'bōōl || flō' = 'flō || bōōl' || flo || boo;
+let unfixed w: bool | T | 'floàt | bōōl' = bool;
 let unfixed w: 3.2 = 3.2 == 3.2;
 let unfixed w: null = null;
 let unfixed w: T = T;

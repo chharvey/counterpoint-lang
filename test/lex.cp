@@ -10,6 +10,7 @@ val ||= 42;
 val !|= 42;
 
 __a && __b && c_;
+'__a' && '__b' && 'c_';
 004__2. || 2.4_ || \xa__b || \xa_b_;
 
 if "hello" /* world */ %% then %% then
@@ -104,7 +105,7 @@ let g: int =
 ;
 
 
-type `floàt | bōōl` = float | bool;
+type 'floàt | bōōl' = float | bool;
 type T<U> = U & V;
 
 
