@@ -67,9 +67,9 @@ export const NUMBER = {
 
 
 export const STRING = {
-	name: 'string.quoted.single.cp',
-	begin: '\'',
-	end:   '\'',
+	name: 'string.quoted.double.cp',
+	begin: '"',
+	end:   '"',
 	captures: {
 		0: {name: 'punctuation.delimiter.cp'},
 	},
@@ -97,7 +97,7 @@ export const STRING = {
 		{
 			name: 'comment.block.cp',
 			begin: '%%',
-			end:   '(%%)|(?=\')',
+			end:   '(%%)|(?=")',
 			beginCaptures: {
 				0: {name: 'punctuation.delimiter.cp'},
 			},
@@ -107,7 +107,7 @@ export const STRING = {
 		},
 		{
 			name: 'comment.line.percentage.cp',
-			match: '(%)[^\']*(\\n|(?=\'))',
+			match: '(%)[^"]*(\\n|(?="))',
 			captures: {
 				1: {name: 'punctuation.delimiter.cp'},
 			},
@@ -118,8 +118,8 @@ export const STRING = {
 
 export const TEMPLATE = {
 	name: 'string.quoted.triple.cp',
-	begin: '\'\'\'|}}',
-	end:   '\'\'\'|{{',
+	begin: '"""|}}',
+	end:   '"""|{{',
 	captures: {
 		0: {name: 'punctuation.delimiter.cp'},
 	},

@@ -18,7 +18,7 @@ type BinaryOperator = (
 type Const = () => int;
 type Const = (
 ) => int;
-type ReturnsTemplateType = () => '''a {{ string }} template type''';
+type ReturnsTemplateType = () => """a {{ string }} template type""";
 let x: <T widens U, U = Set.<null>>(a: Set.<T>, b: Set.<U>) => bool = null;
 
 type AsyncFuncType    = async     (p: int, q: rat) => float;
@@ -37,11 +37,11 @@ async (p: int, q: rat): float => p~~ * q~~;
 
 
 %-- variable declarations, function expressions --%
-let x: (a: str) => str = (a: str): str => '''<x>{{ a }}</x>''';
+let x: (a: str) => str = (a: str): str => """<x>{{ a }}</x>""";
 let x: (a: str) => str = (a: str): str {
 	func y(): void {;}
-	let x: str = 'x';
-	return '''<{{ x }}>{{ a }}</{{ x }}>''';
+	let x: str = "x";
+	return """<{{ x }}>{{ a }}</{{ x }}>""";
 };
 let lambda: Function = (           )      { return a * 2; };
 let lambda: Function = (a          )      { return a * 2; };
@@ -118,8 +118,8 @@ func %%comm%% nothing(): void {
 	return;
 }
 func error(): never {
-	throw if true then 'error' else 'an error';
-	throw (if true then 'error' else 'an error');
+	throw if true then "error" else "an error";
+	throw (if true then "error" else "an error");
 }
 func parameterAlias(p %%c%% as %%c%% q: unknown): null => null;
 func parameterNoAlias(q: unknown): null => null;

@@ -1,4 +1,4 @@
-if 'hello' /* world */ %% then %% then
+if "hello" /* world */ %% then %% then
 true else % false
 (if !true
 	then false
@@ -36,21 +36,21 @@ while %% this is a
 block comment
 %% +it +ends +here do {
 	while false do {
-		if false then '''{{ 0 }} 0''' else '''{{ 1 }} 1''';
-		(if false then '''{{ 0 }} 0''' else '''{{ 1 }} 1''');
+		if false then """{{ 0 }} 0""" else """{{ 1 }} 1""";
+		(if false then """{{ 0 }} 0""" else """{{ 1 }} 1""");
 		break 1;
 		continue;
 	};
 	if true then {
-		if false then '''{{ 0 }} 0''' else '''{{ 1 }} 1''';
+		if false then """{{ 0 }} 0""" else """{{ 1 }} 1""";
 	} else %% comment %% {
-		(if false then '''{{ 0 }} 0''' else '''{{ 1 }} 1''');
+		(if false then """{{ 0 }} 0""" else """{{ 1 }} 1""");
 	};
 };
 unless false then {
-	'''{{ 0 }} 0''';
+	"""{{ 0 }} 0""";
 } else {
-	'''{{ 1 }} 1''';
+	"""{{ 1 }} 1""";
 };
 until false do {
 	true;
@@ -61,8 +61,8 @@ do {
 
 for %% int %% i from %% start %% 1 to %% end %% 10 by %% increment %% 2 do {
 	do {
-		if false then '''{{ 0 }} 0''' else '''{{ 1 }} 1''';
-		(if false then '''{{ 0 }} 0''' else '''{{ 1 }} 1''');
+		if false then """{{ 0 }} 0""" else """{{ 1 }} 1""";
+		(if false then """{{ 0 }} 0""" else """{{ 1 }} 1""");
 		break 1;
 		continue;
 	} while false;
@@ -87,7 +87,7 @@ for prop of (x, y) { return y * x; } do {};
 
 %%
 	hello
-	%% 'nesting' isnt allowed %%
+	%% "nesting" isnt allowed %%
 	world
 %%;
 
@@ -236,53 +236,6 @@ unless (a + b) then { return (c); } else { throw (d); };
 [fun= (h: int): int => h + 1];
 type T = [fun: (a: int) => int];
 
-
-
-'a string that
-contains a % comment
-and then a new line
-';
-
-'a string that
-contains a % comment but no new line';
-
-'a string that
-contains %% a
-comment %% and an end comment.';
-
-'a string that
-contains %% a
-comment but no end comment.';
-
-
-'a string \' that escapes
-a quote \\ and a backslash.';
-'more escapes:
-\s space
-\t tab
-\n newline
-\r carriage-return
-\\ slash
-\' quote
-\% percent';
-'a \u{bada55}string. a \u{ bada55}string. a \u{bada55 }string. a \u{badass }string.';
-'a \U{bada55}string. a \U{ bada55}string. a \U{bada55 }string. a \U{badass }string.';
-'\u can be \used without brackets anywhere\u';
-'a string \% escaping a percent and \{some brackets\}.';
-'line continuations\
-replace newlines with spaces.';
-
-'''an interpolated {{ var / %% a comm %% +42.3 }} string''';
-'''an interpolated {{ var + % a comm
--42.3 }} string''';
-
-'''no escapes:
-\s \t \n \r \\ \' \% \ \u{20}
-\{\{ var \}\}
-{{ '\{\{ var \}\}' }}
-\{\{ {{ var }} \}\}
-{{ '\{\{' }}{{ var }}{{ '\}\}' }}
-''';
 
 
 % function parameter destructuring:

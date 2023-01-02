@@ -1,6 +1,6 @@
-let break: str = 'break';
-let continue: str = 'continue';
-while continue do { break; set break = '1'; };
+let break: str = "break";
+let continue: str = "continue";
+while continue do { break; set break = "1"; };
 let x: bool = break == continue;
 
 %%% The value of `a`. %%
@@ -9,7 +9,7 @@ let b: int = 004_2. || false;
 let c: float = [-42.2_4, true];
 let d: str = 42.2e4_2;
 let e: obj = 42.2e+4_2;
-let f: %% comm %% TypeF | String = 'f';
+let f: %% comm %% TypeF | String = "f";
 
 let %%unfixed%% `unfixed`: int =
 	  -\b1379fz
@@ -24,7 +24,7 @@ set g = 42 == 42;
 set g == 42;
 set g = if true then 1 else 0;
 set g = if true then {1,} else {0,};
-set g.<U>(42)~~.y++.0.['prop' || 'key'] = 42;
+set g.<U>(42)~~.y++.0.["prop" || "key"] = 42;
 set this.g = 42;
 set super.g = 42;
 set static.g = 42;
@@ -71,10 +71,10 @@ let rec: mutable [a: int] = [a= 42];
 let list: mutable int[] = List.<int>([42]);
 let hash: mutable [:int] = Dict.<int>([a= 42]);
 let set: mutable int{} = Set.<int>([42]);
-let map: mutable {int -> str} = {42 -> '42.0', 43 -> '43.0'};
+let map: mutable {int -> str} = {42 -> "42.0", 43 -> "43.0"};
 
 claim x: T;
-claim x.<U>(42)~~.y++.0.['prop' || 'key']: T;
+claim x.<U>(42)~~.y++.0.["prop" || "key"]: T;
 
 public let x: float = 0.0;
 secret let x: float = 0.0;
