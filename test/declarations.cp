@@ -46,6 +46,7 @@ set a ||= b;
 type `floàt | bōōl` = `floàt | bōōl` | float | bool;
 type SpreadTest = [T, #Spread] | [name: T, ##DoubleSpread];
 type nominal SpreadTest = [T, #Spread] | [name: T, ##DoubleSpread];
+type Awaited<T> = T~~;
 type SpreadTest = [
 	T,
 	#Spread,

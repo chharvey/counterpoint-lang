@@ -1,10 +1,10 @@
 %-- type declarations, function types --%
 type BinaryOperator = <N narrows int>(a: N, b?: N) => N;
 type BinaryOperator = (a: N, b?: N) => N | M;
-type BinaryOperatorUnnamed = (T & U, ?: int | Object, ?: bool) => (float) => int;
+type BinaryOperatorUnnamed = (T & U, ?: int | Object~~, ?: bool) => (float) => int;
 type BinaryOperatorUnnamed = (?: int | Object, ?: [T, U], ?: (bool!) => void) => float;
 type BinaryOperator = <
-	N narrows int,
+	N narrows int~~,
 >(
 	`a`: N,
 	b?:  N,
@@ -19,7 +19,7 @@ type Const = () => int;
 type Const = (
 ) => int;
 type ReturnsTemplateType = () => '''a {{ string }} template type''';
-let x: <T widens U, U = Set.<null>>(a: Set.<T>, b: Set.<U>) => bool = null;
+let x: <T widens U~~, U = Set.<null>>(a: Set.<T>~~, b: Set.<U~~>) => bool = null;
 
 type AsyncFuncType    = async     (p: int, q: rat) => float;
 type GenFuncType      = gen       (p: int, q: rat) => float;
