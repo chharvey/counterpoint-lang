@@ -203,9 +203,6 @@ export const STATEMENT__EXPORT = {
 		},
 		{include: '#String'},
 		{include: '#IdentifierVariable'},
-		list('meta.export.list', '\\(', '\\)', [
-			{include: '#String'},
-		]),
 	],
 };
 

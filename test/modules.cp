@@ -74,4 +74,3 @@ Namespace.B;
 
 export 'module-path';
 export 'module-path' as Namespace;
-export ('module-path-1', 'module-path-2') as Namespace;
