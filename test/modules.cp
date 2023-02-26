@@ -42,6 +42,24 @@ A;     %> ReferenceError01
 Alias;
 B;
 
+from 'module-path' import (A as Alias, B) as Namespace;
+from 'module-path' import type (A as Alias, B) as Namespace;
+from 'module-path' import await (A as Alias, B) as Namespace;
+from 'module-path' import (A %% a %% as %% b %% Alias, B) as Namespace;
+from 'module-path' import (
+	A % a
+	as % b
+	Alias,
+	B,
+) as Namespace;
+A;     %> ReferenceError01
+Alias; %> ReferenceError01
+B;     %> ReferenceError01
+Namespace;       %> ReferenceError03: `Namespace` refers to a module, but is used as a value.
+Namespace.A;     %> TypeError04: Property `A` does not exist on type `Namespace`.
+Namespace.Alias;
+Namespace.B;
+
 from 'module-path' import all as Namespace;
 from 'module-path' import type all as Namespace;
 from 'module-path' import await all as Namespace;
@@ -49,11 +67,10 @@ from 'module-path' import %% a %% all %% b %% as %% c %% Namespace %% d %%;
 all;         %> ParseError (not an identifier)
 A;           %> ReferenceError01
 B;           %> ReferenceError01
-Namespace;   %> ReferenceError03 "`Namespace` refers to a module, but is used as a value."
+Namespace;   %> ReferenceError03: `Namespace` refers to a module, but is used as a value.
 Namespace.A;
 Namespace.B;
 
 
 export 'module-path';
 export 'module-path' as Namespace;
-export ('module-path-1', 'module-path-2') as Namespace;
