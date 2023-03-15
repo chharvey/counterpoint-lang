@@ -1,5 +1,6 @@
 % class declarations
 class Foo {}
+class _ {}
 public class Foo {}
 secret class Foo {}
 private class Foo {}
@@ -8,7 +9,9 @@ class abstract Foo {}
 class readonly Foo {}
 class nominal Foo {}
 class Foo<T> {}
+class Foo<_> {}
 class Foo extends Bar, Diz.<T> {}
+class Foo extends _, Diz.<_> {}
 class Foo implements Bar, Diz.<T> {}
 class Foo extends Bar implements Diz.<T> {}
 class Foo [a, b ,] {}
@@ -27,6 +30,7 @@ let Foo: Class = Object && Class && (class abstract {});
 let Foo: Class = Object && Class && (class readonly {});
 let Foo: Class = Object && Class && (class <T> extends Bar.<T> {});
 let Foo: Class = Object && Class && (class extends Bar, Diz.<T> {});
+let Foo: Class = Object && Class && (class extends _, Diz.<_> {});
 let Foo: Class = Object && Class && (class implements Bar, Diz.<T> {});
 let Foo: Class = Object && Class && (class extends Bar implements Diz.<T> {});
 let Foo: Class = Object && Class && (class extends Bar.<T> [a, b ,] {});
@@ -47,6 +51,7 @@ interface nominal Foo {}
 interface Foo<T> {}
 interface Foo extends Bar, Diz.<T> {}
 interface Foo inherits Bar, Diz.<T> {}
+interface _ inherits _, Diz.<_> {}
 interface Foo extends Bar inherits Diz.<T> {}
 
 
@@ -57,6 +62,7 @@ type T = unknown & (interface readonly {});
 type T = unknown & (interface <T> {});
 type T = unknown & (interface extends Bar, Diz.<T> {});
 type T = unknown & (interface inherits Bar, Diz.<T> {});
+type T = unknown & (interface inherits _, Diz.<_> {});
 type T = unknown & (interface extends Bar inherits Diz.<T> {});
 
 
@@ -65,7 +71,11 @@ type T = unknown & (interface extends Bar inherits Diz.<T> {});
 class Foo {
 	static {
 		field: T = 42;
+		_: T = 42;
 		meth(): void {
+			super; static; hyper; method; this;
+		}
+		_(): void {
 			super; static; hyper; method; this;
 		}
 		public methodGroup {
@@ -183,12 +193,15 @@ class Foo {
 interface Foo {
 	final field: this;
 	field: T;
+	_: T;
 
 	mutating meth(): void;
 	async meth(): void;
 	gen meth(): void;
 	meth<T>(): void;
+	_<_>(): void;
 	meth(x: int): void;
+	meth(_: int): void;
 
 	public methodGroup {
 		(): void;

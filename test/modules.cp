@@ -1,4 +1,5 @@
 from 'module-path' import Component;
+from 'module-path' import _;
 from 'module-path' import type Component;
 from 'module-path' import await Component;
 from %% a %% 'module-path' %% b %% import %% c %% Component %% d %%;
@@ -18,6 +19,7 @@ Component; %> ReferenceError01
 Alias;
 
 from 'module-path' import (A, B);
+from 'module-path' import (_, B);
 from 'module-path' import type (A, B);
 from 'module-path' import await (A, B);
 from 'module-path' import (A, %% a %% B %% b %%);
@@ -29,6 +31,7 @@ A;
 B;
 
 from 'module-path' import (A as Alias, B);
+from 'module-path' import (A as _, B);
 from 'module-path' import type (A as Alias, B);
 from 'module-path' import await (A as Alias, B);
 from 'module-path' import (A %% a %% as %% b %% Alias, B);
@@ -43,6 +46,7 @@ Alias;
 B;
 
 from 'module-path' import (A as Alias, B) as Namespace;
+from 'module-path' import (A as Alias, B) as _;
 from 'module-path' import type (A as Alias, B) as Namespace;
 from 'module-path' import await (A as Alias, B) as Namespace;
 from 'module-path' import (A %% a %% as %% b %% Alias, B) as Namespace;
@@ -74,3 +78,4 @@ Namespace.B;
 
 export 'module-path';
 export 'module-path' as Namespace;
+export 'module-path' as _;

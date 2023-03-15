@@ -14,7 +14,7 @@ import {
 
 
 
-export function identifier(varname = 'variable.other') {
+export function identifier(varname = 'variable.other', allow_blank = false) {
 	return {
 		patterns: [
 			{include: '#CommentBlock'},
@@ -29,7 +29,12 @@ export function identifier(varname = 'variable.other') {
 			},
 			{
 				name: `${ varname }.cp`,
-				match: '\\b[A-Za-z_][A-Za-z0-9_]*\\b',
+				match: `\\b[A-Za-z][A-Za-z0-9_]*|_[A-Za-z0-9_]${ allow_blank ? '*' : '+' }\\b`,
+			},
+			{
+				/* Invalid blank variable used as a reference. */
+				name: 'invalid.illegal.cp',
+				match: '(?<=\\b)_(?=\\b)',
 			},
 		],
 	}

@@ -11,6 +11,12 @@ val !|= 42;
 
 __a && __b && c_;
 004__2. || 2.4_ || \xa__b || \xa_b_;
+a + _ + 'c';
+type T = U | _;
+a._;
+_.a;
+type T = U._;
+type T = _.U;
 
 if 'hello' /* world */ %% then %% then
 true else % false

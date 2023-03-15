@@ -80,7 +80,7 @@ export const EXPRESSION__ACCESS = {
 			},
 			patterns: [
 				{include: '#Number'},
-				identifier(),
+				identifier('variable.other', true),
 			],
 		},
 	],

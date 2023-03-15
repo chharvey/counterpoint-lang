@@ -1,5 +1,10 @@
 let break: str = 'break';
 let continue: str = 'continue';
+let _: str = 'blank';
+let _: str = _;
+let _: _ = blank;
+type _ = Blank;
+type _ = _;
 while continue do { break; set break = '1'; };
 let x: bool = break == continue;
 

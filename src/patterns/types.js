@@ -43,7 +43,7 @@ export const TYPE__ACCESS = {
 	},
 	patterns: [
 		{include: '#Number'},
-		identifier('variable.other'),
+		identifier('variable.other', true),
 	],
 };
 

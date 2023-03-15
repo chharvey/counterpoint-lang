@@ -70,16 +70,24 @@ for %% int %% i from %% start %% 1 to %% end %% 10 by %% increment %% 2 do {
 		do { d; } while if a then b else c;
 	};
 };
+for _ from start to end by incr do {;};
+for _ from _ to _ by _ do {;};
 for i: int from 10 to 20 do {};
 
 for await item of asynclist.() do {};
+for await _ of _ do {};
 for item of list do {};
+for _ of _ do {};
 for item: T of list do {};
+for _: _ of _ do {};
 for (item, i) of entries do {};
+for (_, i) of entries do {};
 for (item: T, i: int) of entries do {};
 for (a$, b$): S of records do {};
 for (a as alpha, b as bravo) of records do {};
+for (_$, _ as _): S of records do {};
 for (a as (alpha, bravo): S, c as (charlie$, delta$): S) of records do {};
+for (a as (_, bravo): S, c as (_$, _ as delta): S) of records do {};
 for prop of (x: int): int => 2 * x do {};
 for prop of (x: int): int { return 2 * x; } do {};
 for prop of (x, y) => y * x do {};
@@ -136,7 +144,7 @@ func twice(x: int): int => x * 2;
 	type X = T | S;
 	type X = T ^ S;
 	[a, [b, b], (c + c), #spread];
-	[a= 3, c= 5, key= value, punn$, ##doublespread];
+	[a= 3, c= 5, key= value, punn$, ##doublespread, _= blank];
 	{+a, -b, #spread, };
 	{+3, -5, #spread, };
 	{+a -> -b, };
@@ -153,10 +161,10 @@ func twice(x: int): int => x * 2;
 	funkshin!.(arg);
 	funkshin?.<T>(arg);
 	funkshin!.<T>(arg);
-	funkshin. (call / a, #spread + b, 3, label %% args %% = c, punn$, ##doublespread)~~;
-	funkshin.<T>%%c%%(call / a, #spread + b, 3, label %% args %% = c, punn$, ##doublespread)++;
+	funkshin. (call / a, #spread + b, 3, label %% args %% = c, punn$, ##doublespread, _= blank)~~;
+	funkshin.<T>%%c%%(call / a, #spread + b, 3, label %% args %% = c, punn$, ##doublespread, _= blank)++;
 	funkshin.<T>%c
-		(call / a, #spread + b, 3, label %% args %% = c, punn$, ##doublespread)~~;
+		(call / a, #spread + b, 3, label %% args %% = c, punn$, ##doublespread, _= blank)~~;
 	funkshin.%%c%%(
 		call / a,
 		#spread + b,
@@ -164,6 +172,7 @@ func twice(x: int): int => x * 2;
 		label %% args %% = c,
 		punn$,
 		##doublespread,
+		_= blank,
 	)++;
 	List.<T>();
 	Dict.<T>();
@@ -284,13 +293,21 @@ replace newlines with spaces.';
 
 % function parameter destructuring:
 func f(param as (x, y): int            = [1, 2]):       int => x + y;
+func f(param as (_, y): int            = [1, 2]):       int => y;
 func f(param as (x: int, y: int)       = [1, 2]):       int => x + y;
+func f(param as (_: int, y: int)       = [1, 2]):       int => y;
 func f(until as (if$, by as b): int  = [if= 1, by= 2]): int => if + b;
+func f(_     as (_$,  by as _): int  = [_= 1,  by= 2]): int => _;
+func f(_     as (_$,  _ as b):  int  = [_= 1,  _= 2]):  int => _;
 func f(param as (x$: int, y as b: int) = [x= 1, y= 2]): int => x + b;
 func f(param as ((unfixed x), (y as (b))): int = [[1], [y= [2]]]): int => x + b;
 let f: obj = (param as (x, y): int            = [1, 2]):       int => x + y;
+let f: obj = (param as (_, y): int            = [1, 2]):       int => y;
 let f: obj = (param as (x: int, y: int)       = [1, 2]):       int => x + y;
-let f: obj = (until as (if$, by as b): int  = [if= 1, by= 2]): int => if + b;
+let f: obj = (param as (_: int, y: int)       = [1, 2]):       int => y;
+let f: obj = (until as (if$, by as b): int  = [_= 1, by= 2]): int => if + b;
+let f: obj = (_     as (_$,  by as _): int  = [_= 1, by= 2]): int => _;
+let f: obj = (_     as (_$,  _  as b): int  = [_= 1, _= 2]):  int => _;
 let f: obj = (param as (x$: int, y as b: int) = [x= 1, y= 2]): int => x + b;
 let f: obj = (param as ((unfixed x), (y as (b))): int = [[1], [y= [2]]]): int => x + b;
 let f: obj = (param as (x, y): int            = [1, 2]):       int { return x + y; };
@@ -301,7 +318,9 @@ let f: obj = (param as ((unfixed x), (y as (b))): int = [[1], [y= [2]]]): int { 
 
 % record property destructuring:
 [(x, y)=       [1, 2]];
+[(x, _)=       [1, 2]];
 [(if$, by as b)= [if= 1, by= 2]];
+[(_$, by as _)= [if= 1, by= 2]];
 [((x$), (y as (b)))= [[x= 1], [y= [2]]]];
 % not destructuring:
 [(x)];

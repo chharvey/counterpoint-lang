@@ -111,6 +111,10 @@ let record: [lambdaWithCaptures: Function] = [lambdaWithCaptures= [a, b](x) => a
 
 %-- function declarations --%
 func `func`(param: annot = initial): void {;}
+func _(): void {;}
+func <_, B>(): B {;}
+func (_: A, b: B): B {;}
+
 func add(a: int = 0, b: int = 0): int { return a + b; }
 func subtract(unfixed a: int = 0, %%unfixed%% b: int = a): int => a - b;
 func %%comm%% nothing(): void {
