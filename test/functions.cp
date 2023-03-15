@@ -6,19 +6,19 @@ type BinaryOperatorUnnamed = (?: int | Object, ?: [T, U], ?: (bool!) => void) =>
 type BinaryOperator = <
 	N narrows int~~,
 >(
-	`a`: N,
+	'a': N,
 	b?:  N,
 	c%%c%%: N,
 ) %%c%% => N;
 type BinaryOperator = (
-	`a`: N,
+	'a': N,
 	b?:  N,
 	c%%c%%: N,
 ) %%c%% => N;
 type Const = () => int;
 type Const = (
 ) => int;
-type ReturnsTemplateType = () => '''a {{ string }} template type''';
+type ReturnsTemplateType = () => """a {{ string }} template type""";
 let x: <T widens U~~, U = Set.<null>>(a: Set.<T>~~, b: Set.<U~~>) => bool = null;
 
 type AsyncFuncType    = async     (p: int, q: rat) => float;
@@ -37,11 +37,11 @@ async (p: int, q: rat): float => p~~ * q~~;
 
 
 %-- variable declarations, function expressions --%
-let x: (a: str) => str = (a: str): str => '''<x>{{ a }}</x>''';
+let x: (a: str) => str = (a: str): str => """<x>{{ a }}</x>""";
 let x: (a: str) => str = (a: str): str {
 	func y(): void {;}
-	let x: str = 'x';
-	return '''<{{ x }}>{{ a }}</{{ x }}>''';
+	let x: str = "x";
+	return """<{{ x }}>{{ a }}</{{ x }}>""";
 };
 let lambda: Function = (           )      { return a * 2; };
 let lambda: Function = (a          )      { return a * 2; };
@@ -102,7 +102,7 @@ let lambdaWithCaptures: Function = <T, U>[a, b ,](x) => a + b + x;
 let lambdaWithGeneric:  Function = <T>(x) => a + b + x;
 let lambdaWithCaptures: Function = [
 	a,
-	`b`,
+	'b',
 ](x) => a + b + x;
 let tuple: [Function] = [[a, b](x) => a + b + x];
 let record: [lambdaWithCaptures: Function] = [lambdaWithCaptures= [a, b](x) => a + b + x];
@@ -110,7 +110,7 @@ let record: [lambdaWithCaptures: Function] = [lambdaWithCaptures= [a, b](x) => a
 
 
 %-- function declarations --%
-func `func`(param: annot = initial): void {;}
+func 'func'(param: annot = initial): void {;}
 func _(): void {;}
 func <_, B>(): B {;}
 func (_: A, b: B): B {;}
@@ -122,8 +122,8 @@ func %%comm%% nothing(): void {
 	return;
 }
 func error(): never {
-	throw if true then 'error' else 'an error';
-	throw (if true then 'error' else 'an error');
+	throw if true then "error" else "an error";
+	throw (if true then "error" else "an error");
 }
 func parameterAlias(p %%c%% as %%c%% q: unknown): null => null;
 func parameterNoAlias(q: unknown): null => null;
@@ -139,7 +139,7 @@ func subset<T = Set.<null>, U widens T>(a: Set.<T>, b: Set.<U>): bool {;}
 func functionWithCaptures[a, b](x: int): int => a + b + x;
 func functionWithCaptures[
 	a,
-	`b`,
+	'b',
 ](x: int): int => a + b + x;
 
 func returnFunc(): obj => (x: int): int => x + 1;
