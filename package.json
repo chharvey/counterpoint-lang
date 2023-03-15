@@ -1,9 +1,11 @@
 {
   "name": "counterpoint-lang",
   "displayName": "Counterpoint Language Support",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Language support for the Counterpoint programming language.",
+  "type": "module",
   "scripts": {
+    "build": "node build.mjs",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "engines": {
@@ -21,7 +23,7 @@
     "Programming Languages"
   ],
   "author": "Chris Harvey <chrisharvey2pi@gmail.com> (https://chharvey.github.io/)",
-  "license": "AGPL-3.0-or-later",
+  "license": "GPL-3.0-or-later",
   "bugs": {
     "url": "https://github.com/chharvey/counterpoint-lang/issues"
   },

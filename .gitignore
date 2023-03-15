@@ -105,3 +105,6 @@ dist
 
 # VS Code settings
 **/.vscode/settings.json
+
+# Build files
+syntaxes/cp.tmLanguage.json
