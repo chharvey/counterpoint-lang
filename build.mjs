@@ -34,7 +34,7 @@ await fs.promises.writeFile(path.join(path.dirname(new URL(import.meta.url).path
 		DeclarationTypefunc:           Pattern.DECLARATION__TYPEFUNC,
 		DestructureArgument:           destructure('Argument',   {include: '#IdentifierParameter'}),
 		DestructureAssignment:         destructure('Assignment', {include: '#ExpressionAssignee'}),
-		DestructureParameter:          destructure('Parameter',  identifier(), true),
+		DestructureParameter:          destructure('Parameter',  {include: '#IdentifierParameter'}, true),
 		DestructureProperty:           destructure('Property',   {include: '#IdentifierProperty'}),
 		DestructureVariable:           destructure('Variable',   {include: '#IdentifierVariable'}, true),
 		Expression:                    Pattern.EXPRESSION,

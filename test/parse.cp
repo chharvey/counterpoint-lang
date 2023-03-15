@@ -164,9 +164,6 @@ func twice(x: int): int => x * 2;
 		label %% args %% = c,
 		punn$,
 		##doublespread,
-		(a,)=   [4, 2],
-		(a ,)=  [4, 2],
-		(a,) => [4, 2],
 	)++;
 	List.<T>();
 	Dict.<T>();
@@ -317,5 +314,5 @@ g.(z= 3, (if$, by as b)= [if= 1, by= 2]);
 g.(z= 3, ((x$), (y as (b)))= [[x= 1], [y= [2]]]);
 % not destructuring:
 g.((x));
-g.(z= 3, (x, y)        => null);
-g.(z= 3, (x, y as (b)) => null);
+g.(z= 3, (x, y)        => [1, [2]]);
+g.(z= 3, (x, y as (b)) => [1, [2]]);
