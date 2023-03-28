@@ -121,7 +121,7 @@ export const EXPRESSION__STRUCTURE__GROUPING = {
 };
 
 
-export const EXPRESSION__STRUCTURE__LIST = list('meta.expression.structure.list.cp', '\\[', '\\]', [
+export const EXPRESSION__STRUCTURE__LIST = list('meta.expression.structure.list.cp', '\\\\\\[|\\[', '\\]', [
 	{
 		name: 'keyword.other.spread.cp',
 		match: '##|#',

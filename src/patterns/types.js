@@ -62,7 +62,7 @@ export const TYPE__STRUCTURE__GROUPING = {
 };
 
 
-export const TYPE__STRUCTURE__LIST = list('meta.type.structure.list.cp', '\\[', '\\]', [
+export const TYPE__STRUCTURE__LIST = list('meta.type.structure.list.cp', '\\\\\\[|\\[', '\\]', [
 	{
 		name: 'keyword.other.spread.cp',
 		match: '##|#',
