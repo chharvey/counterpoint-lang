@@ -3,6 +3,7 @@ import {
 	lookbehinds,
 } from '../helpers.js';
 import {
+	DELIMS,
 	OWS,
 	ASSN_START,
 	THINARROW,
@@ -175,7 +176,7 @@ export const STATEMENT__IMPORT = {
 		},
 		{include: '#String'},
 		{include: '#IdentifierVariable'},
-		list('meta.import.list', '\\(', '\\)', [
+		list('meta.import.list', DELIMS.GROUPING[0], DELIMS.GROUPING[1], [
 			{
 				name: 'keyword.other.alias.cp',
 				match: '\\b(as)\\b',
@@ -224,7 +225,7 @@ export const STATEMENT = {
 
 export const BLOCK = {
 	name: 'meta.block.cp',
-	begin: '\\{',
+	begin: DELIMS.BLOCK[0],
 	end:   BLOCK_END,
 	captures: {
 		0: {name: 'punctuation.delimiter.cp'},
