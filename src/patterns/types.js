@@ -3,6 +3,7 @@ import {
 	lookbehinds,
 } from '../helpers.js';
 import {
+	DELIMS,
 	OWS,
 	INT,
 	VAR,
@@ -22,8 +23,8 @@ import {
 
 export const TYPE_CALL = {
 	name: 'meta.type.call.cp',
-	begin: ['(\\.)', lookaheads([[OWS, '<'].join('')])].join(''),
-	end:   lookbehinds(['>']),
+	begin: ['(\\.)', lookaheads([[OWS, DELIMS.ARGS_GN[0]].join('')])].join(''),
+	end:   lookbehinds([DELIMS.ARGS_GN[1]]),
 	beginCaptures: {
 		1: {name: 'keyword.operator.punctuation.cp'},
 	},
@@ -50,8 +51,8 @@ export const TYPE__ACCESS = {
 
 export const TYPE__STRUCTURE__GROUPING = {
 	name: 'meta.type.structure.grouping.cp',
-	begin: '\\(',
-	end:   '\\)',
+	begin: DELIMS.GROUPING[0],
+	end:   DELIMS.GROUPING[1],
 	captures: {
 		0: {name: 'punctuation.delimiter.cp'},
 	},
@@ -62,7 +63,7 @@ export const TYPE__STRUCTURE__GROUPING = {
 };
 
 
-export const TYPE__STRUCTURE__LIST = list('meta.type.structure.list.cp', '\\\\\\[|\\[', '\\]', [
+export const TYPE__STRUCTURE__LIST = list('meta.type.structure.list.cp', DELIMS.LIST[0], DELIMS.LIST[1], [
 	{
 		name: 'keyword.other.spread.cp',
 		match: '##|#',
@@ -79,7 +80,7 @@ export const TYPE__STRUCTURE__LIST = list('meta.type.structure.list.cp', '\\\\\\
 ]);
 
 
-export const TYPE__STRUCTURE__SET = list('meta.type.structure.set.cp', '\\{', BLOCK_END, [
+export const TYPE__STRUCTURE__SET = list('meta.type.structure.set.cp', DELIMS.SET[0], BLOCK_END, [
 	{
 		name: 'keyword.other.spread.cp',
 		match: '#',

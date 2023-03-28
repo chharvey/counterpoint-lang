@@ -3,6 +3,7 @@ import {
 	lookbehinds,
 } from '../helpers.js';
 import {
+	DELIMS,
 	OWS,
 	VAR,
 	ANNO_START,
@@ -57,7 +58,7 @@ export const EXPRESSION__FUNCTION = {
 		{include: '#Captures'},
 		{include: '#Parameters'},
 		{include: '#Block'},
-		annotation(lookaheads(['\\{', FATARROW]), false),
+		annotation(lookaheads([DELIMS.BLOCK[0], FATARROW]), false),
 	],
 };
 
@@ -108,7 +109,7 @@ export const DECLARATION__FUNC = {
 		{
 			name: 'meta.heritage.cp',
 			begin: '\\b(implements)\\b',
-			end:   lookaheads(['\\[', '\\(']),
+			end:   lookaheads([DELIMS.CAPTURES[0], DELIMS.PARAMS_FN[0]]),
 			beginCaptures: {
 				0: {name: 'storage.modifier.cp'},
 			},
@@ -117,7 +118,7 @@ export const DECLARATION__FUNC = {
 				{include: '#IdentifierType'},
 			],
 		},
-		annotation(lookaheads(['\\{', FATARROW]), false),
+		annotation(lookaheads([DELIMS.BLOCK[0], FATARROW]), false),
 		implicitReturn(),
 		{include: '#IdentifierFunction'}, // must come after keywords
 	],
@@ -129,7 +130,7 @@ export const GENERIC_PARAMETER_PATTERNS = {
 		{
 			name: 'meta.heritage.cp',
 			begin: '\\b(narrows|widens)\\b',
-			end: lookaheads([ASSN_START, ',', '>']),
+			end: lookaheads([ASSN_START, ',', DELIMS.PARAMS_GN[1]]),
 			beginCaptures: {
 				0: {name: 'keyword.modifier.cp'},
 			},
@@ -137,7 +138,7 @@ export const GENERIC_PARAMETER_PATTERNS = {
 				{include: '#Type'},
 			],
 		},
-		assignment(lookaheads([',', '>']), '#Type'),
+		assignment(lookaheads([',', DELIMS.PARAMS_GN[1]]), '#Type'),
 		{include: '#IdentifierParameter'},
 	],
 };
@@ -145,7 +146,7 @@ export const GENERIC_PARAMETER_PATTERNS = {
 
 export const TYPE_PARAMETER_PATTERNS = {
 	patterns: [
-		annotation(lookaheads([',', '\\)'])),
+		annotation(lookaheads([',', DELIMS.PARAMS_FN[1]])),
 		{
 			begin: lookaheads([`${ VAR }${ OWS }${ ANNO_START }`]),
 			end:   lookaheads([ANNO_START]),
@@ -170,8 +171,8 @@ export const PARAMETER_PATTERNS = {
 		},
 		{include: '#IdentifierParameter'},
 		{include: '#DestructureParameter'},
-		annotation(lookaheads([ASSN_START, ',', '\\)'])),
-		assignment(lookaheads([',', '\\)'])),
+		annotation(lookaheads([ASSN_START, ',', DELIMS.PARAMS_FN[1]])),
+		assignment(lookaheads([',', DELIMS.PARAMS_FN[1]])),
 	],
 };
 
@@ -181,7 +182,7 @@ export const POSSIBLE_GENERIC_PARAMETER = {
 	begin: lookaheads([[VAR, OWS, `(${ [
 		'\\b(narrows|widens)\\b', ASSN_START, ',', // annotated, or more than 1 generic parameter
 	].join('|') })`].join('')]),
-	end: `,|${ lookaheads(['>']) }`,
+	end: `,|${ lookaheads([DELIMS.PARAMS_GN[1]]) }`,
 	endCaptures: {
 		0: {name: 'punctuation.separator.cp'},
 	},
@@ -194,7 +195,7 @@ export const POSSIBLE_GENERIC_PARAMETER = {
 /** Parameter of function type, if on separate line. */
 export const POSSIBLE_TYPE_PARAMETER = {
 	begin: lookaheads([`(${ VAR }${ OWS })?${ ANNO_START }`]),
-	end:   `,|${ lookaheads(['\\)']) }`,
+	end:   `,|${ lookaheads([DELIMS.PARAMS_FN[1]]) }`,
 	endCaptures: {
 		0: {name: 'punctuation.separator.cp'},
 	},
@@ -209,7 +210,7 @@ export const POSSIBLE_PARAMETER = {
 	begin: lookaheads([[`(\\b(unfixed)\\b${ OWS })?`, VAR, OWS, `(${ [
 		ANNO_START, ASSN_START, ',', '\\b(as)\\b', // annotated, or assigned, or more than 1 parameter, or destructured
 	].join('|') })`].join('')]),
-	end: `,|${ lookaheads(['\\)']) }`,
+	end: `,|${ lookaheads([DELIMS.PARAMS_FN[1]]) }`,
 	endCaptures: {
 		0: {name: 'punctuation.separator.cp'},
 	},

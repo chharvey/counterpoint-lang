@@ -3,6 +3,7 @@ import {
 	lookbehinds,
 } from '../helpers.js';
 import {
+	DELIMS,
 	OWS,
 	ASSN_START,
 	FATARROW,
@@ -26,7 +27,7 @@ import {
 export const HERITAGE = {
 	name: 'meta.heritage.cp',
 	begin: '\\b(extends|implements|inherits)\\b',
-	end:   lookaheads(['\\b(extends|implements|inherits)\\b', '\\[', '\\{']),
+	end:   lookaheads(['\\b(extends|implements|inherits)\\b', DELIMS.CAPTURES[0], DELIMS.BLOCK[0]]),
 	beginCaptures: {
 		0: {name: 'storage.modifier.cp'},
 	},
@@ -137,7 +138,7 @@ export const DECLARATION__INTERFACE = {
 
 export const STATIC__BLOCK = {
 	name: 'meta.staticblock.cp',
-	begin: [`(\\b(?:static)\\b)${ OWS }`, lookaheads(['\\{'])].join(''),
+	begin: [`(\\b(?:static)\\b)${ OWS }`, lookaheads([DELIMS.BLOCK[0]])].join(''),
 	end:   lookbehinds(['\\}']),
 	beginCaptures: {
 		1: {name: 'storage.modifier.cp'},
@@ -151,7 +152,7 @@ export const STATIC__BLOCK = {
 export const CONSTRUCTOR_FIELD = {
 	name: 'meta.field.cp',
 	begin: lookaheads([FIELD_CONSTRUCTOR]),
-	end:   lookaheads([',', '\\)']),
+	end:   lookaheads([',', DELIMS.PARAMS_FN[1]]),
 	patterns: [
 		{
 			name: 'storage.modifier.cp',
@@ -163,8 +164,8 @@ export const CONSTRUCTOR_FIELD = {
 		},
 		{include: '#IdentifierProperty'},
 		{include: '#DestructureParameter'},
-		annotation(lookaheads([ASSN_START, ',', '\\)'])),
-		assignment(lookaheads([',', '\\)'])),
+		annotation(lookaheads([ASSN_START, ',', DELIMS.PARAMS_FN[1]])),
+		assignment(lookaheads([',', DELIMS.PARAMS_FN[1]])),
 	],
 };
 
@@ -217,7 +218,7 @@ export const MEMBER__CONSTRUCTORGROUP = {
 		},
 		{
 			name: 'meta.constructorgroupbody.cp',
-			begin: '\\{',
+			begin: DELIMS.BLOCK[0],
 			end:   BLOCK_END,
 			captures: {
 				0: {name: 'punctuation.delimiter.cp'},
@@ -248,7 +249,7 @@ export const MEMBER__METHOD = {
 		{include: '#GenericParameters'},
 		{include: '#Parameters'},
 		{include: '#Block'},
-		annotation(lookaheads(['\\{', FATARROW, ';']), false),
+		annotation(lookaheads([DELIMS.BLOCK[0], FATARROW, ';']), false),
 		implicitReturn(),
 	],
 };
@@ -266,7 +267,7 @@ export const MEMBER__METHODGROUP = {
 		{include: '#IdentifierProperty'},
 		{
 			name: 'meta.methodgroupbody.cp',
-			begin: '\\{',
+			begin: DELIMS.BLOCK[0],
 			end:   BLOCK_END,
 			captures: {
 				0: {name: 'punctuation.delimiter.cp'},
@@ -283,7 +284,7 @@ export const MEMBER__METHODGROUP = {
 
 export const CLASS_BODY = {
 	name: 'meta.classbody.cp',
-	begin: '\\{',
+	begin: DELIMS.BLOCK[0],
 	end:   BLOCK_END,
 	captures: {
 		0: {name: 'punctuation.delimiter.cp'},

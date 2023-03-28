@@ -3,6 +3,7 @@ import {
 	lookbehinds,
 } from '../helpers.js';
 import {
+	DELIMS,
 	OWS,
 	INT,
 	VAR,
@@ -19,20 +20,20 @@ import {
 
 
 
-export const ARGUMENTS = list('meta.arguments.cp', '\\(', '\\)', [
+export const ARGUMENTS = list('meta.arguments.cp', DELIMS.ARGS_FN[0], DELIMS.ARGS_FN[1], [
 	{
 		name: 'keyword.other.spread.cp',
 		match: '##|#',
 	},
-	propertyOrArgumentLabel('\\)', '#IdentifierParameter', '#DestructureArgument'),
+	propertyOrArgumentLabel(DELIMS.ARGS_FN[1], '#IdentifierParameter', '#DestructureArgument'),
 	{include: '#Expression'}, // must come after argument destructuring because of untyped lambda parameters
 ]);
 
 
 export const EXPRESSION__CLAIM = {
 	name: 'meta.expression.claim.cp',
-	begin: '<',
-	end:   `>|${ lookaheads(['[\\)\\]\\},;]', THINARROW, '\\b(then|else|do|to|by)\\b']) }`,
+	begin: DELIMS.CLAIM[0],
+	end:   `${ DELIMS.CLAIM[1] }|${ lookaheads([`[${ DELIMS.GROUPING[1] }${ DELIMS.LIST[1] }\\},;]`, THINARROW, '\\b(then|else|do|to|by)\\b']) }`,
 	captures: {
 		0: {name: 'punctuation.delimiter.cp'},
 	},
@@ -44,8 +45,8 @@ export const EXPRESSION__CLAIM = {
 
 export const EXPRESSION__CALL = {
 	name: 'meta.expression.call.cp',
-	begin: ['(\\.|\\?\\.|\\!\\.)', lookaheads([[OWS, '(<|\\()'].join('')])].join(''),
-	end:   lookbehinds(['\\)']),
+	begin: ['(\\.|\\?\\.|\\!\\.)', lookaheads([[OWS, `(${ DELIMS.ARGS_GN[0] }|${ DELIMS.ARGS_FN[0] })`].join('')])].join(''),
+	end:   lookbehinds([DELIMS.ARGS_FN[1]]),
 	beginCaptures: {
 		1: {name: 'keyword.operator.punctuation.cp'},
 	},
@@ -62,8 +63,8 @@ export const EXPRESSION__ACCESS = {
 	patterns: [
 		{
 			name: 'meta.expression.access.cp',
-			begin: ['(\\.|\\?\\.|\\!\\.)', lookaheads([[OWS, '\\['].join('')])].join(''),
-			end:   lookbehinds(['\\]']),
+			begin: ['(\\.|\\?\\.|\\!\\.)', lookaheads([[OWS, DELIMS.ACCESS[0]].join('')])].join(''),
+			end:   lookbehinds([DELIMS.ACCESS[1]]),
 			beginCaptures: {
 				1: {name: 'keyword.operator.punctuation.cp'},
 			},
@@ -109,8 +110,8 @@ export const EXPRESSION__ASSIGNEE = {
 
 export const EXPRESSION__STRUCTURE__GROUPING = {
 	name: 'meta.expression.structure.grouping.cp',
-	begin: '\\(',
-	end:   '\\)',
+	begin: DELIMS.GROUPING[0],
+	end:   DELIMS.GROUPING[1],
 	captures: {
 		0: {name: 'punctuation.delimiter.cp'},
 	},
@@ -121,17 +122,17 @@ export const EXPRESSION__STRUCTURE__GROUPING = {
 };
 
 
-export const EXPRESSION__STRUCTURE__LIST = list('meta.expression.structure.list.cp', '\\\\\\[|\\[', '\\]', [
+export const EXPRESSION__STRUCTURE__LIST = list('meta.expression.structure.list.cp', DELIMS.LIST[0], DELIMS.LIST[1], [
 	{
 		name: 'keyword.other.spread.cp',
 		match: '##|#',
 	},
-	propertyOrArgumentLabel('\\]', '#IdentifierProperty', '#DestructureProperty'),
+	propertyOrArgumentLabel(DELIMS.LIST[1], '#IdentifierProperty', '#DestructureProperty'),
 	{include: '#Expression'}, // must come after property destructuring because of untyped lambda parameters
 ]);
 
 
-export const EXPRESSION__STRUCTURE__SET = list('meta.expression.structure.set.cp', '\\{', BLOCK_END, [
+export const EXPRESSION__STRUCTURE__SET = list('meta.expression.structure.set.cp', DELIMS.SET[0], BLOCK_END, [
 	{
 		name: 'keyword.other.spread.cp',
 		match: '#',
