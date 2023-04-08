@@ -156,7 +156,7 @@ export const CONSTRUCTOR_FIELD = {
 	patterns: [
 		{
 			name: 'storage.modifier.cp',
-			match: '\\b(public|secret|private|protected|override|final|readonly|unfixed)\\b',
+			match: '\\b(public|secret|private|protected|override|final|readonly|writeonly|unfixed)\\b',
 		},
 		{
 			name: 'keyword.other.alias.cp',
@@ -180,7 +180,7 @@ export const MEMBER__FIELD = {
 	patterns: [
 		{
 			name: 'storage.modifier.cp',
-			match: '\\b(public|secret|private|protected|override|claim|final|readonly)\\b',
+			match: '\\b(public|secret|private|protected|override|claim|final|readonly|writeonly)\\b',
 		},
 		{include: '#IdentifierProperty'},
 		annotation(lookaheads([ASSN_START, ';'])),

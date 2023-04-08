@@ -103,6 +103,7 @@ class Foo {
 	override field: T = 42;
 	final field: T = 42;
 	readonly field: T = 42;
+	writeonly field: T = 42;
 	field: Typ = 42;
 	claim field: Typ;
 
@@ -119,6 +120,7 @@ class Foo {
 		public override constructor_field5: int,
 		public final constructor_field6: int,
 		public readonly constructor_field7: int,
+		public writeonly constructor_field8: int,
 
 		private unfixed construtor_field8: int,
 		private construtor_field9 as field9: int,
@@ -164,6 +166,7 @@ class Foo {
 			public override constructor_field5: int,
 			public final constructor_field6: int,
 			public readonly constructor_field7: int,
+			public writeonly constructor_field8: int,
 
 			private unfixed construtor_field8: int,
 			private construtor_field9 as field9: int,
