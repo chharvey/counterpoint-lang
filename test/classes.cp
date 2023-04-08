@@ -6,7 +6,7 @@ secret class Foo {}
 private class Foo {}
 class final Foo {}
 class abstract Foo {}
-class readonly Foo {}
+class data Foo {}
 class nominal Foo {}
 class Foo<T> {}
 class Foo<_> {}
@@ -27,7 +27,7 @@ class ClassWithCaptures [
 let Foo: Class = Object && Class && (class {});
 let Foo: Class = Object && Class && (class final {});
 let Foo: Class = Object && Class && (class abstract {});
-let Foo: Class = Object && Class && (class readonly {});
+let Foo: Class = Object && Class && (class data {});
 let Foo: Class = Object && Class && (class <T> extends Bar.<T> {});
 let Foo: Class = Object && Class && (class extends Bar, Diz.<T> {});
 let Foo: Class = Object && Class && (class extends _, Diz.<_> {});
@@ -46,7 +46,7 @@ interface Foo {}
 public interface Foo {}
 secret interface Foo {}
 private interface Foo {}
-interface readonly Foo {}
+interface data Foo {}
 interface nominal Foo {}
 interface Foo<T> {}
 interface Foo extends Bar, Diz.<T> {}
@@ -58,7 +58,7 @@ interface Foo extends Bar inherits Diz.<T> {}
 
 % interface type expressions
 type T = unknown & (interface {});
-type T = unknown & (interface readonly {});
+type T = unknown & (interface data {});
 type T = unknown & (interface <T> {});
 type T = unknown & (interface extends Bar, Diz.<T> {});
 type T = unknown & (interface inherits Bar, Diz.<T> {});
