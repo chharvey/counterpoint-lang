@@ -103,7 +103,7 @@ export const FUNCTION = `
 				)
 			)
 		)
-		| ${ DELIMS.PARAMS_GN[0] }${ OWS }${ VAR }${ OWS }(?:
+		| ${ DELIMS.PARAMS_GN[0] }${ OWS }(?:\\b(?:out | in)\\b)?${ OWS }${ VAR }${ OWS }(?:
 			${ DELIMS.PARAMS_GN[1] }${ OWS }\\g<aftergenericparams> # exactly 1 unannotated uninitialized generic parameter
 			| \\b(?:narrows | widens)\\b | ${ ASSN_START } | ,      # annotated, or assigned, or more than 1 generic parameter
 		)

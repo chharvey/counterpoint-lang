@@ -1,5 +1,7 @@
 %-- type declarations, function types --%
 type BinaryOperator = <N narrows int>(a: N, b?: N) => N;
+type BinaryOperator = <out N>(a: N, b?: N) => N;
+type BinaryOperator = <in N>(a: N, b?: N) => N;
 type BinaryOperator = (a: N, b?: N) => N | M;
 type BinaryOperatorUnnamed = (T & U, ?: int | Object~~, ?: bool) => (float) => int;
 type BinaryOperatorUnnamed = (?: int | Object, ?: [T, U], ?: (bool!) => void) => float;
@@ -19,7 +21,7 @@ type Const = () => int;
 type Const = (
 ) => int;
 type ReturnsTemplateType = () => """a {{ string }} template type""";
-let x: <T widens U~~, U = Set.<null>>(a: Set.<T>~~, b: Set.<U~~>) => bool = null;
+let x: <out T widens U~~, in U = Set.<null>>(a: Set.<T>~~, b: Set.<U~~>) => bool = null;
 
 type AsyncFuncType    = async     (p: int, q: rat) => float;
 type GenFuncType      = gen       (p: int, q: rat) => float;
@@ -54,6 +56,8 @@ let lambda: Function = (a: int     ): int => a * 2;
 let lambda: Function = (a      = 42): int => a * 2;
 let lambda: Function = (a: int = 42): int => a * 2;
 let lambda: Function = <T              >() {};
+let lambda: Function = <out T          >() {};
+let lambda: Function = <in  T          >() {};
 let lambda: Function = <T narrows U    >() {};
 let lambda: Function = <T           = V>() {};
 let lambda: Function = <T narrows U = V>() {};
@@ -79,6 +83,8 @@ let lambda: Function = (
 ) => a * 2;
 let lambda: Function = <
 	T,
+	out T,
+	in  T,
 	T narrows U,
 	T = V,
 	T narrows U = V,

@@ -38,6 +38,7 @@ export const EXPRESSION__CLAIM = {
 		0: {name: 'punctuation.delimiter.cp'},
 	},
 	patterns: [
+		{include: '#PossibleGenericParameter'},
 		{include: '#Type'},
 	],
 };

@@ -59,10 +59,10 @@ type SpreadTest = [
 	name: T,
 	##DoubleSpread,
 ];
-type T<U> = U & V
+type T<out U> = U & V
 	.<W>;
-type U<V narrows W.<int>> = V | W.<X>;
-type U<V = W.<int>> = V | W.%%c%%<X>;
+type U<in V narrows W.<int>> = V | W.<X>;
+type U<in V = W.<int>> = V | W.%%c%%<X>;
 
 type T = [a: boolean, b: int, c: T];
 let x: T = [a= false, b= 42, c$];
@@ -97,7 +97,7 @@ type Or<T, U, V> = Or.<T, U> | V;
 typefunc Or<T, U> => T | U{};
 typefunc Or<T, U, V> => Or.<T, U> | V;
 public typefunc Map<T, U> => {T -> U};
-secret typefunc Mapping<T, U> => {T -> U};
+secret typefunc Mapping<in T, out U> => {T -> U};
 private typefunc Or<T, U, V> => Or.<T, U> | [:V];
 
 

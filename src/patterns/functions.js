@@ -128,6 +128,10 @@ export const DECLARATION__FUNC = {
 export const GENERIC_PARAMETER_PATTERNS = {
 	patterns: [
 		{
+			name: 'storage.modifier.cp',
+			match: '\\b(out|in)\\b',
+		},
+		{
 			name: 'meta.heritage.cp',
 			begin: '\\b(narrows|widens)\\b',
 			end: lookaheads([ASSN_START, ',', DELIMS.PARAMS_GN[1]]),
@@ -179,7 +183,7 @@ export const PARAMETER_PATTERNS = {
 
 /** Generic parameter, if on separate line. */
 export const POSSIBLE_GENERIC_PARAMETER = {
-	begin: lookaheads([[VAR, OWS, `(${ [
+	begin: lookaheads([['(\\b(out|in)\\b)?', OWS, VAR, OWS, `(${ [
 		'\\b(narrows|widens)\\b', ASSN_START, ',', // annotated, or more than 1 generic parameter
 	].join('|') })`].join('')]),
 	end: `,|${ lookaheads([DELIMS.PARAMS_GN[1]]) }`,
