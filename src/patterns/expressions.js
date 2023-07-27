@@ -75,7 +75,7 @@ export const EXPRESSION__ACCESS = {
 		{
 			name: 'meta.expression.access.cp',
 			begin: ['(\\.|\\?\\.|\\!\\.)', lookaheads([`${ OWS }(${ INT }|${ VAR })`])].join(''),
-			end:   lookbehinds(['[A-Za-z0-9_`]']),
+			end:   lookbehinds(['[A-Za-z0-9_\']']),
 			beginCaptures: {
 				1: {name: 'keyword.operator.punctuation.cp'},
 			},

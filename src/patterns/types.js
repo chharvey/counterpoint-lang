@@ -38,7 +38,7 @@ export const TYPE_CALL = {
 export const TYPE__ACCESS = {
 	name: 'meta.type.access.cp',
 	begin: ['(\\.)', lookaheads([`${ OWS }(${ INT }|${ VAR })`])].join(''),
-	end:   lookbehinds(['[A-Za-z0-9_`]']),
+	end:   lookbehinds(['[A-Za-z0-9_\']']),
 	beginCaptures: {
 		1: {name: 'keyword.operator.punctuation.cp'},
 	},
