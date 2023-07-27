@@ -98,12 +98,13 @@ export const EXPRESSION__ASSIGNEE = {
 			name: 'variable.language.cp',
 			match: '\\b(this)\\b',
 		},
-		{include: '#Keyword'},
 		{include: '#DestructureAssignment'},
-		{include: '#ExpressionClaim'},
 		{include: '#ExpressionCall'},
 		{include: '#ExpressionAccess'},
-		identifier(),
+		{include: '#ExpressionStructureGrouping'},
+		{include: '#ExpressionStructureList'},
+		{include: '#ExpressionStructureSet'},
+		unit(),
 	],
 };
 
