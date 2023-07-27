@@ -7,6 +7,7 @@ import {
 	destructure,
 } from './src/patterns/index.js';
 import * as Pattern from './src/patterns/index.js';
+import {DELIMS} from './src/selectors.js';
 
 
 
@@ -17,12 +18,12 @@ await fs.promises.writeFile(path.join(path.dirname(new URL(import.meta.url).path
 	repository: {
 		Arguments:                     Pattern.ARGUMENTS,
 		Block:                         Pattern.BLOCK,
-		Captures:                      list('meta.captures.cp', '\\[', '\\]', [identifier()]),
+		Captures:                      list('meta.captures.cp', DELIMS.CAPTURES[0], DELIMS.CAPTURES[1], [identifier()]),
 		ClassBody:                     Pattern.CLASS_BODY,
 		CommentBlock:                  Pattern.COMMENT_BLOCK,
 		CommentLine:                   Pattern.COMMENT_LINE,
 		ConstructorField:              Pattern.CONSTRUCTOR_FIELD,
-		ConstructorParameters:         list('meta.parameters.cp', '\\(', '\\)', [{include: '#ConstructorField'}, {include: '#ParameterPatterns'}]),
+		ConstructorParameters:         list('meta.parameters.cp', DELIMS.PARAMS_FN[0], DELIMS.PARAMS_FN[1], [{include: '#ConstructorField'}, {include: '#ParameterPatterns'}]),
 		Declaration:                   Pattern.DECLARATION,
 		DeclarationAssignment:         Pattern.DECLARATION__ASSIGNMENT,
 		DeclarationClaim:              Pattern.DECLARATION__CLAIM,
@@ -47,9 +48,9 @@ await fs.promises.writeFile(path.join(path.dirname(new URL(import.meta.url).path
 		ExpressionStructureGrouping:   Pattern.EXPRESSION__STRUCTURE__GROUPING,
 		ExpressionStructureList:       Pattern.EXPRESSION__STRUCTURE__LIST,
 		ExpressionStructureSet:        Pattern.EXPRESSION__STRUCTURE__SET,
-		GenericArguments:              list('meta.genericarguments.cp', '<', '>', [{include: '#Type'}]),
+		GenericArguments:              list('meta.genericarguments.cp', DELIMS.ARGS_GN[0], DELIMS.ARGS_GN[1], [{include: '#Type'}]),
 		GenericParameterPatterns:      Pattern.GENERIC_PARAMETER_PATTERNS,
-		GenericParameters:             list('meta.genericparameters.cp', '<', '>', [{include: '#GenericParameterPatterns'}]),
+		GenericParameters:             list('meta.genericparameters.cp', DELIMS.PARAMS_GN[0], DELIMS.PARAMS_GN[1], [{include: '#GenericParameterPatterns'}]),
 		Heritage:                      Pattern.HERITAGE,
 		IdentifierClass:               identifier('entity.name.class', true),
 		IdentifierFunction:            identifier('entity.name.function', true),
@@ -65,7 +66,7 @@ await fs.promises.writeFile(path.join(path.dirname(new URL(import.meta.url).path
 		MemberMethodgroup:             Pattern.MEMBER__METHODGROUP,
 		Number:                        Pattern.NUMBER,
 		ParameterPatterns:             Pattern.PARAMETER_PATTERNS,
-		Parameters:                    list('meta.parameters.cp', '\\(', '\\)', [{include: '#ParameterPatterns'}]),
+		Parameters:                    list('meta.parameters.cp', DELIMS.PARAMS_FN[0], DELIMS.PARAMS_FN[1], [{include: '#ParameterPatterns'}]),
 		PossibleGenericParameter:      Pattern.POSSIBLE_GENERIC_PARAMETER,
 		PossibleParameter:             Pattern.POSSIBLE_PARAMETER,
 		PossibleTypeParameter:         Pattern.POSSIBLE_TYPE_PARAMETER,
@@ -83,7 +84,7 @@ await fs.promises.writeFile(path.join(path.dirname(new URL(import.meta.url).path
 		TypeFunction:                  Pattern.TYPE__FUNCTION,
 		TypeInterface:                 Pattern.TYPE__INTERFACE,
 		TypeParameterPatterns:         Pattern.TYPE_PARAMETER_PATTERNS,
-		TypeParameters:                list('meta.parameters.cp', '\\(', '\\)', [{include: '#TypeParameterPatterns'}]),
+		TypeParameters:                list('meta.parameters.cp', DELIMS.PARAMS_FN[0], DELIMS.PARAMS_FN[1], [{include: '#TypeParameterPatterns'}]),
 		TypeStructureGrouping:         Pattern.TYPE__STRUCTURE__GROUPING,
 		TypeStructureList:             Pattern.TYPE__STRUCTURE__LIST,
 		TypeStructureSet:              Pattern.TYPE__STRUCTURE__SET,

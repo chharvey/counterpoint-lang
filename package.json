@@ -1,11 +1,12 @@
 {
   "name": "counterpoint-lang",
   "displayName": "Counterpoint Language Support",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "Language support for the Counterpoint programming language.",
   "type": "module",
   "scripts": {
     "build": "node build.mjs",
+    "pack": "vsce package",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "engines": {
@@ -29,20 +30,35 @@
   },
   "homepage": "https://github.com/chharvey/counterpoint-lang#readme",
   "contributes": {
-    "languages": [{
-      "id": "cp",
-      "aliases": ["Counterpoint", "cp"],
-      "extensions": [".cp"],
-      "configuration": "./language-configuration.json"
-    }],
-    "grammars": [{
-      "language": "cp",
-      "scopeName": "source.cp",
-      "path": "./syntaxes/cp.tmLanguage.json"
-    }, {
-      "scopeName": "text.html.markdown.cp",
-      "path": "./syntaxes/markdown.tmLanguage.json",
-      "injectTo": ["text.html.markdown"]
-    }]
+    "languages": [
+      {
+        "id": "cp",
+        "aliases": [
+          "Counterpoint",
+          "cp"
+        ],
+        "extensions": [
+          ".cp"
+        ],
+        "configuration": "./language-configuration.json"
+      }
+    ],
+    "grammars": [
+      {
+        "language": "cp",
+        "scopeName": "source.cp",
+        "path": "./syntaxes/cp.tmLanguage.json"
+      },
+      {
+        "scopeName": "text.html.markdown.cp",
+        "path": "./syntaxes/markdown.tmLanguage.json",
+        "injectTo": [
+          "text.html.markdown"
+        ]
+      }
+    ]
+  },
+  "devDependencies": {
+    "vsce": "^2.11.0"
   }
 }

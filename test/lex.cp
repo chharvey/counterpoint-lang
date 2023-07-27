@@ -52,6 +52,18 @@ _.a;
 type T = U._;
 type T = _.U;
 
+a.b;
+a?.b;
+a!.b;
+a.'b';
+a?.'b';
+a!.'b';
+.b;
+.'b';
+type T = A.B;
+type T = A.'B';
+type T = .'B';
+
 if "hello" /* world */ %% then %% then
 true else % false
 else {if !true

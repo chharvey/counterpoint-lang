@@ -5,20 +5,33 @@ import {
 
 
 
+export const DELIMS = {
+	GROUPING:  ['\\(',         '\\)'],
+	LIST:      ['\\\\\\[|\\[', '\\]'],
+	SET:       ['\\{',         `\\}${ lookaheads(['\\}'], true) }`],
+	ARGS_GN:   ['<',           '>'],
+	ARGS_FN:   ['\\(',         '\\)'],
+	ACCESS:    ['\\[',         '\\]'],
+	CLAIM:     ['<',           '>'],
+	BLOCK:     ['\\{',         `\\}${ lookaheads(['\\}'], true) }`],
+	CAPTURES:  ['\\[',         '\\]'],
+	PARAMS_GN: ['<',           '>'],
+	PARAMS_FN: ['\\(',         '\\)'],
+	DESTRUCT:  ['\\(',         '\\)'],
+};
+
 export const OWS = '(?:\\s+|(%%(?:%?[^%])*%%))*';
 export const INT = '(?:\\+|-)?(?:\\\\[bqodxz])?[0-9a-z_]+';
-export const VAR = '(?:\\b[A-Za-z_][A-Za-z0-9_]*\\b|`.*`)';
+export const VAR = '(?:\\b[A-Za-z_][A-Za-z0-9_]*\\b|\'.*\')';
 
 export const ANNO_START = `(?:\\:${ lookaheads(['\\:'], true) }|\\?\\:)`;
 export const ASSN_START = `=${ lookaheads(['=', '>'], true) }`;
-export const DEST_START = '\\(';
-export const DEST_END   = '\\)';
 export const THINARROW  = '->';
 export const FATARROW   = '=>';
 export const BLOCK_END  = `\\}${ lookaheads(['\\}'], true) }`;
 
 export const DESTRUCTURE_PROPERTIES_OR_ARGUMENTS = `
-	(?<DestructurePropertiesOrArguments>\\(${ OWS }
+	(?<DestructurePropertiesOrArguments>${ DELIMS.DESTRUCT[0] }${ OWS }
 		(?<DestructurePropertyOrArgumentItemOrKey>
 			(?<DestructurePropertyOrArgumentItem>
 				${ VAR }
@@ -31,17 +44,17 @@ export const DESTRUCTURE_PROPERTIES_OR_ARGUMENTS = `
 		)
 		(?:${ OWS },${ OWS }\\g<DestructurePropertyOrArgumentItemOrKey>)*
 		${ OWS },?
-	${ OWS }\\))
+	${ OWS }${ DELIMS.DESTRUCT[1] })
 `.replace(/\s+/g, '');
 
 export const DESTRUCTURE_ASSIGNEES = `
-	(?<DestructureAssignees>\\(${ OWS }
+	(?<DestructureAssignees>${ DELIMS.DESTRUCT[0] }${ OWS }
 		(?<DestructureAssigneeItemOrKey>
 			(?<DestructureAssigneeItem>
 				(?<Assignee>${ VAR }${ OWS }(?:\\.${ OWS }(?:
 					${ INT }
 					| ${ VAR }
-					| \\[(?: ${ OWS } | .* )\\]
+					| (?:${ DELIMS.LIST[0] })(?: ${ OWS } | .* )${ DELIMS.LIST[1] }
 				)${ OWS })*)
 				| \\g<DestructureAssignees>
 			)
@@ -52,19 +65,19 @@ export const DESTRUCTURE_ASSIGNEES = `
 		)
 		(?:${ OWS },${ OWS }\\g<DestructureAssigneeItemOrKey>)*
 		${ OWS },?
-	${ OWS }\\))
+	${ OWS }${ DELIMS.DESTRUCT[1] })
 `.replace(/\s+/g, '');
 
 export const FUNCTIONTYPE = `
 	(?:\\b(?:async | gen)\\b${ OWS })
 	| (?:
-		<                # any generic parameters
-		| \\(${ OWS }(?:
-			\\)${ OWS }(?<aftertypeparams> ${ FATARROW }) # exactly 0 type parameters
-			| ${ ANNO_START }                             # annotated unnamed type parameter
+		${ DELIMS.PARAMS_GN[0] } # any generic parameters
+		| ${ DELIMS.PARAMS_FN[0] }${ OWS }(?:
+			${ DELIMS.PARAMS_FN[1] }${ OWS }(?<aftertypeparams> ${ FATARROW }) # exactly 0 type parameters
+			| ${ ANNO_START }                                                  # annotated unnamed type parameter
 			| ${ VAR }${ OWS }(?:
-				\\)${ OWS }\\g<aftertypeparams> # exactly 1 unnamed type parameter
-				| ${ ANNO_START } | ,           # annotated named type parameter, or more than 1 type parameter
+				${ DELIMS.PARAMS_FN[1] }${ OWS }\\g<aftertypeparams> # exactly 1 unnamed type parameter
+				| ${ ANNO_START } | ,                                # annotated named type parameter, or more than 1 type parameter
 			)
 		)
 	)
@@ -75,27 +88,27 @@ export const FUNCTION = `
 	| (?:
 		(?<aftergenericparams>
 			(?: # captures
-				\\[${ OWS }
+				${ DELIMS.CAPTURES[0] }${ OWS }
 					${ VAR }
 					(?:${ OWS },${ OWS }${ VAR })*
 					${ OWS },?
-				${ OWS }\\]
+				${ OWS }${ DELIMS.CAPTURES[1] }
 			)?
-			\\(${ OWS }(?:
-				\\)${ OWS }(?<afterparams>${ ANNO_START } | ${ FATARROW } | \\{) # exactly 0 parameters
-				| \\b unfixed \\b                                                # unfixed parameter
+			${ DELIMS.PARAMS_FN[0] }${ OWS }(?:
+				${ DELIMS.PARAMS_FN[1] }${ OWS }(?<afterparams>${ ANNO_START } | ${ FATARROW } | ${ DELIMS.BLOCK[0] }) # exactly 0 parameters
+				| \\b unfixed \\b                                                                                      # unfixed parameter
 				| ${ VAR }${ OWS }(?:
-					\\)${ OWS }\\g<afterparams>                          # exactly 1 unannotated uninitialized nondestructued parameter
+					${ DELIMS.PARAMS_FN[1] }${ OWS }\\g<afterparams>     # exactly 1 unannotated uninitialized nondestructued parameter
 					| ${ ANNO_START } | ${ ASSN_START } | , | \\b as \\b # annotated, or assigned, or more than 1 parameter, or destructured
 				)
 			)
 		)
-		| <${ OWS }${ VAR }${ OWS }(?:
-			>${ OWS }\\g<aftergenericparams>                   # exactly 1 unannotated uninitialized generic parameter
-			| \\b(?:narrows | widens)\\b | ${ ASSN_START } | , # annotated, or assigned, or more than 1 generic parameter
+		| ${ DELIMS.PARAMS_GN[0] }${ OWS }${ VAR }${ OWS }(?:
+			${ DELIMS.PARAMS_GN[1] }${ OWS }\\g<aftergenericparams> # exactly 1 unannotated uninitialized generic parameter
+			| \\b(?:narrows | widens)\\b | ${ ASSN_START } | ,      # annotated, or assigned, or more than 1 generic parameter
 		)
 	)
-	| ${ lookbehinds(['\\)']) }${ OWS }\\g<afterparams>
+	| ${ lookbehinds([DELIMS.PARAMS_FN[1]]) }${ OWS }\\g<afterparams>
 `.replace(/\#.*\n|\s+/g, '');
 
 export const FIELD = `
@@ -111,18 +124,18 @@ export const FIELD_CONSTRUCTOR = `
 	(\\b(?:final | readonly)\\b ${ OWS })?
 	(?:
 		(${ VAR } ${ OWS } \\b as \\b ${ OWS })? (\\b unfixed \\b ${ OWS })? ${ VAR } ${ OWS } ${ ANNO_START }
-		| ${ VAR } ${ OWS } \\b as \\b ${ OWS } ${ DEST_START }
+		| ${ VAR } ${ OWS } \\b as \\b ${ OWS } ${ DELIMS.DESTRUCT[0] }
 	)
 `.replace(/\s+/g, '');
 
 export const CONSTRUCTOR = `
 	(\\b(?:public | secret | private | protected)\\b ${ OWS })?
-	(?:\\b new \\b ${ OWS })? \\(
+	(?:\\b new \\b ${ OWS })? ${ DELIMS.PARAMS_FN[0] }
 `.replace(/\s+/g, '');
 
 export const CONSTRUCTORGROUP = `
 	(\\b(?:public | secret | private | protected)\\b ${ OWS })?
-	\\b new \\b ${ OWS } \\{
+	\\b new \\b ${ OWS } ${ DELIMS.BLOCK[0] }
 `.replace(/\s+/g, '');
 
 export const METHOD = `
@@ -132,7 +145,7 @@ export const METHOD = `
 	(\\b mutating \\b ${ OWS })?
 	(?:\\b async \\b ${ OWS })?
 	(?:\\b gen \\b ${ OWS })?
-	(?:${ VAR } ${ OWS })? (?:< | \\()
+	(?:${ VAR } ${ OWS })? (?:< | ${ DELIMS.PARAMS_FN[0] })
 `.replace(/\s+/g, '');
 
 export const METHODGROUP = `
@@ -140,5 +153,5 @@ export const METHODGROUP = `
 	(\\b(?:override | claim)\\b ${ OWS })?
 	(\\b final \\b ${ OWS })?
 	(\\b mutating \\b ${ OWS })?
-	${ VAR } ${ OWS } \\{
+	${ VAR } ${ OWS } ${ DELIMS.BLOCK[0] }
 `.replace(/\s+/g, '');

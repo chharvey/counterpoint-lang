@@ -2,12 +2,11 @@ import {
 	lookaheads,
 } from '../helpers.js';
 import {
+	DELIMS,
 	OWS,
 	VAR,
 	ANNO_START,
 	ASSN_START,
-	DEST_START,
-	DEST_END,
 	FATARROW,
 	DESTRUCTURE_PROPERTIES_OR_ARGUMENTS,
 } from '../selectors.js';
@@ -157,7 +156,7 @@ export function propertyOrArgumentLabel(close_delim, identifier_kind, destructur
 
 
 export function destructure(subtype, identifiers, param_or_var = false) {
-	return list(`meta.destructure.${ subtype.toLowerCase() }.cp`, DEST_START, DEST_END, [
+	return list(`meta.destructure.${ subtype.toLowerCase() }.cp`, DELIMS.DESTRUCT[0], DELIMS.DESTRUCT[1], [
 		{include: `#Destructure${ subtype }`},
 		{
 			begin: lookaheads([[VAR, OWS, '\\b(as)\\b'].join('')]),
