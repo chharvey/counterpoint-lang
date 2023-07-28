@@ -159,10 +159,10 @@ export function destructure(subtype, identifiers, param_or_var = false) {
 	return list(`meta.destructure.${ subtype.toLowerCase() }.cp`, DELIMS.DESTRUCT[0], DELIMS.DESTRUCT[1], [
 		{include: `#Destructure${ subtype }`},
 		{
-			begin: lookaheads([[VAR, OWS, '\\b(as)\\b'].join('')]),
-			end:   '\\b(as)\\b',
+			begin: lookaheads([[VAR, OWS, ASSN_START].join('')]),
+			end:   ASSN_START,
 			endCaptures: {
-				0: {name: 'keyword.other.alias.cp'}
+				0: {name: 'punctuation.delimiter.cp'}
 			},
 			patterns: [
 				{include: '#IdentifierProperty'},
@@ -176,10 +176,10 @@ export function destructure(subtype, identifiers, param_or_var = false) {
 			name: 'storage.modifier.cp',
 			match: '\\b(unfixed)\\b',
 		} : {},
-		(param_or_var) ? annotation(lookaheads([',', '\\)'])) : {},
+		(param_or_var) ? annotation(lookaheads([',', DELIMS.DESTRUCT[1]])) : {},
 		// // if adding destructure defaults:
-		// annotation(lookaheads([ASSN_START, ',', '\\)'])),
-		// assignment(lookaheads([',', '\\)'])),
+		// annotation(lookaheads([ASSN_START, ',', DELIMS.DESTRUCT[1]])),
+		// assignment(lookaheads([',', DELIMS.DESTRUCT[1]])),
 		identifiers,
 	]);
 }

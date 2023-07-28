@@ -102,28 +102,73 @@ private typefunc Or<T, U, V> => Or.<T, U> | [:V];
 
 
 % variable destructuring:
-let (x, y): int            = [1, 2];
-let (x: int, y: int)       = [1, 2];
-let (if$, by as b): int    = [if= 1, by= 2];
-let (x$: int, y as b: int) = [x= 1, y= 2];
-let ((unfixed x), (y as (b))): int = [[1], [y= [2]]];
+let [x, y]: int          = [1, 2];
+let [x: int, y: int]     = [1, 2];
+let [if$, by= b]: int    = [if= 1, by= 2];
+let [x$: int, y= b: int] = [x= 1, y= 2];
+let [[unfixed x], [y= [b]]]: int = [[1], [y= [2]]];
 
 % claim destructuring:
-claim (x, y): int;
-claim (x: int, y: int);
-claim (if$, by as b): int;
-claim (x$: int, y as b: int);
-claim ((x), (y as (b))): int;
-claim (x.1, y.2): T;
-claim (x.i, y.j): T;
-claim (x.[i + j], y.[j]): T;
-claim (if$, by as b.j): T;
-claim ((x$), (y as (b.j))): T;
+claim [a]:                [int];
+claim [x, y]:             int[2];
+claim [if$, by= b]:       [if: If, by: B];
+claim [[x], [y= [b]]]:    [[X], [y: [B]]];
+claim [x.1, y.2]:         int[2];
+claim [x.i, y.j]:         int[2];
+claim [x.[i + j], y.[j]]: int[2];
+claim [if$, by= b.j]:     [if: If, by: Bj];
+claim [[x$], [y= [b.j]]]: [[X], [y: [Bj]]];
+
+% not claim destructuring:
+claim (a).c:                  int;
+claim (a.b).c:                int;
+claim (a || b).c:             int;
+claim (<[y: int]>x).y:        int;
+claim [a].c:                  TupleValue;
+claim [a.b].c:                TupleValue;
+claim [a || b].c:             TupleValue;
+claim [<[y: int]>x].y:        TupleValue;
+claim [prop= a].c:            RecordValue;
+claim [prop= a.b].c:          RecordValue;
+claim [prop= a || b].c:       RecordValue;
+claim [prop= <[y: int]>x].y:  RecordValue;
+claim {a}.c:                  SetValue;
+claim {a.b}.c:                SetValue;
+claim {a || b}.c:             SetValue;
+claim {<[y: int]>x}.y:        SetValue;
+claim {kie -> a}.c:           MapValue;
+claim {kie -> a.b}.c:         MapValue;
+claim {kie -> a || b}.c:      MapValue;
+claim {kie -> <[y: int]>x}.y: MapValue;
+
 
 % reassignment destructuring:
-set (x, y) %%c%%         = [1, 2];
-set (x.1, y.2)           = [1, 2];
-set (x.i, y.j)           = [1, 2];
-set (x.[i + j], y.[j])   = [1, 2];
-set (if$, by as b.j)     = [if= 1, by= 2];
-set ((x$), (y as (b.j))) = [[x= 1], [y= [2]]];
+set [a]                = [1];
+set [x, y] %%c%%       = [1, 2];
+set [x.1, y.2]         = [1, 2];
+set [x.i, y.j]         = [1, 2];
+set [x.[i + j], y.[j]] = [1, 2];
+set [if$, by= b.j]     = [if= 1, by= 2];
+set [[x$], [y= [b.j]]] = [[x= 1], [y= [2]]];
+
+% not reassignment destructuring:
+set (a).c                  = value;
+set (a.b).c                = value;
+set (a || b).c             = value;
+set (<[y: int]>x).y        = value;
+set [a].c                  = tupleValue;
+set [a.b].c                = tupleValue;
+set [a || b].c             = tupleValue;
+set [<[y: int]>x].y        = tupleValue;
+set [prop= a].c            = recordValue;
+set [prop= a.b].c          = recordValue;
+set [prop= a || b].c       = recordValue;
+set [prop= <[y: int]>x].y  = recordValue;
+set {a}.c                  = setValue;
+set {a.b}.c                = setValue;
+set {a || b}.c             = setValue;
+set {<[y: int]>x}.y        = setValue;
+set {kie -> a}.c           = mapValue;
+set {kie -> a.b}.c         = mapValue;
+set {kie -> a || b}.c      = mapValue;
+set {kie -> <[y: int]>x}.y = mapValue;
