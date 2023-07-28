@@ -17,7 +17,7 @@ export const DELIMS = {
 	CAPTURES:  ['\\[',         '\\]'],
 	PARAMS_GN: ['<',           '>'],
 	PARAMS_FN: ['\\(',         '\\)'],
-	DESTRUCT:  ['\\(',         '\\)'],
+	DESTRUCT:  ['\\[',         '\\]'],
 };
 
 export const OWS = '(?:\\s+|(%%(?:%?[^%])*%%))*';
@@ -39,7 +39,7 @@ export const DESTRUCTURE_PROPERTIES_OR_ARGUMENTS = `
 			)
 			| (?<DestructurePropertyOrArgumentKey>
 				${ VAR }${ OWS }\\$
-				| ${ VAR }${ OWS } \\b as \\b ${ OWS } \\g<DestructurePropertyOrArgumentItem>
+				| ${ VAR } ${ OWS } ${ ASSN_START } ${ OWS } \\g<DestructurePropertyOrArgumentItem>
 			)
 		)
 		(?:${ OWS },${ OWS }\\g<DestructurePropertyOrArgumentItemOrKey>)*
@@ -60,7 +60,7 @@ export const DESTRUCTURE_ASSIGNEES = `
 			)
 			| (?<DestructureAssigneeKey>
 				${ VAR }${ OWS }\\$
-				| ${ VAR }${ OWS } \\b as \\b ${ OWS } \\g<DestructureAssigneeItem>
+				| ${ VAR } ${ OWS } ${ ASSN_START } ${ OWS } \\g<DestructureAssigneeItem>
 			)
 		)
 		(?:${ OWS },${ OWS }\\g<DestructureAssigneeItemOrKey>)*
@@ -99,7 +99,7 @@ export const FUNCTION = `
 				| \\b unfixed \\b                                                                                      # unfixed parameter
 				| ${ VAR }${ OWS }(?:
 					${ DELIMS.PARAMS_FN[1] }${ OWS }\\g<afterparams>     # exactly 1 unannotated uninitialized nondestructued parameter
-					| ${ ANNO_START } | ${ ASSN_START } | , | \\b as \\b # annotated, or assigned, or more than 1 parameter, or destructured
+					| ${ ANNO_START } | ${ ASSN_START } | , | \\b as \\b # annotated, or assigned, or more than 1 parameter, or aliased
 				)
 			)
 		)

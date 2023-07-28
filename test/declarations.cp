@@ -102,22 +102,22 @@ private typefunc Or<T, U, V> => Or.<T, U> | [:V];
 
 
 % variable destructuring:
-let (x, y): int            = [1, 2];
-let (x: int, y: int)       = [1, 2];
-let (if$, by as b): int    = [if= 1, by= 2];
-let (x$: int, y as b: int) = [x= 1, y= 2];
-let ((unfixed x), (y as (b))): int = [[1], [y= [2]]];
+let [x, y]: int          = [1, 2];
+let [x: int, y: int]     = [1, 2];
+let [if$, by= b]: int    = [if= 1, by= 2];
+let [x$: int, y= b: int] = [x= 1, y= 2];
+let [[unfixed x], [y= [b]]]: int = [[1], [y= [2]]];
 
 % claim destructuring:
-claim (a):                  [int];
-claim (x, y):               int[2];
-claim (if$, by as b):       [if: If, by: B];
-claim ((x), (y as (b))):    [[X], [y: [B]]];
-claim (x.1, y.2):           int[2];
-claim (x.i, y.j):           int[2];
-claim (x.[i + j], y.[j]):   int[2];
-claim (if$, by as b.j):     [if: If, by: Bj];
-claim ((x$), (y as (b.j))): [[X], [y: [Bj]]];
+claim [a]:                [int];
+claim [x, y]:             int[2];
+claim [if$, by= b]:       [if: If, by: B];
+claim [[x], [y= [b]]]:    [[X], [y: [B]]];
+claim [x.1, y.2]:         int[2];
+claim [x.i, y.j]:         int[2];
+claim [x.[i + j], y.[j]]: int[2];
+claim [if$, by= b.j]:     [if: If, by: Bj];
+claim [[x$], [y= [b.j]]]: [[X], [y: [Bj]]];
 
 % not claim destructuring:
 claim (a).c:                  int;
@@ -143,13 +143,13 @@ claim {kie -> <[y: int]>x}.y: MapValue;
 
 
 % reassignment destructuring:
-set (a)                  = [1];
-set (x, y) %%c%%         = [1, 2];
-set (x.1, y.2)           = [1, 2];
-set (x.i, y.j)           = [1, 2];
-set (x.[i + j], y.[j])   = [1, 2];
-set (if$, by as b.j)     = [if= 1, by= 2];
-set ((x$), (y as (b.j))) = [[x= 1], [y= [2]]];
+set [a]                = [1];
+set [x, y] %%c%%       = [1, 2];
+set [x.1, y.2]         = [1, 2];
+set [x.i, y.j]         = [1, 2];
+set [x.[i + j], y.[j]] = [1, 2];
+set [if$, by= b.j]     = [if= 1, by= 2];
+set [[x$], [y= [b.j]]] = [[x= 1], [y= [2]]];
 
 % not reassignment destructuring:
 set (a).c                  = value;
