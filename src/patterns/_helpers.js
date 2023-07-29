@@ -172,14 +172,14 @@ export function destructure(subtype, identifiers, param_or_var = false) {
 			name: 'keyword.other.alias.cp',
 			match: '\\$',
 		},
-		(param_or_var) ? {
-			name: 'storage.modifier.cp',
-			match: '\\b(unfixed)\\b',
-		} : {},
-		(param_or_var) ? annotation(lookaheads([',', DELIMS.DESTRUCT[1]])) : {},
-		// // if adding destructure defaults:
-		// annotation(lookaheads([ASSN_START, ',', DELIMS.DESTRUCT[1]])),
-		// assignment(lookaheads([',', DELIMS.DESTRUCT[1]])),
+		...((param_or_var) ? [
+			{
+				name: 'storage.modifier.cp',
+				match: '\\b(unfixed)\\b',
+			},
+			annotation(lookaheads([ASSN_START, ',', DELIMS.DESTRUCT[1]])),
+			assignment(lookaheads([',', DELIMS.DESTRUCT[1]])),
+		] : []),
 		identifiers,
 	]);
 }

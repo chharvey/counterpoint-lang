@@ -108,6 +108,14 @@ let [if$, by= b]: int    = [if= 1, by= 2];
 let [x$: int, y= b: int] = [x= 1, y= 2];
 let [[unfixed x], [y= [b]]]: int = [[1], [y= [2]]];
 
+% variable destructuring with defaults:
+let [a:    SomeType.0 = x, b:    SomeType.1 = y, c:    SomeType.2 = z] = some_object;
+let [a= x: SomeType.a = t, b= y: SomeType.b = u, c= z: SomeType.c = v] = some_object;
+
+% function parameter destructuring with defaults:
+func f(arg as [a:    SomeType.0 = x, b:    SomeType.1 = y, c:    SomeType.2 = z]) => some_object;
+func f(arg as [a= x: SomeType.a = t, b= y: SomeType.b = u, c= z: SomeType.c = v]) => some_object;
+
 % claim destructuring:
 claim [a]:                [int];
 claim [x, y]:             int[2];
