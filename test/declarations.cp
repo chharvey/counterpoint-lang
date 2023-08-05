@@ -30,10 +30,35 @@ set g == 42;
 set g = if true then 1 else 0;
 set g = if true then {1,} else {0,};
 set g.<U>(42)~~.y++.0.["prop" || "key"] = 42;
-set this.g = 42;
-set super.g = 42;
-set static.g = 42;
-set hyper.g = 42;
+
+% unit access assignments
+set """a template""".value = val;
+set "a string".value       = val;
+set 42.value               = val;
+set null.value             = val;
+set true.value             = val;
+set false.value            = val;
+set never.value            = val;
+set void.value             = val;
+set bool.value             = val;
+set int.value              = val;
+set float.value            = val;
+set str.value              = val;
+set obj.value              = val;
+set unknown.value          = val;
+set this.value             = val;
+set super.value            = val;
+set static.value           = val;
+set hyper.value            = val;
+set method.value           = val;
+set Object.value           = val;
+set Class.value            = val;
+set List.value             = val;
+set Dict.value             = val;
+set Set.value              = val;
+set Map.value              = val;
+set _.value                = val;
+
 
 let h: int = if true then 1 else 0;
 
