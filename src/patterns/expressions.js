@@ -94,10 +94,6 @@ export const EXPRESSION__ASSIGNEE = {
 			name: 'keyword.operator.punctuation.cp',
 			match: '~~|\\+\\+',
 		},
-		{
-			name: 'variable.language.cp',
-			match: '\\b(this)\\b',
-		},
 		{include: '#DestructureAssignment'},
 		{include: '#ExpressionCall'},
 		{include: '#ExpressionAccess'},
@@ -155,10 +151,6 @@ export const EXPRESSION = {
 		{
 			name: 'keyword.operator.text.cp',
 			match: '\\b(is|isnt|if|then|else)\\b',
-		},
-		{
-			name: 'variable.language.cp',
-			match: '\\b(this)\\b',
 		},
 		{
 			// for cases like `(x: int): int{} => Set.([x + 1]);` where the `}` incorrectly ends the function

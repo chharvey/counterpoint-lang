@@ -118,7 +118,7 @@ secret type A<T> = float | T;
 private type B<T> = float | T;
 
 type Or<T, U> = T | U;
-type Or<T, U, V> = Or.<T, U> | V;
+type Or<T, U, V> = Or.<T, U> | V | this;
 typefunc Or<T, U> => T | U{};
 typefunc Or<T, U, V> => Or.<T, U> | V;
 public typefunc Map<T, U> => {T -> U};
