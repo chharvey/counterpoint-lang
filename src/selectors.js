@@ -103,7 +103,7 @@ export const FUNCTION = `
 				)
 			)
 		)
-		| ${ DELIMS.PARAMS_GN[0] }${ OWS }${ VAR }${ OWS }(?:
+		| ${ DELIMS.PARAMS_GN[0] }${ OWS }(?:\\b(?:out | in)\\b)?${ OWS }${ VAR }${ OWS }(?:
 			${ DELIMS.PARAMS_GN[1] }${ OWS }\\g<aftergenericparams> # exactly 1 unannotated uninitialized generic parameter
 			| \\b(?:narrows | widens)\\b | ${ ASSN_START } | ,      # annotated, or assigned, or more than 1 generic parameter
 		)
@@ -114,14 +114,14 @@ export const FUNCTION = `
 export const FIELD = `
 	(\\b(?:public | secret | private | protected)\\b ${ OWS })?
 	(\\b(?:override | claim)\\b ${ OWS })?
-	(\\b(?:final | readonly)\\b ${ OWS })?
+	(\\b(?:final | readonly | writeonly)\\b ${ OWS })?
 	${ VAR } ${ OWS } ${ ANNO_START }
 `.replace(/\s+/g, '');
 
 export const FIELD_CONSTRUCTOR = `
 	\\b(?:public | secret | private | protected)\\b ${ OWS }
 	(\\b override \\b ${ OWS })?
-	(\\b(?:final | readonly)\\b ${ OWS })?
+	(\\b(?:final | readonly | writeonly)\\b ${ OWS })?
 	(?:
 		(${ VAR } ${ OWS } \\b as \\b ${ OWS })? (\\b unfixed \\b ${ OWS })? ${ VAR } ${ OWS } ${ ANNO_START }
 		| ${ VAR } ${ OWS } \\b as \\b ${ OWS } ${ DELIMS.DESTRUCT[0] }

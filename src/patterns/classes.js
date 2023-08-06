@@ -57,7 +57,7 @@ export const TYPE__INTERFACE = {
 		{include: '#ClassBody'},
 		{
 			name: 'storage.modifier.cp',
-			match: '\\b(readonly)\\b',
+			match: '\\b(data)\\b',
 		},
 	],
 };
@@ -79,7 +79,7 @@ export const EXPRESSION__CLASS = {
 		{include: '#ClassBody'},
 		{
 			name: 'storage.modifier.cp',
-			match: '\\b(final|abstract|readonly)\\b',
+			match: '\\b(final|abstract|data)\\b',
 		},
 	],
 };
@@ -104,7 +104,7 @@ export const DECLARATION__CLASS = {
 		},
 		{
 			name: 'storage.modifier.cp',
-			match: '\\b(final|abstract|readonly|nominal)\\b',
+			match: '\\b(final|abstract|data|nominal)\\b',
 		},
 		{include: '#IdentifierClass'}, // must come after keywords
 	],
@@ -129,7 +129,7 @@ export const DECLARATION__INTERFACE = {
 		},
 		{
 			name: 'storage.modifier.cp',
-			match: '\\b(readonly|nominal)\\b',
+			match: '\\b(data|nominal)\\b',
 		},
 		{include: '#IdentifierClass'}, // must come after keywords
 	],
@@ -156,7 +156,7 @@ export const CONSTRUCTOR_FIELD = {
 	patterns: [
 		{
 			name: 'storage.modifier.cp',
-			match: '\\b(public|secret|private|protected|override|final|readonly|unfixed)\\b',
+			match: '\\b(public|secret|private|protected|override|final|readonly|writeonly|unfixed)\\b',
 		},
 		{
 			name: 'keyword.other.alias.cp',
@@ -180,7 +180,7 @@ export const MEMBER__FIELD = {
 	patterns: [
 		{
 			name: 'storage.modifier.cp',
-			match: '\\b(public|secret|private|protected|override|claim|final|readonly)\\b',
+			match: '\\b(public|secret|private|protected|override|claim|final|readonly|writeonly)\\b',
 		},
 		{include: '#IdentifierProperty'},
 		annotation(lookaheads([ASSN_START, ';'])),

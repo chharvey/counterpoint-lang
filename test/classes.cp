@@ -6,9 +6,10 @@ secret class Foo {}
 private class Foo {}
 class final Foo {}
 class abstract Foo {}
-class readonly Foo {}
+class data Foo {}
 class nominal Foo {}
 class Foo<T> {}
+class Foo<out T> {}
 class Foo<_> {}
 class Foo extends Bar, Diz.<T> {}
 class Foo extends _, Diz.<_> {}
@@ -27,8 +28,9 @@ class ClassWithCaptures [
 let Foo: Class = Object && Class && (class {});
 let Foo: Class = Object && Class && (class final {});
 let Foo: Class = Object && Class && (class abstract {});
-let Foo: Class = Object && Class && (class readonly {});
+let Foo: Class = Object && Class && (class data {});
 let Foo: Class = Object && Class && (class <T> extends Bar.<T> {});
+let Foo: Class = Object && Class && (class <in T> extends Bar.<T> {});
 let Foo: Class = Object && Class && (class extends Bar, Diz.<T> {});
 let Foo: Class = Object && Class && (class extends _, Diz.<_> {});
 let Foo: Class = Object && Class && (class implements Bar, Diz.<T> {});
@@ -46,9 +48,10 @@ interface Foo {}
 public interface Foo {}
 secret interface Foo {}
 private interface Foo {}
-interface readonly Foo {}
+interface data Foo {}
 interface nominal Foo {}
 interface Foo<T> {}
+interface Foo<out T> {}
 interface Foo extends Bar, Diz.<T> {}
 interface Foo inherits Bar, Diz.<T> {}
 interface _ inherits _, Diz.<_> {}
@@ -58,8 +61,9 @@ interface Foo extends Bar inherits Diz.<T> {}
 
 % interface type expressions
 type T = unknown & (interface {});
-type T = unknown & (interface readonly {});
+type T = unknown & (interface data {});
 type T = unknown & (interface <T> {});
+type T = unknown & (interface <in T> {});
 type T = unknown & (interface extends Bar, Diz.<T> {});
 type T = unknown & (interface inherits Bar, Diz.<T> {});
 type T = unknown & (interface inherits _, Diz.<_> {});
@@ -103,6 +107,7 @@ class Foo {
 	override field: T = 42;
 	final field: T = 42;
 	readonly field: T = 42;
+	writeonly field: T = 42;
 	field: Typ = 42;
 	claim field: Typ;
 
@@ -119,6 +124,7 @@ class Foo {
 		public override constructor_field5: int,
 		public final constructor_field6: int,
 		public readonly constructor_field7: int,
+		public writeonly constructor_field8: int,
 
 		private unfixed construtor_field8: int,
 		private construtor_field9 as field9: int,
@@ -139,6 +145,7 @@ class Foo {
 	async meth(): void {;}
 	gen meth(): void {;}
 	meth<T>(): void {;}
+	meth<out T>(): void {;}
 	meth(x: int): void {;}
 	meth(): void {
 		super; static; hyper; method; this;
@@ -164,6 +171,7 @@ class Foo {
 			public override constructor_field5: int,
 			public final constructor_field6: int,
 			public readonly constructor_field7: int,
+			public writeonly constructor_field8: int,
 
 			private unfixed construtor_field8: int,
 			private construtor_field9 as field9: int,
@@ -177,6 +185,7 @@ class Foo {
 		async (): void {;}
 		gen (): void {;}
 		<T>(): void {;}
+		<in T>(): void {;}
 		(x: int): void {;}
 		(): void {
 			super; static; hyper; method; this;
@@ -199,6 +208,7 @@ interface Foo {
 	async meth(): void;
 	gen meth(): void;
 	meth<T>(): void;
+	meth<out T>(): void;
 	_<_>(): void;
 	meth(x: int): void;
 	meth(_: int): void;
@@ -208,6 +218,7 @@ interface Foo {
 		async (): void;
 		gen (): void;
 		<T>(): void;
+		<in T>(): void;
 		(x: int): void;
 	}
 	public mutating methodGroup { (): void; }
