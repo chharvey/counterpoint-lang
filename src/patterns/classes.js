@@ -29,7 +29,7 @@ export const HERITAGE = {
 	begin: '\\b(extends|implements|inherits)\\b',
 	end:   lookaheads(['\\b(extends|implements|inherits)\\b', DELIMS.CAPTURES[0], DELIMS.BLOCK[0]]),
 	beginCaptures: {
-		0: {name: 'keyword.modifier.cp'},
+		0: {name: 'storage.modifier.cp'},
 	},
 	patterns: [
 		{include: '#TypeCall'},

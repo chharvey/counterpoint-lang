@@ -136,7 +136,7 @@ export const GENERIC_PARAMETER_PATTERNS = {
 			begin: '\\b(narrows|widens)\\b',
 			end: lookaheads([ASSN_START, ',', DELIMS.PARAMS_GN[1]]),
 			beginCaptures: {
-				0: {name: 'keyword.modifier.cp'},
+				0: {name: 'storage.modifier.cp'},
 			},
 			patterns: [
 				{include: '#Type'},
