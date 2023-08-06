@@ -58,7 +58,6 @@ await fs.promises.writeFile(path.join(path.dirname(new URL(import.meta.url).path
 		IdentifierProperty:            identifier('entity.name.method', true),
 		IdentifierType:                identifier('entity.name.type', true),
 		IdentifierVariable:            identifier('entity.name.variable', true),
-		Keyword:                       Pattern.KEYWORD,
 		MemberConstructor:             Pattern.MEMBER__CONSTRUCTOR,
 		MemberConstructorgroup:        Pattern.MEMBER__CONSTRUCTORGROUP,
 		MemberField:                   Pattern.MEMBER__FIELD,

@@ -13,6 +13,34 @@ import {
 
 
 
+export function keyword(varname = 'variable.language') {
+	return {
+		patterns: [
+			{
+				name: 'constant.language.cp',
+				match: '\\b(null|false|true)\\b',
+			},
+			{
+				name: 'support.type.cp',
+				match: '\\b(never|void|bool|int|float|str|obj|unknown)\\b',
+			},
+			{
+				name:  `${ varname }.cp`,
+				match: '\\b(this)\\b',
+			},
+			{
+				name: 'variable.language.cp',
+				match: '\\b(super|static|hyper|method)\\b',
+			},
+			{
+				name: 'support.class.cp',
+				match: '\\b(Object|Class|List|Dict|Set|Map)\\b',
+			},
+		],
+	};
+}
+
+
 export function identifier(varname = 'variable.other', allow_blank = false) {
 	return {
 		patterns: [
@@ -46,7 +74,7 @@ export function unit(varname = 'variable.other') {
 			{include: '#Template'},
 			{include: '#String'},
 			{include: '#Number'},
-			{include: '#Keyword'},
+			(varname === 'entity.name.type' ? keyword('support.type') : keyword()),
 			identifier(varname),
 			{
 				/*

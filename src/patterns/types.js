@@ -104,10 +104,6 @@ export const TYPENONFUNCTION = {
 			match: '\\b(mutable)\\b',
 		},
 		{
-			name: 'support.type.cp',
-			match: '\\b(this)\\b',
-		},
-		{
 			// for cases like `type T = (
 			// 	x: int,
 			// ) => int`
