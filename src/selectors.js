@@ -6,18 +6,18 @@ import {
 
 
 export const DELIMS = {
-	GROUPING:  ['\\(',         '\\)'],
-	LIST:      ['\\\\\\[|\\[', '\\]'],
-	SET:       ['\\{',         `\\}${ lookaheads(['\\}'], true) }`],
-	ARGS_GN:   ['<',           '>'],
-	ARGS_FN:   ['\\(',         '\\)'],
-	ACCESS:    ['\\[',         '\\]'],
-	CLAIM:     ['<',           '>'],
-	BLOCK:     ['\\{',         `\\}${ lookaheads(['\\}'], true) }`],
-	CAPTURES:  ['\\[',         '\\]'],
-	PARAMS_GN: ['<',           '>'],
-	PARAMS_FN: ['\\(',         '\\)'],
-	DESTRUCT:  ['\\[',         '\\]'],
+	GROUPING:  ['\\(', '\\)'],
+	LIST:      ['\\[', '\\]'],
+	SET:       ['\\{', `\\}${ lookaheads(['\\}'], true) }`],
+	ARGS_GN:   ['<',   '>'],
+	ARGS_FN:   ['\\(', '\\)'],
+	ACCESS:    ['\\[', '\\]'],
+	CLAIM:     ['<',   '>'],
+	BLOCK:     ['\\{', `\\}${ lookaheads(['\\}'], true) }`],
+	CAPTURES:  ['\\[', '\\]'],
+	PARAMS_GN: ['<',   '>'],
+	PARAMS_FN: ['\\(', '\\)'],
+	DESTRUCT:  ['\\[', '\\]'],
 };
 
 export const OWS = '(?:\\s+|(%%(?:%?[^%])*%%))*';
