@@ -22,6 +22,8 @@ from "module-path" import (A, B);
 from "module-path" import (_, B);
 from "module-path" import type (A, B);
 from "module-path" import await (A, B);
+from "module-path" import (type A, B);
+from "module-path" import (A, await B);
 from "module-path" import (A, %% a %% B %% b %%);
 from "module-path" import (
 	A,
@@ -34,6 +36,8 @@ from "module-path" import (A as Alias, B);
 from "module-path" import (A as _, B);
 from "module-path" import type (A as Alias, B);
 from "module-path" import await (A as Alias, B);
+from "module-path" import (type A as Alias, B);
+from "module-path" import (A as Alias, await B);
 from "module-path" import (A %% a %% as %% b %% Alias, B);
 from "module-path" import (
 	A % a
@@ -49,6 +53,8 @@ from "module-path" import (A as Alias, B) as Namespace;
 from "module-path" import (A as Alias, B) as _;
 from "module-path" import type (A as Alias, B) as Namespace;
 from "module-path" import await (A as Alias, B) as Namespace;
+from "module-path" import (type A as Alias, B) as Namespace;
+from "module-path" import (A as Alias, await B) as Namespace;
 from "module-path" import (A %% a %% as %% b %% Alias, B) as Namespace;
 from "module-path" import (
 	A % a

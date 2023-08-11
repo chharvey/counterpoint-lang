@@ -178,6 +178,10 @@ export const STATEMENT__IMPORT = {
 		{include: '#IdentifierVariable'},
 		list('meta.import.list', DELIMS.GROUPING[0], DELIMS.GROUPING[1], [
 			{
+				name: 'keyword.control.cp',
+				match: '\\b(type|await)\\b',
+			},
+			{
 				name: 'keyword.other.alias.cp',
 				match: '\\b(as)\\b',
 			},
