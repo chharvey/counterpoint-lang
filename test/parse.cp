@@ -80,14 +80,14 @@ for item of list do {};
 for _ of _ do {};
 for item: T of list do {};
 for _: _ of _ do {};
-for (item, i) of entries do {};
-for (_, i) of entries do {};
-for (item: T, i: int) of entries do {};
-for (a$, b$): S of records do {};
-for (a as alpha, b as bravo) of records do {};
-for (_$, _ as _): S of records do {};
-for (a as (alpha, bravo): S, c as (charlie$, 'delta'$): S) of records do {};
-for (a as (_, bravo): S, c as (_$, _ as delta): S) of records do {};
+for [item, i] of entries do {};
+for [_, i] of entries do {};
+for [item: T, i: int] of entries do {};
+for [a$, b$]: S of records do {};
+for [a= alpha, b= bravo] of records do {};
+for [_$, _= _]: S of records do {};
+for [a= [alpha, bravo]: S, c= [charlie$, 'delta'$]: S] of records do {};
+for [a= [_, bravo]: S, c= [_$, _= delta]: S] of records do {};
 for prop of (x: int): int => 2 * x do {};
 for prop of (x: int): int { return 2 * x; } do {};
 for prop of (x, y) => y * x do {};
@@ -270,12 +270,12 @@ let f: obj = (param as [x$: int, y= b: int]         = [x= 1, y= 2]):    int { re
 let f: obj = (param as [[unfixed x], [y= [b]]]: int = [[1], [y= [2]]]): int { return x + b; };
 
 % record property destructuring:
-[[x, y]=       [1, 2]];
-[[x, _]=       [1, 2]];
-[[x= a]=       [x= 1]];
-[[if$, by= b]= [if= 1, by= 2]];
-[[_$,  by= _]= [if= 1, by= 2]];
-[[[x$], [y= [b]]]= [[x= 1], [y= [2]]]];
+[z= 3, [x, y]=       [1, 2]];
+[z= 3, [x, _]=       [1, 2]];
+[z= 3, [x= a]=       [x= 1]];
+[z= 3, [if$, by= b]= [if= 1, by= 2]];
+[z= 3, [_$,  by= _]= [if= 1, by= 2]];
+[z= 3, [[x$], [y= [b]]]= [[x= 1], [y= [2]]]];
 % not destructuring:
 [[x]];
 [[x, y]];

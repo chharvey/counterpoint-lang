@@ -129,7 +129,7 @@ class Foo {
 		private unfixed construtor_field8: int,
 		private construtor_field9 as field9: int,
 		private construtor_field10 as unfixed field10: int,
-		private construtor_field11 as (field11a, unfixed field11b): int[2],
+		private construtor_field11 as [field11a, unfixed field11b]: int[2],
 	) {;}
 
 	%%
@@ -176,7 +176,7 @@ class Foo {
 			private unfixed construtor_field8: int,
 			private construtor_field9 as field9: int,
 			private construtor_field10 as unfixed field10: int,
-			private construtor_field11 as (field11a, unfixed field11b): int[2],
+			private construtor_field11 as [field11a, unfixed field11b]: int[2],
 		) {;}
 	}
 

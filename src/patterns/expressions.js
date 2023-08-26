@@ -26,7 +26,7 @@ export const ARGUMENTS = list('meta.arguments.cp', DELIMS.ARGS_FN[0], DELIMS.ARG
 		match: '##|#',
 	},
 	propertyOrArgumentLabel(DELIMS.ARGS_FN[1], '#IdentifierParameter', '#DestructureArgument'),
-	{include: '#Expression'}, // must come after argument destructuring because of untyped lambda parameters
+	{include: '#Expression'}, // must come after argument destructuring because of list structure syntax
 ]);
 
 
@@ -126,7 +126,7 @@ export const EXPRESSION__STRUCTURE__LIST = list('meta.expression.structure.list.
 		match: '##|#',
 	},
 	propertyOrArgumentLabel(DELIMS.LIST[1], '#IdentifierProperty', '#DestructureProperty'),
-	{include: '#Expression'}, // must come after property destructuring because of untyped lambda parameters
+	{include: '#Expression'}, // must come after property destructuring because of list structure syntax
 ]);
 
 
