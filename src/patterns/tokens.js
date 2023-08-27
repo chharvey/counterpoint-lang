@@ -23,28 +23,6 @@ export const COMMENT_BLOCK = {
 };
 
 
-export const KEYWORD = {
-	patterns: [
-		{
-			name: 'constant.language.cp',
-			match: '\\b(null|false|true)\\b',
-		},
-		{
-			name: 'support.type.cp',
-			match: '\\b(never|void|bool|int|float|str|obj|unknown)\\b',
-		},
-		{
-			name: 'variable.language.cp',
-			match: '\\b(super|static|hyper|method)\\b',
-		},
-		{
-			name: 'support.class.cp',
-			match: '\\b(Object|Class|List|Dict|Set|Map)\\b',
-		},
-	],
-};
-
-
 export const NUMBER = {
 	patterns: [
 		{
