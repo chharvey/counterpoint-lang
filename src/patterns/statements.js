@@ -5,6 +5,7 @@ import {
 import {
 	DELIMS,
 	OWS,
+	ALIAS,
 	ASSN_START,
 	THINARROW,
 	BLOCK_END,
@@ -172,7 +173,7 @@ export const STATEMENT__IMPORT = {
 		},
 		{
 			name: 'keyword.other.alias.cp',
-			match: '\\b(as)\\b',
+			match: ALIAS,
 		},
 		{include: '#String'},
 		{include: '#IdentifierVariable'},
@@ -183,7 +184,7 @@ export const STATEMENT__IMPORT = {
 			},
 			{
 				name: 'keyword.other.alias.cp',
-				match: '\\b(as)\\b',
+				match: ALIAS,
 			},
 			{include: '#IdentifierVariable'},
 		]),
@@ -204,7 +205,7 @@ export const STATEMENT__EXPORT = {
 	patterns: [
 		{
 			name: 'keyword.other.alias.cp',
-			match: '\\b(as)\\b',
+			match: ALIAS,
 		},
 		{include: '#String'},
 		{include: '#IdentifierVariable'},

@@ -24,6 +24,7 @@ export const OWS = '(?:\\s+|(%%(?:%?[^%])*%%))*';
 export const INT = '(?:\\+|-)?(?:\\\\[bqodxz])?[0-9a-z_]+';
 export const VAR = '(?:\\b[A-Za-z_][A-Za-z0-9_]*\\b|\'.*\')';
 
+export const ALIAS      = '\\b(as)\\b';
 export const ANNO_START = `\\??\\:${ lookaheads(['\\:'], true) }`;
 export const ASSN_START = `=${ lookaheads(['=', '>'], true) }`;
 export const DFLT_START = `\\?${ ASSN_START }`;
@@ -99,8 +100,8 @@ export const FUNCTION = `
 				${ DELIMS.PARAMS_FN[1] }${ OWS }(?<afterparams>${ ANNO_START } | ${ FATARROW } | ${ DELIMS.BLOCK[0] }) # exactly 0 parameters
 				| \\b unfixed \\b                                                                                      # unfixed parameter
 				| ${ VAR }${ OWS }(?:
-					${ DELIMS.PARAMS_FN[1] }${ OWS }\\g<afterparams>     # exactly 1 unannotated uninitialized nondestructued parameter
-					| ${ ANNO_START } | ${ DFLT_START } | , | \\b as \\b # annotated, or initialized, or more than 1 parameter, or aliased
+					${ DELIMS.PARAMS_FN[1] }${ OWS }\\g<afterparams>     # exactly 1 unaliased unannotated uninitialized nondestructued parameter
+					| ${ ALIAS } | ${ ANNO_START } | ${ DFLT_START } | , # aliased, annotated, or initialized, or more than 1 parameter
 				)
 			)
 		)
@@ -124,8 +125,8 @@ export const FIELD_CONSTRUCTOR = `
 	(\\b override \\b ${ OWS })?
 	(\\b(?:final | readonly | writeonly)\\b ${ OWS })?
 	(?:
-		(${ VAR } ${ OWS } \\b as \\b ${ OWS })? (\\b unfixed \\b ${ OWS })? ${ VAR } ${ OWS } ${ ANNO_START }
-		| ${ VAR } ${ OWS } \\b as \\b ${ OWS } ${ DELIMS.DESTRUCT[0] }
+		(${ VAR } ${ OWS } ${ ALIAS } ${ OWS })? (\\b unfixed \\b ${ OWS })? ${ VAR } ${ OWS } ${ ANNO_START }
+		| ${ VAR } ${ OWS } ${ ALIAS } ${ OWS } ${ DELIMS.DESTRUCT[0] }
 	)
 `.replace(/\s+/g, '');
 

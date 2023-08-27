@@ -6,6 +6,7 @@ import {
 	DELIMS,
 	OWS,
 	VAR,
+	ALIAS,
 	ANNO_START,
 	DFLT_START,
 	FATARROW,
@@ -171,7 +172,7 @@ export const PARAMETER_PATTERNS = {
 		},
 		{
 			name: 'keyword.other.alias.cp',
-			match: '\\b(as)\\b',
+			match: ALIAS,
 		},
 		{include: '#IdentifierParameter'},
 		{include: '#DestructureParameter'},
@@ -212,7 +213,7 @@ export const POSSIBLE_TYPE_PARAMETER = {
 /** Parameter of function expression, if on separate line. */
 export const POSSIBLE_PARAMETER = {
 	begin: lookaheads([[`(\\b(unfixed)\\b${ OWS })?`, VAR, OWS, `(${ [
-		ANNO_START, DFLT_START, ',', '\\b(as)\\b', // annotated, or initialized, or more than 1 parameter, or aliased
+		ALIAS, ANNO_START, DFLT_START, ',', // aliased, annotated, or initialized, or more than 1 parameter
 	].join('|') })`].join('')]),
 	end: `,|${ lookaheads([DELIMS.PARAMS_FN[1]]) }`,
 	endCaptures: {

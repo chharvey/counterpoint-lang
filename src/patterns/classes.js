@@ -5,6 +5,7 @@ import {
 import {
 	DELIMS,
 	OWS,
+	ALIAS,
 	ASSN_START,
 	DFLT_START,
 	FATARROW,
@@ -161,7 +162,7 @@ export const CONSTRUCTOR_FIELD = {
 		},
 		{
 			name: 'keyword.other.alias.cp',
-			match: '\\b(as)\\b',
+			match: ALIAS,
 		},
 		{include: '#IdentifierProperty'},
 		{include: '#DestructureParameter'},
