@@ -22,7 +22,7 @@ export function keyword(varname = 'variable.language') {
 			},
 			{
 				name: 'support.type.cp',
-				match: '\\b(never|void|bool|int|float|str|obj|unknown)\\b',
+				match: '\\b(never|void|bool|int|float|str|unknown)\\b',
 			},
 			{
 				name:  `${ varname }.cp`,

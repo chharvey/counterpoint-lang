@@ -93,10 +93,10 @@ let lambda: Function = <
 let nestedfunctions: (a: (x: int) %%c%% => %%c%% int) %%c%% => %%c%% bool
 	= (a: (x: int) %%c%% => %%c%% int = (x) %%c%% => %%c%% x * 2) %%c%% => %%c%% !!a;
 
-let lambdawithblockcomments: Function = <T, U>%%hello%%(a: T, b: U): obj %%world%% => a || b;
+let lambdawithblockcomments: Function = <T, U>%%hello%%(a: T, b: U): Object %%world%% => a || b;
 let lambdawithblockcomments: Function = <T, U>%%hello%%(a: T, b: U) %%world%% => a || b;
 let lambdawithlinecomments: Function = <T, U> % hello
-	(a: T, b: U): obj % world
+	(a: T, b: U): Object % world
 	=> a || b;
 let lambdawithlinecomments: Function = <T, U> % hello
 	(a: T, b: U) % world
@@ -148,10 +148,10 @@ func functionWithCaptures[
 	'b',
 ](x: int): int => a + b + x;
 
-func returnFunc(): obj => (x: int): int => x + 1;
-func returnFunc(): (obj) => (x: int): int => x + 1;
-func returnFunc(): obj{} => (x: int): int => x + 1;
-func returnFunc(): obj => (x: int): int{} => x + 1;
+func returnFunc(): Object => (x: int): int => x + 1;
+func returnFunc(): (Object) => (x: int): int => x + 1;
+func returnFunc(): Object{} => (x: int): int => x + 1;
+func returnFunc(): Object => (x: int): int{} => x + 1;
 func returnFunc(): ((x: int) => int) => (x) => x + 1;
 func returnAsyncFunc(): (async (x: int) => int) => async (x) => x~~ + 1;
 
