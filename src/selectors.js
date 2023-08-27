@@ -24,8 +24,14 @@ export const OWS = '(?:\\s+|(%%(?:%?[^%])*%%))*';
 export const INT = '(?:\\+|-)?(?:\\\\[bqodxz])?[0-9a-z_]+';
 export const VAR = '(?:\\b[A-Za-z_][A-Za-z0-9_]*\\b|\'.*\')';
 
-export const ANNO_START = `(?:\\:${ lookaheads(['\\:'], true) }|\\?\\:)`;
+export const UNFIXED    = '\\b(unfixed)\\b';
+export const ALIAS      = '\\b(as)\\b';
+export const PUN        = '\\$';
+export const VARIANCE   = '\\b(out|in)\\b';
+export const CONSTRAINT = '\\b(narrows|widens)\\b'
+export const ANNO_START = `\\??\\:${ lookaheads(['\\:'], true) }`;
 export const ASSN_START = `=${ lookaheads(['=', '>'], true) }`;
+export const DFLT_START = `\\?${ ASSN_START }`;
 export const THINARROW  = '->';
 export const FATARROW   = '=>';
 export const BLOCK_END  = `\\}${ lookaheads(['\\}'], true) }`;
@@ -38,7 +44,7 @@ export const DESTRUCTURE_PROPERTIES_OR_ARGUMENTS = `
 				| \\g<DestructurePropertiesOrArguments>
 			)
 			| (?<DestructurePropertyOrArgumentKey>
-				${ VAR }${ OWS }\\$
+				${ VAR } ${ OWS } ${ PUN }
 				| ${ VAR } ${ OWS } ${ ASSN_START } ${ OWS } \\g<DestructurePropertyOrArgumentItem>
 			)
 		)
@@ -51,7 +57,7 @@ export const DESTRUCTURE_ASSIGNEES = `
 	(?<DestructureAssignees>${ DELIMS.DESTRUCT[0] }${ OWS }
 		(?<DestructureAssigneeItemOrKey>
 			(?<DestructureAssigneeItem>
-				(?<Assignee>${ VAR }${ OWS }(?:\\.${ OWS }(?:
+				(?<Assignee> ${ VAR }${ OWS }(?:\\.${ OWS }(?:
 					${ INT }
 					| ${ VAR }
 					| (?:${ DELIMS.LIST[0] })(?: ${ OWS } | .* )${ DELIMS.LIST[1] }
@@ -59,7 +65,7 @@ export const DESTRUCTURE_ASSIGNEES = `
 				| \\g<DestructureAssignees>
 			)
 			| (?<DestructureAssigneeKey>
-				${ VAR }${ OWS }\\$
+				${ VAR } ${ OWS } ${ PUN }
 				| ${ VAR } ${ OWS } ${ ASSN_START } ${ OWS } \\g<DestructureAssigneeItem>
 			)
 		)
@@ -95,17 +101,20 @@ export const FUNCTION = `
 				${ OWS }${ DELIMS.CAPTURES[1] }
 			)?
 			${ DELIMS.PARAMS_FN[0] }${ OWS }(?:
-				${ DELIMS.PARAMS_FN[1] }${ OWS }(?<afterparams>${ ANNO_START } | ${ FATARROW } | ${ DELIMS.BLOCK[0] }) # exactly 0 parameters
-				| \\b unfixed \\b                                                                                      # unfixed parameter
+				${ DELIMS.PARAMS_FN[1] }${ OWS }(?<afterparams> ${ ANNO_START } | ${ FATARROW } | ${ DELIMS.BLOCK[0] }) # exactly 0 parameters
+				| ${ UNFIXED }
 				| ${ VAR }${ OWS }(?:
-					${ DELIMS.PARAMS_FN[1] }${ OWS }\\g<afterparams>     # exactly 1 unannotated uninitialized nondestructued parameter
-					| ${ ANNO_START } | ${ ASSN_START } | , | \\b as \\b # annotated, or assigned, or more than 1 parameter, or aliased
+					${ DELIMS.PARAMS_FN[1] }${ OWS }\\g<afterparams>          # exactly 1 unaliased unannotated uninitialized nondestructued parameter
+					| ${ ASSN_START } | ${ ANNO_START } | ${ DFLT_START } | , # aliased, annotated, or initialized, or more than 1 parameter
 				)
 			)
 		)
-		| ${ DELIMS.PARAMS_GN[0] }${ OWS }(?:\\b(?:out | in)\\b)?${ OWS }${ VAR }${ OWS }(?:
-			${ DELIMS.PARAMS_GN[1] }${ OWS }\\g<aftergenericparams> # exactly 1 unannotated uninitialized generic parameter
-			| \\b(?:narrows | widens)\\b | ${ ASSN_START } | ,      # annotated, or assigned, or more than 1 generic parameter
+		| ${ DELIMS.PARAMS_GN[0] }${ OWS }(?:
+			${ VARIANCE }
+			| ${ OWS }${ VAR }${ OWS }(?:
+				${ DELIMS.PARAMS_GN[1] }${ OWS }\\g<aftergenericparams> # exactly 1 unannotated uninitialized generic parameter
+				| ${ CONSTRAINT } | ${ DFLT_START } | ,                 # annotated, or initialized, or more than 1 generic parameter
+			)
 		)
 	)
 	| ${ lookbehinds([DELIMS.PARAMS_FN[1]]) }${ OWS }\\g<afterparams>
@@ -123,8 +132,8 @@ export const FIELD_CONSTRUCTOR = `
 	(\\b override \\b ${ OWS })?
 	(\\b(?:final | readonly | writeonly)\\b ${ OWS })?
 	(?:
-		(${ VAR } ${ OWS } \\b as \\b ${ OWS })? (\\b unfixed \\b ${ OWS })? ${ VAR } ${ OWS } ${ ANNO_START }
-		| ${ VAR } ${ OWS } \\b as \\b ${ OWS } ${ DELIMS.DESTRUCT[0] }
+		(${ VAR } ${ OWS } ${ ASSN_START } ${ OWS })? (${ UNFIXED } ${ OWS })? ${ VAR } ${ OWS } ${ ANNO_START }
+		| ${ VAR } ${ OWS } ${ ASSN_START } ${ OWS } ${ DELIMS.DESTRUCT[0] }
 	)
 `.replace(/\s+/g, '');
 

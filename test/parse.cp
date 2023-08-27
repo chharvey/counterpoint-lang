@@ -245,29 +245,29 @@ type T = [fun: (a: int) => int];
 
 
 % function parameter destructuring:
-func f(param as [x, y]: int          = [1, 2]):         int => x + y;
-func f(param as [_, y]: int          = [1, 2]):         int => y;
-func f(param as [x: int, y: int]     = [1, 2]):         int => x + y;
-func f(param as [_: int, y: int]     = [1, 2]):         int => y;
-func f(until as [if$, by= b]: int    = [if= 1, by= 2]): int => if + b;
-func f(_     as [_$,  by= _]: int    = [_=  1, by= 2]): int => _;
-func f(_     as [_$,  _=  b]: int    = [_=  1, _=  2]): int => _;
-func f(param as [x$: int, y= b: int] = [x=  1, y=  2]): int => x + b;
-func f(param as [[unfixed x], [y= [b]]]: int = [[1], [y= [2]]]): int => x + b;
-let f: Object = (param as [x, y]: int          = [1, 2]):         int => x + y;
-let f: Object = (param as [_, y]: int          = [1, 2]):         int => y;
-let f: Object = (param as [x: int, y: int]     = [1, 2]):         int => x + y;
-let f: Object = (param as [_: int, y: int]     = [1, 2]):         int => y;
-let f: Object = (until as [if$, by= b]: int    = [if= 1, by= 2]): int => if + b;
-let f: Object = (_     as [_$,  by= _]: int    = [_=  1, by= 2]): int => _;
-let f: Object = (_     as [_$,  _=  b]: int    = [_=  1, _=  2]): int => _;
-let f: Object = (param as [x$: int, y= b: int] = [x=  1, y=  2]): int => x + b;
-let f: Object = (param as [[unfixed x], [y= [b]]]: int = [[1], [y= [2]]]): int => x + b;
-let f: Object = (param as [x, y]: int                  = [1, 2]):          int { return x + y; };
-let f: Object = (param as [x: int, y: int]             = [1, 2]):          int { return x + y; };
-let f: Object = (until as [if$, by= b]: int            = [if= 1, by= 2]):  int { return if + b; };
-let f: Object = (param as [x$: int, y= b: int]         = [x= 1, y= 2]):    int { return x + b; };
-let f: Object = (param as [[unfixed x], [y= [b]]]: int = [[1], [y= [2]]]): int { return x + b; };
+func f(param= [x, y]: int          ?= [1, 2]):         int => x + y;
+func f(param= [_, y]: int          ?= [1, 2]):         int => y;
+func f(param= [x: int, y: int]     ?= [1, 2]):         int => x + y;
+func f(param= [_: int, y: int]     ?= [1, 2]):         int => y;
+func f(until= [if$, by= b]: int    ?= [if= 1, by= 2]): int => if + b;
+func f(_=     [_$,  by= _]: int    ?= [_=  1, by= 2]): int => _;
+func f(_=     [_$,  _=  b]: int    ?= [_=  1, _=  2]): int => _;
+func f(param= [x$: int, y= b: int] ?= [x=  1, y=  2]): int => x + b;
+func f(param= [[unfixed x], [y= [b]]]: int ?= [[1], [y= [2]]]): int => x + b;
+let f: Object = (param= [x, y]: int          ?= [1, 2]):         int => x + y;
+let f: Object = (param= [_, y]: int          ?= [1, 2]):         int => y;
+let f: Object = (param= [x: int, y: int]     ?= [1, 2]):         int => x + y;
+let f: Object = (param= [_: int, y: int]     ?= [1, 2]):         int => y;
+let f: Object = (until= [if$, by= b]: int    ?= [if= 1, by= 2]): int => if + b;
+let f: Object = (_=     [_$,  by= _]: int    ?= [_=  1, by= 2]): int => _;
+let f: Object = (_=     [_$,  _=  b]: int    ?= [_=  1, _=  2]): int => _;
+let f: Object = (param= [x$: int, y= b: int] ?= [x=  1, y=  2]): int => x + b;
+let f: Object = (param= [[unfixed x], [y= [b]]]: int ?= [[1], [y= [2]]]): int => x + b;
+let f: Object = (param= [x, y]: int                  ?= [1, 2]):          int { return x + y; };
+let f: Object = (param= [x: int, y: int]             ?= [1, 2]):          int { return x + y; };
+let f: Object = (until= [if$, by= b]: int            ?= [if= 1, by= 2]):  int { return if + b; };
+let f: Object = (param= [x$: int, y= b: int]         ?= [x= 1, y= 2]):    int { return x + b; };
+let f: Object = (param= [[unfixed x], [y= [b]]]: int ?= [[1], [y= [2]]]): int { return x + b; };
 
 % record property destructuring:
 [z= 3, [x, y]=       [1, 2]];
@@ -280,8 +280,8 @@ let f: Object = (param as [[unfixed x], [y= [b]]]: int = [[1], [y= [2]]]): int {
 [[x]];
 [[x, y]];
 [[x= a]];
-[(x, y)        => null];
-[(x, y as [b]) => null];
+[(x, y)      => null];
+[(x, y= [b]) => null];
 
 % function argument destructuring:
 g.(z= 3, [x, y]=           [1, 2]);

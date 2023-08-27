@@ -6,6 +6,7 @@ import {
 	DELIMS,
 	OWS,
 	ASSN_START,
+	DFLT_START,
 	FATARROW,
 	BLOCK_END,
 	FIELD,
@@ -159,13 +160,13 @@ export const CONSTRUCTOR_FIELD = {
 			match: '\\b(public|secret|private|protected|override|final|readonly|writeonly|unfixed)\\b',
 		},
 		{
-			name: 'keyword.other.alias.cp',
-			match: '\\b(as)\\b',
+			name:  'punctuation.delimiter.cp',
+			match: ASSN_START,
 		},
 		{include: '#IdentifierProperty'},
 		{include: '#DestructureParameter'},
-		annotation(lookaheads([ASSN_START, ',', DELIMS.PARAMS_FN[1]])),
-		assignment(lookaheads([',', DELIMS.PARAMS_FN[1]])),
+		annotation(lookaheads([DFLT_START, ',', DELIMS.PARAMS_FN[1]])),
+		assignment(DFLT_START, lookaheads([',', DELIMS.PARAMS_FN[1]])),
 	],
 };
 
@@ -184,7 +185,7 @@ export const MEMBER__FIELD = {
 		},
 		{include: '#IdentifierProperty'},
 		annotation(lookaheads([ASSN_START, ';'])),
-		assignment(lookaheads([';'])),
+		assignment(ASSN_START, lookaheads([';'])),
 	],
 };
 

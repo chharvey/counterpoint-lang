@@ -3,6 +3,7 @@ import {
 } from '../helpers.js';
 import {
 	OWS,
+	UNFIXED,
 	ASSN_START,
 } from '../selectors.js';
 import {
@@ -22,7 +23,7 @@ export const DECLARATION__TYPE = {
 	},
 	patterns: [
 		{include: '#GenericParameters'},
-		assignment(lookaheads([';']), '#Type'),
+		assignment(ASSN_START, lookaheads([';']), '#Type'),
 		{
 			name: 'storage.modifier.cp',
 			match: '\\b(public|secret|private)\\b',
@@ -50,7 +51,7 @@ export const DECLARATION__LET = {
 	patterns: [
 		{include: '#DestructureVariable'},
 		annotation(lookaheads([ASSN_START])),
-		assignment(lookaheads([';'])),
+		assignment(ASSN_START, lookaheads([';'])),
 		{
 			name: 'storage.modifier.cp',
 			match: '\\b(public|secret|private)\\b',
@@ -61,7 +62,7 @@ export const DECLARATION__LET = {
 		},
 		{
 			name: 'storage.modifier.cp',
-			match: '\\b(unfixed)\\b',
+			match: UNFIXED,
 		},
 		{include: '#IdentifierVariable'}, // must come after keywords
 	],
@@ -97,7 +98,7 @@ export const DECLARATION__ASSIGNMENT = {
 	},
 	patterns: [
 		{include: '#ExpressionAssignee'},
-		assignment(lookaheads([';'])),
+		assignment(ASSN_START, lookaheads([';'])),
 		{
 			name:  'meta.augmentation.cp',
 			begin: '&&=|!&=|\\|\\|=|!\\|=|\\^=|\\*=|\\/=|\\+=|-=',
