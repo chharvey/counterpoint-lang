@@ -6,6 +6,7 @@ import {
 	OWS,
 	VAR,
 	UNFIXED,
+	PUN,
 	ANNO_START,
 	ASSN_START,
 	DFLT_START,
@@ -159,14 +160,14 @@ export function propertyOrArgumentLabel(close_delim, identifier_kind, destructur
 	return {
 		patterns: [
 			{
-				begin: lookaheads([[VAR, OWS, `(\\$|${ ASSN_START })`].join('')]),
+				begin: lookaheads([[VAR, OWS, `(${ PUN }|${ ASSN_START })`].join('')]),
 				end:   lookaheads([',', close_delim]),
 				patterns: [
 					{include: identifier_kind},
 					assignment(ASSN_START, lookaheads([',', close_delim])),
 					{
 						name: 'keyword.other.alias.cp',
-						match: '\\$',
+						match: PUN,
 					},
 				],
 			},
@@ -200,7 +201,7 @@ export function destructure(subtype, identifiers, param_or_var = false) {
 		},
 		{
 			name: 'keyword.other.alias.cp',
-			match: '\\$',
+			match: PUN,
 		},
 		...((param_or_var) ? [
 			{

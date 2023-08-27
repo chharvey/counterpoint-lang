@@ -26,6 +26,7 @@ export const VAR = '(?:\\b[A-Za-z_][A-Za-z0-9_]*\\b|\'.*\')';
 
 export const UNFIXED    = '\\b(unfixed)\\b';
 export const ALIAS      = '\\b(as)\\b';
+export const PUN        = '\\$';
 export const VARIANCE   = '\\b(out|in)\\b';
 export const CONSTRAINT = '\\b(narrows|widens)\\b'
 export const ANNO_START = `\\??\\:${ lookaheads(['\\:'], true) }`;
@@ -43,7 +44,7 @@ export const DESTRUCTURE_PROPERTIES_OR_ARGUMENTS = `
 				| \\g<DestructurePropertiesOrArguments>
 			)
 			| (?<DestructurePropertyOrArgumentKey>
-				${ VAR }${ OWS }\\$
+				${ VAR } ${ OWS } ${ PUN }
 				| ${ VAR } ${ OWS } ${ ASSN_START } ${ OWS } \\g<DestructurePropertyOrArgumentItem>
 			)
 		)
@@ -64,7 +65,7 @@ export const DESTRUCTURE_ASSIGNEES = `
 				| \\g<DestructureAssignees>
 			)
 			| (?<DestructureAssigneeKey>
-				${ VAR }${ OWS }\\$
+				${ VAR } ${ OWS } ${ PUN }
 				| ${ VAR } ${ OWS } ${ ASSN_START } ${ OWS } \\g<DestructureAssigneeItem>
 			)
 		)
