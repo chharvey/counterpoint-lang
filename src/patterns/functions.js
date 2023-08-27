@@ -6,7 +6,10 @@ import {
 	DELIMS,
 	OWS,
 	VAR,
+	UNFIXED,
 	ALIAS,
+	VARIANCE,
+	CONSTRAINT,
 	ANNO_START,
 	DFLT_START,
 	FATARROW,
@@ -130,11 +133,11 @@ export const GENERIC_PARAMETER_PATTERNS = {
 	patterns: [
 		{
 			name: 'storage.modifier.cp',
-			match: '\\b(out|in)\\b',
+			match: VARIANCE,
 		},
 		{
 			name: 'meta.heritage.cp',
-			begin: '\\b(narrows|widens)\\b',
+			begin: CONSTRAINT,
 			end:   lookaheads([DFLT_START, ',', DELIMS.PARAMS_GN[1]]),
 			beginCaptures: {
 				0: {name: 'storage.modifier.cp'},
@@ -168,7 +171,7 @@ export const PARAMETER_PATTERNS = {
 	patterns: [
 		{
 			name: 'storage.modifier.cp',
-			match: '\\b(unfixed)\\b',
+			match: UNFIXED,
 		},
 		{
 			name: 'keyword.other.alias.cp',
@@ -184,8 +187,8 @@ export const PARAMETER_PATTERNS = {
 
 /** Generic parameter, if on separate line. */
 export const POSSIBLE_GENERIC_PARAMETER = {
-	begin: lookaheads([['(\\b(out|in)\\b)?', OWS, VAR, OWS, `(${ [
-		'\\b(narrows|widens)\\b', DFLT_START, ',', // annotated, initialized, or more than 1 generic parameter
+	begin: lookaheads([VARIANCE, [VAR, OWS, `(${ [
+		CONSTRAINT, DFLT_START, ',', // annotated, initialized, or more than 1 generic parameter
 	].join('|') })`].join('')]),
 	end: `,|${ lookaheads([DELIMS.PARAMS_GN[1]]) }`,
 	endCaptures: {
@@ -212,7 +215,7 @@ export const POSSIBLE_TYPE_PARAMETER = {
 
 /** Parameter of function expression, if on separate line. */
 export const POSSIBLE_PARAMETER = {
-	begin: lookaheads([[`(\\b(unfixed)\\b${ OWS })?`, VAR, OWS, `(${ [
+	begin: lookaheads([UNFIXED, [VAR, OWS, `(${ [
 		ALIAS, ANNO_START, DFLT_START, ',', // aliased, annotated, or initialized, or more than 1 parameter
 	].join('|') })`].join('')]),
 	end: `,|${ lookaheads([DELIMS.PARAMS_FN[1]]) }`,

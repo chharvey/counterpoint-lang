@@ -3,6 +3,7 @@ import {
 } from '../helpers.js';
 import {
 	OWS,
+	UNFIXED,
 	ASSN_START,
 } from '../selectors.js';
 import {
@@ -61,7 +62,7 @@ export const DECLARATION__LET = {
 		},
 		{
 			name: 'storage.modifier.cp',
-			match: '\\b(unfixed)\\b',
+			match: UNFIXED,
 		},
 		{include: '#IdentifierVariable'}, // must come after keywords
 	],

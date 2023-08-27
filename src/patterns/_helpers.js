@@ -5,6 +5,7 @@ import {
 	DELIMS,
 	OWS,
 	VAR,
+	UNFIXED,
 	ANNO_START,
 	ASSN_START,
 	DFLT_START,
@@ -204,7 +205,7 @@ export function destructure(subtype, identifiers, param_or_var = false) {
 		...((param_or_var) ? [
 			{
 				name: 'storage.modifier.cp',
-				match: '\\b(unfixed)\\b',
+				match: UNFIXED,
 			},
 			annotation(lookaheads([DFLT_START, ',', DELIMS.DESTRUCT[1]])),
 			assignment(DFLT_START, lookaheads([',', DELIMS.DESTRUCT[1]])),
