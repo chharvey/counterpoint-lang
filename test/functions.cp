@@ -131,7 +131,7 @@ func error(): never {
 	throw if true then "error" else "an error";
 	throw (if true then "error" else "an error");
 }
-func parameterAlias(p %%c%% as %%c%% q: unknown): null => null;
+func parameterAlias(p %%c%% = %%c%% q: unknown): null => null;
 func parameterNoAlias(q: unknown): null => null;
 
 func append<T widens bool>(arr: Array.<T> = [], it: T): void {

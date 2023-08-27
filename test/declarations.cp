@@ -140,8 +140,8 @@ let [a= x: SomeType.a ?= t, b= y: SomeType.b ?= u, c= z: SomeType.c ?= v] = some
 let [a= x,                  b= y,                  c= z]: SomeType        = some_object;
 
 % function parameter destructuring with defaults:
-func f(arg as [a:    SomeType.0 ?= x, b:    SomeType.1 ?= y, c:    SomeType.2 ?= z]) => some_object;
-func f(arg as [a= x: SomeType.a ?= t, b= y: SomeType.b ?= u, c= z: SomeType.c ?= v]) => some_object;
+func f(arg= [a:    SomeType.0 ?= x, b:    SomeType.1 ?= y, c:    SomeType.2 ?= z]) => some_object;
+func f(arg= [a= x: SomeType.a ?= t, b= y: SomeType.b ?= u, c= z: SomeType.c ?= v]) => some_object;
 
 % claim destructuring:
 claim [a]:                [int];

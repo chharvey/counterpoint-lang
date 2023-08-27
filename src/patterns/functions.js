@@ -7,10 +7,10 @@ import {
 	OWS,
 	VAR,
 	UNFIXED,
-	ALIAS,
 	VARIANCE,
 	CONSTRAINT,
 	ANNO_START,
+	ASSN_START,
 	DFLT_START,
 	FATARROW,
 	FUNCTIONTYPE,
@@ -174,8 +174,8 @@ export const PARAMETER_PATTERNS = {
 			match: UNFIXED,
 		},
 		{
-			name: 'keyword.other.alias.cp',
-			match: ALIAS,
+			name:  'punctuation.delimiter.cp',
+			match: ASSN_START,
 		},
 		{include: '#IdentifierParameter'},
 		{include: '#DestructureParameter'},
@@ -216,7 +216,7 @@ export const POSSIBLE_TYPE_PARAMETER = {
 /** Parameter of function expression, if on separate line. */
 export const POSSIBLE_PARAMETER = {
 	begin: lookaheads([UNFIXED, [VAR, OWS, `(${ [
-		ALIAS, ANNO_START, DFLT_START, ',', // aliased, annotated, or initialized, or more than 1 parameter
+		ASSN_START, ANNO_START, DFLT_START, ',', // aliased, annotated, or initialized, or more than 1 parameter
 	].join('|') })`].join('')]),
 	end: `,|${ lookaheads([DELIMS.PARAMS_FN[1]]) }`,
 	endCaptures: {

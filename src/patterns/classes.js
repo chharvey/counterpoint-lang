@@ -5,7 +5,6 @@ import {
 import {
 	DELIMS,
 	OWS,
-	ALIAS,
 	ASSN_START,
 	DFLT_START,
 	FATARROW,
@@ -161,8 +160,8 @@ export const CONSTRUCTOR_FIELD = {
 			match: '\\b(public|secret|private|protected|override|final|readonly|writeonly|unfixed)\\b',
 		},
 		{
-			name: 'keyword.other.alias.cp',
-			match: ALIAS,
+			name:  'punctuation.delimiter.cp',
+			match: ASSN_START,
 		},
 		{include: '#IdentifierProperty'},
 		{include: '#DestructureParameter'},
