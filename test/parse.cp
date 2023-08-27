@@ -245,29 +245,29 @@ type T = [fun: (a: int) => int];
 
 
 % function parameter destructuring:
-func f(param as [x, y]: int          = [1, 2]):         int => x + y;
-func f(param as [_, y]: int          = [1, 2]):         int => y;
-func f(param as [x: int, y: int]     = [1, 2]):         int => x + y;
-func f(param as [_: int, y: int]     = [1, 2]):         int => y;
-func f(until as [if$, by= b]: int    = [if= 1, by= 2]): int => if + b;
-func f(_     as [_$,  by= _]: int    = [_=  1, by= 2]): int => _;
-func f(_     as [_$,  _=  b]: int    = [_=  1, _=  2]): int => _;
-func f(param as [x$: int, y= b: int] = [x=  1, y=  2]): int => x + b;
-func f(param as [[unfixed x], [y= [b]]]: int = [[1], [y= [2]]]): int => x + b;
-let f: obj = (param as [x, y]: int          = [1, 2]):         int => x + y;
-let f: obj = (param as [_, y]: int          = [1, 2]):         int => y;
-let f: obj = (param as [x: int, y: int]     = [1, 2]):         int => x + y;
-let f: obj = (param as [_: int, y: int]     = [1, 2]):         int => y;
-let f: obj = (until as [if$, by= b]: int    = [if= 1, by= 2]): int => if + b;
-let f: obj = (_     as [_$,  by= _]: int    = [_=  1, by= 2]): int => _;
-let f: obj = (_     as [_$,  _=  b]: int    = [_=  1, _=  2]): int => _;
-let f: obj = (param as [x$: int, y= b: int] = [x=  1, y=  2]): int => x + b;
-let f: obj = (param as [[unfixed x], [y= [b]]]: int = [[1], [y= [2]]]): int => x + b;
-let f: obj = (param as [x, y]: int                  = [1, 2]):          int { return x + y; };
-let f: obj = (param as [x: int, y: int]             = [1, 2]):          int { return x + y; };
-let f: obj = (until as [if$, by= b]: int            = [if= 1, by= 2]):  int { return if + b; };
-let f: obj = (param as [x$: int, y= b: int]         = [x= 1, y= 2]):    int { return x + b; };
-let f: obj = (param as [[unfixed x], [y= [b]]]: int = [[1], [y= [2]]]): int { return x + b; };
+func f(param as [x, y]: int          ?= [1, 2]):         int => x + y;
+func f(param as [_, y]: int          ?= [1, 2]):         int => y;
+func f(param as [x: int, y: int]     ?= [1, 2]):         int => x + y;
+func f(param as [_: int, y: int]     ?= [1, 2]):         int => y;
+func f(until as [if$, by= b]: int    ?= [if= 1, by= 2]): int => if + b;
+func f(_     as [_$,  by= _]: int    ?= [_=  1, by= 2]): int => _;
+func f(_     as [_$,  _=  b]: int    ?= [_=  1, _=  2]): int => _;
+func f(param as [x$: int, y= b: int] ?= [x=  1, y=  2]): int => x + b;
+func f(param as [[unfixed x], [y= [b]]]: int ?= [[1], [y= [2]]]): int => x + b;
+let f: obj = (param as [x, y]: int          ?= [1, 2]):         int => x + y;
+let f: obj = (param as [_, y]: int          ?= [1, 2]):         int => y;
+let f: obj = (param as [x: int, y: int]     ?= [1, 2]):         int => x + y;
+let f: obj = (param as [_: int, y: int]     ?= [1, 2]):         int => y;
+let f: obj = (until as [if$, by= b]: int    ?= [if= 1, by= 2]): int => if + b;
+let f: obj = (_     as [_$,  by= _]: int    ?= [_=  1, by= 2]): int => _;
+let f: obj = (_     as [_$,  _=  b]: int    ?= [_=  1, _=  2]): int => _;
+let f: obj = (param as [x$: int, y= b: int] ?= [x=  1, y=  2]): int => x + b;
+let f: obj = (param as [[unfixed x], [y= [b]]]: int ?= [[1], [y= [2]]]): int => x + b;
+let f: obj = (param as [x, y]: int                  ?= [1, 2]):          int { return x + y; };
+let f: obj = (param as [x: int, y: int]             ?= [1, 2]):          int { return x + y; };
+let f: obj = (until as [if$, by= b]: int            ?= [if= 1, by= 2]):  int { return if + b; };
+let f: obj = (param as [x$: int, y= b: int]         ?= [x= 1, y= 2]):    int { return x + b; };
+let f: obj = (param as [[unfixed x], [y= [b]]]: int ?= [[1], [y= [2]]]): int { return x + b; };
 
 % record property destructuring:
 [z= 3, [x, y]=       [1, 2]];

@@ -6,6 +6,7 @@ import {
 	DELIMS,
 	OWS,
 	ASSN_START,
+	DFLT_START,
 	FATARROW,
 	BLOCK_END,
 	FIELD,
@@ -164,8 +165,8 @@ export const CONSTRUCTOR_FIELD = {
 		},
 		{include: '#IdentifierProperty'},
 		{include: '#DestructureParameter'},
-		annotation(lookaheads([ASSN_START, ',', DELIMS.PARAMS_FN[1]])),
-		assignment(lookaheads([',', DELIMS.PARAMS_FN[1]])),
+		annotation(lookaheads([DFLT_START, ',', DELIMS.PARAMS_FN[1]])),
+		assignment(DFLT_START, lookaheads([',', DELIMS.PARAMS_FN[1]])),
 	],
 };
 
@@ -184,7 +185,7 @@ export const MEMBER__FIELD = {
 		},
 		{include: '#IdentifierProperty'},
 		annotation(lookaheads([ASSN_START, ';'])),
-		assignment(lookaheads([';'])),
+		assignment(ASSN_START, lookaheads([';'])),
 	],
 };
 

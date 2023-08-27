@@ -7,6 +7,7 @@ import {
 	VAR,
 	ANNO_START,
 	ASSN_START,
+	DFLT_START,
 	FATARROW,
 	DESTRUCTURE_PROPERTIES_OR_ARGUMENTS,
 } from '../selectors.js';
@@ -123,10 +124,10 @@ export function annotation(end, allow_function_type = true) {
 }
 
 
-export function assignment(end, include = '#Expression') {
+export function assignment(begin, end, include = '#Expression') {
 	return {
 		name: 'meta.assignment.cp',
-		begin: ASSN_START,
+		begin,
 		end,
 		beginCaptures: {
 			0: {name: 'punctuation.delimiter.cp'},
@@ -161,7 +162,7 @@ export function propertyOrArgumentLabel(close_delim, identifier_kind, destructur
 				end:   lookaheads([',', close_delim]),
 				patterns: [
 					{include: identifier_kind},
-					assignment(lookaheads([',', close_delim])),
+					assignment(ASSN_START, lookaheads([',', close_delim])),
 					{
 						name: 'keyword.other.alias.cp',
 						match: '\\$',
@@ -175,7 +176,7 @@ export function propertyOrArgumentLabel(close_delim, identifier_kind, destructur
 				end: lookaheads([',', close_delim]),
 				patterns: [
 					{include: destructure_kind},
-					assignment(lookaheads([',', close_delim])),
+					assignment(ASSN_START, lookaheads([',', close_delim])),
 				],
 			},
 		],
@@ -205,8 +206,8 @@ export function destructure(subtype, identifiers, param_or_var = false) {
 				name: 'storage.modifier.cp',
 				match: '\\b(unfixed)\\b',
 			},
-			annotation(lookaheads([ASSN_START, ',', DELIMS.DESTRUCT[1]])),
-			assignment(lookaheads([',', DELIMS.DESTRUCT[1]])),
+			annotation(lookaheads([DFLT_START, ',', DELIMS.DESTRUCT[1]])),
+			assignment(DFLT_START, lookaheads([',', DELIMS.DESTRUCT[1]])),
 		] : []),
 		identifiers,
 	]);

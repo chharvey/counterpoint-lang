@@ -24,8 +24,9 @@ export const OWS = '(?:\\s+|(%%(?:%?[^%])*%%))*';
 export const INT = '(?:\\+|-)?(?:\\\\[bqodxz])?[0-9a-z_]+';
 export const VAR = '(?:\\b[A-Za-z_][A-Za-z0-9_]*\\b|\'.*\')';
 
-export const ANNO_START = `(?:\\:${ lookaheads(['\\:'], true) }|\\?\\:)`;
+export const ANNO_START = `\\??\\:${ lookaheads(['\\:'], true) }`;
 export const ASSN_START = `=${ lookaheads(['=', '>'], true) }`;
+export const DFLT_START = `\\?${ ASSN_START }`;
 export const THINARROW  = '->';
 export const FATARROW   = '=>';
 export const BLOCK_END  = `\\}${ lookaheads(['\\}'], true) }`;
@@ -99,13 +100,13 @@ export const FUNCTION = `
 				| \\b unfixed \\b                                                                                      # unfixed parameter
 				| ${ VAR }${ OWS }(?:
 					${ DELIMS.PARAMS_FN[1] }${ OWS }\\g<afterparams>     # exactly 1 unannotated uninitialized nondestructued parameter
-					| ${ ANNO_START } | ${ ASSN_START } | , | \\b as \\b # annotated, or assigned, or more than 1 parameter, or aliased
+					| ${ ANNO_START } | ${ DFLT_START } | , | \\b as \\b # annotated, or initialized, or more than 1 parameter, or aliased
 				)
 			)
 		)
 		| ${ DELIMS.PARAMS_GN[0] }${ OWS }(?:\\b(?:out | in)\\b)?${ OWS }${ VAR }${ OWS }(?:
 			${ DELIMS.PARAMS_GN[1] }${ OWS }\\g<aftergenericparams> # exactly 1 unannotated uninitialized generic parameter
-			| \\b(?:narrows | widens)\\b | ${ ASSN_START } | ,      # annotated, or assigned, or more than 1 generic parameter
+			| \\b(?:narrows | widens)\\b | ${ DFLT_START } | ,      # annotated, or initialized, or more than 1 generic parameter
 		)
 	)
 	| ${ lookbehinds([DELIMS.PARAMS_FN[1]]) }${ OWS }\\g<afterparams>

@@ -7,7 +7,7 @@ import {
 	OWS,
 	VAR,
 	ANNO_START,
-	ASSN_START,
+	DFLT_START,
 	FATARROW,
 	FUNCTIONTYPE,
 	FUNCTION,
@@ -134,7 +134,7 @@ export const GENERIC_PARAMETER_PATTERNS = {
 		{
 			name: 'meta.heritage.cp',
 			begin: '\\b(narrows|widens)\\b',
-			end: lookaheads([ASSN_START, ',', DELIMS.PARAMS_GN[1]]),
+			end:   lookaheads([DFLT_START, ',', DELIMS.PARAMS_GN[1]]),
 			beginCaptures: {
 				0: {name: 'storage.modifier.cp'},
 			},
@@ -142,7 +142,7 @@ export const GENERIC_PARAMETER_PATTERNS = {
 				{include: '#Type'},
 			],
 		},
-		assignment(lookaheads([',', DELIMS.PARAMS_GN[1]]), '#Type'),
+		assignment(DFLT_START, lookaheads([',', DELIMS.PARAMS_GN[1]]), '#Type'),
 		{include: '#IdentifierParameter'},
 	],
 };
@@ -175,8 +175,8 @@ export const PARAMETER_PATTERNS = {
 		},
 		{include: '#IdentifierParameter'},
 		{include: '#DestructureParameter'},
-		annotation(lookaheads([ASSN_START, ',', DELIMS.PARAMS_FN[1]])),
-		assignment(lookaheads([',', DELIMS.PARAMS_FN[1]])),
+		annotation(lookaheads([DFLT_START, ',', DELIMS.PARAMS_FN[1]])),
+		assignment(DFLT_START, lookaheads([',', DELIMS.PARAMS_FN[1]])),
 	],
 };
 
@@ -184,7 +184,7 @@ export const PARAMETER_PATTERNS = {
 /** Generic parameter, if on separate line. */
 export const POSSIBLE_GENERIC_PARAMETER = {
 	begin: lookaheads([['(\\b(out|in)\\b)?', OWS, VAR, OWS, `(${ [
-		'\\b(narrows|widens)\\b', ASSN_START, ',', // annotated, or more than 1 generic parameter
+		'\\b(narrows|widens)\\b', DFLT_START, ',', // annotated, initialized, or more than 1 generic parameter
 	].join('|') })`].join('')]),
 	end: `,|${ lookaheads([DELIMS.PARAMS_GN[1]]) }`,
 	endCaptures: {
@@ -212,7 +212,7 @@ export const POSSIBLE_TYPE_PARAMETER = {
 /** Parameter of function expression, if on separate line. */
 export const POSSIBLE_PARAMETER = {
 	begin: lookaheads([[`(\\b(unfixed)\\b${ OWS })?`, VAR, OWS, `(${ [
-		ANNO_START, ASSN_START, ',', '\\b(as)\\b', // annotated, or assigned, or more than 1 parameter, or aliased
+		ANNO_START, DFLT_START, ',', '\\b(as)\\b', // annotated, or initialized, or more than 1 parameter, or aliased
 	].join('|') })`].join('')]),
 	end: `,|${ lookaheads([DELIMS.PARAMS_FN[1]]) }`,
 	endCaptures: {

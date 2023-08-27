@@ -45,22 +45,22 @@ let x: (a: str) => str = (a: str): str {
 	let x: str = "x";
 	return """<{{ x }}>{{ a }}</{{ x }}>""";
 };
-let lambda: Function = (           )      { return a * 2; };
-let lambda: Function = (a          )      { return a * 2; };
-let lambda: Function = (a: int     ): int { return a * 2; };
-let lambda: Function = (a      = 42): int { return a * 2; };
-let lambda: Function = (a: int = 42): int { return a * 2; };
-let lambda: Function = (           )      => a * 2;
-let lambda: Function = (a          )      => a * 2;
-let lambda: Function = (a: int     ): int => a * 2;
-let lambda: Function = (a      = 42): int => a * 2;
-let lambda: Function = (a: int = 42): int => a * 2;
-let lambda: Function = <T              >() {};
-let lambda: Function = <out T          >() {};
-let lambda: Function = <in  T          >() {};
-let lambda: Function = <T narrows U    >() {};
-let lambda: Function = <T           = V>() {};
-let lambda: Function = <T narrows U = V>() {};
+let lambda: Function = (            )      { return a * 2; };
+let lambda: Function = (a           )      { return a * 2; };
+let lambda: Function = (a: int      ): int { return a * 2; };
+let lambda: Function = (a      ?= 42): int { return a * 2; };
+let lambda: Function = (a: int ?= 42): int { return a * 2; };
+let lambda: Function = (            )      => a * 2;
+let lambda: Function = (a           )      => a * 2;
+let lambda: Function = (a: int      ): int => a * 2;
+let lambda: Function = (a      ?= 42): int => a * 2;
+let lambda: Function = (a: int ?= 42): int => a * 2;
+let lambda: Function = <T               >() {};
+let lambda: Function = <out T           >() {};
+let lambda: Function = <in  T           >() {};
+let lambda: Function = <T narrows U     >() {};
+let lambda: Function = <T           ?= V>() {};
+let lambda: Function = <T narrows U ?= V>() {};
 let not_lambda: NotFunction = a < b > (c);
 let not_lambda: NotFunction = a.<b>(c);
 let async_lambda: AsyncFunction = async (p: int, q: rat): float => p~~ * q~~;
@@ -70,15 +70,15 @@ let async_gen_lambda: AsyncGenFunction = async gen (p: int, q: rat): float { yie
 let lambda: Function = (
 	a,
 	a: int,
-	a      = 42,
-	a: int = 42,
+	a      ?= 42,
+	a: int ?= 42,
 	unfixed b,
 ) { return a * 2; };
 let lambda: Function = (
 	a,
 	a: int,
-	a      = 42,
-	a: int = 42,
+	a      ?= 42,
+	a: int ?= 42,
 	unfixed b,
 ) => a * 2;
 let lambda: Function = <
@@ -86,8 +86,8 @@ let lambda: Function = <
 	out T,
 	in  T,
 	T narrows U,
-	T = V,
-	T narrows U = V,
+	T ?= V,
+	T narrows U ?= V,
 >() {};
 
 let nestedfunctions: (a: (x: int) %%c%% => %%c%% int) %%c%% => %%c%% bool
