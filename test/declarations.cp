@@ -87,7 +87,7 @@ type SpreadTest = [
 type T<out U> = U & V
 	.<W>;
 type U<in V narrows W.<int>> = V | W.<X>;
-type U<in V = W.<int>> = V | W.%%c%%<X>;
+type U<mut in V ?= W.<int>> = V | W.%%c%%<X>;
 
 type T = [a: boolean, b: int, c: T];
 let x: T = [a= false, b= 42, c$];
@@ -123,7 +123,12 @@ typefunc Or<T, U> => T | U{};
 typefunc Or<T, U, V> => Or.<T, U> | V;
 public typefunc Map<T, U> => {T -> U};
 secret typefunc Mapping<in T, out U> => {T -> U};
-private typefunc Or<T, U, V> => Or.<T, U> | [:V];
+private typefunc Or<
+	mut in out T,
+	in mut out U,
+	mut in mut out V,
+	in out W,
+> => Or.<T, U> | [:V & W];
 
 
 % variable destructuring:

@@ -7,6 +7,7 @@ import {
 	OWS,
 	VAR,
 	UNFIXED,
+	MUTABLE,
 	VARIANCE,
 	CONSTRAINT,
 	ANNO_START,
@@ -132,6 +133,10 @@ export const DECLARATION__FUNC = {
 export const GENERIC_PARAMETER_PATTERNS = {
 	patterns: [
 		{
+			name:  'storage.modifier.cp',
+			match: MUTABLE,
+		},
+		{
 			name: 'storage.modifier.cp',
 			match: VARIANCE,
 		},
@@ -187,7 +192,7 @@ export const PARAMETER_PATTERNS = {
 
 /** Generic parameter, if on separate line. */
 export const POSSIBLE_GENERIC_PARAMETER = {
-	begin: lookaheads([VARIANCE, [VAR, OWS, `(${ [
+	begin: lookaheads([MUTABLE, VARIANCE, [VAR, OWS, `(${ [
 		CONSTRAINT, DFLT_START, ',', // annotated, initialized, or more than 1 generic parameter
 	].join('|') })`].join('')]),
 	end: `,|${ lookaheads([DELIMS.PARAMS_GN[1]]) }`,

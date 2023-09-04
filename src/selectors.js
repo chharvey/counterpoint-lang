@@ -25,6 +25,7 @@ export const INT = '(?:\\+|-)?(?:\\\\[bqodxz])?[0-9a-z_]+';
 export const VAR = '(?:\\b[A-Za-z_][A-Za-z0-9_]*\\b|\'.*\')';
 
 export const UNFIXED    = '\\b(unfixed)\\b';
+export const MUTABLE    = '\\b(mut)\\b';
 export const ALIAS      = '\\b(as)\\b';
 export const PUN        = '\\$';
 export const VARIANCE   = '\\b(out|in)\\b';
@@ -110,7 +111,8 @@ export const FUNCTION = `
 			)
 		)
 		| ${ DELIMS.PARAMS_GN[0] }${ OWS }(?:
-			${ VARIANCE }
+			${ MUTABLE }
+			| ${ VARIANCE }
 			| ${ OWS }${ VAR }${ OWS }(?:
 				${ DELIMS.PARAMS_GN[1] }${ OWS }\\g<aftergenericparams> # exactly 1 unannotated uninitialized generic parameter
 				| ${ CONSTRAINT } | ${ DFLT_START } | ,                 # annotated, or initialized, or more than 1 generic parameter

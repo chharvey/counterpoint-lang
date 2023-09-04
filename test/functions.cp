@@ -85,6 +85,8 @@ let lambda: Function = <
 	T,
 	out T,
 	in  T,
+	mut out T,
+	mut in  T,
 	T narrows U,
 	T ?= V,
 	T narrows U ?= V,
