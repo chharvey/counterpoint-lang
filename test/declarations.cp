@@ -87,7 +87,7 @@ type SpreadTest = [
 type T<out U> = U & V
 	.<W>;
 type U<in V narrows W.<int>> = V | W.<X>;
-type U<in V = W.<int>> = V | W.%%c%%<X>;
+type U<mut in V ?= W.<int>> = V | W.%%c%%<X>;
 
 type T = [a: boolean, b: int, c: T];
 let x: T = [a= false, b= 42, c$];
@@ -97,12 +97,12 @@ let unfixed w: bool | T | 'floàt | bōōl' = bool;
 let unfixed w: 3.2 = 3.2 == 3.2;
 let unfixed w: null = null;
 let unfixed w: T = T;
-let tup: mutable [int] = [42];
-let rec: mutable [a: int] = [a= 42];
-let list: mutable int[] = List.<int>([42]);
-let hash: mutable [:int] = Dict.<int>([a= 42]);
-let set: mutable int{} = Set.<int>([42]);
-let map: mutable {int -> str} = {42 -> "42.0", 43 -> "43.0"};
+let tup:  mut [int] = [42];
+let rec:  mut [a: int] = [a= 42];
+let list: mut int[] = List.<int>([42]);
+let hash: mut [:int] = Dict.<int>([a= 42]);
+let set:  mut int{} = Set.<int>([42]);
+let map:  mut {int -> str} = {42 -> "42.0", 43 -> "43.0"};
 
 claim x: T;
 claim x.<U>(42)~~.y++.0.["prop" || "key"]: T;
@@ -123,7 +123,12 @@ typefunc Or<T, U> => T | U{};
 typefunc Or<T, U, V> => Or.<T, U> | V;
 public typefunc Map<T, U> => {T -> U};
 secret typefunc Mapping<in T, out U> => {T -> U};
-private typefunc Or<T, U, V> => Or.<T, U> | [:V];
+private typefunc Or<
+	mut in out T,
+	in mut out U,
+	mut in mut out V,
+	in out W,
+> => Or.<T, U> | [:V & W];
 
 
 % variable destructuring:

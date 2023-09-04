@@ -7,6 +7,7 @@ import {
 	OWS,
 	INT,
 	VAR,
+	MUTABLE,
 	ANNO_START,
 	THINARROW,
 	FATARROW,
@@ -101,7 +102,7 @@ export const TYPENONFUNCTION = {
 		},
 		{
 			name: 'keyword.operator.text.cp',
-			match: '\\b(mutable)\\b',
+			match: MUTABLE,
 		},
 		{
 			// for cases like `type T = (

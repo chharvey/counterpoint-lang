@@ -5,6 +5,7 @@ import {
 import {
 	DELIMS,
 	OWS,
+	MUTABLE,
 	ASSN_START,
 	DFLT_START,
 	FATARROW,
@@ -244,7 +245,11 @@ export const MEMBER__METHOD = {
 	patterns: [
 		{
 			name: 'storage.modifier.cp',
-			match: '\\b(public|secret|private|protected|override|claim|final|mutating|async|gen)\\b',
+			match: '\\b(public|secret|private|protected|override|claim|final|async|gen)\\b',
+		},
+		{
+			name:  'storage.modifier.cp',
+			match: MUTABLE,
 		},
 		{include: '#IdentifierProperty'},
 		{include: '#GenericParameters'},
@@ -263,7 +268,11 @@ export const MEMBER__METHODGROUP = {
 	patterns: [
 		{
 			name: 'storage.modifier.cp',
-			match: '\\b(public|secret|private|protected|override|claim|final|mutating)\\b',
+			match: '\\b(public|secret|private|protected|override|claim|final)\\b',
+		},
+		{
+			name:  'storage.modifier.cp',
+			match: MUTABLE,
 		},
 		{include: '#IdentifierProperty'},
 		{

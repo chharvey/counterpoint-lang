@@ -95,7 +95,7 @@ class Foo {
 		}
 		public override methodGroup { (): void {;} }
 		public final methodGroup { (): void {;} }
-		public mutating methodGroup { (): void {;} }
+		public mut methodGroup { (): void {;} }
 	}
 
 
@@ -141,7 +141,7 @@ class Foo {
 	protected meth(): void {;}
 	override meth(): void {;}
 	final meth(): void {;}
-	mutating meth(): void {;}
+	mut meth(): void {;}
 	async meth(): void {;}
 	gen meth(): void {;}
 	meth<T>(): void {;}
@@ -194,7 +194,7 @@ class Foo {
 	}
 	override methodGroup { (): void {;} }
 	final methodGroup { (): void {;} }
-	mutating methodGroup { (): void {;} }
+	mut methodGroup { (): void {;} }
 	claim methodGroup { (): void; }
 }
 
@@ -204,7 +204,7 @@ interface Foo {
 	field: T;
 	_: T;
 
-	mutating meth(): void;
+	mut meth(): void;
 	async meth(): void;
 	gen meth(): void;
 	meth<T>(): void;
@@ -221,5 +221,5 @@ interface Foo {
 		<in T>(): void;
 		(x: int): void;
 	}
-	public mutating methodGroup { (): void; }
+	public mut methodGroup { (): void; }
 }
