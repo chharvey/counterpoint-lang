@@ -153,7 +153,7 @@ export const METHOD = `
 	(\\b(?:public | secret | private | protected)\\b ${ OWS })?
 	(\\b(?:override | claim)\\b ${ OWS })?
 	(\\b final \\b ${ OWS })?
-	(\\b mutating \\b ${ OWS })?
+	(${ MUTABLE } ${ OWS })?
 	(?:\\b async \\b ${ OWS })?
 	(?:\\b gen \\b ${ OWS })?
 	(?:${ VAR } ${ OWS })? (?:< | ${ DELIMS.PARAMS_FN[0] })
@@ -163,6 +163,6 @@ export const METHODGROUP = `
 	(\\b(?:public | secret | private | protected)\\b ${ OWS })?
 	(\\b(?:override | claim)\\b ${ OWS })?
 	(\\b final \\b ${ OWS })?
-	(\\b mutating \\b ${ OWS })?
+	(${ MUTABLE } ${ OWS })?
 	${ VAR } ${ OWS } ${ DELIMS.BLOCK[0] }
 `.replace(/\s+/g, '');
