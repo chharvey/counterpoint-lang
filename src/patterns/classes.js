@@ -158,7 +158,7 @@ export const CONSTRUCTOR_FIELD = {
 	patterns: [
 		{
 			name: 'storage.modifier.cp',
-			match: '\\b(public|secret|private|protected|override|final|readonly|writeonly|unfixed)\\b',
+			match: '\\b(public|secret|private|protected|override|const|readonly|writeonly|unfixed)\\b',
 		},
 		{
 			name:  'punctuation.delimiter.cp',
@@ -182,7 +182,7 @@ export const MEMBER__FIELD = {
 	patterns: [
 		{
 			name: 'storage.modifier.cp',
-			match: '\\b(public|secret|private|protected|override|claim|final|readonly|writeonly)\\b',
+			match: '\\b(public|secret|private|protected|override|claim|const|readonly|writeonly)\\b',
 		},
 		{include: '#IdentifierProperty'},
 		annotation(lookaheads([ASSN_START, ';'])),

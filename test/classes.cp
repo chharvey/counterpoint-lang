@@ -105,7 +105,7 @@ class Foo {
 	private field: T = 42;
 	protected field: T = 42;
 	override field: T = 42;
-	final field: T = 42;
+	const field: T = 42;
 	readonly field: T = 42;
 	writeonly field: T = 42;
 	field: Typ = 42;
@@ -122,7 +122,7 @@ class Foo {
 		private constructor_field3: int,
 		protected constructor_field4: int,
 		public override constructor_field5: int,
-		public final constructor_field6: int,
+		public const constructor_field6: int,
 		public readonly constructor_field7: int,
 		public writeonly constructor_field8: int,
 
@@ -169,7 +169,7 @@ class Foo {
 			private constructor_field3: int,
 			protected constructor_field4: int,
 			public override constructor_field5: int,
-			public final constructor_field6: int,
+			public const constructor_field6: int,
 			public readonly constructor_field7: int,
 			public writeonly constructor_field8: int,
 
@@ -200,9 +200,10 @@ class Foo {
 
 % interface members
 interface Foo {
-	final field: this;
 	field: T;
 	_: T;
+	readonly field: this;
+	writeonly field: this;
 
 	mut meth(): void;
 	async meth(): void;
