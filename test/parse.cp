@@ -105,7 +105,7 @@ for prop of (x, y) { return y * x; } do {};
 	@returns what it returns
 	@throws if something bad happened
 	%%
-func twice(x: int): int => x * 2;
+function twice(x: int): int => x * 2;
 
 {
 	% operators:
@@ -245,15 +245,15 @@ type T = [fun: (a: int) => int];
 
 
 % function parameter destructuring:
-func f(param= [x, y]: int          ?= [1, 2]):         int => x + y;
-func f(param= [_, y]: int          ?= [1, 2]):         int => y;
-func f(param= [x: int, y: int]     ?= [1, 2]):         int => x + y;
-func f(param= [_: int, y: int]     ?= [1, 2]):         int => y;
-func f(until= [if$, by= b]: int    ?= [if= 1, by= 2]): int => if + b;
-func f(_=     [_$,  by= _]: int    ?= [_=  1, by= 2]): int => _;
-func f(_=     [_$,  _=  b]: int    ?= [_=  1, _=  2]): int => _;
-func f(param= [x$: int, y= b: int] ?= [x=  1, y=  2]): int => x + b;
-func f(param= [[unfixed x], [y= [b]]]: int ?= [[1], [y= [2]]]): int => x + b;
+function f(param= [x, y]: int          ?= [1, 2]):         int => x + y;
+function f(param= [_, y]: int          ?= [1, 2]):         int => y;
+function f(param= [x: int, y: int]     ?= [1, 2]):         int => x + y;
+function f(param= [_: int, y: int]     ?= [1, 2]):         int => y;
+function f(until= [if$, by= b]: int    ?= [if= 1, by= 2]): int => if + b;
+function f(_=     [_$,  by= _]: int    ?= [_=  1, by= 2]): int => _;
+function f(_=     [_$,  _=  b]: int    ?= [_=  1, _=  2]): int => _;
+function f(param= [x$: int, y= b: int] ?= [x=  1, y=  2]): int => x + b;
+function f(param= [[unfixed x], [y= [b]]]: int ?= [[1], [y= [2]]]): int => x + b;
 let f: Object = (param= [x, y]: int          ?= [1, 2]):         int => x + y;
 let f: Object = (param= [_, y]: int          ?= [1, 2]):         int => y;
 let f: Object = (param= [x: int, y: int]     ?= [1, 2]):         int => x + y;
