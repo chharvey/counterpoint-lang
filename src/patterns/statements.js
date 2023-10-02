@@ -40,7 +40,7 @@ export const STATEMENT__CONTROL__CONDITIONAL = {
 			},
 			patterns: [
 				{include: '#Block'},
-				{include: '#Expression'}, // include #Expression in case this isn’t a control statement but a conditional expression statement
+				{include: '#Expression'}, // in case this isn’t a control statement but a conditional expression statement, e.g. `if a then b;`
 			],
 		},
 		{
@@ -52,7 +52,7 @@ export const STATEMENT__CONTROL__CONDITIONAL = {
 			patterns: [
 				{include: '#StatementControlConditional'},
 				{include: '#Block'},
-				{include: '#Expression'}, // include #Expression in case this isn’t a control statement but a conditional expression statement
+				{include: '#Expression'}, // in case this isn’t a control statement but a conditional expression statement, e.g. `if a then b else c;`
 			],
 		},
 	],
@@ -237,7 +237,7 @@ export const BLOCK = {
 	patterns: [
 		{include: '#Statement'},
 		{
-			// used only for set/map literal expressions
+			// used only for set/map literal expressions where blocks could be, e.g. `if a then {b} else {c -> d};`
 			patterns: [
 				{
 					name: 'keyword.other.spread.cp',
