@@ -9,7 +9,6 @@ import {
 	ASSN_START,
 	DFLT_START,
 	FATARROW,
-	BLOCK_END,
 	FIELD,
 	FIELD_CONSTRUCTOR,
 	CONSTRUCTOR,
@@ -221,7 +220,7 @@ export const MEMBER__CONSTRUCTORGROUP = {
 		{
 			name: 'meta.constructorgroupbody.cp',
 			begin: DELIMS.BLOCK[0],
-			end:   BLOCK_END,
+			end:   DELIMS.BLOCK[1],
 			captures: {
 				0: {name: 'punctuation.delimiter.cp'},
 			},
@@ -278,7 +277,7 @@ export const MEMBER__METHODGROUP = {
 		{
 			name: 'meta.methodgroupbody.cp',
 			begin: DELIMS.BLOCK[0],
-			end:   BLOCK_END,
+			end:   DELIMS.BLOCK[1],
 			captures: {
 				0: {name: 'punctuation.delimiter.cp'},
 			},
@@ -295,7 +294,7 @@ export const MEMBER__METHODGROUP = {
 export const CLASS_BODY = {
 	name: 'meta.classbody.cp',
 	begin: DELIMS.BLOCK[0],
-	end:   BLOCK_END,
+	end:   DELIMS.BLOCK[1],
 	captures: {
 		0: {name: 'punctuation.delimiter.cp'},
 	},

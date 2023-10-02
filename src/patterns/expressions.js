@@ -9,7 +9,6 @@ import {
 	VAR,
 	THINARROW,
 	FATARROW,
-	BLOCK_END,
 } from '../selectors.js';
 import {
 	identifier,
@@ -130,7 +129,7 @@ export const EXPRESSION__STRUCTURE__LIST = list('meta.expression.structure.list.
 ]);
 
 
-export const EXPRESSION__STRUCTURE__SET = list('meta.expression.structure.set.cp', DELIMS.SET[0], BLOCK_END, [
+export const EXPRESSION__STRUCTURE__SET = list('meta.expression.structure.set.cp', DELIMS.SET[0], DELIMS.SET[1], [
 	{
 		name: 'keyword.other.spread.cp',
 		match: '#',

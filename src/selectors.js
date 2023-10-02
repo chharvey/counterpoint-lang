@@ -35,7 +35,6 @@ export const ASSN_START = `=${ lookaheads(['=', '>'], true) }`;
 export const DFLT_START = `\\?${ ASSN_START }`;
 export const THINARROW  = '->';
 export const FATARROW   = '=>';
-export const BLOCK_END  = `\\}${ lookaheads(['\\}'], true) }`;
 
 export const DESTRUCTURE_PROPERTIES_OR_ARGUMENTS = `
 	(?<DestructurePropertiesOrArguments>${ DELIMS.DESTRUCT[0] }${ OWS }

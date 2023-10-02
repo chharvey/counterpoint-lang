@@ -8,7 +8,6 @@ import {
 	ALIAS,
 	ASSN_START,
 	THINARROW,
-	BLOCK_END,
 	DESTRUCTURE_ASSIGNEES,
 } from '../selectors.js';
 import {
@@ -231,7 +230,7 @@ export const STATEMENT = {
 export const BLOCK = {
 	name: 'meta.block.cp',
 	begin: DELIMS.BLOCK[0],
-	end:   BLOCK_END,
+	end:   DELIMS.BLOCK[1],
 	captures: {
 		0: {name: 'punctuation.delimiter.cp'},
 	},
