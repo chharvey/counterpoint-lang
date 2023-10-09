@@ -9,7 +9,6 @@ import {
 	VAR,
 	THINARROW,
 	FATARROW,
-	BLOCK_END,
 } from '../selectors.js';
 import {
 	identifier,
@@ -33,7 +32,7 @@ export const ARGUMENTS = list('meta.arguments.cp', DELIMS.ARGS_FN[0], DELIMS.ARG
 export const EXPRESSION__CLAIM = {
 	name: 'meta.expression.claim.cp',
 	begin: DELIMS.CLAIM[0],
-	end:   `${ DELIMS.CLAIM[1] }|${ lookaheads([`[${ DELIMS.GROUPING[1] }${ DELIMS.LIST[1] }\\},;]`, THINARROW, '\\b(then|else|do|to|by)\\b']) }`,
+	end:   `${ DELIMS.CLAIM[1] }|${ lookaheads([`[${ DELIMS.GROUPING[1] }${ DELIMS.LIST[1] },;]`, DELIMS.SET[1], THINARROW, '\\b(then|else|do|to|by)\\b']) }`,
 	captures: {
 		0: {name: 'punctuation.delimiter.cp'},
 	},
@@ -130,7 +129,7 @@ export const EXPRESSION__STRUCTURE__LIST = list('meta.expression.structure.list.
 ]);
 
 
-export const EXPRESSION__STRUCTURE__SET = list('meta.expression.structure.set.cp', DELIMS.SET[0], BLOCK_END, [
+export const EXPRESSION__STRUCTURE__SET = list('meta.expression.structure.set.cp', DELIMS.SET[0], DELIMS.SET[1], [
 	{
 		name: 'keyword.other.spread.cp',
 		match: '#',

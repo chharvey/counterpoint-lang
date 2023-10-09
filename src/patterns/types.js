@@ -11,7 +11,6 @@ import {
 	ANNO_START,
 	THINARROW,
 	FATARROW,
-	BLOCK_END,
 } from '../selectors.js';
 import {
 	identifier,
@@ -81,7 +80,7 @@ export const TYPE__STRUCTURE__LIST = list('meta.type.structure.list.cp', DELIMS.
 ]);
 
 
-export const TYPE__STRUCTURE__SET = list('meta.type.structure.set.cp', DELIMS.SET[0], BLOCK_END, [
+export const TYPE__STRUCTURE__SET = list('meta.type.structure.set.cp', DELIMS.SET[0], DELIMS.SET[1], [
 	{
 		name: 'keyword.other.spread.cp',
 		match: '#',

@@ -41,7 +41,7 @@ export const STATEMENT__CONTROL__CONDITIONAL = {
 			},
 			patterns: [
 				{include: '#Block'},
-				{include: '#Expression'}, // include #Expression in case this isn’t a control statement but a conditional expression statement
+				{include: '#Expression'}, // in case this isn’t a control statement but a conditional expression statement, e.g. `if a then b;`
 			],
 		},
 		{
@@ -53,7 +53,7 @@ export const STATEMENT__CONTROL__CONDITIONAL = {
 			patterns: [
 				{include: '#StatementControlConditional'},
 				{include: '#Block'},
-				{include: '#Expression'}, // include #Expression in case this isn’t a control statement but a conditional expression statement
+				{include: '#Expression'}, // in case this isn’t a control statement but a conditional expression statement, e.g. `if a then b else c;`
 			],
 		},
 	],
@@ -123,7 +123,7 @@ export const STATEMENT__CONTROL = {
 				},
 				{
 					begin: '\\b(do)\\b',
-					end:   lookbehinds(['\\}']),
+					end:   lookbehinds([BLOCK_END]),
 					beginCaptures: {
 						0: {name: 'keyword.control.cp'},
 					},
@@ -231,14 +231,14 @@ export const STATEMENT = {
 export const BLOCK = {
 	name: 'meta.block.cp',
 	begin: DELIMS.BLOCK[0],
-	end:   BLOCK_END,
+	end:   DELIMS.BLOCK[1],
 	captures: {
 		0: {name: 'punctuation.delimiter.cp'},
 	},
 	patterns: [
 		{include: '#Statement'},
 		{
-			// used only for set/map literal expressions
+			// used only for set/map literal expressions where blocks could be, e.g. `if a then {b} else {c -> d};`
 			patterns: [
 				{
 					name: 'keyword.other.spread.cp',
