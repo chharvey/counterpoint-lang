@@ -9,6 +9,7 @@ import {
 	ASSN_START,
 	DFLT_START,
 	FATARROW,
+	BLOCK_END,
 	FIELD,
 	FIELD_CONSTRUCTOR,
 	CONSTRUCTOR,
@@ -46,7 +47,7 @@ export const HERITAGE = {
 export const TYPE__INTERFACE = {
 	name: 'meta.type.interface.cp',
 	begin: '\\b(interface)\\b',
-	end:   lookbehinds(['\\}']),
+	end:   lookbehinds([BLOCK_END]),
 	beginCaptures: {
 		0: {name: 'storage.type.cp'},
 	},
@@ -67,7 +68,7 @@ export const TYPE__INTERFACE = {
 export const EXPRESSION__CLASS = {
 	name: 'meta.expression.class.cp',
 	begin: '\\b(class)\\b',
-	end:   lookbehinds(['\\}']),
+	end:   lookbehinds([BLOCK_END]),
 	beginCaptures: {
 		0: {name: 'storage.type.cp'},
 	},
@@ -89,7 +90,7 @@ export const EXPRESSION__CLASS = {
 export const DECLARATION__CLASS = {
 	name: 'meta.declaration.class.cp',
 	begin: lookaheads([`(\\b(public|secret|private)\\b${ OWS })?\\b(class)\\b`]),
-	end:   lookbehinds(['\\}']),
+	end:   lookbehinds([BLOCK_END]),
 	patterns: [
 		{include: '#GenericParameters'},
 		{include: '#Heritage'},
@@ -115,7 +116,7 @@ export const DECLARATION__CLASS = {
 export const DECLARATION__INTERFACE = {
 	name: 'meta.declaration.interface.cp',
 	begin: lookaheads([`(\\b(public|secret|private)\\b${ OWS })?\\b(interface)\\b`]),
-	end:   lookbehinds(['\\}']),
+	end:   lookbehinds([BLOCK_END]),
 	patterns: [
 		{include: '#GenericParameters'},
 		{include: '#Heritage'},
@@ -140,7 +141,7 @@ export const DECLARATION__INTERFACE = {
 export const STATIC__BLOCK = {
 	name: 'meta.staticblock.cp',
 	begin: [`(\\b(?:static)\\b)${ OWS }`, lookaheads([DELIMS.BLOCK[0]])].join(''),
-	end:   lookbehinds(['\\}']),
+	end:   lookbehinds([BLOCK_END]),
 	beginCaptures: {
 		1: {name: 'storage.modifier.cp'},
 	},
@@ -193,7 +194,7 @@ export const MEMBER__FIELD = {
 export const MEMBER__CONSTRUCTOR = {
 	name: 'meta.constructor.cp',
 	begin: lookaheads([CONSTRUCTOR]),
-	end:   lookbehinds(['\\}']),
+	end:   lookbehinds([BLOCK_END]),
 	patterns: [
 		{
 			name: 'storage.modifier.cp',
@@ -211,7 +212,7 @@ export const MEMBER__CONSTRUCTOR = {
 export const MEMBER__CONSTRUCTORGROUP = {
 	name: 'meta.constructorgroup.cp',
 	begin: lookaheads([CONSTRUCTORGROUP]),
-	end:   lookbehinds(['\\}']),
+	end:   lookbehinds([BLOCK_END]),
 	patterns: [
 		{
 			name: 'storage.modifier.cp',
@@ -237,7 +238,7 @@ export const MEMBER__CONSTRUCTORGROUP = {
 export const MEMBER__METHOD = {
 	name: 'meta.method.cp',
 	begin: lookaheads([METHOD]),
-	end:   [lookbehinds(['\\}']), ';'].join('|'),
+	end:   [lookbehinds([BLOCK_END]), ';'].join('|'),
 	endCaptures: {
 		0: {name: 'punctuation.delimiter.cp'},
 	},
@@ -263,7 +264,7 @@ export const MEMBER__METHOD = {
 export const MEMBER__METHODGROUP = {
 	name: 'meta.methodgroup.cp',
 	begin: lookaheads([METHODGROUP]),
-	end:   lookbehinds(['\\}']),
+	end:   lookbehinds([BLOCK_END]),
 	patterns: [
 		{
 			name: 'storage.modifier.cp',

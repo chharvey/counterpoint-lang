@@ -14,6 +14,7 @@ import {
 	ASSN_START,
 	DFLT_START,
 	FATARROW,
+	BLOCK_END,
 	FUNCTIONTYPE,
 	FUNCTION,
 } from '../selectors.js';
@@ -48,7 +49,7 @@ export const TYPE__FUNCTION = {
 export const EXPRESSION__FUNCTION = {
 	name: 'meta.expression.func.cp',
 	begin: lookaheads([FUNCTION]),
-	end:   [lookbehinds(['\\}']), FATARROW].join('|'),
+	end:   [lookbehinds([BLOCK_END]), FATARROW].join('|'),
 	endCaptures: {
 		0: {name: 'storage.type.cp'},
 	},
@@ -94,7 +95,7 @@ export const DECLARATION__TYPEFUNC = {
 export const DECLARATION__FUNC = {
 	name: 'meta.declaration.func.cp',
 	begin: lookaheads([`(\\b(public|secret|private)\\b${ OWS })?\\b(func)\\b(${ OWS }\\b(async)\\b)?(${ OWS }\\b(gen)\\b)?`]),
-	end:   [lookbehinds(['\\}']), ';'].join('|'),
+	end:   [lookbehinds([BLOCK_END]), ';'].join('|'),
 	endCaptures: {
 		0: {name: 'punctuation.delimiter.cp'},
 	},

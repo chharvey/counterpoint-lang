@@ -8,6 +8,7 @@ import {
 	ALIAS,
 	ASSN_START,
 	THINARROW,
+	BLOCK_END,
 	DESTRUCTURE_ASSIGNEES,
 } from '../selectors.js';
 import {
@@ -122,7 +123,7 @@ export const STATEMENT__CONTROL = {
 				},
 				{
 					begin: '\\b(do)\\b',
-					end:   lookbehinds(['\\}']),
+					end:   lookbehinds([BLOCK_END]),
 					beginCaptures: {
 						0: {name: 'keyword.control.cp'},
 					},
