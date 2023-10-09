@@ -9,6 +9,7 @@ import {
 	VAR,
 	THINARROW,
 	FATARROW,
+	BLOCK_END,
 } from '../selectors.js';
 import {
 	identifier,
@@ -142,6 +143,19 @@ export const EXPRESSION__STRUCTURE__SET = list('meta.expression.structure.set.cp
 ]);
 
 
+export const EXPRESSION__STRUCTURE__BLOCK = {
+	name:          'meta.expression.structure.block.cp',
+	begin:         '\\b(sync|async)\\b',
+	end:           lookbehinds([BLOCK_END]),
+	beginCaptures: {
+		0: {name: 'keyword.control.cp'},
+	},
+	patterns: [
+		{include: '#Block'},
+	],
+};
+
+
 export const EXPRESSION = {
 	patterns: [
 		{
@@ -165,6 +179,7 @@ export const EXPRESSION = {
 		{include: '#ExpressionStructureGrouping'},
 		{include: '#ExpressionStructureList'},
 		{include: '#ExpressionStructureSet'},
+		{include: '#ExpressionStructureBlock'},
 		unit(),
 		{
 			name: 'keyword.operator.punctuation.cp',
