@@ -88,7 +88,7 @@ block comment
 	@returns what it returns
 	@throws if something bad happened
 	%%
-func twice(x: int): int => x * 2;
+function twice(x: int): int => x * 2;
 
 (
 	% operators:

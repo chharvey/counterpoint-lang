@@ -94,7 +94,7 @@ export const DECLARATION__TYPEFUNC = {
 
 export const DECLARATION__FUNC = {
 	name: 'meta.declaration.func.cp',
-	begin: lookaheads([`(\\b(public|secret|private)\\b${ OWS })?\\b(func)\\b(${ OWS }\\b(async)\\b)?(${ OWS }\\b(gen)\\b)?`]),
+	begin: lookaheads([`(\\b(public|secret|private)\\b${ OWS })?\\b(function)\\b(${ OWS }\\b(async)\\b)?(${ OWS }\\b(gen)\\b)?`]),
 	end:   [lookbehinds([BLOCK_END]), ';'].join('|'),
 	endCaptures: {
 		0: {name: 'punctuation.delimiter.cp'},
@@ -110,7 +110,7 @@ export const DECLARATION__FUNC = {
 		},
 		{
 			name: 'storage.type.cp',
-			match: '\\b(func)\\b',
+			match: '\\b(function)\\b',
 		},
 		{
 			name: 'meta.heritage.cp',

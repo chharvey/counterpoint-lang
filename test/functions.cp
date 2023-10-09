@@ -41,7 +41,7 @@ async (p: int, q: rat): float => p~~ * q~~;
 %-- variable declarations, function expressions --%
 let x: (a: str) => str = (a: str): str => """<x>{{ a }}</x>""";
 let x: (a: str) => str = (a: str): str {
-	func y(): void {;}
+	function y(): void {;}
 	let x: str = "x";
 	return """<{{ x }}>{{ a }}</{{ x }}>""";
 };
@@ -118,47 +118,47 @@ let record: [lambdaWithCaptures: Function] = [lambdaWithCaptures= [a, b](x) => a
 
 
 %-- function declarations --%
-func 'func'(param: annot = initial): void {;}
-func _(): void {;}
-func <_, B>(): B {;}
-func (_: A, b: B): B {;}
+function 'func'(param: annot = initial): void {;}
+function _(): void {;}
+function <_, B>(): B {;}
+function (_: A, b: B): B {;}
 
-func add(a: int = 0, b: int = 0): int { return a + b; }
-func subtract(unfixed a: int = 0, %%unfixed%% b: int = a): int => a - b;
-func %%comm%% nothing(): void {
+function add(a: int = 0, b: int = 0): int { return a + b; }
+function subtract(unfixed a: int = 0, %%unfixed%% b: int = a): int => a - b;
+function %%comm%% nothing(): void {
 	let x: unknown = 0;
 	return;
 }
-func error(): never {
+function error(): never {
 	throw if true then "error" else "an error";
 	throw (if true then "error" else "an error");
 }
-func parameterAlias(p %%c%% = %%c%% q: unknown): null => null;
-func parameterNoAlias(q: unknown): null => null;
+function parameterAlias(p %%c%% = %%c%% q: unknown): null => null;
+function parameterNoAlias(q: unknown): null => null;
 
-func append<T widens bool>(arr: Array.<T> = [], it: T): void {
+function append<T widens bool>(arr: Array.<T> = [], it: T): void {
 	arr.push.<T>(it)~;
 }
-func derivative<T narrows float>(lambda: (y: T) => T, delta: T): ((x: T) => T) {
+function derivative<T narrows float>(lambda: (y: T) => T, delta: T): ((x: T) => T) {
 	return (x: T): T => (lambda.(x + delta)~ - lambda.(x)~) / delta;
 }
-func subset<T = Set.<null>, U widens T>(a: Set.<T>, b: Set.<U>): bool {;}
+function subset<T = Set.<null>, U widens T>(a: Set.<T>, b: Set.<U>): bool {;}
 
-func functionWithCaptures[a, b](x: int): int => a + b + x;
-func functionWithCaptures[
+function functionWithCaptures[a, b](x: int): int => a + b + x;
+function functionWithCaptures[
 	a,
 	'b',
 ](x: int): int => a + b + x;
 
-func returnFunc(): Object => (x: int): int => x + 1;
-func returnFunc(): (Object) => (x: int): int => x + 1;
-func returnFunc(): Object{} => (x: int): int => x + 1;
-func returnFunc(): Object => (x: int): int{} => x + 1;
-func returnFunc(): ((x: int) => int) => (x) => x + 1;
-func returnAsyncFunc(): (async (x: int) => int) => async (x) => x~~ + 1;
+function returnFunc(): Object => (x: int): int => x + 1;
+function returnFunc(): (Object) => (x: int): int => x + 1;
+function returnFunc(): Object{} => (x: int): int => x + 1;
+function returnFunc(): Object => (x: int): int{} => x + 1;
+function returnFunc(): ((x: int) => int) => (x) => x + 1;
+function returnAsyncFunc(): (async (x: int) => int) => async (x) => x~~ + 1;
 
-func returnFunc(): ((A) => (B)) => (a) => b;
-func returnInstance(): interface {
+function returnFunc(): ((A) => (B)) => (a) => b;
+function returnInstance(): interface {
 	x: int;
 	y(): int;
 	z(): (str) => int;
@@ -169,20 +169,20 @@ func returnInstance(): interface {
 	public z(): ((str) => int) => (s: str) => str.length;
 }).();
 
-func add<T> implements BinaryOperator.<T> (x: T, y: T): T {
+function add<T> implements BinaryOperator.<T> (x: T, y: T): T {
 	return x + y;
 }
-func add<T> implements BinaryOperator.<T> (x: T, y: T): T => x + y;
-func addCaptures<T> implements BinaryOperator.<T> [z](x: T, y: T): T {
+function add<T> implements BinaryOperator.<T> (x: T, y: T): T => x + y;
+function addCaptures<T> implements BinaryOperator.<T> [z](x: T, y: T): T {
 	return x + y + z;
 }
-func addCaptures<T> implements BinaryOperator.<T> [z](x: T, y: T): T => x + y + z;
+function addCaptures<T> implements BinaryOperator.<T> [z](x: T, y: T): T => x + y + z;
 
-public func subtract(a: N, b: N): N { return a - b; }
-secret func subtract(a: N, b: N): N => a - b;
-private func subtract(a: N, b: N): N => a - b;
+public function subtract(a: N, b: N): N { return a - b; }
+secret function subtract(a: N, b: N): N => a - b;
+private function subtract(a: N, b: N): N => a - b;
 
-func async asyncFunc(p: int, q: rat): float => p~~ * q~~;
-func async asyncFunc(p: int, q: rat): float { return p~~ * q~~; }
-func gen genFunc(p: int, q: rat): float { yield # p * q; }
-func async gen asyncGenFunc(p: int, q: rat): float { yield p~~ * q~~; }
+function async asyncFunc(p: int, q: rat): float => p~~ * q~~;
+function async asyncFunc(p: int, q: rat): float { return p~~ * q~~; }
+function gen genFunc(p: int, q: rat): float { yield # p * q; }
+function async gen asyncGenFunc(p: int, q: rat): float { yield p~~ * q~~; }
