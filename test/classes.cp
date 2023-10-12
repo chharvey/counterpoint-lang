@@ -4,6 +4,7 @@ class _ {}
 public class Foo {}
 secret class Foo {}
 private class Foo {}
+class enum Foo {}
 class final Foo {}
 class abstract Foo {}
 class data Foo {}
@@ -26,6 +27,7 @@ class ClassWithCaptures [
 
 % class expressions
 let Foo: Class = Object && Class && (class {});
+let Foo: Class = Object && Class && (class enum {});
 let Foo: Class = Object && Class && (class final {});
 let Foo: Class = Object && Class && (class abstract {});
 let Foo: Class = Object && Class && (class data {});

@@ -81,7 +81,7 @@ export const EXPRESSION__CLASS = {
 		{include: '#ClassBody'},
 		{
 			name: 'storage.modifier.cp',
-			match: '\\b(final|abstract|data)\\b',
+			match: '\\b(final|abstract|enum|data)\\b',
 		},
 	],
 };
@@ -106,7 +106,7 @@ export const DECLARATION__CLASS = {
 		},
 		{
 			name: 'storage.modifier.cp',
-			match: '\\b(final|abstract|data|nominal)\\b',
+			match: '\\b(final|abstract|enum|data|nominal)\\b',
 		},
 		{include: '#IdentifierClass'}, // must come after keywords
 	],
