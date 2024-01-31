@@ -124,15 +124,14 @@ export const FUNCTION = `
 
 export const FIELD = `
 	(\\b(?:public | secret | private | protected)\\b ${ OWS })?
-	(\\b(?:override | claim)\\b ${ OWS })?
-	(\\b(?:final | readonly | writeonly)\\b ${ OWS })?
+	(\\b(?:claim)\\b ${ OWS })?
+	(\\b(?:const | readonly | writeonly)\\b ${ OWS })?
 	${ VAR } ${ OWS } ${ ANNO_START }
 `.replace(/\s+/g, '');
 
 export const FIELD_CONSTRUCTOR = `
 	\\b(?:public | secret | private | protected)\\b ${ OWS }
-	(\\b override \\b ${ OWS })?
-	(\\b(?:final | readonly | writeonly)\\b ${ OWS })?
+	(\\b(?:const | readonly | writeonly)\\b ${ OWS })?
 	(?:
 		(${ VAR } ${ OWS } ${ ASSN_START } ${ OWS })? (${ UNFIXED } ${ OWS })? ${ VAR } ${ OWS } ${ ANNO_START }
 		| ${ VAR } ${ OWS } ${ ASSN_START } ${ OWS } ${ DELIMS.DESTRUCT[0] }
