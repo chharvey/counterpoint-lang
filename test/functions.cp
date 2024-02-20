@@ -32,8 +32,8 @@ type AsyncGenFuncType = async gen (int | rat) => float;
 
 
 %-- function expression statements --%
-(unfixed h: int): int => h + 1;
-(%%unfixed%% h: int): int => h + 1;
+(var h: int): int => h + 1;
+(%%var%% h: int): int => h + 1;
 async (p: int, q: rat): float => p~~ * q~~;
 
 
@@ -72,14 +72,14 @@ let lambda: Function = (
 	a: int,
 	a      ?= 42,
 	a: int ?= 42,
-	unfixed b,
+	var b,
 ) { return a * 2; };
 let lambda: Function = (
 	a,
 	a: int,
 	a      ?= 42,
 	a: int ?= 42,
-	unfixed b,
+	var b,
 ) => a * 2;
 let lambda: Function = <
 	T,
@@ -124,7 +124,7 @@ function <_, B>(): B {;}
 function (_: A, b: B): B {;}
 
 function add(a: int = 0, b: int = 0): int { return a + b; }
-function subtract(unfixed a: int = 0, %%unfixed%% b: int = a): int => a - b;
+function subtract(var a: int = 0, %%var%% b: int = a): int => a - b;
 function %%comm%% nothing(): void {
 	let x: unknown = 0;
 	return;

@@ -5,6 +5,7 @@ import {
 import {
 	DELIMS,
 	OWS,
+	UNFIXED,
 	MUTABLE,
 	ASSN_START,
 	DFLT_START,
@@ -158,7 +159,7 @@ export const CONSTRUCTOR_FIELD = {
 	patterns: [
 		{
 			name: 'storage.modifier.cp',
-			match: '\\b(public|secret|private|protected|const|readonly|writeonly|unfixed)\\b',
+			match: `\\b(public|secret|private|protected|const|readonly|writeonly|${ UNFIXED })\\b`,
 		},
 		{
 			name:  'punctuation.delimiter.cp',

@@ -141,7 +141,7 @@ let a: null | bool = +42 && null;
 let b: int = 004_2. || false;
 let c: float = -42.2_4 || true;
 let d: str = 42.2e4_2;
-let unfixed e: Object = 42.2e+4_2;
+let var e: Object = 42.2e+4_2;
 let f: TypeF | String | obj = "f";
 
 let g: int =

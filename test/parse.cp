@@ -253,7 +253,7 @@ function f(until= [if$, by= b]: int    ?= [if= 1, by= 2]): int => if + b;
 function f(_=     [_$,  by= _]: int    ?= [_=  1, by= 2]): int => _;
 function f(_=     [_$,  _=  b]: int    ?= [_=  1, _=  2]): int => _;
 function f(param= [x$: int, y= b: int] ?= [x=  1, y=  2]): int => x + b;
-function f(param= [[unfixed x], [y= [b]]]: int ?= [[1], [y= [2]]]): int => x + b;
+function f(param= [[var x], [y= [b]]]: int ?= [[1], [y= [2]]]): int => x + b;
 let f: Object = (param= [x, y]: int          ?= [1, 2]):         int => x + y;
 let f: Object = (param= [_, y]: int          ?= [1, 2]):         int => y;
 let f: Object = (param= [x: int, y: int]     ?= [1, 2]):         int => x + y;
@@ -262,12 +262,12 @@ let f: Object = (until= [if$, by= b]: int    ?= [if= 1, by= 2]): int => if + b;
 let f: Object = (_=     [_$,  by= _]: int    ?= [_=  1, by= 2]): int => _;
 let f: Object = (_=     [_$,  _=  b]: int    ?= [_=  1, _=  2]): int => _;
 let f: Object = (param= [x$: int, y= b: int] ?= [x=  1, y=  2]): int => x + b;
-let f: Object = (param= [[unfixed x], [y= [b]]]: int ?= [[1], [y= [2]]]): int => x + b;
+let f: Object = (param= [[var x], [y= [b]]]: int ?= [[1], [y= [2]]]): int => x + b;
 let f: Object = (param= [x, y]: int                  ?= [1, 2]):          int { return x + y; };
 let f: Object = (param= [x: int, y: int]             ?= [1, 2]):          int { return x + y; };
 let f: Object = (until= [if$, by= b]: int            ?= [if= 1, by= 2]):  int { return if + b; };
 let f: Object = (param= [x$: int, y= b: int]         ?= [x= 1, y= 2]):    int { return x + b; };
-let f: Object = (param= [[unfixed x], [y= [b]]]: int ?= [[1], [y= [2]]]): int { return x + b; };
+let f: Object = (param= [[var x], [y= [b]]]: int ?= [[1], [y= [2]]]): int { return x + b; };
 
 % record property destructuring:
 [z= 3, [x, y]=       [1, 2]];

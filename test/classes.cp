@@ -126,10 +126,10 @@ class Foo {
 		public readonly constructor_field7: int,
 		public writeonly constructor_field8: int,
 
-		private unfixed construtor_field8: int,
+		private var construtor_field8: int,
 		private construtor_field9= field9: int,
-		private construtor_field10= unfixed field10: int,
-		private construtor_field11= [field11a, unfixed field11b]: int[2],
+		private construtor_field10= var field10: int,
+		private construtor_field11= [field11a, var field11b]: int[2],
 	) {;}
 
 	%%
@@ -172,10 +172,10 @@ class Foo {
 			public readonly constructor_field7: int,
 			public writeonly constructor_field8: int,
 
-			private unfixed construtor_field8: int,
+			private var construtor_field8: int,
 			private construtor_field9= field9: int,
-			private construtor_field10= unfixed field10: int,
-			private construtor_field11= [field11a, unfixed field11b]: int[2],
+			private construtor_field10= var field10: int,
+			private construtor_field11= [field11a, var field11b]: int[2],
 		) {;}
 	}
 

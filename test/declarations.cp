@@ -16,7 +16,7 @@ let d: str = 42.2e4_2;
 let e: Object = 42.2e+4_2;
 let f: %% comm %% TypeF | String = "f";
 
-let %%unfixed%% 'unfixed': int =
+let %%var%% 'var': int =
 	  -\b1379fz
 	+ -\q1379fz
 	+ -\o1379fz
@@ -93,10 +93,10 @@ type T = [a: boolean, b: int, c: T];
 let x: T = [a= false, b= 42, c$];
 
 let 'bōōl || flō' = 'flō || bōōl' || flo || boo;
-let unfixed w: bool | T | 'floàt | bōōl' = bool;
-let unfixed w: 3.2 = 3.2 == 3.2;
-let unfixed w: null = null;
-let unfixed w: T = T;
+let var w: bool | T | 'floàt | bōōl' = bool;
+let var w: 3.2 = 3.2 == 3.2;
+let var w: null = null;
+let var w: T = T;
 let tup:  mut [int] = [42];
 let rec:  mut [a: int] = [a= 42];
 let list: mut int[] = List.<int>([42]);
@@ -136,7 +136,7 @@ let [x, y]: int          = [1, 2];
 let [x: int, y: int]     = [1, 2];
 let [if$, by= b]: int    = [if= 1, by= 2];
 let [x$: int, y= b: int] = [x= 1, y= 2];
-let [[unfixed x], [y= [b]]]: int = [[1], [y= [2]]];
+let [[var x], [y= [b]]]: int = [[1], [y= [2]]];
 
 % variable destructuring with defaults:
 let [a:    SomeType.0 ?= x, b:    SomeType.1 ?= y, c:    SomeType.2 ?= z]           = some_object;

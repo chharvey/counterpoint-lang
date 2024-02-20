@@ -24,7 +24,7 @@ export const OWS = '(?:\\s+|(%%(?:%?[^%])*%%))*';
 export const INT = '(?:\\+|-)?(?:\\\\[bqodxz])?[0-9a-z_]+';
 export const VAR = '(?:\\b[A-Za-z_][A-Za-z0-9_]*\\b|\'.*\')';
 
-export const UNFIXED    = '\\b(unfixed)\\b';
+export const UNFIXED    = '\\b(var)\\b';
 export const MUTABLE    = '\\b(mut)\\b';
 export const ALIAS      = '\\b(as)\\b';
 export const PUN        = '\\$';
