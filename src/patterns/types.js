@@ -76,7 +76,7 @@ export const TYPE__STRUCTURE__LIST = list('meta.type.structure.list.cp', DELIMS.
 		name: 'keyword.other.spread.cp',
 		match: '##|#',
 	},
-	typeProperty(),
+	typeProperty(DELIMS.LIST[1]),
 	{include: '#Type'}, // must come after `typeProperty` because we don’t want types to look like record keys
 ]);
 

@@ -156,23 +156,26 @@ export function implicitReturn(include = '#Expression') {
 }
 
 
-export function typeProperty() {
+function typePropertyOrGenericArgumentLabel(start, close_delim, identifier_kind) {
 	return {
-		begin:    lookaheads([[`(${ VAR }${ OWS })?`, `(${ PUN }|${ ANNO_START })`].join('')]),
-		end:      lookaheads([',', DELIMS.LIST[1]]),
+		begin:    lookaheads([[`(${ VAR }${ OWS })?`, `(${ PUN }|${ start })`].join('')]),
+		end:      lookaheads([',', close_delim]),
 		patterns: [
-			{include: '#IdentifierProperty'},
+			{include: identifier_kind},
 			{
 				name: 'keyword.other.alias.cp',
 				match: PUN,
 			},
-			annotation(lookaheads([',', DELIMS.LIST[1]])),
+			start === ANNO_START ? annotation(lookaheads([',', close_delim])) : {},
 		],
 	};
 }
+export function typeProperty(close_delim) {
+	return typePropertyOrGenericArgumentLabel(ANNO_START, close_delim, '#IdentifierProperty');
+}
 
 
-export function propertyOrArgumentLabel(close_delim, identifier_kind, destructure_kind) {
+function propertyOrArgumentLabel(close_delim, identifier_kind, destructure_kind) {
 	return {
 		patterns: [
 			{
@@ -197,6 +200,12 @@ export function propertyOrArgumentLabel(close_delim, identifier_kind, destructur
 			},
 		],
 	};
+}
+export function property(close_delim) {
+	return propertyOrArgumentLabel(close_delim, '#IdentifierProperty', '#DestructureProperty');
+}
+export function argumentLabel(close_delim) {
+	return propertyOrArgumentLabel(close_delim, '#IdentifierParameter', '#DestructureArgument');
 }
 
 

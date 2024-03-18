@@ -14,7 +14,8 @@ import {
 	identifier,
 	unit,
 	list,
-	propertyOrArgumentLabel,
+	property,
+	argumentLabel,
 } from './_helpers.js';
 
 
@@ -24,8 +25,8 @@ export const ARGUMENTS = list('meta.arguments.cp', DELIMS.ARGS_FN[0], DELIMS.ARG
 		name: 'keyword.other.spread.cp',
 		match: '##|#',
 	},
-	propertyOrArgumentLabel(DELIMS.ARGS_FN[1], '#IdentifierParameter', '#DestructureArgument'),
-	{include: '#Expression'}, // must come after `propertyOrArgumentLabel` because we don’t want expressions to look like named arguments or argument destructuring
+	argumentLabel(DELIMS.ARGS_FN[1]),
+	{include: '#Expression'}, // must come after `argumentLabel` because we don’t want expressions to look like named arguments or argument destructuring
 ]);
 
 
@@ -124,8 +125,8 @@ export const EXPRESSION__STRUCTURE__LIST = list('meta.expression.structure.list.
 		name: 'keyword.other.spread.cp',
 		match: '##|#',
 	},
-	propertyOrArgumentLabel(DELIMS.LIST[1], '#IdentifierProperty', '#DestructureProperty'),
-	{include: '#Expression'}, // must come after `propertyOrArgumentLabel` because we don’t want expressions to look like record keys or property destructuring
+	property(DELIMS.LIST[1]),
+	{include: '#Expression'}, // must come after `property` because we don’t want expressions to look like record keys or property destructuring
 ]);
 
 
