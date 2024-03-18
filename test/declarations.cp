@@ -78,6 +78,7 @@ type SpreadTest = [T, #Spread] | [name: T, ##DoubleSpread];
 type nominal SpreadTest = [T, #Spread] | [name: T, ##DoubleSpread];
 type Tup = [A, ?: B];
 type Rec = [a: A, B$, c?: C];
+type RecDestructure = [a: A, B$, c?: C, [d, [e]]: De, [f$, g: [h$]]: Fg];
 type Awaited<T> = T~~;
 type SpreadTest = [
 	T,

@@ -11,6 +11,7 @@ import {
 	ASSN_START,
 	DFLT_START,
 	FATARROW,
+	DESTRUCTURE_TYPE_PROPERTIES_OR_GENERIC_ARGUMENTS,
 	DESTRUCTURE_PROPERTIES_OR_ARGUMENTS,
 } from '../selectors.js';
 
@@ -156,7 +157,7 @@ export function implicitReturn(include = '#Expression') {
 }
 
 
-function typePropertyOrGenericArgumentLabel(start, close_delim, identifier_kind) {
+function typePropertyOrGenericArgumentLabel(start, close_delim, identifier_kind, destructure_kind) {
 	const end = lookaheads([',', close_delim]);
 	const capture_type = (
 		start === ANNO_START ? annotation(end) :
@@ -177,14 +178,22 @@ function typePropertyOrGenericArgumentLabel(start, close_delim, identifier_kind)
 					capture_type,
 				],
 			},
+			{
+				begin: lookaheads([[DESTRUCTURE_TYPE_PROPERTIES_OR_GENERIC_ARGUMENTS, OWS, start].join('')]),
+				end,
+				patterns: [
+					{include: destructure_kind},
+					capture_type,
+				],
+			},
 		],
 	};
 }
 export function typeProperty(close_delim) {
-	return typePropertyOrGenericArgumentLabel(ANNO_START, close_delim, '#IdentifierProperty');
+	return typePropertyOrGenericArgumentLabel(ANNO_START, close_delim, '#IdentifierProperty', '#DestructureTypeProperty');
 }
 export function genericArgumentLabel(close_delim) {
-	return typePropertyOrGenericArgumentLabel(ASSN_START, close_delim, '#IdentifierParameter');
+	return typePropertyOrGenericArgumentLabel(ASSN_START, close_delim, '#IdentifierParameter', '#DestructureGenericArgument');
 }
 
 
@@ -225,11 +234,16 @@ export function argumentLabel(close_delim) {
 
 
 export function destructure(subtype, identifiers) {
+	const prop_delim = (
+		['Variable', 'Parameter', 'Property', 'Argument', 'Assignment'].includes(subtype) ? ASSN_START :
+		['TypeProperty', 'GenericArgument'].includes(subtype)                             ? ANNO_START :
+		ASSN_START
+	);
 	return list(`meta.destructure.${ subtype.toLowerCase() }.cp`, DELIMS.DESTRUCT[0], DELIMS.DESTRUCT[1], [
 		{include: `#Destructure${ subtype }`},
 		{
-			begin: lookaheads([[VAR, OWS, ASSN_START].join('')]),
-			end:   ASSN_START,
+			begin:       lookaheads([[VAR, OWS, prop_delim].join('')]),
+			end:         prop_delim,
 			endCaptures: {
 				0: {name: 'punctuation.delimiter.cp'}
 			},
