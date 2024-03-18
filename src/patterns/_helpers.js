@@ -224,7 +224,7 @@ export function argumentLabel(close_delim) {
 }
 
 
-export function destructure(subtype, identifiers, param_or_var = false) {
+export function destructure(subtype, identifiers) {
 	return list(`meta.destructure.${ subtype.toLowerCase() }.cp`, DELIMS.DESTRUCT[0], DELIMS.DESTRUCT[1], [
 		{include: `#Destructure${ subtype }`},
 		{
@@ -241,7 +241,7 @@ export function destructure(subtype, identifiers, param_or_var = false) {
 			name: 'keyword.other.alias.cp',
 			match: PUN,
 		},
-		...((param_or_var) ? [
+		...(['Variable', 'Parameter'].includes(subtype) ? [
 			{
 				name: 'storage.modifier.cp',
 				match: UNFIXED,
