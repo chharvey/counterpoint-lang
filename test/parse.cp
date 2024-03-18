@@ -237,8 +237,8 @@ unless (a + b) then { return (c); } else { throw (d); };
 (x);
 (a == b);
 [a == b];
-((h: int = 0): int => h + 1);
-[(h: int = 0): int => h + 1];
+((h: int ?= 0): int => h + 1);
+[(h: int ?= 0): int => h + 1];
 [fun= (h: int): int => h + 1];
 type T = [fun: (a: int) => int];
 

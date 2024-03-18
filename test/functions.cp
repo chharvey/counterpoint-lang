@@ -21,7 +21,7 @@ type Const = () => int;
 type Const = (
 ) => int;
 type ReturnsTemplateType = () => """a {{ string }} template type""";
-let x: <out T widens U~~, in U = Set.<null>>(a: Set.<T>~~, b: Set.<U~~>) => bool = null;
+let x: <out T widens U~~, in U ?= Set.<null>>(a: Set.<T>~~, b: Set.<U~~>) => bool = null;
 
 type AsyncFuncType    = async     (p: int, q: rat) => float;
 type GenFuncType      = gen       (p: int, q: rat) => float;
@@ -93,7 +93,7 @@ let lambda: Function = <
 >() {};
 
 let nestedfunctions: (a: (x: int) %%c%% => %%c%% int) %%c%% => %%c%% bool
-	= (a: (x: int) %%c%% => %%c%% int = (x) %%c%% => %%c%% x * 2) %%c%% => %%c%% !!a;
+	= (a: (x: int) %%c%% => %%c%% int ?= (x) %%c%% => %%c%% x * 2) %%c%% => %%c%% !!a;
 
 let lambdawithblockcomments: Function = <T, U>%%hello%%(a: T, b: U): Object %%world%% => a || b;
 let lambdawithblockcomments: Function = <T, U>%%hello%%(a: T, b: U) %%world%% => a || b;
@@ -118,13 +118,13 @@ let record: [lambdaWithCaptures: Function] = [lambdaWithCaptures= [a, b](x) => a
 
 
 %-- function declarations --%
-function 'func'(param: annot = initial): void {;}
+function 'func'(param: annot ?= initial): void {;}
 function _(): void {;}
 function <_, B>(): B {;}
 function (_: A, b: B): B {;}
 
-function add(a: int = 0, b: int = 0): int { return a + b; }
-function subtract(var a: int = 0, %%var%% b: int = a): int => a - b;
+function add(a: int ?= 0, b: int ?= 0): int { return a + b; }
+function subtract(var a: int ?= 0, %%var%% b: int ?= a): int => a - b;
 function %%comm%% nothing(): void {
 	let x: unknown = 0;
 	return;
@@ -136,13 +136,13 @@ function error(): never {
 function parameterAlias(p %%c%% = %%c%% q: unknown): null => null;
 function parameterNoAlias(q: unknown): null => null;
 
-function append<T widens bool>(arr: Array.<T> = [], it: T): void {
+function append<T widens bool>(arr: Array.<T> ?= [], it: T): void {
 	arr.push.<T>(it)~;
 }
 function derivative<T narrows float>(lambda: (y: T) => T, delta: T): ((x: T) => T) {
 	return (x: T): T => (lambda.(x + delta)~ - lambda.(x)~) / delta;
 }
-function subset<T = Set.<null>, U widens T>(a: Set.<T>, b: Set.<U>): bool {;}
+function subset<T ?= Set.<null>, U widens T>(a: Set.<T>, b: Set.<U>): bool {;}
 
 function functionWithCaptures[a, b](x: int): int => a + b + x;
 function functionWithCaptures[
