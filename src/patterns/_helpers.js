@@ -156,26 +156,40 @@ export function implicitReturn(include = '#Expression') {
 }
 
 
+export function typeProperty() {
+	return {
+		begin:    lookaheads([[`(${ VAR }${ OWS })?`, `(${ PUN }|${ ANNO_START })`].join('')]),
+		end:      lookaheads([',', DELIMS.LIST[1]]),
+		patterns: [
+			{include: '#IdentifierProperty'},
+			{
+				name: 'keyword.other.alias.cp',
+				match: PUN,
+			},
+			annotation(lookaheads([',', DELIMS.LIST[1]])),
+		],
+	};
+}
+
+
 export function propertyOrArgumentLabel(close_delim, identifier_kind, destructure_kind) {
 	return {
 		patterns: [
 			{
-				begin: lookaheads([[VAR, OWS, `(${ PUN }|${ ASSN_START })`].join('')]),
-				end:   lookaheads([',', close_delim]),
+				begin:    lookaheads([[VAR, OWS, `(${ PUN }|${ ASSN_START })`].join('')]),
+				end:      lookaheads([',', close_delim]),
 				patterns: [
 					{include: identifier_kind},
-					assignment(ASSN_START, lookaheads([',', close_delim])),
 					{
 						name: 'keyword.other.alias.cp',
 						match: PUN,
 					},
+					assignment(ASSN_START, lookaheads([',', close_delim])),
 				],
 			},
 			{
-				begin: lookaheads([
-					[DESTRUCTURE_PROPERTIES_OR_ARGUMENTS, OWS, ASSN_START].join(''),
-				]),
-				end: lookaheads([',', close_delim]),
+				begin:    lookaheads([[DESTRUCTURE_PROPERTIES_OR_ARGUMENTS, OWS, ASSN_START].join('')]),
+				end:      lookaheads([',', close_delim]),
 				patterns: [
 					{include: destructure_kind},
 					assignment(ASSN_START, lookaheads([',', close_delim])),

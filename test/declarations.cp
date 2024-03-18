@@ -76,6 +76,8 @@ set a ||= b;
 type 'bōōl | floàt' = 'floàt | bōōl' | float | bool;
 type SpreadTest = [T, #Spread] | [name: T, ##DoubleSpread];
 type nominal SpreadTest = [T, #Spread] | [name: T, ##DoubleSpread];
+type Tup = [A, ?: B];
+type Rec = [a: A, B$, c?: C];
 type Awaited<T> = T~~;
 type SpreadTest = [
 	T,

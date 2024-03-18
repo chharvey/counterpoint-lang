@@ -8,7 +8,6 @@ import {
 	INT,
 	VAR,
 	MUTABLE,
-	ANNO_START,
 	THINARROW,
 	FATARROW,
 } from '../selectors.js';
@@ -16,7 +15,7 @@ import {
 	identifier,
 	unit,
 	list,
-	annotation,
+	typeProperty,
 } from './_helpers.js';
 
 
@@ -77,15 +76,8 @@ export const TYPE__STRUCTURE__LIST = list('meta.type.structure.list.cp', DELIMS.
 		name: 'keyword.other.spread.cp',
 		match: '##|#',
 	},
-	{
-		begin: lookaheads([`(${ VAR }${ OWS })?${ ANNO_START }`]),
-		end:   lookaheads([',', '\\]']),
-		patterns: [
-			{include: '#IdentifierProperty'},
-			annotation(lookaheads([',', '\\]'])),
-		],
-	},
-	{include: '#Type'}, // must come after annotations because of record type keys
+	typeProperty(),
+	{include: '#Type'}, // must come after `typeProperty` because we don’t want types to look like record keys
 ]);
 
 
