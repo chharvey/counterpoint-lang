@@ -235,8 +235,8 @@ export function argumentLabel(close_delim) {
 
 export function destructure(subtype, identifiers) {
 	const prop_delim = (
-		['Variable', 'Parameter', 'Property', 'Argument', 'Assignment'].includes(subtype) ? ASSN_START :
-		['TypeProperty', 'GenericArgument'].includes(subtype)                             ? ANNO_START :
+		['Variable', 'Parameter', 'Property', 'Argument', 'Assignment'].includes(subtype)      ? ASSN_START :
+		['TypeAlias', 'GenericParameter', 'TypeProperty', 'GenericArgument'].includes(subtype) ? ANNO_START :
 		ASSN_START
 	);
 	return list(`meta.destructure.${ subtype.toLowerCase() }.cp`, DELIMS.DESTRUCT[0], DELIMS.DESTRUCT[1], [
@@ -262,6 +262,14 @@ export function destructure(subtype, identifiers) {
 			},
 			annotation(lookaheads([DFLT_START, ',', DELIMS.DESTRUCT[1]])),
 			assignment(DFLT_START, lookaheads([',', DELIMS.DESTRUCT[1]])),
+		] : []),
+		...(['TypeAlias', 'GenericParameter'].includes(subtype) ? [
+			...(subtype === 'TypeAlias'? [{include: '#GenericParameters'}] : []),
+			{
+				name: 'storage.modifier.cp',
+				match: '\\b(nominal)\\b',
+			},
+			assignment(DFLT_START, lookaheads([',', DELIMS.DESTRUCT[1]]), '#Type'),
 		] : []),
 		identifiers,
 	]);

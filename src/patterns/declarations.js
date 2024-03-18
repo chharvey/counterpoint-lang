@@ -22,6 +22,7 @@ export const DECLARATION__TYPE = {
 		0: {name: 'punctuation.delimiter.cp'},
 	},
 	patterns: [
+		{include: '#DestructureTypeAlias'},
 		{include: '#GenericParameters'},
 		assignment(ASSN_START, lookaheads([';']), '#Type'),
 		{

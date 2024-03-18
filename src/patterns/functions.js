@@ -157,6 +157,7 @@ export const GENERIC_PARAMETER_PATTERNS = {
 			],
 		},
 		{include: '#IdentifierParameter'},
+		{include: '#DestructureGenericParameter'},
 		assignment(DFLT_START, lookaheads([',', DELIMS.PARAMS_GN[1]]), '#Type'),
 	],
 };
