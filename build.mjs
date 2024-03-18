@@ -48,7 +48,7 @@ await fs.promises.writeFile(path.join(path.dirname(new URL(import.meta.url).path
 		ExpressionStructureGrouping:   Pattern.EXPRESSION__STRUCTURE__GROUPING,
 		ExpressionStructureList:       Pattern.EXPRESSION__STRUCTURE__LIST,
 		ExpressionStructureSet:        Pattern.EXPRESSION__STRUCTURE__SET,
-		GenericArguments:              list('meta.genericarguments.cp', DELIMS.ARGS_GN[0], DELIMS.ARGS_GN[1], [{include: '#Type'}]),
+		GenericArguments:              Pattern.GENERIC_ARGUMENTS,
 		GenericParameterPatterns:      Pattern.GENERIC_PARAMETER_PATTERNS,
 		GenericParameters:             list('meta.genericparameters.cp', DELIMS.PARAMS_GN[0], DELIMS.PARAMS_GN[1], [{include: '#GenericParameterPatterns'}]),
 		Heritage:                      Pattern.HERITAGE,

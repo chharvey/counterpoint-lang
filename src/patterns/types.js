@@ -21,6 +21,15 @@ import {
 
 
 
+export const GENERIC_ARGUMENTS = list('meta.genericarguments.cp', DELIMS.ARGS_GN[0], DELIMS.ARGS_GN[1], [
+	{
+		name: 'keyword.other.spread.cp',
+		match: '##|#',
+	},
+	{include: '#Type'},
+]);
+
+
 export const TYPE_CALL = {
 	name: 'meta.type.call.cp',
 	begin: ['(\\.)', lookaheads([[OWS, DELIMS.ARGS_GN[0]].join('')])].join(''),

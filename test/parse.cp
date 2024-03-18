@@ -165,6 +165,7 @@ function twice(x: int): int => x * 2;
 	funkshin.<T>%%c%%(call / a, #spread + b, 3, label %% args %% = c, punn$, ##doublespread, _= blank)++;
 	funkshin.<T>%c
 		(call / a, #spread + b, 3, label %% args %% = c, punn$, ##doublespread, _= blank)~~;
+	funkshin.<T, #U, ##V>();
 	funkshin.%%c%%(
 		call / a,
 		#spread + b,
