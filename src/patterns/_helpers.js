@@ -157,20 +157,26 @@ export function implicitReturn(include = '#Expression') {
 
 
 function typePropertyOrGenericArgumentLabel(start, close_delim, identifier_kind) {
+	const end = lookaheads([',', close_delim]);
+	const capture_type = (
+		start === ANNO_START ? annotation(end) :
+		start === ASSN_START ? assignment(ASSN_START, end, '#Type') :
+		{}
+	);
 	return {
-		begin:    lookaheads([[`(${ VAR }${ OWS })?`, `(${ PUN }|${ start })`].join('')]),
-		end:      lookaheads([',', close_delim]),
 		patterns: [
-			{include: identifier_kind},
 			{
-				name: 'keyword.other.alias.cp',
-				match: PUN,
+				begin: lookaheads([[`(${ VAR }${ OWS })?`, `(${ PUN }|${ start })`].join('')]),
+				end,
+				patterns: [
+					{include: identifier_kind},
+					{
+						name: 'keyword.other.alias.cp',
+						match: PUN,
+					},
+					capture_type,
+				],
 			},
-			(
-				start === ANNO_START ? annotation(lookaheads([',', close_delim])) :
-				start === ASSN_START ? assignment(ASSN_START, lookaheads([',', close_delim]), '#Type') :
-				{}
-			),
 		],
 	};
 }
@@ -183,26 +189,28 @@ export function genericArgumentLabel(close_delim) {
 
 
 function propertyOrArgumentLabel(close_delim, identifier_kind, destructure_kind) {
+	const end = lookaheads([',', close_delim]);
+	const capture_expression = assignment(ASSN_START, end);
 	return {
 		patterns: [
 			{
-				begin:    lookaheads([[VAR, OWS, `(${ PUN }|${ ASSN_START })`].join('')]),
-				end:      lookaheads([',', close_delim]),
+				begin: lookaheads([[VAR, OWS, `(${ PUN }|${ ASSN_START })`].join('')]),
+				end,
 				patterns: [
 					{include: identifier_kind},
 					{
 						name: 'keyword.other.alias.cp',
 						match: PUN,
 					},
-					assignment(ASSN_START, lookaheads([',', close_delim])),
+					capture_expression,
 				],
 			},
 			{
-				begin:    lookaheads([[DESTRUCTURE_PROPERTIES_OR_ARGUMENTS, OWS, ASSN_START].join('')]),
-				end:      lookaheads([',', close_delim]),
+				begin: lookaheads([[DESTRUCTURE_PROPERTIES_OR_ARGUMENTS, OWS, ASSN_START].join('')]),
+				end,
 				patterns: [
 					{include: destructure_kind},
-					assignment(ASSN_START, lookaheads([',', close_delim])),
+					capture_expression,
 				],
 			},
 		],
