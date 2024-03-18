@@ -16,6 +16,7 @@ import {
 	unit,
 	list,
 	typeProperty,
+	genericArgumentLabel,
 } from './_helpers.js';
 
 
@@ -25,7 +26,8 @@ export const GENERIC_ARGUMENTS = list('meta.genericarguments.cp', DELIMS.ARGS_GN
 		name: 'keyword.other.spread.cp',
 		match: '##|#',
 	},
-	{include: '#Type'},
+	genericArgumentLabel(DELIMS.ARGS_GN[1]),
+	{include: '#Type'}, // must come after `genericArgumentLabel` because we don’t want types to look like named arguments
 ]);
 
 

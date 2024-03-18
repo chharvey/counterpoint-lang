@@ -166,12 +166,19 @@ function typePropertyOrGenericArgumentLabel(start, close_delim, identifier_kind)
 				name: 'keyword.other.alias.cp',
 				match: PUN,
 			},
-			start === ANNO_START ? annotation(lookaheads([',', close_delim])) : {},
+			(
+				start === ANNO_START ? annotation(lookaheads([',', close_delim])) :
+				start === ASSN_START ? assignment(ASSN_START, lookaheads([',', close_delim]), '#Type') :
+				{}
+			),
 		],
 	};
 }
 export function typeProperty(close_delim) {
 	return typePropertyOrGenericArgumentLabel(ANNO_START, close_delim, '#IdentifierProperty');
+}
+export function genericArgumentLabel(close_delim) {
+	return typePropertyOrGenericArgumentLabel(ASSN_START, close_delim, '#IdentifierParameter');
 }
 
 

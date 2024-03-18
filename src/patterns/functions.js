@@ -142,6 +142,10 @@ export const GENERIC_PARAMETER_PATTERNS = {
 			match: VARIANCE,
 		},
 		{
+			name:  'punctuation.delimiter.cp',
+			match: ASSN_START,
+		},
+		{
 			name: 'meta.heritage.cp',
 			begin: CONSTRAINT,
 			end:   lookaheads([DFLT_START, ',', DELIMS.PARAMS_GN[1]]),
@@ -152,8 +156,8 @@ export const GENERIC_PARAMETER_PATTERNS = {
 				{include: '#Type'},
 			],
 		},
-		assignment(DFLT_START, lookaheads([',', DELIMS.PARAMS_GN[1]]), '#Type'),
 		{include: '#IdentifierParameter'},
+		assignment(DFLT_START, lookaheads([',', DELIMS.PARAMS_GN[1]]), '#Type'),
 	],
 };
 

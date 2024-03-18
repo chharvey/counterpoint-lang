@@ -90,6 +90,7 @@ type T<out U> = U & V
 	.<W>;
 type U<in V narrows W.<int>> = V | W.<X>;
 type U<mut in V ?= W.<int>> = V | W.%%c%%<X>;
+type U<V= Vv> = Vv | W;
 
 type T = [a: boolean, b: int, c: T];
 let x: T = [a= false, b= 42, c$];
