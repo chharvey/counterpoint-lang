@@ -7,6 +7,7 @@ import {
 } from '../selectors.js';
 import {
 	unit,
+	constraint,
 	annotation,
 	assignment,
 	implicitReturn,
@@ -24,6 +25,7 @@ export const DECLARATION__TYPE = {
 		{include: '#DestructureTypeAlias'},
 		{include: '#GenericParameters'},
 		{include: '#ModifiersDeclarationType'},
+		constraint(lookaheads([ASSN_START])),
 		assignment(ASSN_START, lookaheads([';']), '#Type'),
 		{
 			name: 'storage.modifier.cp',

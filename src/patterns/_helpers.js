@@ -286,8 +286,8 @@ export function destructure(subtype, identifiers) {
 				{include: '#ModifiersDeclarationType'},
 			] : [
 				{include: '#ModifiersGenericParameter'},
-				constraint(lookaheads([DFLT_START, ',', DELIMS.DESTRUCT[1]])),
 			]),
+			constraint(lookaheads([DFLT_START, ',', DELIMS.DESTRUCT[1]])),
 			assignment(DFLT_START, lookaheads([',', DELIMS.DESTRUCT[1]]), '#Type'),
 		] : []),
 		identifiers,

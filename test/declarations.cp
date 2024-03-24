@@ -90,6 +90,7 @@ type SpreadTest = [
 type T<out U> = U & V
 	.<W>;
 type U<in V narrows W.<int>> = V | W.<X>;
+type U narrows int | bool = int;
 type U<mut in V ?= W.<int>> = V | W.%%c%%<X>;
 type U<V= Vv> = Vv | W;
 
