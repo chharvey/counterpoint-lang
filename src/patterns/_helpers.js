@@ -7,6 +7,7 @@ import {
 	VAR,
 	UNFIXED,
 	PUN,
+	CONSTRAINT,
 	ANNO_START,
 	ASSN_START,
 	DFLT_START,
@@ -107,6 +108,21 @@ export function list(name, begin, end, more_patterns) {
 				match: ',',
 			},
 			...more_patterns,
+		],
+	};
+}
+
+
+export function constraint(end) {
+	return {
+		name:  'meta.heritage.cp',
+		begin: CONSTRAINT,
+		end,
+		beginCaptures: {
+			0: {name: 'storage.modifier.cp'},
+		},
+		patterns: [
+			{include: '#Type'},
 		],
 	};
 }
@@ -256,19 +272,22 @@ export function destructure(subtype, identifiers) {
 			match: PUN,
 		},
 		...(['Variable', 'Parameter'].includes(subtype) ? [
-			{
-				name: 'storage.modifier.cp',
-				match: UNFIXED,
-			},
+			...(subtype === 'Variable' ? [
+				{include: '#ModifiersDeclarationLet'},
+			] : [
+				{include: '#ModifiersParameter'},
+			]),
 			annotation(lookaheads([DFLT_START, ',', DELIMS.DESTRUCT[1]])),
 			assignment(DFLT_START, lookaheads([',', DELIMS.DESTRUCT[1]])),
 		] : []),
 		...(['TypeAlias', 'GenericParameter'].includes(subtype) ? [
-			...(subtype === 'TypeAlias'? [{include: '#GenericParameters'}] : []),
-			{
-				name: 'storage.modifier.cp',
-				match: '\\b(nominal)\\b',
-			},
+			...(subtype === 'TypeAlias' ? [
+				{include: '#GenericParameters'},
+				{include: '#ModifiersDeclarationType'},
+			] : [
+				{include: '#ModifiersGenericParameter'},
+				constraint(lookaheads([DFLT_START, ',', DELIMS.DESTRUCT[1]])),
+			]),
 			assignment(DFLT_START, lookaheads([',', DELIMS.DESTRUCT[1]]), '#Type'),
 		] : []),
 		identifiers,

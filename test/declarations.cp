@@ -103,7 +103,7 @@ type [J, [K$, lima: L]] = Jkl;
 type [M$, november: [N, O]] = Mno;
 type [P$, quebec: [Q$, romeo: R]] = Pqr;
 
-type Or<T= [A, B]> = A | B;
+type Or<T= [A narrows C, B]> = A | B;
 type Or<T= [a: A, B$]> = A | B;
 type Or<T= [J, [K$, lima: L]]> = J | K | L;
 type Or<T= [M$, november: [N, O]]> = M | N | O;
@@ -111,6 +111,7 @@ type Or<T= [S ?= bool] ?= [unknown]> = S | null;
 
 type [A<T>, nominal B<U= V>] = [int | T, float & V];
 type [C$, d: nominal D<out W narrows [unknown] ?= X>] = [C: B.<U= null>, d: W.0];
+type [C$, d: D<Y= [nominal out W narrows unknown ?= Z] ?= X>] = [C: B.<U= null>, d: W];
 
 type T = [a: boolean, b: int, c: T];
 let x: T = [a= false, b= 42, c$];
