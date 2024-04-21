@@ -159,7 +159,7 @@ export const CONSTRUCTOR_FIELD = {
 	patterns: [
 		{
 			name: 'storage.modifier.cp',
-			match: `\\b(public|secret|private|protected|const|readonly|writeonly|${ UNFIXED })\\b`,
+			match: `\\b(public|secret|private|protected|impl|const|readonly|writeonly|${ UNFIXED })\\b`,
 		},
 		{
 			name:  'punctuation.delimiter.cp',
@@ -183,7 +183,7 @@ export const MEMBER__FIELD = {
 	patterns: [
 		{
 			name: 'storage.modifier.cp',
-			match: '\\b(public|secret|private|protected|claim|const|readonly|writeonly)\\b',
+			match: '\\b(public|secret|private|protected|impl|claim|const|readonly|writeonly)\\b',
 		},
 		{include: '#IdentifierProperty'},
 		annotation(lookaheads([ASSN_START, ';'])),
@@ -246,7 +246,7 @@ export const MEMBER__METHOD = {
 	patterns: [
 		{
 			name: 'storage.modifier.cp',
-			match: '\\b(public|secret|private|protected|override|claim|final|async|gen)\\b',
+			match: '\\b(public|secret|private|protected|override|impl|claim|final|async|gen)\\b',
 		},
 		{
 			name:  'storage.modifier.cp',
@@ -269,7 +269,7 @@ export const MEMBER__METHODGROUP = {
 	patterns: [
 		{
 			name: 'storage.modifier.cp',
-			match: '\\b(public|secret|private|protected|override|claim|final)\\b',
+			match: '\\b(public|secret|private|protected|override|impl|claim|final)\\b',
 		},
 		{
 			name:  'storage.modifier.cp',

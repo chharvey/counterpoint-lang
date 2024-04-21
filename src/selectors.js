@@ -130,13 +130,14 @@ export const FUNCTION = `
 
 export const FIELD = `
 	(\\b(?:public | secret | private | protected)\\b ${ OWS })?
-	(\\b(?:claim)\\b ${ OWS })?
+	(\\b(?:impl | claim)\\b ${ OWS })?
 	(\\b(?:const | readonly | writeonly)\\b ${ OWS })?
 	${ VAR } ${ OWS } ${ ANNO_START }
 `.replace(/\s+/g, '');
 
 export const FIELD_CONSTRUCTOR = `
 	\\b(?:public | secret | private | protected)\\b ${ OWS }
+	(\\b(?:impl)\\b ${ OWS })?
 	(\\b(?:const | readonly | writeonly)\\b ${ OWS })?
 	(?:
 		(${ VAR } ${ OWS } ${ ASSN_START } ${ OWS })? (${ UNFIXED } ${ OWS })? ${ VAR } ${ OWS } ${ ANNO_START }
@@ -156,7 +157,7 @@ export const CONSTRUCTORGROUP = `
 
 export const METHOD = `
 	(\\b(?:public | secret | private | protected)\\b ${ OWS })?
-	(\\b(?:override | claim)\\b ${ OWS })?
+	(\\b(?:override | impl | claim)\\b ${ OWS })?
 	(\\b final \\b ${ OWS })?
 	(${ MUTABLE } ${ OWS })?
 	(?:\\b async \\b ${ OWS })?
@@ -166,7 +167,7 @@ export const METHOD = `
 
 export const METHODGROUP = `
 	(\\b(?:public | secret | private | protected)\\b ${ OWS })?
-	(\\b(?:override | claim)\\b ${ OWS })?
+	(\\b(?:override | impl | claim)\\b ${ OWS })?
 	(\\b final \\b ${ OWS })?
 	(${ MUTABLE } ${ OWS })?
 	${ VAR } ${ OWS } ${ DELIMS.BLOCK[0] }
