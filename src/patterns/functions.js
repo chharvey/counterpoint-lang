@@ -19,6 +19,7 @@ import {
 	FUNCTION,
 } from '../selectors.js';
 import {
+	constraint,
 	annotation,
 	assignment,
 	implicitReturn,
@@ -133,26 +134,14 @@ export const DECLARATION__FUNC = {
 
 export const GENERIC_PARAMETER_PATTERNS = {
 	patterns: [
-		{
-			name:  'storage.modifier.cp',
-			match: MUTABLE,
-		},
-		{
-			name: 'storage.modifier.cp',
-			match: VARIANCE,
-		},
-		{
-			name: 'meta.heritage.cp',
-			begin: CONSTRAINT,
-			end:   lookaheads([DFLT_START, ',', DELIMS.PARAMS_GN[1]]),
-			beginCaptures: {
-				0: {name: 'storage.modifier.cp'},
-			},
-			patterns: [
-				{include: '#Type'},
-			],
-		},
+		{include: '#ModifiersGenericParameter'},
+		{include: '#DestructureGenericParameter'},
+		constraint(lookaheads([DFLT_START, ',', DELIMS.PARAMS_GN[1]])),
 		assignment(DFLT_START, lookaheads([',', DELIMS.PARAMS_GN[1]]), '#Type'),
+		{
+			name:  'punctuation.delimiter.cp',
+			match: ASSN_START,
+		},
 		{include: '#IdentifierParameter'},
 	],
 };
@@ -175,18 +164,15 @@ export const TYPE_PARAMETER_PATTERNS = {
 
 export const PARAMETER_PATTERNS = {
 	patterns: [
-		{
-			name: 'storage.modifier.cp',
-			match: UNFIXED,
-		},
+		{include: '#ModifiersParameter'},
+		{include: '#DestructureParameter'},
+		annotation(lookaheads([DFLT_START, ',', DELIMS.PARAMS_FN[1]])),
+		assignment(DFLT_START, lookaheads([',', DELIMS.PARAMS_FN[1]])),
 		{
 			name:  'punctuation.delimiter.cp',
 			match: ASSN_START,
 		},
 		{include: '#IdentifierParameter'},
-		{include: '#DestructureParameter'},
-		annotation(lookaheads([DFLT_START, ',', DELIMS.PARAMS_FN[1]])),
-		assignment(DFLT_START, lookaheads([',', DELIMS.PARAMS_FN[1]])),
 	],
 };
 

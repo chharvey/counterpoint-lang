@@ -25,6 +25,7 @@ export const INT = '(?:\\+|-)?(?:\\\\[bqodxz])?[0-9a-z_]+';
 export const VAR = '(?:\\b[A-Za-z_][A-Za-z0-9_]*\\b|\'.*\')';
 
 export const UNFIXED    = '\\b(var)\\b';
+export const NOMINAL    = '\\b(nominal)\\b';
 export const MUTABLE    = '\\b(mut)\\b';
 export const ALIAS      = '\\b(as)\\b';
 export const PUN        = '\\$';
@@ -37,22 +38,27 @@ export const THINARROW  = '->';
 export const FATARROW   = '=>';
 export const BLOCK_END  = '\\}'; // used for lookbehinds (cannot contain lookaheads)
 
-export const DESTRUCTURE_PROPERTIES_OR_ARGUMENTS = `
-	(?<DestructurePropertiesOrArguments>${ DELIMS.DESTRUCT[0] }${ OWS }
-		(?<DestructurePropertyOrArgumentItemOrKey>
-			(?<DestructurePropertyOrArgumentItem>
-				${ VAR }
-				| \\g<DestructurePropertiesOrArguments>
+function destructure_selector(prop_delim) {
+	return `
+		(?<DestructurePropertiesOrArguments>${ DELIMS.DESTRUCT[0] }${ OWS }
+			(?<DestructurePropertyOrArgumentItemOrKey>
+				(?<DestructurePropertyOrArgumentItem>
+					${ VAR }
+					| \\g<DestructurePropertiesOrArguments>
+				)
+				| (?<DestructurePropertyOrArgumentKey>
+					${ VAR } ${ OWS } ${ PUN }
+					| ${ VAR } ${ OWS } ${ prop_delim } ${ OWS } \\g<DestructurePropertyOrArgumentItem>
+				)
 			)
-			| (?<DestructurePropertyOrArgumentKey>
-				${ VAR } ${ OWS } ${ PUN }
-				| ${ VAR } ${ OWS } ${ ASSN_START } ${ OWS } \\g<DestructurePropertyOrArgumentItem>
-			)
-		)
-		(?:${ OWS },${ OWS }\\g<DestructurePropertyOrArgumentItemOrKey>)*
-		${ OWS },?
-	${ OWS }${ DELIMS.DESTRUCT[1] })
-`.replace(/\s+/g, '');
+			(?:${ OWS },${ OWS }\\g<DestructurePropertyOrArgumentItemOrKey>)*
+			${ OWS },?
+		${ OWS }${ DELIMS.DESTRUCT[1] })
+	`.replace(/\s+/g, '');
+}
+
+export const DESTRUCTURE_TYPE_PROPERTIES_OR_GENERIC_ARGUMENTS = destructure_selector(ANNO_START);
+export const DESTRUCTURE_PROPERTIES_OR_ARGUMENTS              = destructure_selector(ASSN_START);
 
 export const DESTRUCTURE_ASSIGNEES = `
 	(?<DestructureAssignees>${ DELIMS.DESTRUCT[0] }${ OWS }

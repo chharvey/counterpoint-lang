@@ -7,10 +7,12 @@ import {
 	VAR,
 	UNFIXED,
 	PUN,
+	CONSTRAINT,
 	ANNO_START,
 	ASSN_START,
 	DFLT_START,
 	FATARROW,
+	DESTRUCTURE_TYPE_PROPERTIES_OR_GENERIC_ARGUMENTS,
 	DESTRUCTURE_PROPERTIES_OR_ARGUMENTS,
 } from '../selectors.js';
 
@@ -111,6 +113,21 @@ export function list(name, begin, end, more_patterns) {
 }
 
 
+export function constraint(end) {
+	return {
+		name:  'meta.heritage.cp',
+		begin: CONSTRAINT,
+		end,
+		beginCaptures: {
+			0: {name: 'storage.modifier.cp'},
+		},
+		patterns: [
+			{include: '#Type'},
+		],
+	};
+}
+
+
 export function annotation(end, allow_function_type = true) {
 	return {
 		name: 'meta.annotation.cp',
@@ -156,42 +173,93 @@ export function implicitReturn(include = '#Expression') {
 }
 
 
-export function propertyOrArgumentLabel(close_delim, identifier_kind, destructure_kind) {
+function typePropertyOrGenericArgumentLabel(start, close_delim, identifier_kind, destructure_kind) {
+	const end = lookaheads([',', close_delim]);
+	const capture_type = (
+		start === ANNO_START ? annotation(end) :
+		start === ASSN_START ? assignment(ASSN_START, end, '#Type') :
+		{}
+	);
 	return {
 		patterns: [
 			{
-				begin: lookaheads([[VAR, OWS, `(${ PUN }|${ ASSN_START })`].join('')]),
-				end:   lookaheads([',', close_delim]),
+				begin: lookaheads([[`(${ VAR }${ OWS })?`, `(${ PUN }|${ start })`].join('')]),
+				end,
 				patterns: [
 					{include: identifier_kind},
-					assignment(ASSN_START, lookaheads([',', close_delim])),
 					{
 						name: 'keyword.other.alias.cp',
 						match: PUN,
 					},
+					capture_type,
 				],
 			},
 			{
-				begin: lookaheads([
-					[DESTRUCTURE_PROPERTIES_OR_ARGUMENTS, OWS, ASSN_START].join(''),
-				]),
-				end: lookaheads([',', close_delim]),
+				begin: lookaheads([[DESTRUCTURE_TYPE_PROPERTIES_OR_GENERIC_ARGUMENTS, OWS, start].join('')]),
+				end,
 				patterns: [
 					{include: destructure_kind},
-					assignment(ASSN_START, lookaheads([',', close_delim])),
+					capture_type,
 				],
 			},
 		],
 	};
 }
+export function typeProperty(close_delim) {
+	return typePropertyOrGenericArgumentLabel(ANNO_START, close_delim, '#IdentifierProperty', '#DestructureTypeProperty');
+}
+export function genericArgumentLabel(close_delim) {
+	return typePropertyOrGenericArgumentLabel(ASSN_START, close_delim, '#IdentifierParameter', '#DestructureGenericArgument');
+}
 
 
-export function destructure(subtype, identifiers, param_or_var = false) {
+function propertyOrArgumentLabel(close_delim, identifier_kind, destructure_kind) {
+	const end = lookaheads([',', close_delim]);
+	const capture_expression = assignment(ASSN_START, end);
+	return {
+		patterns: [
+			{
+				begin: lookaheads([[VAR, OWS, `(${ PUN }|${ ASSN_START })`].join('')]),
+				end,
+				patterns: [
+					{include: identifier_kind},
+					{
+						name: 'keyword.other.alias.cp',
+						match: PUN,
+					},
+					capture_expression,
+				],
+			},
+			{
+				begin: lookaheads([[DESTRUCTURE_PROPERTIES_OR_ARGUMENTS, OWS, ASSN_START].join('')]),
+				end,
+				patterns: [
+					{include: destructure_kind},
+					capture_expression,
+				],
+			},
+		],
+	};
+}
+export function property(close_delim) {
+	return propertyOrArgumentLabel(close_delim, '#IdentifierProperty', '#DestructureProperty');
+}
+export function argumentLabel(close_delim) {
+	return propertyOrArgumentLabel(close_delim, '#IdentifierParameter', '#DestructureArgument');
+}
+
+
+export function destructure(subtype, identifiers) {
+	const prop_delim = (
+		['Variable', 'Parameter', 'Property', 'Argument', 'Assignment'].includes(subtype)      ? ASSN_START :
+		['TypeAlias', 'GenericParameter', 'TypeProperty', 'GenericArgument'].includes(subtype) ? ANNO_START :
+		ASSN_START
+	);
 	return list(`meta.destructure.${ subtype.toLowerCase() }.cp`, DELIMS.DESTRUCT[0], DELIMS.DESTRUCT[1], [
 		{include: `#Destructure${ subtype }`},
 		{
-			begin: lookaheads([[VAR, OWS, ASSN_START].join('')]),
-			end:   ASSN_START,
+			begin:       lookaheads([[VAR, OWS, prop_delim].join('')]),
+			end:         prop_delim,
 			endCaptures: {
 				0: {name: 'punctuation.delimiter.cp'}
 			},
@@ -203,13 +271,24 @@ export function destructure(subtype, identifiers, param_or_var = false) {
 			name: 'keyword.other.alias.cp',
 			match: PUN,
 		},
-		...((param_or_var) ? [
-			{
-				name: 'storage.modifier.cp',
-				match: UNFIXED,
-			},
+		...(['Variable', 'Parameter'].includes(subtype) ? [
+			...(subtype === 'Variable' ? [
+				{include: '#ModifiersDeclarationLet'},
+			] : [
+				{include: '#ModifiersParameter'},
+			]),
 			annotation(lookaheads([DFLT_START, ',', DELIMS.DESTRUCT[1]])),
 			assignment(DFLT_START, lookaheads([',', DELIMS.DESTRUCT[1]])),
+		] : []),
+		...(['TypeAlias', 'GenericParameter'].includes(subtype) ? [
+			...(subtype === 'TypeAlias' ? [
+				{include: '#GenericParameters'},
+				{include: '#ModifiersDeclarationType'},
+			] : [
+				{include: '#ModifiersGenericParameter'},
+			]),
+			constraint(lookaheads([DFLT_START, ',', DELIMS.DESTRUCT[1]])),
+			assignment(DFLT_START, lookaheads([',', DELIMS.DESTRUCT[1]]), '#Type'),
 		] : []),
 		identifiers,
 	]);

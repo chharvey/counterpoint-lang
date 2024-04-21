@@ -76,6 +76,9 @@ set a ||= b;
 type 'bōōl | floàt' = 'floàt | bōōl' | float | bool;
 type SpreadTest = [T, #Spread] | [name: T, ##DoubleSpread];
 type nominal SpreadTest = [T, #Spread] | [name: T, ##DoubleSpread];
+type Tup = [A, ?: B];
+type Rec = [a: A, B$, c?: C];
+type RecDestructure = [a: A, B$, c?: C, [d, [e]]: De, [f$, g: [h$]]: Fg];
 type Awaited<T> = T~~;
 type SpreadTest = [
 	T,
@@ -87,7 +90,29 @@ type SpreadTest = [
 type T<out U> = U & V
 	.<W>;
 type U<in V narrows W.<int>> = V | W.<X>;
+type U narrows int | bool = int;
 type U<mut in V ?= W.<int>> = V | W.%%c%%<X>;
+type U<V= Vv> = Vv | W;
+
+type [A, B] = [int, float];
+type [c: C, d: D] = [c: int, d: float];
+type [E$, F$] = [E: int, F: float];
+type [S ?= bool] = Tup;
+
+type [G, [H, I]] = Ghi;
+type [J, [K$, lima: L]] = Jkl;
+type [M$, november: [N, O]] = Mno;
+type [P$, quebec: [Q$, romeo: R]] = Pqr;
+
+type Or<T= [A narrows C, B]> = A | B;
+type Or<T= [a: A, B$]> = A | B;
+type Or<T= [J, [K$, lima: L]]> = J | K | L;
+type Or<T= [M$, november: [N, O]]> = M | N | O;
+type Or<T= [S ?= bool] ?= [unknown]> = S | null;
+
+type [A<T>, nominal B<U= V>] = [int | T, float & V];
+type [C$, d: nominal D<out W narrows [unknown] ?= X>] = [C: B.<U= null>, d: W.0];
+type [C$, d: D<Y= [nominal out W narrows unknown ?= Z] ?= X>] = [C: B.<U= null>, d: W];
 
 type T = [a: boolean, b: int, c: T];
 let x: T = [a= false, b= 42, c$];

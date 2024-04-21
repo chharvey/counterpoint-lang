@@ -3,11 +3,11 @@ import {
 } from '../helpers.js';
 import {
 	OWS,
-	UNFIXED,
 	ASSN_START,
 } from '../selectors.js';
 import {
 	unit,
+	constraint,
 	annotation,
 	assignment,
 	implicitReturn,
@@ -22,7 +22,10 @@ export const DECLARATION__TYPE = {
 		0: {name: 'punctuation.delimiter.cp'},
 	},
 	patterns: [
+		{include: '#DestructureTypeAlias'},
 		{include: '#GenericParameters'},
+		{include: '#ModifiersDeclarationType'},
+		constraint(lookaheads([ASSN_START])),
 		assignment(ASSN_START, lookaheads([';']), '#Type'),
 		{
 			name: 'storage.modifier.cp',
@@ -31,10 +34,6 @@ export const DECLARATION__TYPE = {
 		{
 			name: 'storage.type.cp',
 			match: '\\b(type)\\b',
-		},
-		{
-			name: 'storage.modifier.cp',
-			match: '\\b(nominal)\\b',
 		},
 		{include: '#IdentifierType'}, // must come after keywords
 	],
@@ -50,6 +49,7 @@ export const DECLARATION__LET = {
 	},
 	patterns: [
 		{include: '#DestructureVariable'},
+		{include: '#ModifiersDeclarationLet'},
 		annotation(lookaheads([ASSN_START])),
 		assignment(ASSN_START, lookaheads([';'])),
 		{
@@ -59,10 +59,6 @@ export const DECLARATION__LET = {
 		{
 			name: 'storage.type.cp',
 			match: '\\b(let)\\b',
-		},
-		{
-			name: 'storage.modifier.cp',
-			match: UNFIXED,
 		},
 		{include: '#IdentifierVariable'}, // must come after keywords
 	],
