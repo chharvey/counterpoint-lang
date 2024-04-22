@@ -5,8 +5,14 @@ import {
 import {
 	DELIMS,
 	OWS,
+	COMP_ACCESS,
+	MEMB_ACCESS,
 	UNFIXED,
+	NOMINAL,
 	MUTABLE,
+	PERMISSION,
+	IMPL_HERIT,
+	IMPL_MEMB,
 	ASSN_START,
 	DFLT_START,
 	FATARROW,
@@ -28,9 +34,9 @@ import {
 
 
 export const HERITAGE = {
-	name: 'meta.heritage.cp',
-	begin: '\\b(extends|implements|inherits)\\b',
-	end:   lookaheads(['\\b(extends|implements|inherits)\\b', DELIMS.CAPTURES[0], DELIMS.BLOCK[0]]),
+	name:  'meta.heritage.cp',
+	begin: `\\b(extends|${ IMPL_HERIT }|inherits)\\b`,
+	end:   lookaheads([`\\b(extends|${ IMPL_HERIT }|inherits)\\b`, DELIMS.CAPTURES[0], DELIMS.BLOCK[0]]),
 	beginCaptures: {
 		0: {name: 'storage.modifier.cp'},
 	},
@@ -90,7 +96,7 @@ export const EXPRESSION__CLASS = {
 
 export const DECLARATION__CLASS = {
 	name: 'meta.declaration.class.cp',
-	begin: lookaheads([`(\\b(public|secret|private)\\b${ OWS })?\\b(class)\\b`]),
+	begin: lookaheads([`(${ COMP_ACCESS }${ OWS })?\\b(class)\\b`]),
 	end:   lookbehinds([BLOCK_END]),
 	patterns: [
 		{include: '#GenericParameters'},
@@ -98,16 +104,12 @@ export const DECLARATION__CLASS = {
 		{include: '#Captures'},
 		{include: '#ClassBody'},
 		{
-			name: 'storage.modifier.cp',
-			match: '\\b(public|secret|private)\\b',
-		},
-		{
 			name: 'storage.type.cp',
 			match: '\\b(class)\\b',
 		},
 		{
-			name: 'storage.modifier.cp',
-			match: '\\b(final|abstract|enum|data|nominal)\\b',
+			name:  'storage.modifier.cp',
+			match: `\\b(${ COMP_ACCESS }final|abstract|enum|data|${ NOMINAL })\\b`,
 		},
 		{include: '#IdentifierClass'}, // must come after keywords
 	],
@@ -116,23 +118,19 @@ export const DECLARATION__CLASS = {
 
 export const DECLARATION__INTERFACE = {
 	name: 'meta.declaration.interface.cp',
-	begin: lookaheads([`(\\b(public|secret|private)\\b${ OWS })?\\b(interface)\\b`]),
+	begin: lookaheads([`(${ COMP_ACCESS }${ OWS })?\\b(interface)\\b`]),
 	end:   lookbehinds([BLOCK_END]),
 	patterns: [
 		{include: '#GenericParameters'},
 		{include: '#Heritage'},
 		{include: '#ClassBody'},
 		{
-			name: 'storage.modifier.cp',
-			match: '\\b(public|secret|private)\\b',
-		},
-		{
 			name: 'storage.type.cp',
 			match: '\\b(interface)\\b',
 		},
 		{
-			name: 'storage.modifier.cp',
-			match: '\\b(data|nominal)\\b',
+			name:  'storage.modifier.cp',
+			match: `\\b(${ COMP_ACCESS }|data|${ NOMINAL })\\b`,
 		},
 		{include: '#IdentifierClass'}, // must come after keywords
 	],
@@ -158,8 +156,8 @@ export const CONSTRUCTOR_FIELD = {
 	end:   lookaheads([',', DELIMS.PARAMS_FN[1]]),
 	patterns: [
 		{
-			name: 'storage.modifier.cp',
-			match: `\\b(public|secret|private|protected|impl|const|readonly|writeonly|${ UNFIXED })\\b`,
+			name:  'storage.modifier.cp',
+			match: `\\b(${ MEMB_ACCESS }|${ IMPL_MEMB }|${ PERMISSION }|${ UNFIXED })\\b`,
 		},
 		{
 			name:  'punctuation.delimiter.cp',
@@ -182,8 +180,8 @@ export const MEMBER__FIELD = {
 	},
 	patterns: [
 		{
-			name: 'storage.modifier.cp',
-			match: '\\b(public|secret|private|protected|impl|claim|const|readonly|writeonly)\\b',
+			name:  'storage.modifier.cp',
+			match: `\\b(${ MEMB_ACCESS }|${ IMPL_MEMB }|claim|${ PERMISSION })\\b`,
 		},
 		{include: '#IdentifierProperty'},
 		annotation(lookaheads([ASSN_START, ';'])),
@@ -198,8 +196,8 @@ export const MEMBER__CONSTRUCTOR = {
 	end:   lookbehinds([BLOCK_END]),
 	patterns: [
 		{
-			name: 'storage.modifier.cp',
-			match: '\\b(public|secret|private|protected|new)\\b',
+			name:  'storage.modifier.cp',
+			match: `\\b(${ MEMB_ACCESS }|new)\\b`,
 		},
 		{include: '#CommentBlock'},
 		{include: '#CommentLine'},
@@ -216,8 +214,8 @@ export const MEMBER__CONSTRUCTORGROUP = {
 	end:   lookbehinds([BLOCK_END]),
 	patterns: [
 		{
-			name: 'storage.modifier.cp',
-			match: '\\b(public|secret|private|protected|new)\\b',
+			name:  'storage.modifier.cp',
+			match: `\\b(${ MEMB_ACCESS }|new)\\b`,
 		},
 		{
 			name: 'meta.constructorgroupbody.cp',
@@ -245,12 +243,8 @@ export const MEMBER__METHOD = {
 	},
 	patterns: [
 		{
-			name: 'storage.modifier.cp',
-			match: '\\b(public|secret|private|protected|override|impl|claim|final|async|gen)\\b',
-		},
-		{
 			name:  'storage.modifier.cp',
-			match: MUTABLE,
+			match: `\\b(${ MEMB_ACCESS }|override|${ IMPL_MEMB }|claim|final${ MUTABLE }|async|gen)\\b`,
 		},
 		{include: '#IdentifierProperty'},
 		{include: '#GenericParameters'},
@@ -268,12 +262,8 @@ export const MEMBER__METHODGROUP = {
 	end:   lookbehinds([BLOCK_END]),
 	patterns: [
 		{
-			name: 'storage.modifier.cp',
-			match: '\\b(public|secret|private|protected|override|impl|claim|final)\\b',
-		},
-		{
 			name:  'storage.modifier.cp',
-			match: MUTABLE,
+			match: `\\b(${ MEMB_ACCESS }|override|${ IMPL_MEMB }|claim|final|${ MUTABLE })\\b`,
 		},
 		{include: '#IdentifierProperty'},
 		{
