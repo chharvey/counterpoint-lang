@@ -14,8 +14,8 @@ class Foo<out T> {}
 class Foo<_> {}
 class Foo extends Bar, Diz.<T> {}
 class Foo extends _, Diz.<_> {}
-class Foo implements Bar, Diz.<T> {}
-class Foo extends Bar implements Diz.<T> {}
+class Foo impl Bar, Diz.<T> {}
+class Foo extends Bar impl Diz.<T> {}
 class Foo [a, b ,] {}
 class Foo<T> extends Bar, Diz.<T> [a, b] {}
 class ClassWithCaptures [
@@ -35,8 +35,8 @@ let Foo: Class = Object && Class && (class <T> extends Bar.<T> {});
 let Foo: Class = Object && Class && (class <in T> extends Bar.<T> {});
 let Foo: Class = Object && Class && (class extends Bar, Diz.<T> {});
 let Foo: Class = Object && Class && (class extends _, Diz.<_> {});
-let Foo: Class = Object && Class && (class implements Bar, Diz.<T> {});
-let Foo: Class = Object && Class && (class extends Bar implements Diz.<T> {});
+let Foo: Class = Object && Class && (class impl Bar, Diz.<T> {});
+let Foo: Class = Object && Class && (class extends Bar impl Diz.<T> {});
 let Foo: Class = Object && Class && (class extends Bar.<T> [a, b ,] {});
 let classWithCaptures: Class = class [
 	a,

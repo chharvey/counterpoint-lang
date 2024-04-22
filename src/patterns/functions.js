@@ -10,7 +10,7 @@ import {
 	MUTABLE,
 	VARIANCE,
 	CONSTRAINT,
-	IMPL_HERIT,
+	IMPL,
 	ANNO_START,
 	ASSN_START,
 	DFLT_START,
@@ -116,7 +116,7 @@ export const DECLARATION__FUNC = {
 		},
 		{
 			name:  'meta.heritage.cp',
-			begin: IMPL_HERIT,
+			begin: IMPL,
 			end:   lookaheads([DELIMS.CAPTURES[0], DELIMS.PARAMS_FN[0]]),
 			beginCaptures: {
 				0: {name: 'storage.modifier.cp'},

@@ -34,8 +34,7 @@ export const PUN        = '\\$';
 export const VARIANCE   = '\\b(out|in)\\b';
 export const CONSTRAINT = '\\b(narrows|widens)\\b'
 export const PERMISSION = '\\b(const|readonly|writeonly)\\b';
-export const IMPL_HERIT = '\\b(implements)\\b';
-export const IMPL_MEMB  = '\\b(impl)\\b';
+export const IMPL       = '\\b(impl)\\b';
 export const ANNO_START = `\\??\\:${ lookaheads(['\\:'], true) }`;
 export const ASSN_START = `=${ lookaheads(['=', '>'], true) }`;
 export const DFLT_START = `\\?${ ASSN_START }`;
@@ -135,14 +134,14 @@ export const FUNCTION = `
 
 export const FIELD = `
 	(${ MEMB_ACCESS } ${ OWS })?
-	(\\b(?:${ IMPL_MEMB } | claim)\\b ${ OWS })?
+	(\\b(?:${ IMPL } | claim)\\b ${ OWS })?
 	(${ PERMISSION } ${ OWS })?
 	${ VAR } ${ OWS } ${ ANNO_START }
 `.replace(/\s+/g, '');
 
 export const FIELD_CONSTRUCTOR = `
 	${ MEMB_ACCESS } ${ OWS }
-	(${ IMPL_MEMB } ${ OWS })?
+	(${ IMPL } ${ OWS })?
 	(${ PERMISSION } ${ OWS })?
 	(?:
 		(${ VAR } ${ OWS } ${ ASSN_START } ${ OWS })? (${ UNFIXED } ${ OWS })? ${ VAR } ${ OWS } ${ ANNO_START }
@@ -162,7 +161,7 @@ export const CONSTRUCTORGROUP = `
 
 export const METHOD = `
 	(${ MEMB_ACCESS } ${ OWS })?
-	(\\b(?:override | ${ IMPL_MEMB } | claim)\\b ${ OWS })?
+	(\\b(?:override | ${ IMPL } | claim)\\b ${ OWS })?
 	(\\b final \\b ${ OWS })?
 	(${ MUTABLE } ${ OWS })?
 	(?:\\b async \\b ${ OWS })?
@@ -172,7 +171,7 @@ export const METHOD = `
 
 export const METHODGROUP = `
 	(${ MEMB_ACCESS } ${ OWS })?
-	(\\b(?:override | ${ IMPL_MEMB } | claim)\\b ${ OWS })?
+	(\\b(?:override | ${ IMPL } | claim)\\b ${ OWS })?
 	(\\b final \\b ${ OWS })?
 	(${ MUTABLE } ${ OWS })?
 	${ VAR } ${ OWS } ${ DELIMS.BLOCK[0] }

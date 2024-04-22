@@ -11,8 +11,7 @@ import {
 	NOMINAL,
 	MUTABLE,
 	PERMISSION,
-	IMPL_HERIT,
-	IMPL_MEMB,
+	IMPL,
 	ASSN_START,
 	DFLT_START,
 	FATARROW,
@@ -35,8 +34,8 @@ import {
 
 export const HERITAGE = {
 	name:  'meta.heritage.cp',
-	begin: `\\b(extends|${ IMPL_HERIT }|inherits)\\b`,
-	end:   lookaheads([`\\b(extends|${ IMPL_HERIT }|inherits)\\b`, DELIMS.CAPTURES[0], DELIMS.BLOCK[0]]),
+	begin: `\\b(extends|${ IMPL }|inherits)\\b`,
+	end:   lookaheads([`\\b(extends|${ IMPL }|inherits)\\b`, DELIMS.CAPTURES[0], DELIMS.BLOCK[0]]),
 	beginCaptures: {
 		0: {name: 'storage.modifier.cp'},
 	},
@@ -157,7 +156,7 @@ export const CONSTRUCTOR_FIELD = {
 	patterns: [
 		{
 			name:  'storage.modifier.cp',
-			match: `\\b(${ MEMB_ACCESS }|${ IMPL_MEMB }|${ PERMISSION }|${ UNFIXED })\\b`,
+			match: `\\b(${ MEMB_ACCESS }|${ IMPL }|${ PERMISSION }|${ UNFIXED })\\b`,
 		},
 		{
 			name:  'punctuation.delimiter.cp',
@@ -181,7 +180,7 @@ export const MEMBER__FIELD = {
 	patterns: [
 		{
 			name:  'storage.modifier.cp',
-			match: `\\b(${ MEMB_ACCESS }|${ IMPL_MEMB }|claim|${ PERMISSION })\\b`,
+			match: `\\b(${ MEMB_ACCESS }|${ IMPL }|claim|${ PERMISSION })\\b`,
 		},
 		{include: '#IdentifierProperty'},
 		annotation(lookaheads([ASSN_START, ';'])),
@@ -244,7 +243,7 @@ export const MEMBER__METHOD = {
 	patterns: [
 		{
 			name:  'storage.modifier.cp',
-			match: `\\b(${ MEMB_ACCESS }|override|${ IMPL_MEMB }|claim|final${ MUTABLE }|async|gen)\\b`,
+			match: `\\b(${ MEMB_ACCESS }|override|${ IMPL }|claim|final${ MUTABLE }|async|gen)\\b`,
 		},
 		{include: '#IdentifierProperty'},
 		{include: '#GenericParameters'},
@@ -263,7 +262,7 @@ export const MEMBER__METHODGROUP = {
 	patterns: [
 		{
 			name:  'storage.modifier.cp',
-			match: `\\b(${ MEMB_ACCESS }|override|${ IMPL_MEMB }|claim|final|${ MUTABLE })\\b`,
+			match: `\\b(${ MEMB_ACCESS }|override|${ IMPL }|claim|final|${ MUTABLE })\\b`,
 		},
 		{include: '#IdentifierProperty'},
 		{
