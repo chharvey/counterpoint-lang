@@ -94,8 +94,8 @@ export const DECLARATION__CLASS = {
 	end:   lookbehinds([BLOCK_END]),
 	patterns: [
 		{include: '#GenericParameters'},
-		{include: '#Heritage'},
 		{include: '#Captures'},
+		{include: '#Heritage'},
 		{include: '#ClassBody'},
 		{
 			name: 'storage.modifier.cp',
