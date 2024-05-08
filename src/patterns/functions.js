@@ -6,6 +6,7 @@ import {
 	DELIMS,
 	OWS,
 	VAR,
+	COMP_ACCESS,
 	UNFIXED,
 	MUTABLE,
 	VARIANCE,
@@ -73,7 +74,7 @@ export const EXPRESSION__FUNCTION = {
 
 export const DECLARATION__TYPEFUNC = {
 	name: 'meta.declaration.typefunc.cp',
-	begin: lookaheads([`(\\b(public|secret|private)\\b${ OWS })?\\b(typefunc)\\b`]),
+	begin: lookaheads([`(${ COMP_ACCESS }${ OWS })?\\b(typefunc)\\b`]),
 	end:   ';',
 	endCaptures: {
 		0: {name: 'punctuation.delimiter.cp'},
@@ -82,8 +83,8 @@ export const DECLARATION__TYPEFUNC = {
 		{include: '#GenericParameters'},
 		implicitReturn('#Type'),
 		{
-			name: 'storage.modifier.cp',
-			match: '\\b(public|secret|private)\\b',
+			name:  'storage.modifier.cp',
+			match: COMP_ACCESS,
 		},
 		{
 			name: 'storage.type.cp',
@@ -96,7 +97,7 @@ export const DECLARATION__TYPEFUNC = {
 
 export const DECLARATION__FUNC = {
 	name: 'meta.declaration.func.cp',
-	begin: lookaheads([`(\\b(public|secret|private)\\b${ OWS })?\\b(function)\\b(${ OWS }\\b(async)\\b)?(${ OWS }\\b(gen)\\b)?`]),
+	begin: lookaheads([`(${ COMP_ACCESS }${ OWS })?\\b(function)\\b(${ OWS }\\b(async)\\b)?(${ OWS }\\b(gen)\\b)?`]),
 	end:   [lookbehinds([BLOCK_END]), ';'].join('|'),
 	endCaptures: {
 		0: {name: 'punctuation.delimiter.cp'},
@@ -107,8 +108,8 @@ export const DECLARATION__FUNC = {
 		{include: '#Parameters'},
 		{include: '#Block'},
 		{
-			name: 'storage.modifier.cp',
-			match: '\\b(public|secret|private|async|gen)\\b',
+			name:  'storage.modifier.cp',
+			match: `\\b(${ COMP_ACCESS }|async|gen)\\b`,
 		},
 		{
 			name: 'storage.type.cp',

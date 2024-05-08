@@ -3,6 +3,7 @@ import {
 } from '../helpers.js';
 import {
 	OWS,
+	COMP_ACCESS,
 	ASSN_START,
 } from '../selectors.js';
 import {
@@ -16,7 +17,7 @@ import {
 
 export const DECLARATION__TYPE = {
 	name: 'meta.declaration.type.cp',
-	begin: lookaheads([`(\\b(public|secret|private)\\b${ OWS })?\\b(type)\\b`]),
+	begin: lookaheads([`(${ COMP_ACCESS }${ OWS })?\\b(type)\\b`]),
 	end:   ';',
 	endCaptures: {
 		0: {name: 'punctuation.delimiter.cp'},
@@ -28,8 +29,8 @@ export const DECLARATION__TYPE = {
 		constraint(lookaheads([ASSN_START])),
 		assignment(ASSN_START, lookaheads([';']), '#Type'),
 		{
-			name: 'storage.modifier.cp',
-			match: '\\b(public|secret|private)\\b',
+			name:  'storage.modifier.cp',
+			match: COMP_ACCESS,
 		},
 		{
 			name: 'storage.type.cp',
@@ -42,7 +43,7 @@ export const DECLARATION__TYPE = {
 
 export const DECLARATION__LET = {
 	name: 'meta.declaration.let.cp',
-	begin: lookaheads([`(\\b(public|secret|private)\\b${ OWS })?\\b(let)\\b`]),
+	begin: lookaheads([`(${ COMP_ACCESS }${ OWS })?\\b(let)\\b`]),
 	end:   ';',
 	endCaptures: {
 		0: {name: 'punctuation.delimiter.cp'},
@@ -53,8 +54,8 @@ export const DECLARATION__LET = {
 		annotation(lookaheads([ASSN_START])),
 		assignment(ASSN_START, lookaheads([';'])),
 		{
-			name: 'storage.modifier.cp',
-			match: '\\b(public|secret|private)\\b',
+			name:  'storage.modifier.cp',
+			match: COMP_ACCESS,
 		},
 		{
 			name: 'storage.type.cp',
