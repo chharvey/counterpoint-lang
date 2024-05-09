@@ -169,21 +169,13 @@ function returnInstance(): interface {
 	public z(): ((str) => int) => (s: str) => str.length;
 }).();
 
-function add<T>(x: T, y: T): T impl BinaryOperator.<T> {
-	return x + y;
-}
 function add<T>(x, y) impl BinaryOperator.<T> {
 	return x + y;
 }
-function add<T>(x: T, y: T): T impl BinaryOperator.<T> => x + y;
 function add<T>(x, y) impl BinaryOperator.<T> => x + y;
-function addCaptures<T>[z](x: T, y: T): T impl BinaryOperator.<T> {
-	return x + y + z;
-}
 function addCaptures<T>[z](x, y) impl BinaryOperator.<T> {
 	return x + y + z;
 }
-function addCaptures<T>[z](x: T, y: T): T impl BinaryOperator.<T> => x + y + z;
 function addCaptures<T>[z](x, y) impl BinaryOperator.<T> => x + y + z;
 
 public function subtract(a: N, b: N): N { return a - b; }

@@ -134,12 +134,12 @@ claim x.<U>(42)~~.y++.0.["prop" || "key"]: T;
 
 type VoidFn<Arg> = (arg: Arg) => void;
 function print(message: str): void {;}
-function print(message: str): void impl VoidFn.<str> {;}
-function print<T>(message: T): void impl VoidFn.<T> {;}
+function print(message) impl VoidFn.<str> {;}
+function print<T>(message) impl VoidFn.<T> {;}
 function print<T narrows str>(message) impl VoidFn.<T> {;}
 claim print(message: str): void;
-claim print(message: str): void impl VoidFn.<str>;
-claim print<T>(message: T): void impl VoidFn.<T>;
+claim print(message) impl VoidFn.<str>;
+claim print<T>(message) impl VoidFn.<T>;
 claim print<T narrows str>(message) impl VoidFn.<T>;
 claim print: (message: str) => void;
 claim print: <T narrows str>(message: T) => void;
