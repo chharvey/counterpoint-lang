@@ -21,6 +21,7 @@ import {
 	FUNCTION,
 } from '../selectors.js';
 import {
+	identifier,
 	constraint,
 	annotation,
 	assignment,
@@ -118,16 +119,16 @@ export const DECLARATION__FUNC = {
 		{
 			name:  'meta.heritage.cp',
 			begin: IMPL,
-			end:   lookaheads([DELIMS.CAPTURES[0], DELIMS.PARAMS_FN[0]]),
+			end:   lookaheads([DELIMS.BLOCK[0], FATARROW]),
 			beginCaptures: {
 				0: {name: 'storage.modifier.cp'},
 			},
 			patterns: [
 				{include: '#TypeCall'},
-				{include: '#IdentifierType'},
+				identifier('entity.other.inherited-class'),
 			],
 		},
-		annotation(lookaheads([DELIMS.BLOCK[0], FATARROW]), false),
+		annotation(lookaheads([IMPL, DELIMS.BLOCK[0], FATARROW]), false),
 		implicitReturn(),
 		{include: '#IdentifierFunction'}, // must come after keywords
 	],

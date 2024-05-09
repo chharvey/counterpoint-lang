@@ -2,12 +2,17 @@ import {
 	lookaheads,
 } from '../helpers.js';
 import {
+	DELIMS,
 	OWS,
+	VAR,
 	COMP_ACCESS,
+	IMPL,
+	ANNO_START,
 	ASSN_START,
 } from '../selectors.js';
 import {
 	unit,
+	identifier,
 	constraint,
 	annotation,
 	assignment,
@@ -77,8 +82,29 @@ export const DECLARATION__CLAIM = {
 		0: {name: 'punctuation.delimiter.cp'},
 	},
 	patterns: [
+		{
+			name:  'meta.heritage.cp',
+			begin: IMPL,
+			end:   lookaheads([';']),
+			beginCaptures: {
+				0: {name: 'storage.modifier.cp'},
+			},
+			patterns: [
+				{include: '#TypeCall'},
+				identifier('entity.other.inherited-class'),
+			],
+		},
+		{
+			begin: lookaheads([[VAR, OWS, `(${ DELIMS.PARAMS_GN[0] }|${ DELIMS.PARAMS_FN[0] })`].join('')]),
+			end:   lookaheads([ANNO_START, IMPL]),
+			patterns: [
+				{include: '#IdentifierFunction'},
+				{include: '#GenericParameters'},
+				{include: '#TypeParameters'},
+			],
+		},
 		{include: '#ExpressionAssignee'},
-		annotation(lookaheads([';'])),
+		annotation(lookaheads([IMPL, ';'])),
 	],
 };
 

@@ -132,6 +132,19 @@ let map:  mut {int -> str} = {42 -> "42.0", 43 -> "43.0"};
 claim x: T;
 claim x.<U>(42)~~.y++.0.["prop" || "key"]: T;
 
+type VoidFn<Arg> = (arg: Arg) => void;
+function print(message: str): void {;}
+function print(message: str): void impl VoidFn.<str> {;}
+function print<T>(message: T): void impl VoidFn.<T> {;}
+function print<T narrows str>(message) impl VoidFn.<T> {;}
+claim print(message: str): void;
+claim print(message: str): void impl VoidFn.<str>;
+claim print<T>(message: T): void impl VoidFn.<T>;
+claim print<T narrows str>(message) impl VoidFn.<T>;
+claim print: (message: str) => void;
+claim print: <T narrows str>(message: T) => void;
+claim print: VoidFn.<str>;
+
 public let x: float = 0.0;
 secret let x: float = 0.0;
 private let y: float = 0.0;
