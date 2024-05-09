@@ -24,6 +24,8 @@ export const OWS = '(?:\\s+|(%%(?:%?[^%])*%%))*';
 export const INT = '(?:\\+|-)?(?:\\\\[bqodxz])?[0-9a-z_]+';
 export const VAR = '(?:\\b[A-Za-z_][A-Za-z0-9_]*\\b|\'.*\')';
 
+export const COMP_ACCESS = '\\b(public|secret|private)\\b';
+export const MEMB_ACCESS = `\\b(${ COMP_ACCESS }|protected)\\b`;
 export const UNFIXED    = '\\b(var)\\b';
 export const NOMINAL    = '\\b(nominal)\\b';
 export const MUTABLE    = '\\b(mut)\\b';
@@ -31,6 +33,8 @@ export const ALIAS      = '\\b(as)\\b';
 export const PUN        = '\\$';
 export const VARIANCE   = '\\b(out|in)\\b';
 export const CONSTRAINT = '\\b(narrows|widens)\\b'
+export const PERMISSION = '\\b(const|readonly|writeonly)\\b';
+export const IMPL       = '\\b(impl)\\b';
 export const ANNO_START = `\\??\\:${ lookaheads(['\\:'], true) }`;
 export const ASSN_START = `=${ lookaheads(['=', '>'], true) }`;
 export const DFLT_START = `\\?${ ASSN_START }`;
@@ -129,15 +133,16 @@ export const FUNCTION = `
 `.replace(/\#.*\n|\s+/g, '');
 
 export const FIELD = `
-	(\\b(?:public | secret | private | protected)\\b ${ OWS })?
-	(\\b(?:claim)\\b ${ OWS })?
-	(\\b(?:const | readonly | writeonly)\\b ${ OWS })?
+	(${ MEMB_ACCESS } ${ OWS })?
+	(\\b(?:${ IMPL } | claim)\\b ${ OWS })?
+	(${ PERMISSION } ${ OWS })?
 	${ VAR } ${ OWS } ${ ANNO_START }
 `.replace(/\s+/g, '');
 
 export const FIELD_CONSTRUCTOR = `
-	\\b(?:public | secret | private | protected)\\b ${ OWS }
-	(\\b(?:const | readonly | writeonly)\\b ${ OWS })?
+	${ MEMB_ACCESS } ${ OWS }
+	(${ IMPL } ${ OWS })?
+	(${ PERMISSION } ${ OWS })?
 	(?:
 		(${ VAR } ${ OWS } ${ ASSN_START } ${ OWS })? (${ UNFIXED } ${ OWS })? ${ VAR } ${ OWS } ${ ANNO_START }
 		| ${ VAR } ${ OWS } ${ ASSN_START } ${ OWS } ${ DELIMS.DESTRUCT[0] }
@@ -145,18 +150,18 @@ export const FIELD_CONSTRUCTOR = `
 `.replace(/\s+/g, '');
 
 export const CONSTRUCTOR = `
-	(\\b(?:public | secret | private | protected)\\b ${ OWS })?
+	(${ MEMB_ACCESS } ${ OWS })?
 	(?:\\b new \\b ${ OWS })? ${ DELIMS.PARAMS_FN[0] }
 `.replace(/\s+/g, '');
 
 export const CONSTRUCTORGROUP = `
-	(\\b(?:public | secret | private | protected)\\b ${ OWS })?
+	(${ MEMB_ACCESS } ${ OWS })?
 	\\b new \\b ${ OWS } ${ DELIMS.BLOCK[0] }
 `.replace(/\s+/g, '');
 
 export const METHOD = `
-	(\\b(?:public | secret | private | protected)\\b ${ OWS })?
-	(\\b(?:override | claim)\\b ${ OWS })?
+	(${ MEMB_ACCESS } ${ OWS })?
+	(\\b(?:override | ${ IMPL } | claim)\\b ${ OWS })?
 	(\\b final \\b ${ OWS })?
 	(${ MUTABLE } ${ OWS })?
 	(?:\\b async \\b ${ OWS })?
@@ -165,8 +170,8 @@ export const METHOD = `
 `.replace(/\s+/g, '');
 
 export const METHODGROUP = `
-	(\\b(?:public | secret | private | protected)\\b ${ OWS })?
-	(\\b(?:override | claim)\\b ${ OWS })?
+	(${ MEMB_ACCESS } ${ OWS })?
+	(\\b(?:override | ${ IMPL } | claim)\\b ${ OWS })?
 	(\\b final \\b ${ OWS })?
 	(${ MUTABLE } ${ OWS })?
 	${ VAR } ${ OWS } ${ DELIMS.BLOCK[0] }

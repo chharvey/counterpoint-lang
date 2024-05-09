@@ -31,11 +31,7 @@ export const MODIFIERS__GENERIC_PARAMETER = {
 		{include: '#ModifiersDeclarationType'},
 		{
 			name:  'storage.modifier.cp',
-			match: MUTABLE,
-		},
-		{
-			name: 'storage.modifier.cp',
-			match: VARIANCE,
+			match: `\\b(${ MUTABLE }|${ VARIANCE })\\b`,
 		},
 	],
 };

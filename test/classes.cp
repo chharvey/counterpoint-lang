@@ -14,8 +14,8 @@ class Foo<out T> {}
 class Foo<_> {}
 class Foo extends Bar, Diz.<T> {}
 class Foo extends _, Diz.<_> {}
-class Foo implements Bar, Diz.<T> {}
-class Foo extends Bar implements Diz.<T> {}
+class Foo impl Bar, Diz.<T> {}
+class Foo extends Bar impl Diz.<T> {}
 class Foo [a, b ,] {}
 class Foo<T> extends Bar, Diz.<T> [a, b] {}
 class ClassWithCaptures [
@@ -35,8 +35,8 @@ let Foo: Class = Object && Class && (class <T> extends Bar.<T> {});
 let Foo: Class = Object && Class && (class <in T> extends Bar.<T> {});
 let Foo: Class = Object && Class && (class extends Bar, Diz.<T> {});
 let Foo: Class = Object && Class && (class extends _, Diz.<_> {});
-let Foo: Class = Object && Class && (class implements Bar, Diz.<T> {});
-let Foo: Class = Object && Class && (class extends Bar implements Diz.<T> {});
+let Foo: Class = Object && Class && (class impl Bar, Diz.<T> {});
+let Foo: Class = Object && Class && (class extends Bar impl Diz.<T> {});
 let Foo: Class = Object && Class && (class extends Bar.<T> [a, b ,] {});
 let classWithCaptures: Class = class [
 	a,
@@ -96,6 +96,7 @@ class Foo {
 			(): int => 42;
 		}
 		public override methodGroup { (): void {;} }
+		public impl methodGroup { (): void {;} }
 		public final methodGroup { (): void {;} }
 		public mut methodGroup { (): void {;} }
 	}
@@ -106,11 +107,12 @@ class Foo {
 	secret field: T = 42;
 	private field: T = 42;
 	protected field: T = 42;
+	impl field: T = 42;
+	claim field: Typ;
 	const field: T = 42;
 	readonly field: T = 42;
 	writeonly field: T = 42;
 	field: Typ = 42;
-	claim field: Typ;
 
 	public new () {;}
 	secret new () {;}
@@ -122,6 +124,7 @@ class Foo {
 		secret constructor_field2: int,
 		private constructor_field3: int,
 		protected constructor_field4: int,
+		public impl constructor_field8: int,
 		public const constructor_field6: int,
 		public readonly constructor_field7: int,
 		public writeonly constructor_field8: int,
@@ -140,6 +143,8 @@ class Foo {
 	private meth(): void {;}
 	protected meth(): void {;}
 	override meth(): void {;}
+	impl meth(): void {;}
+	claim meth(): void;
 	final meth(): void {;}
 	mut meth(): void {;}
 	async meth(): void {;}
@@ -152,7 +157,6 @@ class Foo {
 	}
 	meth(): int => 42;
 	abstractMethod(): void;
-	claim meth(): void;
 
 	return(ab: void): void { return (ab); }
 	throw(cd: void): void { throw (cd); }
@@ -168,6 +172,7 @@ class Foo {
 			secret constructor_field2: int,
 			private constructor_field3: int,
 			protected constructor_field4: int,
+			public impl constructor_field8: int,
 			public const constructor_field6: int,
 			public readonly constructor_field7: int,
 			public writeonly constructor_field8: int,
@@ -192,9 +197,10 @@ class Foo {
 		(): int => 42;
 	}
 	override methodGroup { (): void {;} }
+	impl methodGroup { (): void {;} }
+	claim methodGroup { (): void; }
 	final methodGroup { (): void {;} }
 	mut methodGroup { (): void {;} }
-	claim methodGroup { (): void; }
 }
 
 % interface members

@@ -169,14 +169,14 @@ function returnInstance(): interface {
 	public z(): ((str) => int) => (s: str) => str.length;
 }).();
 
-function add<T> implements BinaryOperator.<T> (x: T, y: T): T {
+function add<T> impl BinaryOperator.<T> (x: T, y: T): T {
 	return x + y;
 }
-function add<T> implements BinaryOperator.<T> (x: T, y: T): T => x + y;
-function addCaptures<T> implements BinaryOperator.<T> [z](x: T, y: T): T {
+function add<T> impl BinaryOperator.<T> (x: T, y: T): T => x + y;
+function addCaptures<T> impl BinaryOperator.<T> [z](x: T, y: T): T {
 	return x + y + z;
 }
-function addCaptures<T> implements BinaryOperator.<T> [z](x: T, y: T): T => x + y + z;
+function addCaptures<T> impl BinaryOperator.<T> [z](x: T, y: T): T => x + y + z;
 
 public function subtract(a: N, b: N): N { return a - b; }
 secret function subtract(a: N, b: N): N => a - b;
