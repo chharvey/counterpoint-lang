@@ -16,10 +16,10 @@ class Foo extends Bar, Diz.<T> {}
 class Foo extends _, Diz.<_> {}
 class Foo impl Bar, Diz.<T> {}
 class Foo extends Bar impl Diz.<T> {}
-class Foo[a, b ,] {}
-class Foo<T>[a, b] extends Bar, Diz.<T> {}
+class Foo[var a, b ,] {}
+class Foo<T>[a, var b] extends Bar, Diz.<T> {}
 class ClassWithCaptures[
-	a,
+	var a,
 	'b',
 ] {};
 
@@ -37,10 +37,10 @@ let Foo: Class = Object && Class && (class extends Bar, Diz.<T> {});
 let Foo: Class = Object && Class && (class extends _, Diz.<_> {});
 let Foo: Class = Object && Class && (class impl Bar, Diz.<T> {});
 let Foo: Class = Object && Class && (class extends Bar impl Diz.<T> {});
-let Foo: Class = Object && Class && (class [a, b ,] extends Bar.<T> {});
+let Foo: Class = Object && Class && (class [a, var b ,] extends Bar.<T> {});
 let classWithCaptures: Class = class [
 	a,
-	'b',
+	var 'b',
 ] {};
 
 
