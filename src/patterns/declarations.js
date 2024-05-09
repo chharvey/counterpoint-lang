@@ -56,7 +56,7 @@ export const DECLARATION__LET = {
 	patterns: [
 		{include: '#DestructureVariable'},
 		{include: '#ModifiersDeclarationLet'},
-		annotation(lookaheads([ASSN_START])),
+		annotation(lookaheads([ASSN_START, ';'])),
 		assignment(ASSN_START, lookaheads([';'])),
 		{
 			name:  'storage.modifier.cp',

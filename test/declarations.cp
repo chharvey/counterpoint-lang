@@ -129,6 +129,14 @@ let hash: mut [:int] = Dict.<int>([a= 42]);
 let set:  mut int{} = Set.<int>([42]);
 let map:  mut {int -> str} = {42 -> "42.0", 43 -> "43.0"};
 
+let var w?:    T;
+let var tup?:  [int];
+let var rec?:  [a: int];
+let var list?: int[];
+let var hash?: [:int];
+let var set?:  int{};
+let var map?:  {int -> str};
+
 claim x: T;
 claim x.<U>(42)~~.y++.0.["prop" || "key"]: T;
 
