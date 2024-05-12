@@ -114,6 +114,10 @@ class Foo {
 	writeonly field: T = 42;
 	field: Typ = 42;
 
+	public field: T;
+	public field?: T;
+	public field = 42;
+
 	public new () {;}
 	secret new () {;}
 	private new () {;}
@@ -133,6 +137,9 @@ class Foo {
 		private construtor_field9= field9: int,
 		private construtor_field10= var field10: int,
 		private construtor_field11= [field11a, var field11b]: int[2],
+
+		public constructor_field12: int ?= 42,
+		public constructor_field13 ?= 42,
 	) {;}
 
 	%%

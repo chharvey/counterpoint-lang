@@ -136,7 +136,8 @@ export const FIELD = `
 	(${ MEMB_ACCESS } ${ OWS })?
 	(\\b(?:${ IMPL } | claim)\\b ${ OWS })?
 	(${ PERMISSION } ${ OWS })?
-	${ VAR } ${ OWS } ${ ANNO_START }
+	${ VAR } ${ OWS }
+	(?:${ ANNO_START } | ${ ASSN_START })
 `.replace(/\s+/g, '');
 
 export const FIELD_CONSTRUCTOR = `
@@ -144,7 +145,7 @@ export const FIELD_CONSTRUCTOR = `
 	(${ IMPL } ${ OWS })?
 	(${ PERMISSION } ${ OWS })?
 	(?:
-		(${ VAR } ${ OWS } ${ ASSN_START } ${ OWS })? (${ UNFIXED } ${ OWS })? ${ VAR } ${ OWS } ${ ANNO_START }
+		(${ VAR } ${ OWS } ${ ASSN_START } ${ OWS })? (${ UNFIXED } ${ OWS })? ${ VAR } ${ OWS } (${ ANNO_START } | ${ DFLT_START })
 		| ${ VAR } ${ OWS } ${ ASSN_START } ${ OWS } ${ DELIMS.DESTRUCT[0] }
 	)
 `.replace(/\s+/g, '');

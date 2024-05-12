@@ -122,6 +122,7 @@ let var w: bool | T | 'floàt | bōōl' = bool;
 let var w: 3.2 = 3.2 == 3.2;
 let var w: null = null;
 let var w: T = T;
+let var w = T;
 let tup:  mut [int] = [42];
 let rec:  mut [a: int] = [a= 42];
 let list: mut int[] = List.<int>([42]);
