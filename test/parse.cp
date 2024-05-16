@@ -7,9 +7,11 @@ true else % false
 );
 if a then b else c;
 (if a then b else c);
+if a then {b} else sync { c; };;
+(if a then {b} else sync { c; });
 if a then {#b} else {c, d} || {e -> f};
+(if a then {#b} else {c, d} || {e -> f});
 if a then { run.(); };
-(if a then {#b} else {c});
 
 if if a then b else c then d else e;
 if a then if b then c else d else e;
@@ -107,7 +109,7 @@ for prop of (x, y) { return y * x; } do {};
 	%%
 function twice(x: int): int => x * 2;
 
-{
+1 + 2 + sync {
 	% operators:
 	!a;
 	?a;

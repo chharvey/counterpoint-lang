@@ -236,7 +236,6 @@ export const BLOCK = {
 		0: {name: 'punctuation.delimiter.cp'},
 	},
 	patterns: [
-		{include: '#Statement'},
 		{
 			// used only for set/map literal expressions where blocks could be, e.g. `if a then {b} else {c -> d};`
 			patterns: [
@@ -254,5 +253,6 @@ export const BLOCK = {
 				},
 			],
 		},
+		{include: '#Statement'},
 	],
 };
