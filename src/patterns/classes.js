@@ -108,7 +108,7 @@ export const DECLARATION__CLASS = {
 		},
 		{
 			name:  'storage.modifier.cp',
-			match: `\\b(${ COMP_ACCESS }final|abstract|enum|data|${ NOMINAL })\\b`,
+			match: `\\b(${ COMP_ACCESS }|final|abstract|enum|data|${ NOMINAL })\\b`,
 		},
 		{include: '#IdentifierClass'}, // must come after keywords
 	],
