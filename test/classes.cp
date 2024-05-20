@@ -96,7 +96,7 @@ class Foo {
 		public override methodGroup { (): void {;} }
 		public impl methodGroup { (): void {;} }
 		public final methodGroup { (): void {;} }
-		public mut methodGroup { (): void {;} }
+		public methodGroup { mut (): void {;} }
 	}
 
 
@@ -201,7 +201,7 @@ class Foo {
 	impl methodGroup { (): void {;} }
 	claim methodGroup { (): void; }
 	final methodGroup { (): void {;} }
-	mut methodGroup { (): void {;} }
+	methodGroup { mut (): void {;} }
 }
 
 % interface members
@@ -224,5 +224,5 @@ interface Foo {
 		<in T>(): void;
 		(x: int): void;
 	}
-	public mut methodGroup { (): void; }
+	public methodGroup { mut (): void; }
 }
