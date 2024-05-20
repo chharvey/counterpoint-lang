@@ -86,23 +86,19 @@ export const DESTRUCTURE_ASSIGNEES = `
 `.replace(/\s+/g, '');
 
 export const FUNCTIONTYPE = `
-	(?:\\b(?:async | gen)\\b${ OWS })
-	| (?:
-		${ DELIMS.PARAMS_GN[0] } # any generic parameters
-		| ${ DELIMS.PARAMS_FN[0] }${ OWS }(?:
-			${ DELIMS.PARAMS_FN[1] }${ OWS }(?<aftertypeparams> ${ FATARROW }) # exactly 0 type parameters
-			| ${ ANNO_START }                                                  # annotated unnamed type parameter
-			| ${ VAR }${ OWS }(?:
-				${ DELIMS.PARAMS_FN[1] }${ OWS }\\g<aftertypeparams> # exactly 1 unnamed type parameter
-				| ${ ANNO_START } | ,                                # annotated named type parameter, or more than 1 type parameter
-			)
+	${ DELIMS.PARAMS_GN[0] } # any generic parameters
+	| ${ DELIMS.PARAMS_FN[0] }${ OWS }(?:
+		${ DELIMS.PARAMS_FN[1] }${ OWS }(?<aftertypeparams> ${ FATARROW }) # exactly 0 type parameters
+		| ${ ANNO_START }                                                  # annotated unnamed type parameter
+		| ${ VAR }${ OWS }(?:
+			${ DELIMS.PARAMS_FN[1] }${ OWS }\\g<aftertypeparams> # exactly 1 unnamed type parameter
+			| ${ ANNO_START } | ,                                # annotated named type parameter, or more than 1 type parameter
 		)
 	)
 `.replace(/\#.*\n|\s+/g, '');
 
 export const FUNCTION = `
-	(?:\\b(?:async | gen)\\b ${ OWS })
-	| (?:
+	(?:
 		(?<aftergenericparams>
 			(?: # captures
 				${ DELIMS.CAPTURES[0] }${ OWS }
@@ -165,8 +161,6 @@ export const METHOD = `
 	(\\b(?:override | ${ IMPL } | claim)\\b ${ OWS })?
 	(\\b final \\b ${ OWS })?
 	(${ MUTABLE } ${ OWS })?
-	(?:\\b async \\b ${ OWS })?
-	(?:\\b gen \\b ${ OWS })?
 	(?:${ VAR } ${ OWS })? (?:< | ${ DELIMS.PARAMS_FN[0] })
 `.replace(/\s+/g, '');
 

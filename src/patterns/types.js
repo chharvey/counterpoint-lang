@@ -126,7 +126,7 @@ export const TYPENONFUNCTION = {
 
 export const TYPE = {
 	patterns: [
-		{include: '#TypeFunction'}, // must come before `unit` so `async` and `gen` keywords are marked correctly
 		{include: '#Typenonfunction'},
+		{include: '#TypeFunction'},
 	],
 };

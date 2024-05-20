@@ -108,7 +108,7 @@ export const DECLARATION__CLASS = {
 		},
 		{
 			name:  'storage.modifier.cp',
-			match: `\\b(${ COMP_ACCESS }final|abstract|enum|data|${ NOMINAL })\\b`,
+			match: `\\b(${ COMP_ACCESS }|final|abstract|enum|data|${ NOMINAL })\\b`,
 		},
 		{include: '#IdentifierClass'}, // must come after keywords
 	],
@@ -243,7 +243,7 @@ export const MEMBER__METHOD = {
 	patterns: [
 		{
 			name:  'storage.modifier.cp',
-			match: `\\b(${ MEMB_ACCESS }|override|${ IMPL }|claim|final|${ MUTABLE }|async|gen)\\b`,
+			match: `\\b(${ MEMB_ACCESS }|override|${ IMPL }|claim|final|${ MUTABLE })\\b`,
 		},
 		{include: '#IdentifierProperty'},
 		{include: '#GenericParameters'},

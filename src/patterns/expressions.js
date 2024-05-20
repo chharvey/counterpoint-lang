@@ -149,7 +149,7 @@ export const EXPRESSION__STRUCTURE__BLOCK = {
 	begin:         '\\b(sync|async)\\b',
 	end:           lookbehinds([BLOCK_END]),
 	beginCaptures: {
-		0: {name: 'keyword.control.cp'},
+		0: {name: 'storage.modifier.cp'},
 	},
 	patterns: [
 		{include: '#Block'},

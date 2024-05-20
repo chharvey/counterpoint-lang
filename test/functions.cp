@@ -23,18 +23,10 @@ type Const = (
 type ReturnsTemplateType = () => """a {{ string }} template type""";
 let x: <out T widens U~~, in U ?= Set.<null>>(a: Set.<T>~~, b: Set.<U~~>) => bool = null;
 
-type AsyncFuncType    = async     (p: int, q: rat) => float;
-type GenFuncType      = gen       (p: int, q: rat) => float;
-type AsyncGenFuncType = async gen (p: int, q: rat) => float;
-type AsyncFuncType    = async     (int | rat) => float;
-type GenFuncType      = gen       (int | rat) => float;
-type AsyncGenFuncType = async gen (int | rat) => float;
-
 
 %-- function expression statements --%
 (var h: int): int => h + 1;
 (%%var%% h: int): int => h + 1;
-async (p: int, q: rat): float => p~~ * q~~;
 
 
 
@@ -63,9 +55,6 @@ let lambda: Function = <T           ?= V>() {};
 let lambda: Function = <T narrows U ?= V>() {};
 let not_lambda: NotFunction = a < b > (c);
 let not_lambda: NotFunction = a.<b>(c);
-let async_lambda: AsyncFunction = async (p: int, q: rat): float => p~~ * q~~;
-let gen_lambda: GenFunction = gen (p: int, q: rat): float { yield p * q; };
-let async_gen_lambda: AsyncGenFunction = async gen (p: int, q: rat): float { yield p~~ * q~~; };
 
 let lambda: Function = (
 	a,
@@ -155,7 +144,6 @@ function returnFunc(): (Object) => (x: int): int => x + 1;
 function returnFunc(): Object{} => (x: int): int => x + 1;
 function returnFunc(): Object => (x: int): int{} => x + 1;
 function returnFunc(): ((x: int) => int) => (x) => x + 1;
-function returnAsyncFunc(): (async (x: int) => int) => async (x) => x~~ + 1;
 
 function returnFunc(): ((A) => (B)) => (a) => b;
 function returnInstance(): interface {
@@ -181,8 +169,3 @@ function addCaptures<T>[z](x, y) impl BinaryOperator.<T> => x + y + z;
 public function subtract(a: N, b: N): N { return a - b; }
 secret function subtract(a: N, b: N): N => a - b;
 private function subtract(a: N, b: N): N => a - b;
-
-function async asyncFunc(p: int, q: rat): float => p~~ * q~~;
-function async asyncFunc(p: int, q: rat): float { return p~~ * q~~; }
-function gen genFunc(p: int, q: rat): float { yield # p * q; }
-function async gen asyncGenFunc(p: int, q: rat): float { yield p~~ * q~~; }
