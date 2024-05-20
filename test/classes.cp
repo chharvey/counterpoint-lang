@@ -75,31 +75,6 @@ type T = unknown & (interface extends Bar inherits Diz.<T> {});
 
 % class members
 class Foo {
-	static {
-		field: T = 42;
-		_: T = 42;
-		meth(): void {
-			super; method; this;
-		}
-		_(): void {
-			super; method; this;
-		}
-		public methodGroup {
-			(): void {;}
-			<T>(): void {;}
-			(x: int): void {;}
-			(): void {
-				super; method; this;
-			}
-			(): int => 42;
-		}
-		public override methodGroup { (): void {;} }
-		public impl methodGroup { (): void {;} }
-		public final methodGroup { (): void {;} }
-		public methodGroup { mut (): void {;} }
-	}
-
-
 	% line comment
 	public field: T = 42;
 	secret field: T = 42;
