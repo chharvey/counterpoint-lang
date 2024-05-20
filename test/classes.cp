@@ -75,31 +75,6 @@ type T = unknown & (interface extends Bar inherits Diz.<T> {});
 
 % class members
 class Foo {
-	static {
-		field: T = 42;
-		_: T = 42;
-		meth(): void {
-			super; static; hyper; method; this;
-		}
-		_(): void {
-			super; static; hyper; method; this;
-		}
-		public methodGroup {
-			(): void {;}
-			<T>(): void {;}
-			(x: int): void {;}
-			(): void {
-				super; static; hyper; method; this;
-			}
-			(): int => 42;
-		}
-		public override methodGroup { (): void {;} }
-		public impl methodGroup { (): void {;} }
-		public final methodGroup { (): void {;} }
-		public mut methodGroup { (): void {;} }
-	}
-
-
 	% line comment
 	public field: T = 42;
 	secret field: T = 42;
@@ -156,7 +131,7 @@ class Foo {
 	meth<out T>(): void {;}
 	meth(x: int): void {;}
 	meth(): void {
-		super; static; hyper; method; this;
+		super; method; this;
 	}
 	meth(): int => 42;
 	abstractMethod(): void;
@@ -193,7 +168,7 @@ class Foo {
 		<in T>(): void {;}
 		(x: int): void {;}
 		(): void {
-			super; static; hyper; method; this;
+			super; method; this;
 		}
 		(): int => 42;
 	}
@@ -201,7 +176,7 @@ class Foo {
 	impl methodGroup { (): void {;} }
 	claim methodGroup { (): void; }
 	final methodGroup { (): void {;} }
-	mut methodGroup { (): void {;} }
+	methodGroup { mut (): void {;} }
 }
 
 % interface members
@@ -224,5 +199,5 @@ interface Foo {
 		<in T>(): void;
 		(x: int): void;
 	}
-	public mut methodGroup { (): void; }
+	public methodGroup { mut (): void; }
 }

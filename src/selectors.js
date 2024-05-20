@@ -168,6 +168,5 @@ export const METHODGROUP = `
 	(${ MEMB_ACCESS } ${ OWS })?
 	(\\b(?:override | ${ IMPL } | claim)\\b ${ OWS })?
 	(\\b final \\b ${ OWS })?
-	(${ MUTABLE } ${ OWS })?
 	${ VAR } ${ OWS } ${ DELIMS.BLOCK[0] }
 `.replace(/\s+/g, '');

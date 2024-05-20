@@ -136,19 +136,6 @@ export const DECLARATION__INTERFACE = {
 };
 
 
-export const STATIC__BLOCK = {
-	name: 'meta.staticblock.cp',
-	begin: [`(\\b(?:static)\\b)${ OWS }`, lookaheads([DELIMS.BLOCK[0]])].join(''),
-	end:   lookbehinds([BLOCK_END]),
-	beginCaptures: {
-		1: {name: 'storage.modifier.cp'},
-	},
-	patterns: [
-		{include: '#ClassBody'},
-	],
-};
-
-
 export const CONSTRUCTOR_FIELD = {
 	name: 'meta.field.cp',
 	begin: lookaheads([FIELD_CONSTRUCTOR]),
@@ -262,7 +249,7 @@ export const MEMBER__METHODGROUP = {
 	patterns: [
 		{
 			name:  'storage.modifier.cp',
-			match: `\\b(${ MEMB_ACCESS }|override|${ IMPL }|claim|final|${ MUTABLE })\\b`,
+			match: `\\b(${ MEMB_ACCESS }|override|${ IMPL }|claim|final)\\b`,
 		},
 		{include: '#IdentifierProperty'},
 		{
@@ -292,7 +279,6 @@ export const CLASS_BODY = {
 	patterns: [
 		{include: '#CommentBlock'},
 		{include: '#CommentLine'},
-		{include: '#StaticBlock'},
 		{include: '#MemberField'},
 		{include: '#MemberConstructor'},
 		{include: '#MemberConstructorgroup'},
