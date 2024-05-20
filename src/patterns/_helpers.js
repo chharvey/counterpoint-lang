@@ -22,12 +22,16 @@ export function keyword(varname = 'variable.language') {
 	return {
 		patterns: [
 			{
+				name: 'storage.modifier.cp',
+				match: '\\b(void)\\b',
+			},
+			{
 				name: 'constant.language.cp',
 				match: '\\b(null|false|true)\\b',
 			},
 			{
 				name: 'support.type.cp',
-				match: '\\b(never|void|bool|int|float|str|unknown)\\b',
+				match: '\\b(never|bool|int|float|str|unknown)\\b',
 			},
 			{
 				name:  `${ varname }.cp`,
