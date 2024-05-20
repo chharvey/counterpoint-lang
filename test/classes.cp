@@ -86,8 +86,6 @@ class Foo {
 		}
 		public methodGroup {
 			(): void {;}
-			async (): void {;}
-			gen (): void {;}
 			<T>(): void {;}
 			(x: int): void {;}
 			(): void {
@@ -154,8 +152,6 @@ class Foo {
 	claim meth(): void;
 	final meth(): void {;}
 	mut meth(): void {;}
-	async meth(): void {;}
-	gen meth(): void {;}
 	meth<T>(): void {;}
 	meth<out T>(): void {;}
 	meth(x: int): void {;}
@@ -193,8 +189,6 @@ class Foo {
 
 	public methodGroup {
 		(): void {;}
-		async (): void {;}
-		gen (): void {;}
 		<T>(): void {;}
 		<in T>(): void {;}
 		(x: int): void {;}
@@ -218,8 +212,6 @@ interface Foo {
 	writeonly field: this;
 
 	mut meth(): void;
-	async meth(): void;
-	gen meth(): void;
 	meth<T>(): void;
 	meth<out T>(): void;
 	_<_>(): void;
@@ -228,8 +220,6 @@ interface Foo {
 
 	public methodGroup {
 		(): void;
-		async (): void;
-		gen (): void;
 		<T>(): void;
 		<in T>(): void;
 		(x: int): void;
