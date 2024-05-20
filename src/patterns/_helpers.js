@@ -35,7 +35,7 @@ export function keyword(varname = 'variable.language') {
 			},
 			{
 				name: 'variable.language.cp',
-				match: '\\b(super|static|hyper|method)\\b',
+				match: '\\b(super|method)\\b',
 			},
 			{
 				name: 'support.class.cp',

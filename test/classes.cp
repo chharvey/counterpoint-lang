@@ -79,17 +79,17 @@ class Foo {
 		field: T = 42;
 		_: T = 42;
 		meth(): void {
-			super; static; hyper; method; this;
+			super; method; this;
 		}
 		_(): void {
-			super; static; hyper; method; this;
+			super; method; this;
 		}
 		public methodGroup {
 			(): void {;}
 			<T>(): void {;}
 			(x: int): void {;}
 			(): void {
-				super; static; hyper; method; this;
+				super; method; this;
 			}
 			(): int => 42;
 		}
@@ -156,7 +156,7 @@ class Foo {
 	meth<out T>(): void {;}
 	meth(x: int): void {;}
 	meth(): void {
-		super; static; hyper; method; this;
+		super; method; this;
 	}
 	meth(): int => 42;
 	abstractMethod(): void;
@@ -193,7 +193,7 @@ class Foo {
 		<in T>(): void {;}
 		(x: int): void {;}
 		(): void {
-			super; static; hyper; method; this;
+			super; method; this;
 		}
 		(): int => 42;
 	}
