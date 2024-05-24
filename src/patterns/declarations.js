@@ -121,18 +121,7 @@ export const DECLARATION__ASSIGNMENT = {
 	},
 	patterns: [
 		{include: '#ExpressionAssignee'},
-		assignment(ASSN_START, lookaheads([';'])),
-		{
-			name:  'meta.augmentation.cp',
-			begin: '&&=|!&=|\\|\\|=|!\\|=|\\^=|\\*=|\\/=|\\+=|-=',
-			end:   lookaheads([';']),
-			beginCaptures: {
-				0: {name: 'punctuation.delimiter.cp'},
-			},
-			patterns: [
-				{include: '#Expression'},
-			],
-		},
+		assignment(`${ ASSN_START }|&&=|!&=|\\|\\|=|!\\|=|\\^=|\\*=|\\/=|\\+=|-=`, lookaheads([';'])),
 	],
 };
 
