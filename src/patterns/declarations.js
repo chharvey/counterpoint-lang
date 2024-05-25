@@ -109,8 +109,8 @@ export const DECLARATION__CLAIM = {
 };
 
 
-export const DECLARATION__ASSIGNMENT = {
-	name:  'meta.declaration.assignment.cp',
+export const DECLARATION__SET = {
+	name:  'meta.declaration.set.cp',
 	begin: '\\b(set)\\b',
 	end:   ';',
 	beginCaptures: {
@@ -133,7 +133,7 @@ export const DECLARATION = {
 		{include: '#DeclarationLet'},
 		{include: '#DeclarationFunc'},
 		{include: '#DeclarationClaim'},
-		{include: '#DeclarationAssignment'},
+		{include: '#DeclarationSet'},
 		{include: '#DeclarationClass'},
 		{include: '#DeclarationInterface'},
 	],
