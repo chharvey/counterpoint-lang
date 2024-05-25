@@ -113,6 +113,8 @@ function twice(x: int): int => x * 2;
 	% operators:
 	!a;
 	?a;
+	!!a;
+	? ?a;
 	+x;
 	-y;
 	+42;
@@ -126,6 +128,7 @@ function twice(x: int): int => x * 2;
 	x == y;
 	x && y;
 	x || y;
+	x ?? y;
 	x !< y;
 	x !> y;
 	x != y;

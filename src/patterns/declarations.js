@@ -121,7 +121,7 @@ export const DECLARATION__SET = {
 	},
 	patterns: [
 		{include: '#ExpressionAssignee'},
-		assignment(`${ ASSN_START }|(&&|\\|\\||![&|]|[\\^*/+-])=`, lookaheads([';'])),
+		assignment(`${ ASSN_START }|(&&|\\|\\||\\?\\?|![&|]|[\\^*/+-])=`, lookaheads([';'])),
 	],
 };
 
