@@ -131,7 +131,7 @@ export const DECLARATION = {
 		{include: '#DeclarationType'},
 		{include: '#DeclarationTypefunc'},
 		{include: '#DeclarationLet'},
-		{include: '#DeclarationFunc'},
+		{include: '#DeclarationFunction'},
 		{include: '#DeclarationClaim'},
 		{include: '#DeclarationSet'},
 		{include: '#DeclarationClass'},
