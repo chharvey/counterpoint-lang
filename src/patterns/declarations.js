@@ -137,6 +137,22 @@ export const DECLARATION__ASSIGNMENT = {
 };
 
 
+export const DECLARATION__DELETE = {
+	name:  'meta.declaration.delete.cp',
+	begin: '\\b(delete)\\b',
+	end:   ';',
+	beginCaptures: {
+		0: {name: 'storage.type.cp'},
+	},
+	endCaptures: {
+		0: {name: 'punctuation.delimiter.cp'},
+	},
+	patterns: [
+		identifier(),
+	],
+};
+
+
 export const DECLARATION = {
 	patterns: [
 		{include: '#DeclarationType'},
@@ -145,6 +161,7 @@ export const DECLARATION = {
 		{include: '#DeclarationFunc'},
 		{include: '#DeclarationClaim'},
 		{include: '#DeclarationAssignment'},
+		{include: '#DeclarationDelete'},
 		{include: '#DeclarationClass'},
 		{include: '#DeclarationInterface'},
 	],

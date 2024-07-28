@@ -136,6 +136,19 @@ let var hash?: [:int];
 let var set?:  int{};
 let var map?:  {int -> str};
 
+delete w;
+delete w %% comment %% ;
+delete %% comment %% w;
+delete w; % comment
+delete '$$';
+delete '$$' %% comment %% ;
+delete %% comment %% '$$';
+delete '$$'; % comment
+delete _;
+delete _ %% comment %%;
+delete %% comment %% _;
+delete _; % comment
+
 claim x: T;
 claim x.<U>(42)~~.y++.0.["prop" || "key"]: T;
 

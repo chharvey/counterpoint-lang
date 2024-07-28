@@ -29,6 +29,7 @@ await fs.promises.writeFile(path.join(path.dirname(new URL(import.meta.url).path
 		DeclarationClaim:              Pattern.DECLARATION__CLAIM,
 		DeclarationClass:              Pattern.DECLARATION__CLASS,
 		DeclarationFunc:               Pattern.DECLARATION__FUNC,
+		DeclarationDelete:             Pattern.DECLARATION__DELETE,
 		DeclarationInterface:          Pattern.DECLARATION__INTERFACE,
 		DeclarationLet:                Pattern.DECLARATION__LET,
 		DeclarationType:               Pattern.DECLARATION__TYPE,
