@@ -161,7 +161,7 @@ export const EXPRESSION = {
 	patterns: [
 		{
 			name: 'keyword.operator.punctuation.cp',
-			match: '===|!==|<=|>=|!<|!>|==|!=|&&|!&|\\|\\||!\\||\\^|\\*|\\/|~~|\\+\\+',
+			match: '===|!==|~~|\\+\\+|<=|>=|==|&&|\\|\\||\\?\\?|![<>=&|]|[\\^*/]',
 		},
 		{
 			name: 'keyword.operator.text.cp',
@@ -184,11 +184,11 @@ export const EXPRESSION = {
 		unit(),
 		{
 			name: 'keyword.operator.punctuation.cp',
-			match: `
-				< | >      # must come after '#ExpressionFunction', '#ExpressionClaim', and '#ExpressionCall'
-				| ! | \\?  # must come after '#ExpressionCall' and '#ExpressionAccess'
-				| \\+ | -  # must come after 'unit'
-			`.replace(/\#.*\n|\s+/g, ''),
+			match: `[
+				!?   # must come after '#ExpressionCall' and '#ExpressionAccess'
+				+\\- # must come after 'unit'
+				<>   # must come after '#ExpressionFunction', '#ExpressionClaim', and '#ExpressionCall'
+			]`.replace(/\#.*\n|\s+/g, ''),
 		},
 	],
 };

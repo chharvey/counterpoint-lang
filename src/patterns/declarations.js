@@ -109,8 +109,8 @@ export const DECLARATION__CLAIM = {
 };
 
 
-export const DECLARATION__ASSIGNMENT = {
-	name:  'meta.declaration.assignment.cp',
+export const DECLARATION__SET = {
+	name:  'meta.declaration.set.cp',
 	begin: '\\b(set)\\b',
 	end:   ';',
 	beginCaptures: {
@@ -121,18 +121,7 @@ export const DECLARATION__ASSIGNMENT = {
 	},
 	patterns: [
 		{include: '#ExpressionAssignee'},
-		assignment(ASSN_START, lookaheads([';'])),
-		{
-			name:  'meta.augmentation.cp',
-			begin: '&&=|!&=|\\|\\|=|!\\|=|\\^=|\\*=|\\/=|\\+=|-=',
-			end:   lookaheads([';']),
-			beginCaptures: {
-				0: {name: 'punctuation.delimiter.cp'},
-			},
-			patterns: [
-				{include: '#Expression'},
-			],
-		},
+		assignment(`${ ASSN_START }|(&&|\\|\\||\\?\\?|![&|]|[\\^*/+-])=`, lookaheads([';'])),
 	],
 };
 
@@ -158,9 +147,9 @@ export const DECLARATION = {
 		{include: '#DeclarationType'},
 		{include: '#DeclarationTypefunc'},
 		{include: '#DeclarationLet'},
-		{include: '#DeclarationFunc'},
+		{include: '#DeclarationFunction'},
 		{include: '#DeclarationClaim'},
-		{include: '#DeclarationAssignment'},
+		{include: '#DeclarationSet'},
 		{include: '#DeclarationDelete'},
 		{include: '#DeclarationClass'},
 		{include: '#DeclarationInterface'},

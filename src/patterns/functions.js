@@ -88,8 +88,8 @@ export const DECLARATION__TYPEFUNC = {
 };
 
 
-export const DECLARATION__FUNC = {
-	name: 'meta.declaration.func.cp',
+export const DECLARATION__FUNCTION = {
+	name:  'meta.declaration.function.cp',
 	begin: lookaheads([`(${ COMP_ACCESS }${ OWS })?\\b(function)\\b`]),
 	end:   [lookbehinds([BLOCK_END]), ';'].join('|'),
 	endCaptures: {
