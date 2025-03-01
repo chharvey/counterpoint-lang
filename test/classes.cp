@@ -80,6 +80,7 @@ class Foo {
 	secret field: T = 42;
 	private field: T = 42;
 	protected field: T = 42;
+	override field: T = 42;
 	impl field: T = 42;
 	claim field: Typ;
 	const field: T = 42;
@@ -101,6 +102,7 @@ class Foo {
 		secret constructor_field2: int,
 		private constructor_field3: int,
 		protected constructor_field4: int,
+		public override constructor_field8: int,
 		public impl constructor_field8: int,
 		public const constructor_field6: int,
 		public readonly constructor_field7: int,
@@ -150,6 +152,7 @@ class Foo {
 			secret constructor_field2: int,
 			private constructor_field3: int,
 			protected constructor_field4: int,
+			public override constructor_field8: int,
 			public impl constructor_field8: int,
 			public const constructor_field6: int,
 			public readonly constructor_field7: int,

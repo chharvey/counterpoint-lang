@@ -12,6 +12,7 @@ import {
 	MUTABLE,
 	PERMISSION,
 	IMPL,
+	IMPL_CLAIM,
 	ASSN_START,
 	DFLT_START,
 	FATARROW,
@@ -143,7 +144,7 @@ export const CONSTRUCTOR_FIELD = {
 	patterns: [
 		{
 			name:  'storage.modifier.cp',
-			match: `\\b(${ MEMB_ACCESS }|${ IMPL }|${ PERMISSION }|${ UNFIXED })\\b`,
+			match: `${ MEMB_ACCESS }|${ IMPL }|${ PERMISSION }|${ UNFIXED }`,
 		},
 		{
 			name:  'punctuation.delimiter.cp',
@@ -167,7 +168,7 @@ export const MEMBER__FIELD = {
 	patterns: [
 		{
 			name:  'storage.modifier.cp',
-			match: `\\b(${ MEMB_ACCESS }|${ IMPL }|claim|${ PERMISSION })\\b`,
+			match: `${ MEMB_ACCESS }|${ IMPL_CLAIM }|${ PERMISSION }`,
 		},
 		{include: '#IdentifierProperty'},
 		annotation(lookaheads([ASSN_START, ';'])),
@@ -230,7 +231,7 @@ export const MEMBER__METHOD = {
 	patterns: [
 		{
 			name:  'storage.modifier.cp',
-			match: `\\b(${ MEMB_ACCESS }|override|${ IMPL }|claim|final|${ MUTABLE })\\b`,
+			match: `\\b(${ MEMB_ACCESS }|${ IMPL_CLAIM }|final|${ MUTABLE })\\b`,
 		},
 		{include: '#IdentifierProperty'},
 		{include: '#GenericParameters'},
@@ -249,7 +250,7 @@ export const MEMBER__METHODGROUP = {
 	patterns: [
 		{
 			name:  'storage.modifier.cp',
-			match: `\\b(${ MEMB_ACCESS }|override|${ IMPL }|claim|final)\\b`,
+			match: `\\b(${ MEMB_ACCESS }|${ IMPL_CLAIM }|final)\\b`,
 		},
 		{include: '#IdentifierProperty'},
 		{
