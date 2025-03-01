@@ -144,7 +144,7 @@ export const CONSTRUCTOR_FIELD = {
 	patterns: [
 		{
 			name:  'storage.modifier.cp',
-			match: `\\b(${ MEMB_ACCESS }|${ IMPL }|${ PERMISSION }|${ UNFIXED })\\b`,
+			match: `${ MEMB_ACCESS }|${ IMPL }|${ PERMISSION }|${ UNFIXED }`,
 		},
 		{
 			name:  'punctuation.delimiter.cp',
