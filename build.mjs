@@ -11,7 +11,7 @@ import {DELIMS} from './src/selectors.js';
 
 
 
-await fs.promises.writeFile(path.join(path.dirname(new URL(import.meta.url).pathname), 'syntaxes', 'cp.tmLanguage.json'), JSON.stringify({
+await fs.promises.writeFile(path.join(import.meta.dirname, 'syntaxes', 'cp.tmLanguage.json'), JSON.stringify({
 	$schema: 'https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json',
 	name: 'Counterpoint',
 	scopeName: 'source.cp',
