@@ -34,7 +34,7 @@ export const PUN        = '\\$';
 export const VARIANCE   = '\\b(out|in)\\b';
 export const CONSTRAINT = '\\b(narrows|widens)\\b'
 export const PERMISSION = '\\b(const|readonly|writeonly)\\b';
-export const IMPL       = '\\b(impl)\\b';
+export const IMPL       = '\\b(override|impl)\\b';
 export const ANNO_START = `\\??\\:${ lookaheads(['\\:'], true) }`;
 export const ASSN_START = `=${ lookaheads(['=', '>'], true) }`;
 export const DFLT_START = `\\?${ ASSN_START }`;
@@ -158,7 +158,7 @@ export const CONSTRUCTORGROUP = `
 
 export const METHOD = `
 	(${ MEMB_ACCESS } ${ OWS })?
-	(\\b(?:override | ${ IMPL } | claim)\\b ${ OWS })?
+	(\\b(?:${ IMPL } | claim)\\b ${ OWS })?
 	(\\b final \\b ${ OWS })?
 	(${ MUTABLE } ${ OWS })?
 	(?:${ VAR } ${ OWS })? (?:< | ${ DELIMS.PARAMS_FN[0] })
@@ -166,7 +166,7 @@ export const METHOD = `
 
 export const METHODGROUP = `
 	(${ MEMB_ACCESS } ${ OWS })?
-	(\\b(?:override | ${ IMPL } | claim)\\b ${ OWS })?
+	(\\b(?:${ IMPL } | claim)\\b ${ OWS })?
 	(\\b final \\b ${ OWS })?
 	${ VAR } ${ OWS } ${ DELIMS.BLOCK[0] }
 `.replace(/\s+/g, '');

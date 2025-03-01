@@ -230,7 +230,7 @@ export const MEMBER__METHOD = {
 	patterns: [
 		{
 			name:  'storage.modifier.cp',
-			match: `\\b(${ MEMB_ACCESS }|override|${ IMPL }|claim|final|${ MUTABLE })\\b`,
+			match: `\\b(${ MEMB_ACCESS }|${ IMPL }|claim|final|${ MUTABLE })\\b`,
 		},
 		{include: '#IdentifierProperty'},
 		{include: '#GenericParameters'},
@@ -249,7 +249,7 @@ export const MEMBER__METHODGROUP = {
 	patterns: [
 		{
 			name:  'storage.modifier.cp',
-			match: `\\b(${ MEMB_ACCESS }|override|${ IMPL }|claim|final)\\b`,
+			match: `\\b(${ MEMB_ACCESS }|${ IMPL }|claim|final)\\b`,
 		},
 		{include: '#IdentifierProperty'},
 		{
