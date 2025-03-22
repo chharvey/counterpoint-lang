@@ -1,4 +1,4 @@
-type TypeKeywords    = never | bool | int | float | str | unknown;
+type TypeKeywords    = never | bool | sym | int | float | str | unknown;
 type TypeClasses     = Object | Class | List | Dict | Set | Map;
 type TypeConstants   = null | false | true;
 type TypeNonKeywords = boolen | integer | string | object | class | list | dict | set | map;
