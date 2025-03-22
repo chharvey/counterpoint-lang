@@ -20,9 +20,10 @@ export const DELIMS = {
 	DESTRUCT:  ['\\[', '\\]'],
 };
 
-export const OWS = '(?:\\s+|(%%(?:%?[^%])*%%))*';
-export const INT = '(?:\\+|-)?(?:\\\\[bqodxz])?[0-9a-z_]+';
-export const VAR = '(?:\\b[A-Za-z_][A-Za-z0-9_]*\\b|\'.*\')';
+export const OWS     = '(?:\\s+|(%%(?:%?[^%])*%%))*';
+export const INT     = '(?:\\+|-)?(?:\\\\[bqodxz])?[0-9a-z_]+';
+export const VARNAME = '\\b[A-Za-z_][A-Za-z0-9_]*\\b';
+export const VAR     = `(?:${ VARNAME }|\'.*\')`;
 
 export const COMP_ACCESS = '\\b(public|secret|private)\\b';
 export const MEMB_ACCESS = `\\b(${ COMP_ACCESS }|protected)\\b`;

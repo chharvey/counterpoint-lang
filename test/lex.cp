@@ -8,6 +8,11 @@ let value_classes      = Object || Class || List || Dict || Set || Map;
 let value_non_keywords = nil || object || list || dict || set || map;
 
 
+% symbols
+@symb;
+@_;
+@'symb ?  + ab';
+
 % numbers
 42;
 +42

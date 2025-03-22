@@ -1,6 +1,7 @@
 import {
 	digits,
 } from '../helpers.js';
+import {VARNAME} from '../selectors.js';
 
 
 
@@ -20,6 +21,22 @@ export const COMMENT_BLOCK = {
 	captures: {
 		0: {name: 'punctuation.delimiter.cp'},
 	},
+};
+
+
+export const SYMBOL = {
+	patterns: [
+		{
+			name:     'constant.other.quoted.single.cp',
+			begin:    '@\'',
+			end:      '\'',
+			captures: {0: {name: 'punctuation.delimiter.cp'}},
+		},
+		{
+			name:  'constant.other.cp',
+			match: `@${ VARNAME }`,
+		},
+	],
 };
 
 

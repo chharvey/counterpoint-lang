@@ -8,6 +8,13 @@ type _ = _;
 while continue do { break; set break = "1"; };
 let x: bool = break == continue;
 
+let s: sym = @some_symbol;
+let s: sym = @'some symbol';
+let s: sym = @'somé symböl ? "yes" (: "no")';
+let s: @some_symbol   = @some_symbol;
+let s: @'some symbol' = @'some symbol';
+let s: @UP | @DOWN = @UP;
+
 %%% The value of `a`. %%
 let a: null | bool = +42 && null;
 let b: int = 004_2. || false;
