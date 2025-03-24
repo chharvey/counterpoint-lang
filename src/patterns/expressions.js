@@ -71,7 +71,15 @@ export const EXPRESSION__ACCESS = {
 				1: {name: 'keyword.operator.punctuation.cp'},
 			},
 			patterns: [
-				{include: '#Expression'},
+				{include: '#CommentBlock'},
+				{include: '#CommentLine'},
+				{
+					name:     'meta.access.single.cp',
+					begin:    DELIMS.ACCESS[0],
+					end:      DELIMS.ACCESS[1],
+					captures: {0: {name: 'punctuation.delimiter.cp'}},
+					patterns: [{include: '#Expression'}],
+				}
 			],
 		},
 		{
