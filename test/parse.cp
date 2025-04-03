@@ -167,8 +167,37 @@ function twice(x: int): int => x * 2;
 	array && [key$];
 	array.1.[index];
 	array.%%dot%%[index];
+	array.%%dot%%{index};
+	array.%%dot%%{index, jndex};
 	array?.[index];
 	array!.[index];
+
+	% multi-access outside a list/set:
+	array.%%dot%%{index};
+	array.%%dot%%{index, jndex};
+	array?.%%dot%%{index};
+	array?.%%dot%%{index, jndex};
+	array!.%%dot%%{index};
+	array!.%%dot%%{index, jndex};
+
+	% multi-access inside a list/set:
+	[
+		array.%%dot%%{index},
+		array.%%dot%%{index, jndex},
+		array?.%%dot%%{index},
+		array?.%%dot%%{index, jndex},
+		array!.%%dot%%{index},
+		array!.%%dot%%{index, jndex},
+	];
+	{
+		array.%%dot%%{index},
+		array.%%dot%%{index, jndex},
+		array?.%%dot%%{index},
+		array?.%%dot%%{index, jndex},
+		array!.%%dot%%{index},
+		array!.%%dot%%{index, jndex},
+	};
+
 	funkshin.%%dot%%(arg);
 	funkshin?.(arg);
 	funkshin!.(arg);

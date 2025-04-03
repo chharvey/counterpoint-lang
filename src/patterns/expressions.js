@@ -83,6 +83,20 @@ export const EXPRESSION__ACCESS = {
 			],
 		},
 		{
+			name:          'meta.expression.access.cp',
+			begin:         ['(\\.|\\?\\.|\\!\\.)', lookaheads([[OWS, '\\{'].join('')])].join(''),
+			end:           lookbehinds(['\\}']),
+			beginCaptures: {1: {name: 'keyword.operator.punctuation.cp'}},
+			patterns:      [
+				{include: '#CommentBlock'},
+				{include: '#CommentLine'},
+				list('meta.access.multi.cp', '\\{', '\\}', [
+					{include: '#Number'},
+					identifier('variable.other', true),
+				]),
+			],
+		},
+		{
 			name: 'meta.expression.access.cp',
 			begin: ['(\\.|\\?\\.|\\!\\.)', lookaheads([`${ OWS }(${ INT }|${ VAR })`])].join(''),
 			end:   lookbehinds(['[A-Za-z0-9_\']']),
