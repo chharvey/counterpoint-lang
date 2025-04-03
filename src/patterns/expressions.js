@@ -64,9 +64,9 @@ export const EXPRESSION__CALL = {
 export const EXPRESSION__ACCESS = {
 	patterns: [
 		{
-			name: 'meta.expression.access.cp',
-			begin: ['(\\.|\\?\\.|\\!\\.)', lookaheads([[OWS, DELIMS.ACCESS[0]].join('')])].join(''),
-			end:   lookbehinds([DELIMS.ACCESS[1]]),
+			name:          'meta.expression.access.cp',
+			begin:         ['(\\.|\\?\\.|\\!\\.)', lookaheads([[OWS, DELIMS.ACCESS_SING[0]].join('')])].join(''),
+			end:           lookbehinds([DELIMS.ACCESS_SING[1]]),
 			beginCaptures: {
 				1: {name: 'keyword.operator.punctuation.cp'},
 			},
@@ -75,8 +75,8 @@ export const EXPRESSION__ACCESS = {
 				{include: '#CommentLine'},
 				{
 					name:     'meta.access.single.cp',
-					begin:    DELIMS.ACCESS[0],
-					end:      DELIMS.ACCESS[1],
+					begin:    DELIMS.ACCESS_SING[0],
+					end:      DELIMS.ACCESS_SING[1],
 					captures: {0: {name: 'punctuation.delimiter.cp'}},
 					patterns: [{include: '#Expression'}],
 				}
@@ -84,13 +84,13 @@ export const EXPRESSION__ACCESS = {
 		},
 		{
 			name:          'meta.expression.access.cp',
-			begin:         ['(\\.|\\?\\.|\\!\\.)', lookaheads([[OWS, '\\{'].join('')])].join(''),
-			end:           lookbehinds(['\\}']),
+			begin:         ['(\\.|\\?\\.|\\!\\.)', lookaheads([[OWS, DELIMS.ACCESS_MULT[0]].join('')])].join(''),
+			end:           lookbehinds([DELIMS.ACCESS_MULT[1]]),
 			beginCaptures: {1: {name: 'keyword.operator.punctuation.cp'}},
 			patterns:      [
 				{include: '#CommentBlock'},
 				{include: '#CommentLine'},
-				list('meta.access.multi.cp', '\\{', '\\}', [
+				list('meta.access.multi.cp', DELIMS.ACCESS_MULT[0], DELIMS.ACCESS_MULT[1], [
 					{include: '#Number'},
 					identifier('variable.other', true),
 				]),
