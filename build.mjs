@@ -85,6 +85,7 @@ await fs.promises.writeFile(path.join(import.meta.dirname, 'syntaxes', 'cp.tmLan
 		StatementExport:               Pattern.STATEMENT__EXPORT,
 		StatementImport:               Pattern.STATEMENT__IMPORT,
 		String:                        Pattern.STRING,
+		Symbol:                        Pattern.SYMBOL,
 		Template:                      Pattern.TEMPLATE,
 		Type:                          Pattern.TYPE,
 		TypeAccess:                    Pattern.TYPE__ACCESS,

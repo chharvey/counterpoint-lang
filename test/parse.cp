@@ -110,6 +110,25 @@ for prop of (x, y) { return y * x; } do {};
 function twice(x: int): int => x * 2;
 
 1 + 2 + sync {
+	% symbols:
+	@SYMBOL;
+	@some_symbol;
+	@'some symbol';
+	@'somé symböl ? "yes" (: "no")';
+
+	record.[@key];
+	record.[@'key'];
+	record.[@'this is a symbol used as a key'];
+	record.%%dot%%[@key];
+	record?.[@key];
+	record!.[@key];
+	funkshin.(@arg);
+	funkshin.%%dot%%(@arg);
+	funkshin?.(@arg);
+	funkshin!.(@arg);
+	funkshin?.<T>(@arg);
+	funkshin!.<T>(@arg);
+
 	% operators:
 	!a;
 	?a;
@@ -119,8 +138,14 @@ function twice(x: int): int => x * 2;
 	-y;
 	+42;
 	-42;
+	!@a;
+	?@a;
+	+@x;
+	-@y;
 	x === y;
 	x !== y;
+	@x === @y;
+	@x !== @y;
 	z~~;
 	z++;
 	x <= y;
@@ -143,6 +168,8 @@ function twice(x: int): int => x * 2;
 	a - b;
 	x < y;
 	x > y;
+	@x < @y;
+	@x > @y;
 
 	type X = T~~;
 	type X = T?;

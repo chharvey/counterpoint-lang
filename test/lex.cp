@@ -1,3 +1,18 @@
+type TypeKeywords    = never | bool | sym | int | float | str | unknown;
+type TypeClasses     = Object | Class | List | Dict | Set | Map;
+type TypeConstants   = null | false | true;
+type TypeNonKeywords = boolen | integer | string | object | class | list | dict | set | map;
+
+let value_keywords     = null || false || true;
+let value_classes      = Object || Class || List || Dict || Set || Map;
+let value_non_keywords = nil || object || list || dict || set || map;
+
+
+% symbols
+@symb;
+@_;
+@'symb ?  + ab';
+
 % numbers
 42;
 +42

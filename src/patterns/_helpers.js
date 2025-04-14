@@ -31,7 +31,7 @@ export function keyword(varname = 'variable.language') {
 			},
 			{
 				name: 'support.type.cp',
-				match: '\\b(never|bool|int|float|str|unknown)\\b',
+				match: '\\b(never|bool|sym|int|float|str|unknown)\\b',
 			},
 			{
 				name:  `${ varname }.cp`,
@@ -83,6 +83,7 @@ export function unit(varname = 'variable.other') {
 			{include: '#Template'},
 			{include: '#String'},
 			{include: '#Number'},
+			{include: '#Symbol'},
 			(varname === 'entity.name.type' ? keyword('support.type') : keyword()),
 			identifier(varname),
 			{
