@@ -182,6 +182,13 @@ function twice(x: int): int => x * 2;
 	type X = T / [S];
 	type X = T & [S];
 	type X = T | [S];
+	type X = T.0;
+	type X = T.a;
+	type X = T?.0;
+	type X = T?.a;
+	type X = T?.a?;
+	type X = (T?).a;
+	type X = (T?)?.a;
 
 	[a, [b, b], (c + c), #spread];
 	[a= 3, c= 5, key= value, punn$, 'unipunn'$, ##doublespread, _= blank];
