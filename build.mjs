@@ -53,7 +53,7 @@ await fs.promises.writeFile(path.join(import.meta.dirname, 'syntaxes', 'cp.tmLan
 		ExpressionStructureGrouping:   Pattern.EXPRESSION__STRUCTURE__GROUPING,
 		ExpressionStructureList:       Pattern.EXPRESSION__STRUCTURE__LIST,
 		ExpressionStructureSet:        Pattern.EXPRESSION__STRUCTURE__SET,
-		ExpressionStructureBlock:      Pattern.EXPRESSION__STRUCTURE__BLOCK,
+		Expressionnonblock:            Pattern.EXPRESSIONNONBLOCK,
 		GenericArguments:              Pattern.GENERIC_ARGUMENTS,
 		GenericParameterPatterns:      Pattern.GENERIC_PARAMETER_PATTERNS,
 		GenericParameters:             list('meta.genericparameters.cp', DELIMS.PARAMS_GN[0], DELIMS.PARAMS_GN[1], [{include: '#GenericParameterPatterns'}]),

@@ -140,24 +140,17 @@ export const EXPRESSION__STRUCTURE__SET = list('meta.expression.structure.set.cp
 		name: 'keyword.operator.punctuation.cp',
 		match: THINARROW,
 	},
+	{
+		// used only for block expressions where sets could be, e.g. `a + ({ b; })`
+		patterns: [
+			{include: '#Statement'},
+		],
+	},
 	{include: '#Expression'},
 ]);
 
 
-export const EXPRESSION__STRUCTURE__BLOCK = {
-	name:          'meta.expression.structure.block.cp',
-	begin:         '\\b(sync|async)\\b',
-	end:           lookbehinds([BLOCK_END]),
-	beginCaptures: {
-		0: {name: 'storage.modifier.cp'},
-	},
-	patterns: [
-		{include: '#Block'},
-	],
-};
-
-
-export const EXPRESSION = {
+export const EXPRESSIONNONBLOCK = {
 	patterns: [
 		{
 			name: 'keyword.operator.punctuation.cp',
@@ -180,7 +173,6 @@ export const EXPRESSION = {
 		{include: '#ExpressionStructureGrouping'},
 		{include: '#ExpressionStructureList'},
 		{include: '#ExpressionStructureSet'},
-		{include: '#ExpressionStructureBlock'},
 		unit(),
 		{
 			name: 'keyword.operator.punctuation.cp',
@@ -190,5 +182,13 @@ export const EXPRESSION = {
 				<>   # must come after '#ExpressionFunction', '#ExpressionClaim', and '#ExpressionCall'
 			]`.replace(/\#.*\n|\s+/g, ''),
 		},
+	],
+};
+
+
+export const EXPRESSION = {
+	patterns: [
+		{include: '#Expressionnonblock'},
+		{include: '#Block'},
 	],
 };

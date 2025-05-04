@@ -7,8 +7,8 @@ true else % false
 );
 if a then b else c;
 (if a then b else c);
-if a then {b} else sync { c; };;
-(if a then {b} else sync { c; });
+if a then {b} else ({ c; });;
+(if a then {b} else ({ c; }));
 if a then {#b} else {c, d} || {e -> f};
 (if a then {#b} else {c, d} || {e -> f});
 if a then { run.(); };
@@ -109,9 +109,12 @@ for prop of (x, y) { return y * x; } do {};
 	%%
 function twice(x: int): int => x * 2;
 
-1 + 2 + sync {
+1 + 2 + ({
 	% symbols:
-	@SYMBOL;
+	@SYMBOL + ({
+		let lobmys: sym = @LOBMYS;
+		lobmys;
+	});
 	@some_symbol;
 	@'some symbol';
 	@'somé symböl ? "yes" (: "no")';
@@ -248,7 +251,7 @@ function twice(x: int): int => x * 2;
 	array!.+\b1;
 	awaiting~~;
 	nexting++;
-}
+});
 
 % Type claims
 <float & Numeric.<T>>(5 / 3) - 2.0;
