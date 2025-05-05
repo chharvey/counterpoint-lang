@@ -18,7 +18,7 @@ await fs.promises.writeFile(path.join(import.meta.dirname, 'syntaxes', 'cp.tmLan
 	repository: {
 		Arguments:                     Pattern.ARGUMENTS,
 		Block:                         Pattern.BLOCK,
-		Captures:                      list('meta.captures.cp', DELIMS.CAPTURES[0], DELIMS.CAPTURES[1], [{include: '#ModifiersDeclarationLet'}, identifier()]),
+		Captures:                      Pattern.CAPTURES,
 		ClassBody:                     Pattern.CLASS_BODY,
 		CommentBlock:                  Pattern.COMMENT_BLOCK,
 		CommentLine:                   Pattern.COMMENT_LINE,
