@@ -8,6 +8,7 @@ import {
 	VAR,
 	COMP_ACCESS,
 	UNFIXED,
+	REF,
 	MUTABLE,
 	VARIANCE,
 	CONSTRAINT,
@@ -218,5 +219,9 @@ export const POSSIBLE_PARAMETER = {
 
 export const CAPTURES = list('meta.captures.cp', DELIMS.CAPTURES[0], DELIMS.CAPTURES[1], [
 	{include: '#ModifiersDeclarationLet'},
+	{
+		name:  'storage.modifier.cp',
+		match: REF,
+	},
 	identifier(),
 ]);

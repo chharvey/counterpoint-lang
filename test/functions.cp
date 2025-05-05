@@ -102,7 +102,7 @@ let lambdaWithCaptures: Function = [
 	'b',
 ](x) => a + b + x;
 let tuple: [Function] = [[a, var b](x) => a + b + x];
-let record: [lambdaWithCaptures: Function] = [lambdaWithCaptures= [a, var b](x) => a + b + x];
+let record: [lambdaWithCaptures: Function] = [lambdaWithCaptures= [a, var ref b](x) => a + b + x];
 
 
 
@@ -136,7 +136,7 @@ function subset<T ?= Set.<null>, U widens T>(a: Set.<T>, b: Set.<U>): bool {;}
 function functionWithCaptures[a, var b](x: int): int => a + b + x;
 function functionWithCaptures[
 	a,
-	var 'b',
+	var ref 'b',
 ](x: int): int => a + b + x;
 
 function returnFunc(): Object => (x: int): int => x + 1;
