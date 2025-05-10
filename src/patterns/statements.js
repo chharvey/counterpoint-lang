@@ -108,10 +108,6 @@ export const STATEMENT__CONTROL = {
 				{include: '#DestructureVariable'},
 				annotation(lookaheads(['\\b(from|of)\\b'])),
 				{
-					name:  'keyword.control.cp',
-					match: '\\b(await)\\b',
-				},
-				{
 					begin: '\\b(from|to|by|of)\\b',
 					end:   lookaheads(['\\b(to|by|do)\\b']),
 					beginCaptures: {

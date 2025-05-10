@@ -76,8 +76,6 @@ for _ from start to end by incr do {;};
 for _ from _ to _ by _ do {;};
 for i: int from 10 to 20 do {};
 
-for await item of asynclist.() do {};
-for await _ of _ do {};
 for item of list do {};
 for _ of _ do {};
 for item: T of list do {};
