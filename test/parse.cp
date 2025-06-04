@@ -162,6 +162,7 @@ function twice(x: int): int => x * 2;
 	a ^ b;
 	a * b;
 	a / b;
+	x as X;
 	x is y;
 	x isnt y;
 	a + b;
@@ -259,6 +260,15 @@ function twice(x: int): int => x * 2;
 f.(<Float.<T>>%%comm%%(5 / 3));
 f.(<Float.<T>>%comm
 	(5 / 3));
+
+% type casts
+five_thirds as Numeric;
+(5 / 3) as Numeric;
+5 / 3 as Numeric;
+5 as Numeric ^ 3;
+!5 as Boolean;
+?5 as Boolean;
+!(5 as Numeric);
 
 return (a + b);
 throw (c + d);

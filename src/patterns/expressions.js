@@ -165,7 +165,7 @@ export const EXPRESSION = {
 		},
 		{
 			name: 'keyword.operator.text.cp',
-			match: '\\b(is|isnt|if|then|else)\\b',
+			match: '\\b(as|is|isnt|if|then|else)\\b',
 		},
 		{
 			// for cases like `(x: int): int{} => Set.([x + 1]);` where the `}` incorrectly ends the function
