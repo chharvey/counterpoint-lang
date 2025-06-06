@@ -31,7 +31,6 @@ export const UNFIXED    = '\\b(var)\\b';
 export const NOMINAL    = '\\b(nominal)\\b';
 export const MUTABLE    = '\\b(mut)\\b';
 export const ALIAS      = '\\b(as)\\b';
-export const CAST       = '\\b(as)\\b';
 export const PUN        = '\\$';
 export const VARIANCE   = '\\b(out|in)\\b';
 export const CONSTRAINT = '\\b(narrows|widens)\\b'

@@ -7,7 +7,6 @@ import {
 	OWS,
 	INT,
 	VAR,
-	CAST,
 	THINARROW,
 	FATARROW,
 	BLOCK_END,
@@ -34,7 +33,7 @@ export const ARGUMENTS = list('meta.arguments.cp', DELIMS.ARGS_FN[0], DELIMS.ARG
 
 export const EXPRESSION__CLAIM = {
 	name:          'meta.expression.claim.cp',
-	begin:         `${ CAST }${ lookaheads([`${ OWS }(${ DELIMS.CLAIM[0] })`]) }`,
+	begin:         `\\b(as)\\b${ lookaheads([`${ OWS }(${ DELIMS.CLAIM[0] })`]) }`,
 	end:           DELIMS.CLAIM[1],
 	beginCaptures: {1: {name: 'keyword.operator.text.cp'}},
 	endCaptures:   {0: {name: 'punctuation.delimiter.cp'}},
@@ -197,13 +196,13 @@ export const EXPRESSION = {
 		{include: '#ExpressionStructureBlock'},
 		{
 			name:  'keyword.operator.text.cp',
-			match: CAST, // must come after '#ExpressionClaim'
+			match: 'as[?!]?', // must come after '#ExpressionClaim'
 		},
 		unit(),
 		{
 			name: 'keyword.operator.punctuation.cp',
 			match: `[
-				!?   # must come after '#ExpressionCall' and '#ExpressionAccess'
+				!?   # must come after '#ExpressionCall', 'as[?!]?', and '#ExpressionAccess'
 				+\\- # must come after 'unit'
 				<>   # must come after '#ExpressionFunction' and '#ExpressionCall'
 			]`.replace(/\#.*\n|\s+/g, ''),
