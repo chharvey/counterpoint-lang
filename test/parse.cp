@@ -178,6 +178,11 @@ function twice(x: int): int => x * 2;
 	a ^ b;
 	a * b;
 	a / b;
+	x as X;
+	x as? X;
+	x as! X;
+	x as ?X;
+	x as !X;
 	x is y;
 	x isnt y;
 	a + b;
@@ -274,14 +279,29 @@ function twice(x: int): int => x * 2;
 }
 
 % Type claims
-<float & Numeric.<T>>(5 / 3) - 2.0;
-<float & Numeric.<T>>five_thirds - 2.0;
-[<float>%%comm%%(5 / 3)];
-[<float>%comm
-	(5 / 3)];
-f.(<Float.<T>>%%comm%%(5 / 3));
-f.(<Float.<T>>%comm
-	(5 / 3));
+(5 / 3) as <float & Numeric.<T>> - 2.0;
+five_thirds as <float & Numeric.<T>> - 2.0;
+[(5 / 3)%%comm%%as%%comm%%<float>];
+[(5 / 3)%comm
+	as%comm
+	<float>];
+f.((5 / 3)%%comm%%as%%comm%%<Float.<T>>);
+f.((5 / 3)%comm
+	as%comm
+	<Float.<T>>);
+
+% type casts
+five_thirds as Numeric;
+(5 / 3) as Numeric;
+5 / 3 as Numeric;
+5 as Numeric ^ 3;
+!5 as Boolean;
+?5 as Boolean;
+5 as! Boolean;
+5 as? Boolean;
+5 as !Boolean;
+5 as ?Boolean;
+!(5 as Numeric);
 
 return (a + b);
 throw (c + d);

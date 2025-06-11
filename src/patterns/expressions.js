@@ -33,14 +33,16 @@ export const ARGUMENTS = list('meta.arguments.cp', DELIMS.ARGS_FN[0], DELIMS.ARG
 
 
 export const EXPRESSION__CLAIM = {
-	name: 'meta.expression.claim.cp',
-	begin: DELIMS.CLAIM[0],
-	end:   `${ DELIMS.CLAIM[1] }|${ lookaheads([`[${ DELIMS.GROUPING[1] }${ DELIMS.LIST[1] },;]`, DELIMS.SET[1], THINARROW, '\\b(then|else|do|to|by)\\b']) }`,
-	captures: {
-		0: {name: 'punctuation.delimiter.cp'},
-	},
-	patterns: [
-		{include: '#PossibleGenericParameter'},
+	name:          'meta.expression.claim.cp',
+	begin:         `\\b(as)\\b${ lookaheads([`${ OWS }(${ DELIMS.CLAIM[0] })`]) }`,
+	end:           DELIMS.CLAIM[1],
+	beginCaptures: {1: {name: 'keyword.operator.text.cp'}},
+	endCaptures:   {0: {name: 'punctuation.delimiter.cp'}},
+	patterns:      [
+		{
+			name:  'punctuation.delimiter.cp',
+			match: DELIMS.CLAIM[0],
+		},
 		{include: '#Type'},
 	],
 };
@@ -174,6 +176,17 @@ export const EXPRESSION = {
 			match: FATARROW,
 		},
 		{include: '#ExpressionFunction'},
+		{
+			// covers less-than symbol and generic parameters of a function expression
+			name:     'meta.lessthanorgenericparameters.cp',
+			begin:    DELIMS.CLAIM[0],
+			end:      `${ DELIMS.CLAIM[1] }|${ lookaheads([`[${ DELIMS.GROUPING[1] }${ DELIMS.LIST[1] },;]`, DELIMS.SET[1], THINARROW, '\\b(then|else|do|to|by)\\b']) }`,
+			captures: {0: {name: 'punctuation.delimiter.cp'}},
+			patterns: [
+				{include: '#PossibleGenericParameter'},
+				{include: '#Expression'},
+			],
+		},
 		{include: '#ExpressionClass'},
 		{include: '#ExpressionClaim'},
 		{include: '#ExpressionCall'},
@@ -182,13 +195,17 @@ export const EXPRESSION = {
 		{include: '#ExpressionStructureList'},
 		{include: '#ExpressionStructureSet'},
 		{include: '#ExpressionStructureBlock'},
+		{
+			name:  'keyword.operator.text.cp',
+			match: 'as[?!]?', // must come after '#ExpressionClaim'
+		},
 		unit(),
 		{
 			name: 'keyword.operator.punctuation.cp',
 			match: `[
-				! ?   # must come after '#ExpressionCall' and '#ExpressionAccess'
+				! ?   # must come after '#ExpressionCall', 'as[?!]?', and '#ExpressionAccess'
 				+ \\- # must come after 'unit'
-				< >   # must come after '#ExpressionFunction', '#ExpressionClaim', and '#ExpressionCall'
+				< >   # must come after '#ExpressionFunction' and '#ExpressionCall'
 			]`.replace(/\#.*\n|\s+/g, ''),
 		},
 	],
