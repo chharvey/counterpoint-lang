@@ -105,8 +105,8 @@ export const FUNCTION = `
 		(?<aftergenericparams>
 			(?: # captures
 				${ DELIMS.CAPTURES[0] }${ OWS }
-					(?:${ UNFIXED }${ OWS } (?:${ REF }${ OWS })?)? ${ VAR }
-					(?:${ OWS },${ OWS }(?:${ UNFIXED }${ OWS } (?:${ REF }${ OWS })?)? ${ VAR })*
+					(?:${ REF }${ OWS })? ${ VAR }
+					(?:${ OWS },${ OWS }(?:${ REF }${ OWS })? ${ VAR })*
 					${ OWS },?
 				${ OWS }${ DELIMS.CAPTURES[1] }
 			)?

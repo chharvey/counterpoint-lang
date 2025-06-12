@@ -218,7 +218,10 @@ export const POSSIBLE_PARAMETER = {
 
 
 export const CAPTURES = list('meta.captures.cp', DELIMS.CAPTURES[0], DELIMS.CAPTURES[1], [
-	{include: '#ModifiersDeclarationLet'},
+	{
+		name:  'invalid.illegal.cp',
+		match: '\\b(var)\\b',
+	},
 	{
 		name:  'storage.modifier.cp',
 		match: REF,
