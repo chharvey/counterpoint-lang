@@ -303,6 +303,8 @@ five_thirds as Numeric;
 5 as ?Boolean;
 !(5 as Numeric);
 
+ashes;
+
 return (a + b);
 throw (c + d);
 return (

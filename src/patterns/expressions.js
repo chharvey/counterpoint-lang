@@ -197,7 +197,7 @@ export const EXPRESSION = {
 		{include: '#ExpressionStructureBlock'},
 		{
 			name:  'keyword.operator.text.cp',
-			match: 'as[?!]?', // must come after '#ExpressionClaim'
+			match: '\\b(as)(\\b|[?!])', // must come after '#ExpressionClaim'
 		},
 		unit(),
 		{
