@@ -245,6 +245,14 @@ function twice(x: int): int => x * 2;
 		##doublespread,
 		_= blank,
 	)++;
+	funkshin...();
+	funkshin...%%async%%();
+	funkshin?...();
+	funkshin!...();
+	funkshin?...<T>();
+	funkshin!...<T>();
+	funkshin?...<T>%%async%%();
+	funkshin!...<T>%%async%%();
 	List.<T>();
 	Dict.<T>();
 	Set.<T>();

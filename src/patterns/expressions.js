@@ -50,7 +50,7 @@ export const EXPRESSION__CLAIM = {
 
 export const EXPRESSION__CALL = {
 	name: 'meta.expression.call.cp',
-	begin: [DOT, lookaheads([[OWS, `(${ DELIMS.ARGS_GN[0] }|${ DELIMS.ARGS_FN[0] })`].join('')])].join(''),
+	begin: `(${ DOT }(\\.\\.)?)${ lookaheads([`${ OWS }(${ DELIMS.ARGS_GN[0] }|${ DELIMS.ARGS_FN[0] })`]) }`,
 	end:   lookbehinds([DELIMS.ARGS_FN[1]]),
 	beginCaptures: {
 		1: {name: 'keyword.operator.punctuation.cp'},
