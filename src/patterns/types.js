@@ -127,7 +127,7 @@ export const TYPENONFUNCTION = {
 
 export const TYPE = {
 	patterns: [
-		{include: '#Typenonfunction'},
 		{include: '#TypeFunction'},
+		{include: '#Typenonfunction'},
 	],
 };
