@@ -188,7 +188,6 @@ export const MEMBER__CONSTRUCTOR = {
 		},
 		{include: '#CommentBlock'},
 		{include: '#CommentLine'},
-		{include: '#GenericParameters'},
 		{include: '#ConstructorParameters'},
 		{include: '#Block'},
 	],
