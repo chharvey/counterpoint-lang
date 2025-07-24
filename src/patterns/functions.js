@@ -8,6 +8,7 @@ import {
 	VAR,
 	COMP_ACCESS,
 	UNFIXED,
+	REF,
 	MUTABLE,
 	VARIANCE,
 	CONSTRAINT,
@@ -22,6 +23,7 @@ import {
 } from '../selectors.js';
 import {
 	identifier,
+	list,
 	constraint,
 	annotation,
 	assignment,
@@ -213,3 +215,16 @@ export const POSSIBLE_PARAMETER = {
 		{include: '#ParameterPatterns'},
 	],
 };
+
+
+export const CAPTURES = list('meta.captures.cp', DELIMS.CAPTURES[0], DELIMS.CAPTURES[1], [
+	{
+		name:  'invalid.illegal.cp',
+		match: '\\b(var)\\b',
+	},
+	{
+		name:  'storage.modifier.cp',
+		match: REF,
+	},
+	identifier(),
+]);

@@ -28,6 +28,7 @@ export const VAR     = `(?:${ VARNAME }|\'.*\')`;
 export const COMP_ACCESS = '\\b(public|secret|private)\\b';
 export const MEMB_ACCESS = `\\b(${ COMP_ACCESS }|protected)\\b`;
 export const UNFIXED    = '\\b(var)\\b';
+export const REF        = '\\b(ref)\\b';
 export const NOMINAL    = '\\b(nominal)\\b';
 export const MUTABLE    = '\\b(mut)\\b';
 export const ALIAS      = '\\b(as)\\b';
@@ -105,8 +106,8 @@ export const FUNCTION = `
 		(?<aftergenericparams>
 			(?: # captures
 				${ DELIMS.CAPTURES[0] }${ OWS }
-					(?:${ UNFIXED }${ OWS })?${ VAR }
-					(?:${ OWS },${ OWS }(?:${ UNFIXED }${ OWS })?${ VAR })*
+					(?:${ REF }${ OWS })? ${ VAR }
+					(?:${ OWS },${ OWS }(?:${ REF }${ OWS })? ${ VAR })*
 					${ OWS },?
 				${ OWS }${ DELIMS.CAPTURES[1] }
 			)?

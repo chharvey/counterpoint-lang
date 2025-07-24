@@ -101,8 +101,8 @@ let lambdaWithCaptures: Function = [
 	a,
 	'b',
 ](x) => a + b + x;
-let tuple: [Function] = [[a, var b](x) => a + b + x];
-let record: [lambdaWithCaptures: Function] = [lambdaWithCaptures= [a, var b](x) => a + b + x];
+let tuple: [Function] = [[a, ref b](x) => a + b + x];
+let record: [lambdaWithCaptures: Function] = [lambdaWithCaptures= [a, ref b](x) => a + b + x];
 
 
 
@@ -133,10 +133,10 @@ function derivative<T narrows float>(lambda: (y: T) => T, delta: T): ((x: T) => 
 }
 function subset<T ?= Set.<null>, U widens T>(a: Set.<T>, b: Set.<U>): bool {;}
 
-function functionWithCaptures[a, var b](x: int): int => a + b + x;
+function functionWithCaptures[a, ref b](x: int): int => a + b + x;
 function functionWithCaptures[
 	a,
-	var 'b',
+	ref 'b',
 ](x: int): int => a + b + x;
 
 function returnFunc(): Object => (x: int): int => x + 1;
