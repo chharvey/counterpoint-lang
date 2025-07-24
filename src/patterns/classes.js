@@ -180,7 +180,7 @@ export const MEMBER__FIELD = {
 export const MEMBER__CONSTRUCTOR = {
 	name: 'meta.constructor.cp',
 	begin: lookaheads([CONSTRUCTOR]),
-	end:   lookbehinds([BLOCK_END]),
+	end:   [lookbehinds([BLOCK_END]), ';'].join('|'),
 	patterns: [
 		{
 			name:  'storage.modifier.cp',
@@ -188,7 +188,6 @@ export const MEMBER__CONSTRUCTOR = {
 		},
 		{include: '#CommentBlock'},
 		{include: '#CommentLine'},
-		{include: '#GenericParameters'},
 		{include: '#ConstructorParameters'},
 		{include: '#Block'},
 	],

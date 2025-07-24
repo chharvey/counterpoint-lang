@@ -189,6 +189,10 @@ interface Foo {
 	readonly field: this;
 	writeonly field: this;
 
+	% constructor signatures
+	new ();
+	new (arg: unknown);
+
 	mut meth(): void;
 	meth<T>(): void;
 	meth<out T>(): void;
