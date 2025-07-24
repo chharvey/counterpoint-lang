@@ -108,10 +108,6 @@ export const STATEMENT__CONTROL = {
 				{include: '#DestructureVariable'},
 				annotation(lookaheads(['\\b(from|of)\\b'])),
 				{
-					name:  'keyword.control.cp',
-					match: '\\b(await)\\b',
-				},
-				{
 					begin: '\\b(from|to|by|of)\\b',
 					end:   lookaheads(['\\b(to|by|do)\\b']),
 					beginCaptures: {
@@ -136,7 +132,7 @@ export const STATEMENT__CONTROL = {
 		},
 		{
 			name: 'meta.control.cp',
-			begin: '\\b(break|continue|return|yield|throw)\\b',
+			begin: '\\b(break|continue|return|throw)\\b',
 			end:   ';',
 			beginCaptures: {
 				0: {name: 'keyword.control.cp'},
@@ -144,13 +140,7 @@ export const STATEMENT__CONTROL = {
 			endCaptures: {
 				0: {name: 'punctuation.delimiter.cp'},
 			},
-			patterns: [
-				{
-					name: 'keyword.other.spread.cp',
-					match: '#',
-				},
-				{include: '#Expression'},
-			],
+			patterns: [{include: '#Expression'}],
 		},
 	],
 };

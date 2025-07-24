@@ -7,8 +7,8 @@ true else % false
 );
 if a then b else c;
 (if a then b else c);
-if a then {b} else sync { c; };;
-(if a then {b} else sync { c; });
+if a then {b} else ({ c; });;
+(if a then {b} else ({ c; }));
 if a then {#b} else {c, d} || {e -> f};
 (if a then {#b} else {c, d} || {e -> f});
 if a then { run.(); };
@@ -76,8 +76,6 @@ for _ from start to end by incr do {;};
 for _ from _ to _ by _ do {;};
 for i: int from 10 to 20 do {};
 
-for await item of asynclist.() do {};
-for await _ of _ do {};
 for item of list do {};
 for _ of _ do {};
 for item: T of list do {};
@@ -109,9 +107,12 @@ for prop of (x, y) { return y * x; } do {};
 	%%
 function twice(x: int): int => x * 2;
 
-1 + 2 + sync {
+1 + 2 + ({
 	% symbols:
-	@SYMBOL;
+	@SYMBOL + ({
+		let lobmys: sym = @LOBMYS;
+		lobmys;
+	});
 	@some_symbol;
 	@'some symbol';
 	@'somé symböl ? "yes" (: "no")';
@@ -284,7 +285,7 @@ function twice(x: int): int => x * 2;
 	array!.+\b1;
 	awaiting~~;
 	nexting++;
-}
+});
 
 % Type claims
 (5 / 3) as <float & Numeric.<T>> - 2.0;
