@@ -70,7 +70,6 @@ let h: int = if true then 1 else 0;
 % augmentation:
 set a &&= b;
 set a ||= b;
-set a ??= b;
 set a !&= b;
 set a !|= b;
 set a ^= b;

@@ -170,7 +170,6 @@ function twice(x: int): int => x * 2;
 	x == y;
 	x && y;
 	x || y;
-	x ?? y;
 	x !< y;
 	x !> y;
 	x != y;
