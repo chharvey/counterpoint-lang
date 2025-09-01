@@ -296,8 +296,7 @@ five_thirds as <float & Numeric.<T>> - 2.0;
 	<float>];
 f.((5 / 3)%%comm%%as%%comm%%<Float.<T>>);
 f.((5 / 3)%comm
-	as%comm
-	<Float.<T>>);
+		as %%comm%% <Float.<T>>);
 
 % type casts
 five_thirds as Numeric;
