@@ -24,12 +24,13 @@ let e: Object = 42.2e+4_2;
 let f: %% comm %% TypeF | String = "f";
 
 let %%var%% 'var': int =
-	  -\b1379fz
-	+ -\q1379fz
-	+ -\o1379fz
-	+ -\d1379fz
-	+ -\x1379fz
-	+ -\z1379fz
+	  -\b13579fz
+	+ -\q13579fz
+	+ -\s13579fz
+	+ -\o13579fz
+	+ -\d13579fz
+	+ -\x13579fz
+	+ -\z13579fz
 ;
 set %%c%% g = 42;
 set g = 42 == 42;
