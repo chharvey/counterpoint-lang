@@ -31,7 +31,7 @@ export function keyword(varname = 'variable.language') {
 			},
 			{
 				name: 'support.type.cp',
-				match: '\\b(never|bool|sym|int|float|str|unknown)\\b',
+				match: '\\b(nothing|bool|sym|int|float|str|anything)\\b',
 			},
 			{
 				name:  `${ varname }.cp`,

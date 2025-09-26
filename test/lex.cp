@@ -1,7 +1,7 @@
-type TypeKeywords    = never | bool | sym | int | float | str | unknown;
+type TypeKeywords    = nothing | bool | sym | int | float | str | anything;
 type TypeClasses     = Object | Class | List | Dict | Set | Map;
 type TypeConstants   = null | false | true;
-type TypeNonKeywords = boolen | integer | string | object | class | list | dict | set | map;
+type TypeNonKeywords = never | boolen | symbol | integer | string | object | class | list | dict | set | map | unknown;
 
 let value_keywords     = null || false || true;
 let value_classes      = Object || Class || List || Dict || Set || Map;

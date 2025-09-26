@@ -114,16 +114,16 @@ function (_: A, b: B): B {;}
 
 function add(a: int ?= 0, b: int ?= 0): int { return a + b; }
 function subtract(var a: int ?= 0, %%var%% b: int ?= a): int => a - b;
-function %%comm%% nothing(): void {
-	let x: unknown = 0;
+function %%comm%% do_nothing(): void {
+	let x: anything = 0;
 	return;
 }
-function error(): never {
+function error(): nothing {
 	throw if true then "error" else "an error";
 	throw (if true then "error" else "an error");
 }
-function parameterAlias(p %%c%% = %%c%% q: unknown): null => null;
-function parameterNoAlias(q: unknown): null => null;
+function parameterAlias(p %%c%% = %%c%% q: anything): null => null;
+function parameterNoAlias(q: anything): null => null;
 
 function append<T widens bool>(arr: Array.<T> ?= [], it: T): void {
 	arr.push.<T>(it)~;

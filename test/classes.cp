@@ -62,14 +62,14 @@ interface Foo extends Bar inherits Diz.<T> {}
 
 
 % interface type expressions
-type T = unknown & (interface {});
-type T = unknown & (interface data {});
-type T = unknown & (interface <T> {});
-type T = unknown & (interface <in T> {});
-type T = unknown & (interface extends Bar, Diz.<T> {});
-type T = unknown & (interface inherits Bar, Diz.<T> {});
-type T = unknown & (interface inherits _, Diz.<_> {});
-type T = unknown & (interface extends Bar inherits Diz.<T> {});
+type T = anything & (interface {});
+type T = anything & (interface data {});
+type T = anything & (interface <T> {});
+type T = anything & (interface <in T> {});
+type T = anything & (interface extends Bar, Diz.<T> {});
+type T = anything & (interface inherits Bar, Diz.<T> {});
+type T = anything & (interface inherits _, Diz.<_> {});
+type T = anything & (interface extends Bar inherits Diz.<T> {});
 
 
 
@@ -191,7 +191,7 @@ interface Foo {
 
 	% constructor signatures
 	new ();
-	new (arg: unknown);
+	new (arg: anything);
 
 	mut meth(): void;
 	meth<T>(): void;
