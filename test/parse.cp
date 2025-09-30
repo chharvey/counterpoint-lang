@@ -165,6 +165,13 @@ function twice(x: int): int => x * 2;
 	@x !== @y;
 	z~~;
 	z++;
+	null numeric;  %> ParseError
+	bool numeric;  %> ParseError
+	sym numeric;   %> ParseError
+	nat numeric;   % valid operator
+	int numeric;   % valid operator
+	float numeric; % valid operator
+	str numeric;   %> ParseError
 	x <= y;
 	x >= y;
 	x == y;
