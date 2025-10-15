@@ -15,7 +15,9 @@ class Foo<_> {}
 class Foo extends Bar, Diz.<T> {}
 class Foo extends _, Diz.<_> {}
 class Foo impl Bar, Diz.<T> {}
+class Foo is Qux {}
 class Foo extends Bar impl Diz.<T> {}
+class Foo extends Bar impl Diz.<T> is Qux {}
 class Foo[var a, b ,] {}
 class Foo<T>[a, var b] extends Bar, Diz.<T> {}
 class ClassWithCaptures[
@@ -92,6 +94,9 @@ class Foo {
 	public field?: T;
 	public field = 42;
 
+	public field?: this;
+	public field?: static;
+
 	public new () {;}
 	secret new () {;}
 	private new () {;}
@@ -133,7 +138,7 @@ class Foo {
 	meth<out T>(): void {;}
 	meth(x: int): void {;}
 	meth(): void {
-		super; method; this;
+		super; method; this; static;
 	}
 	meth(): int => 42;
 	abstractMethod(): void;
@@ -171,7 +176,7 @@ class Foo {
 		<in T>(): void {;}
 		(x: int): void {;}
 		(): void {
-			super; method; this;
+			super; method; this; static;
 		}
 		(): int => 42;
 	}

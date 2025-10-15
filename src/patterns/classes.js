@@ -36,8 +36,8 @@ import {
 
 export const HERITAGE = {
 	name:  'meta.heritage.cp',
-	begin: `\\b(extends|${ IMPL }|inherits)\\b`,
-	end:   lookaheads([`\\b(extends|${ IMPL }|inherits)\\b`, DELIMS.BLOCK[0]]),
+	begin: `\\b(extends|${ IMPL }|inherits|is)\\b`,
+	end:   lookaheads([`\\b(extends|${ IMPL }|inherits|is)\\b`, DELIMS.BLOCK[0]]),
 	beginCaptures: {
 		0: {name: 'storage.modifier.cp'},
 	},

@@ -35,7 +35,7 @@ export function keyword(varname = 'variable.language') {
 			},
 			{
 				name:  `${ varname }.cp`,
-				match: '\\b(this)\\b',
+				match: '\\b(this|static)\\b',
 			},
 			{
 				name: 'variable.language.cp',
