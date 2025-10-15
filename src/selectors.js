@@ -36,8 +36,9 @@ export const PUN        = '\\$';
 export const VARIANCE   = '\\b(out|in)\\b';
 export const CONSTRAINT = '\\b(narrows|widens)\\b'
 export const PERMISSION = '\\b(const|readonly|writeonly)\\b';
-export const IMPL       = '\\b(override|impl)\\b';
-export const IMPL_CLAIM = '\\b(override|impl|claim)\\b';
+export const IMPL       = '\\b(impl)\\b';
+export const OVR        = '\\b(override|impl)\\b';
+export const OVR_CLAIM  = '\\b(override|impl|claim)\\b';
 export const ANNO_START = `\\??\\:${ lookaheads(['\\:'], true) }`;
 export const ASSN_START = `=${ lookaheads(['=', '>'], true) }`;
 export const DFLT_START = `\\?${ ASSN_START }`;
@@ -134,7 +135,7 @@ export const FUNCTION = `
 
 export const FIELD = `
 	(${ MEMB_ACCESS } ${ OWS })?
-	(${ IMPL_CLAIM } ${ OWS })?
+	(${ OVR_CLAIM } ${ OWS })?
 	(${ PERMISSION } ${ OWS })?
 	${ VAR } ${ OWS }
 	(?:${ ANNO_START } | ${ ASSN_START })
@@ -142,7 +143,7 @@ export const FIELD = `
 
 export const FIELD_CONSTRUCTOR = `
 	${ MEMB_ACCESS } ${ OWS }
-	(${ IMPL } ${ OWS })?
+	(${ OVR } ${ OWS })?
 	(${ PERMISSION } ${ OWS })?
 	(?:
 		(${ VAR } ${ OWS } ${ ASSN_START } ${ OWS })? (${ UNFIXED } ${ OWS })? ${ VAR } ${ OWS } (${ ANNO_START } | ${ DFLT_START })
@@ -162,7 +163,7 @@ export const CONSTRUCTORGROUP = `
 
 export const METHOD = `
 	(${ MEMB_ACCESS } ${ OWS })?
-	(${ IMPL_CLAIM } ${ OWS })?
+	(${ OVR_CLAIM } ${ OWS })?
 	(\\b final \\b ${ OWS })?
 	(${ MUTABLE } ${ OWS })?
 	(?:${ VAR } ${ OWS })? (?:< | ${ DELIMS.PARAMS_FN[0] })
@@ -170,7 +171,7 @@ export const METHOD = `
 
 export const METHODGROUP = `
 	(${ MEMB_ACCESS } ${ OWS })?
-	(${ IMPL_CLAIM } ${ OWS })?
+	(${ OVR_CLAIM } ${ OWS })?
 	(\\b final \\b ${ OWS })?
 	${ VAR } ${ OWS } ${ DELIMS.BLOCK[0] }
 `.replace(/\s+/g, '');
