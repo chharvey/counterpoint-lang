@@ -159,6 +159,9 @@ delete _;
 delete _ %% comment %%;
 delete %% comment %% _;
 delete _; % comment
+delete a.b~~.c~?.d~!.e++.().f;
+delete a?.b~~?.c~??.d~!?.e++?.().f;
+delete a!.b~~!.c~?!.d~!!.e++!.().f;
 
 claim x: T;
 claim x.<U>(42)~~.y++.0.["prop" || "key"]: T;

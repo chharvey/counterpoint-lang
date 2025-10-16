@@ -97,7 +97,7 @@ export const EXPRESSION__ASSIGNEE = {
 	patterns: [
 		{
 			name: 'keyword.operator.punctuation.cp',
-			match: '~~|\\+\\+',
+			match: '\\+\\+|~[~?!]',
 		},
 		{include: '#DestructureAssignment'},
 		{include: '#ExpressionCall'},

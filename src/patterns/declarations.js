@@ -137,7 +137,7 @@ export const DECLARATION__DELETE = {
 		0: {name: 'punctuation.delimiter.cp'},
 	},
 	patterns: [
-		identifier(),
+		{include: '#ExpressionAssignee'},
 	],
 };
 
