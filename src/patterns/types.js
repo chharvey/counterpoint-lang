@@ -97,7 +97,7 @@ export const TYPE__STRUCTURE__SET = list('meta.type.structure.set.cp', DELIMS.SE
 ]);
 
 
-export const TYPENONFUNCTION = {
+export const TYPEFNRET = {
 	patterns: [
 		{
 			name: 'keyword.operator.punctuation.cp',
@@ -132,6 +132,6 @@ export const TYPENONFUNCTION = {
 export const TYPE = {
 	patterns: [
 		{include: '#TypeFunction'},
-		{include: '#Typenonfunction'},
+		{include: '#Typefnret'},
 	],
 };

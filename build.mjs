@@ -97,7 +97,7 @@ await fs.promises.writeFile(path.join(import.meta.dirname, 'syntaxes', 'cp.tmLan
 		TypeStructureGrouping:         Pattern.TYPE__STRUCTURE__GROUPING,
 		TypeStructureList:             Pattern.TYPE__STRUCTURE__LIST,
 		TypeStructureSet:              Pattern.TYPE__STRUCTURE__SET,
-		Typenonfunction:               Pattern.TYPENONFUNCTION,
+		Typefnret:                     Pattern.TYPEFNRET,
 	},
 	patterns: [
 		{include: '#Block'},

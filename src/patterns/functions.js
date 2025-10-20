@@ -62,7 +62,7 @@ export const EXPRESSION__FUNCTION = {
 		{include: '#Captures'},
 		{include: '#Parameters'},
 		{include: '#Block'},
-		annotation(lookaheads([DELIMS.BLOCK[0], FATARROW]), false),
+		annotation(lookaheads([DELIMS.BLOCK[0], FATARROW]), true),
 	],
 };
 
@@ -122,7 +122,7 @@ export const DECLARATION__FUNCTION = {
 				identifier('entity.other.inherited-class'),
 			],
 		},
-		annotation(lookaheads([IMPL, DELIMS.BLOCK[0], FATARROW]), false),
+		annotation(lookaheads([IMPL, DELIMS.BLOCK[0], FATARROW]), true),
 		implicitReturn(),
 		{include: '#IdentifierFunction'}, // must come after keywords
 	],

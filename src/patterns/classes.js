@@ -237,7 +237,7 @@ export const MEMBER__METHOD = {
 		{include: '#GenericParameters'},
 		{include: '#Parameters'},
 		{include: '#Block'},
-		annotation(lookaheads([DELIMS.BLOCK[0], FATARROW, ';']), false),
+		annotation(lookaheads([DELIMS.BLOCK[0], FATARROW, ';']), true),
 		implicitReturn(),
 	],
 };
