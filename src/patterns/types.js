@@ -101,7 +101,7 @@ export const TYPENONFUNCTION = {
 	patterns: [
 		{
 			name: 'keyword.operator.punctuation.cp',
-			match: `~~|\\?${ lookaheads(['\\.'], true) }|[!^*/&|]`,
+			match: `~~|[!^*/&|]`,
 		},
 		{
 			name: 'keyword.operator.text.cp',
@@ -121,6 +121,10 @@ export const TYPENONFUNCTION = {
 		{include: '#TypeStructureList'},
 		{include: '#TypeStructureSet'},
 		unit('entity.name.type'),
+		{
+			name: 'keyword.operator.punctuation.cp',
+			match: '\\?', // must come after '#TypeAccess'
+		},
 	],
 };
 
