@@ -97,11 +97,11 @@ export const TYPE__STRUCTURE__SET = list('meta.type.structure.set.cp', DELIMS.SE
 ]);
 
 
-export const TYPENONFUNCTION = {
+export const TYPEFNRET = {
 	patterns: [
 		{
 			name: 'keyword.operator.punctuation.cp',
-			match: `~~|\\?${ lookaheads(['\\.'], true) }|[!^*/&|]`,
+			match: `~~|[!^*/&|]`,
 		},
 		{
 			name: 'keyword.operator.text.cp',
@@ -119,8 +119,11 @@ export const TYPENONFUNCTION = {
 		{include: '#TypeAccess'},
 		{include: '#TypeStructureGrouping'},
 		{include: '#TypeStructureList'},
-		{include: '#TypeStructureSet'},
 		unit('entity.name.type'),
+		{
+			name: 'keyword.operator.punctuation.cp',
+			match: '\\?', // must come after '#TypeAccess'
+		},
 	],
 };
 
@@ -128,6 +131,7 @@ export const TYPENONFUNCTION = {
 export const TYPE = {
 	patterns: [
 		{include: '#TypeFunction'},
-		{include: '#Typenonfunction'},
+		{include: '#TypeStructureSet'},
+		{include: '#Typefnret'},
 	],
 };

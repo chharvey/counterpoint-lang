@@ -133,7 +133,7 @@ export function constraint(end) {
 }
 
 
-export function annotation(end, allow_function_type = true) {
+export function annotation(end, fn_ret_annot = false) {
 	return {
 		name: 'meta.annotation.cp',
 		begin: ANNO_START,
@@ -142,7 +142,7 @@ export function annotation(end, allow_function_type = true) {
 			0: {name: 'punctuation.delimiter.cp'},
 		},
 		patterns: [
-			{include: (allow_function_type) ? '#Type' : '#Typenonfunction'},
+			{include: fn_ret_annot ? '#Typefnret' : '#Type'},
 		],
 	};
 }

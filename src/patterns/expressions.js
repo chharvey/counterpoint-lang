@@ -8,7 +8,6 @@ import {
 	INT,
 	VAR,
 	THINARROW,
-	FATARROW,
 	BLOCK_END,
 	DOT,
 } from '../selectors.js';
@@ -162,11 +161,6 @@ export const EXPRESSIONNONBLOCK = {
 		{
 			name: 'keyword.operator.text.cp',
 			match: '\\b(nat|int|float|is|isnt|if|then|else)\\b',
-		},
-		{
-			// for cases like `(x: int): int{} => Set.([x + 1]);` where the `}` incorrectly ends the function
-			name: 'storage.type.cp',
-			match: FATARROW,
 		},
 		{include: '#ExpressionFunction'},
 		{
