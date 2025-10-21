@@ -11,6 +11,7 @@ import {
 	THINARROW,
 	FATARROW,
 	DOT,
+	DOT_ACCESS,
 } from '../selectors.js';
 import {
 	identifier,
@@ -34,7 +35,7 @@ export const GENERIC_ARGUMENTS = list('meta.genericarguments.cp', DELIMS.ARGS_GN
 
 export const TYPE_CALL = {
 	name: 'meta.type.call.cp',
-	begin: ['(\\.)', lookaheads([[OWS, DELIMS.ARGS_GN[0]].join('')])].join(''),
+	begin: [DOT, lookaheads([[OWS, DELIMS.ARGS_GN[0]].join('')])].join(''),
 	end:   lookbehinds([DELIMS.ARGS_GN[1]]),
 	beginCaptures: {
 		1: {name: 'keyword.operator.punctuation.cp'},
@@ -48,7 +49,7 @@ export const TYPE_CALL = {
 
 export const TYPE__ACCESS = {
 	name: 'meta.type.access.cp',
-	begin: [DOT, lookaheads([`${ OWS }(${ INT }|${ VAR })`])].join(''),
+	begin: [DOT_ACCESS, lookaheads([`${ OWS }(${ INT }|${ VAR })`])].join(''),
 	end:   lookbehinds(['[A-Za-z0-9_\']']),
 	beginCaptures: {
 		1: {name: 'keyword.operator.punctuation.cp'},

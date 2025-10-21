@@ -45,7 +45,8 @@ export const DFLT_START = `\\?${ ASSN_START }`;
 export const THINARROW  = '->';
 export const FATARROW   = '=>';
 export const BLOCK_END  = '\\}'; // used for lookbehinds (cannot contain lookaheads)
-export const DOT        = '(\\.|\\?\\.|\\!\\.)';
+export const DOT        = '\\.';
+export const DOT_ACCESS = '(\\.|\\?\\.|\\!\\.)';
 
 function destructure_selector(prop_delim) {
 	return `

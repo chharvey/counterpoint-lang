@@ -10,6 +10,7 @@ import {
 	THINARROW,
 	BLOCK_END,
 	DOT,
+	DOT_ACCESS,
 } from '../selectors.js';
 import {
 	identifier,
@@ -49,7 +50,7 @@ export const EXPRESSION__CLAIM = {
 
 export const EXPRESSION__CALL = {
 	name: 'meta.expression.call.cp',
-	begin: `(${ DOT }(\\.\\.)?)${ lookaheads([`${ OWS }(${ DELIMS.ARGS_GN[0] }|${ DELIMS.ARGS_FN[0] })`]) }`,
+	begin: `(${ DOT_ACCESS }${ DOT }{2}?)${ lookaheads([`${ OWS }(${ DELIMS.ARGS_GN[0] }|${ DELIMS.ARGS_FN[0] })`]) }`,
 	end:   lookbehinds([DELIMS.ARGS_FN[1]]),
 	beginCaptures: {
 		1: {name: 'keyword.operator.punctuation.cp'},
@@ -67,7 +68,7 @@ export const EXPRESSION__ACCESS = {
 	patterns: [
 		{
 			name: 'meta.expression.access.cp',
-			begin: [DOT, lookaheads([[OWS, DELIMS.ACCESS[0]].join('')])].join(''),
+			begin: [DOT_ACCESS, lookaheads([[OWS, DELIMS.ACCESS[0]].join('')])].join(''),
 			end:   lookbehinds([DELIMS.ACCESS[1]]),
 			beginCaptures: {
 				1: {name: 'keyword.operator.punctuation.cp'},
@@ -78,7 +79,7 @@ export const EXPRESSION__ACCESS = {
 		},
 		{
 			name: 'meta.expression.access.cp',
-			begin: [DOT, lookaheads([`${ OWS }(${ INT }|${ VAR })`])].join(''),
+			begin: [DOT_ACCESS, lookaheads([`${ OWS }(${ INT }|${ VAR })`])].join(''),
 			end:   lookbehinds(['[A-Za-z0-9_\']']),
 			beginCaptures: {
 				1: {name: 'keyword.operator.punctuation.cp'},
