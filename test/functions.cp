@@ -27,6 +27,15 @@ let x: <out T widens U~~, in U ?= Set.<null>>(a: Set.<T>~~, b: Set.<U~~>) => boo
 %-- function expression statements --%
 (var h: int): int => h + 1;
 (%%var%% h: int): int => h + 1;
+% return type with set/map shorthand syntax
+(): (int{}) {
+	return {42, 69};
+};
+(): (int{}) => {42, 69};
+(): ({int -> int}) {
+	return {42 -> 69};
+};
+(): ({int -> int}) => {42 -> 69};
 
 
 
@@ -37,6 +46,15 @@ let x: (a: str) => str = (a: str): str {
 	let x: str = "x";
 	return """<{{ x }}>{{ a }}</{{ x }}>""";
 };
+% return type with set/map shorthand syntax
+let return_set_of_int = (): (int{}) {
+	return {42, 69};
+};
+let return_set_of_int = (): (int{}) => {42, 69};
+let return_map_of_int = (): ({int -> int}) {
+	return {42 -> 69};
+};
+let return_map_of_int = (): ({int -> int}) => {42 -> 69};
 let lambda: Function = (            )      { return a * 2; };
 let lambda: Function = (a           )      { return a * 2; };
 let lambda: Function = (a: int      ): int { return a * 2; };
@@ -142,7 +160,7 @@ function functionWithCaptures[
 function returnFunc(): Object => (x: int): int => x + 1;
 function returnFunc(): (Object) => (x: int): int => x + 1;
 function returnFunc(): Object{} => (x: int): int => x + 1;
-function returnFunc(): Object => (x: int): int{} => x + 1;
+function returnFunc(): Object => (x: int): (int{}) => x + 1;
 function returnFunc(): ((x: int) => int) => (x) => x + 1;
 
 function returnFunc(): ((A) => (B)) => (a) => b;
@@ -156,6 +174,15 @@ function returnInstance(): interface {
 	public y(): (int) => 0;
 	public z(): ((str) => int) => (s: str) => str.length;
 }).();
+% return type with set/map shorthand syntax
+function return_set_of_int(): (int{}) {
+	return {42, 69};
+};
+function return_set_of_int(): (int{}) => {42, 69};
+function return_map_of_int(): ({int -> int}) {
+	return {42 -> 69};
+};
+function return_map_of_int(): ({int -> int}) => {42 -> 69};
 
 function add<T>(x, y) impl BinaryOperator.<T> {
 	return x + y;

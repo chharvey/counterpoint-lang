@@ -119,7 +119,6 @@ export const TYPEFNRET = {
 		{include: '#TypeAccess'},
 		{include: '#TypeStructureGrouping'},
 		{include: '#TypeStructureList'},
-		{include: '#TypeStructureSet'},
 		unit('entity.name.type'),
 		{
 			name: 'keyword.operator.punctuation.cp',
@@ -132,6 +131,7 @@ export const TYPEFNRET = {
 export const TYPE = {
 	patterns: [
 		{include: '#TypeFunction'},
+		{include: '#TypeStructureSet'},
 		{include: '#Typefnret'},
 	],
 };
