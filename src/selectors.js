@@ -40,7 +40,7 @@ export const IMPL       = '\\b(impl)\\b';
 export const OVR        = '\\b(override|impl)\\b';
 export const OVR_CLAIM  = '\\b(override|impl|claim)\\b';
 export const ANNO_START = `\\??\\:${ lookaheads(['\\:'], true) }`;
-export const ASSN_START = `=${ lookaheads(['=', '>'], true) }`;
+export const ASSN_START = `=${ lookaheads(['[=>]'], true) }`;
 export const DFLT_START = `\\?${ ASSN_START }`;
 export const THINARROW  = '->';
 export const FATARROW   = '=>';
