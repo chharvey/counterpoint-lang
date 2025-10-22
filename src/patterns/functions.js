@@ -181,8 +181,17 @@ export const PARAMETER_PATTERNS = {
 };
 
 
-/** Generic parameter, if on separate line. */
-export const POSSIBLE_GENERIC_PARAMETER = {
+/**
+ * Generic parameter, if on separate line.
+ * We need this in cases where TextMate thinks we’re in a generic argument list when we’re really in a generic parameter list.
+ * ```cp
+ * type T = .<
+ * %        ^ TextMate thinks this is the start of a type call, not a type function
+ * 	U narrows V,
+ * >() => U;
+ * ```
+ */
+export const GENERIC_PARAMETER_POSSIBLE = {
 	begin: lookaheads([MUTABLE, VARIANCE, [VAR, OWS, `(${ [
 		CONSTRAINT, DFLT_START, ',', // annotated, initialized, or more than 1 generic parameter
 	].join('|') })`].join('')]),
@@ -196,8 +205,12 @@ export const POSSIBLE_GENERIC_PARAMETER = {
 };
 
 
-/** Parameter of function type, if on separate line. */
-export const POSSIBLE_TYPE_PARAMETER = {
+/**
+ * Parameter of function type, if on separate line.
+ * We won’t ever use this, because all type parameters will be inside type function syntax
+ * and there is no parenthesized type call syntax.
+ */
+export const TYPE_PARAMETER_POSSIBLE = {
 	begin: lookaheads([`(${ VAR }${ OWS })?${ ANNO_START }`]),
 	end:   `,|${ lookaheads([DELIMS.PARAMS_FN[1]]) }`,
 	endCaptures: {
@@ -209,8 +222,17 @@ export const POSSIBLE_TYPE_PARAMETER = {
 };
 
 
-/** Parameter of function expression, if on separate line. */
-export const POSSIBLE_PARAMETER = {
+/**
+ * Parameter of function expression, if on separate line.
+ * We need this in cases where TextMate thinks we’re in an argument list when we’re really in a parameter list.
+ * ```cp
+ * let f = .(
+ * %       ^ TextMate thinks this is the start of an expression call, not an expression function
+ * 	var x: int,
+ * ) => x;
+ * ```
+ */
+export const PARAMETER_POSSIBLE = {
 	begin: lookaheads([UNFIXED, [VAR, OWS, `(${ [
 		ASSN_START, ANNO_START, DFLT_START, ',', // aliased, annotated, or initialized, or more than 1 parameter
 	].join('|') })`].join('')]),

@@ -28,6 +28,7 @@ export const ARGUMENTS = list('meta.arguments.cp', DELIMS.ARGS_FN[0], DELIMS.ARG
 		match: '##|#',
 	},
 	argumentLabel(DELIMS.ARGS_FN[1]),
+	{include: '#ParameterPossible'},
 	{include: '#Expression'}, // must come after `argumentLabel` because we don’t want expressions to look like named arguments or argument destructuring
 ]);
 
@@ -118,7 +119,6 @@ export const EXPRESSION__STRUCTURE__GROUPING = {
 		0: {name: 'punctuation.delimiter.cp'},
 	},
 	patterns: [
-		{include: '#PossibleParameter'},
 		{include: '#Expression'},
 	],
 };
@@ -171,7 +171,6 @@ export const EXPRESSIONNONBLOCK = {
 			end:      `${ DELIMS.CLAIM[1] }|${ lookaheads([`[${ DELIMS.GROUPING[1] }${ DELIMS.LIST[1] },;]`, DELIMS.SET[1], THINARROW, '\\b(then|else|do|to|by)\\b']) }`,
 			captures: {0: {name: 'punctuation.delimiter.cp'}},
 			patterns: [
-				{include: '#PossibleGenericParameter'},
 				{include: '#Expression'},
 			],
 		},

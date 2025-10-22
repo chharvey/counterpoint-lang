@@ -29,6 +29,7 @@ export const GENERIC_ARGUMENTS = list('meta.genericarguments.cp', DELIMS.ARGS_GN
 		match: '##|#',
 	},
 	genericArgumentLabel(DELIMS.ARGS_GN[1]),
+	{include: '#GenericParameterPossible'},
 	{include: '#Type'}, // must come after `genericArgumentLabel` because we don’t want types to look like named arguments
 ]);
 
@@ -69,7 +70,6 @@ export const TYPE__STRUCTURE__GROUPING = {
 		0: {name: 'punctuation.delimiter.cp'},
 	},
 	patterns: [
-		{include: '#PossibleTypeParameter'},
 		{include: '#Type'},
 	],
 };
