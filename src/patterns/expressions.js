@@ -10,6 +10,7 @@ import {
 	THINARROW,
 	BLOCK_END,
 	DOT,
+	DOT_ACCESS,
 } from '../selectors.js';
 import {
 	identifier,
@@ -27,6 +28,7 @@ export const ARGUMENTS = list('meta.arguments.cp', DELIMS.ARGS_FN[0], DELIMS.ARG
 		match: '##|#',
 	},
 	argumentLabel(DELIMS.ARGS_FN[1]),
+	{include: '#ParameterPossible'},
 	{include: '#Expression'}, // must come after `argumentLabel` because we don’t want expressions to look like named arguments or argument destructuring
 ]);
 
@@ -49,7 +51,7 @@ export const EXPRESSION__CLAIM = {
 
 export const EXPRESSION__CALL = {
 	name: 'meta.expression.call.cp',
-	begin: `(${ DOT }(\\.\\.)?)${ lookaheads([`${ OWS }(${ DELIMS.ARGS_GN[0] }|${ DELIMS.ARGS_FN[0] })`]) }`,
+	begin: [`(${ DOT_ACCESS }${ DOT }{2}?)`, lookaheads([[OWS, `(${ DELIMS.ARGS_GN[0] }|${ DELIMS.ARGS_FN[0] })`].join('')])].join(''),
 	end:   lookbehinds([DELIMS.ARGS_FN[1]]),
 	beginCaptures: {
 		1: {name: 'keyword.operator.punctuation.cp'},
@@ -67,7 +69,7 @@ export const EXPRESSION__ACCESS = {
 	patterns: [
 		{
 			name: 'meta.expression.access.cp',
-			begin: [DOT, lookaheads([[OWS, DELIMS.ACCESS[0]].join('')])].join(''),
+			begin: [DOT_ACCESS, lookaheads([[OWS, DELIMS.ACCESS[0]].join('')])].join(''),
 			end:   lookbehinds([DELIMS.ACCESS[1]]),
 			beginCaptures: {
 				1: {name: 'keyword.operator.punctuation.cp'},
@@ -78,7 +80,7 @@ export const EXPRESSION__ACCESS = {
 		},
 		{
 			name: 'meta.expression.access.cp',
-			begin: [DOT, lookaheads([`${ OWS }(${ INT }|${ VAR })`])].join(''),
+			begin: [DOT_ACCESS, lookaheads([[OWS, `(${ INT }|${ VAR })`].join('')])].join(''),
 			end:   lookbehinds(['[A-Za-z0-9_\']']),
 			beginCaptures: {
 				1: {name: 'keyword.operator.punctuation.cp'},
@@ -117,7 +119,6 @@ export const EXPRESSION__STRUCTURE__GROUPING = {
 		0: {name: 'punctuation.delimiter.cp'},
 	},
 	patterns: [
-		{include: '#PossibleParameter'},
 		{include: '#Expression'},
 	],
 };
@@ -163,17 +164,6 @@ export const EXPRESSIONNONBLOCK = {
 			match: '\\b(nat|int|float|is|isnt|if|then|else)\\b',
 		},
 		{include: '#ExpressionFunction'},
-		{
-			// covers less-than symbol and generic parameters of a function expression
-			name:     'meta.lessthanorgenericparameters.cp',
-			begin:    DELIMS.CLAIM[0],
-			end:      `${ DELIMS.CLAIM[1] }|${ lookaheads([`[${ DELIMS.GROUPING[1] }${ DELIMS.LIST[1] },;]`, DELIMS.SET[1], THINARROW, '\\b(then|else|do|to|by)\\b']) }`,
-			captures: {0: {name: 'punctuation.delimiter.cp'}},
-			patterns: [
-				{include: '#PossibleGenericParameter'},
-				{include: '#Expression'},
-			],
-		},
 		{include: '#ExpressionClass'},
 		{include: '#ExpressionClaim'},
 		{include: '#ExpressionCall'},

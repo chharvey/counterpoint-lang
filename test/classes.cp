@@ -141,6 +141,8 @@ class Foo {
 		super; method; this; static;
 	}
 	meth(): int => 42;
+	methReturnsFunc(): .() => int => .() => 42;
+	methReturnsFunc(): .() => (T) => .() => 42;
 	abstractMethod(): void;
 
 	return(ab: void): void { return (ab); }
@@ -179,6 +181,8 @@ class Foo {
 			super; method; this; static;
 		}
 		(): int => 42;
+		(): .() => int => .() => 42;
+		(): .() => (T) => .() => 42;
 	}
 	override methodGroup { (): void {;} }
 	impl methodGroup { (): void {;} }
@@ -204,12 +208,14 @@ interface Foo {
 	_<_>(): void;
 	meth(x: int): void;
 	meth(_: int): void;
+	methReturnsFunc(): .() => int;
 
 	public methodGroup {
 		(): void;
 		<T>(): void;
 		<in T>(): void;
 		(x: int): void;
+		(): .() => int;
 	}
 	public methodGroup { mut (): void; }
 }

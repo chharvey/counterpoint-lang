@@ -166,7 +166,7 @@ delete a!.b~~!.c~?!.d~!!.e++!.().f;
 claim x: T;
 claim x.<U>(42)~~.y++.0.["prop" || "key"]: T;
 
-type VoidFn<Arg> = (arg: Arg) => void;
+type VoidFn<Arg> = .(arg: Arg) => void;
 function print(message: str): void {;}
 function print(message) impl VoidFn.<str> {;}
 function print<T>(message) impl VoidFn.<T> {;}
@@ -175,8 +175,8 @@ claim print(message: str): void;
 claim print(message) impl VoidFn.<str>;
 claim print<T>(message) impl VoidFn.<T>;
 claim print<T narrows str>(message) impl VoidFn.<T>;
-claim print: (message: str) => void;
-claim print: <T narrows str>(message: T) => void;
+claim print: .(message: str) => void;
+claim print: .<T narrows str>(message: T) => void;
 claim print: VoidFn.<str>;
 
 public let x: float = 0.0;
