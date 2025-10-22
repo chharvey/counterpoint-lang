@@ -217,7 +217,7 @@ function twice(x: int): int => x * 2;
 	type X = T?.a?;
 	type X = (T?).a;
 	type X = (T?)?.a;
-	type T = (a, [b, b], (c + c), #spread);
+	type T = (a, [b], (c | c), #spread);
 	type R = (a: 3, c: 5, key: value, punn$, 'unipunn'$, ##doublespread, _: blank);
 
 	() + empty_tuple;

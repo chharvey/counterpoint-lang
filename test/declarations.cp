@@ -83,19 +83,19 @@ set a -= b;
 
 
 type 'bōōl | floàt' = 'floàt | bōōl' | float | bool;
-type SpreadTest = [T, #Spread] | [name: T, ##DoubleSpread];
-type nominal SpreadTest = [T, #Spread] | [name: T, ##DoubleSpread];
-type Tup = [A, ?: B];
-type Rec = [a: A, B$, c?: C];
+type SpreadTest = (T, #Spread) | (name: T, ##DoubleSpread);
+type nominal SpreadTest = (T, #Spread) | (name: T, ##DoubleSpread);
+type Tup = (A, ?: B);
+type Rec = (a: A, B$, c?: C);
 type RecDestructure = [a: A, B$, c?: C, [d, [e]]: De, [f$, g: [h$]]: Fg];
 type Awaited<T> = T~~;
-type SpreadTest = [
+type SpreadTest = (
 	T,
 	#Spread,
-] | [
+) | (
 	name: T,
 	##DoubleSpread,
-];
+);
 type T<out U> = U & V
 	.<W>;
 type U<in V narrows W.<int>> = V | W.<X>;
@@ -103,9 +103,9 @@ type U narrows int | bool = int;
 type U<mut in V ?= W.<int>> = V | W.%%c%%<X>;
 type U<V= Vv> = Vv | W;
 
-type [A, B] = [int, float];
-type [c: C, d: D] = [c: int, d: float];
-type [E$, F$] = [E: int, F: float];
+type [A, B] = (int, float);
+type [c: C, d: D] = (c: int, d: float);
+type [E$, F$] = (E: int, F: float);
 type [S ?= bool] = Tup;
 
 type [G, [H, I]] = Ghi;
@@ -119,12 +119,12 @@ type Or<T= [J, [K$, lima: L]]> = J | K | L;
 type Or<T= [M$, november: [N, O]]> = M | N | O;
 type Or<T= [S ?= bool] ?= [anything]> = S | null;
 
-type [A<T>, nominal B<U= V>] = [int | T, float & V];
-type [C$, d: nominal D<out W narrows [anything] ?= X>] = [C: B.<U= null>, d: W.0];
-type [C$, d: D<Y= [nominal out W narrows anything ?= Z] ?= X>] = [C: B.<U= null>, d: W];
+type [A<T>, nominal B<U= V>] = (int | T, float & V);
+type [C$, d: nominal D<out W narrows [anything] ?= X>] = (C: B.<U= null>, d: W.0);
+type [C$, d: D<Y= [nominal out W narrows anything ?= Z] ?= X>] = (C: B.<U= null>, d: W);
 
-type T = [a: boolean, b: int, c: T];
-let x: T = [a= false, b= 42, c$];
+type T = (a: boolean, b: int, c: T);
+let x: T = (a= false, b= 42, c$);
 
 let 'bōōl || flō' = 'flō || bōōl' || flo || boo;
 let var w: bool | T | 'floàt | bōōl' = bool;
@@ -221,37 +221,37 @@ function f(arg= [a:    SomeType.0 ?= x, b:    SomeType.1 ?= y, c:    SomeType.2 
 function f(arg= [a= x: SomeType.a ?= t, b= y: SomeType.b ?= u, c= z: SomeType.c ?= v]) => some_object;
 
 % claim destructuring:
-claim [a]:                [int];
+claim [a]:                (int);
 claim [x, y]:             int[2];
-claim [if$, by= b]:       [if: If, by: B];
-claim [[x], [y= [b]]]:    [[X], [y: [B]]];
+claim [if$, by= b]:       (if: If, by: B);
+claim [[x], [y= [b]]]:    ([X], (y: (B)));
 claim [x.1, y.2]:         int[2];
 claim [x.i, y.j]:         int[2];
 claim [x.[i + j], y.[j]]: int[2];
-claim [if$, by= b.j]:     [if: If, by: Bj];
-claim [[x$], [y= [b.j]]]: [[X], [y: [Bj]]];
+claim [if$, by= b.j]:     (if: If, by: Bj);
+claim [[x$], [y= [b.j]]]: ((X), (y: (Bj)));
 
 % not claim destructuring:
-claim (a).c:                  int;
-claim (a.b).c:                int;
-claim (a || b).c:             int;
-claim (<[y: int]>x).y:        int;
-claim [a].c:                  TupleValue;
-claim [a.b].c:                TupleValue;
-claim [a || b].c:             TupleValue;
-claim [<[y: int]>x].y:        TupleValue;
-claim [prop= a].c:            RecordValue;
-claim [prop= a.b].c:          RecordValue;
-claim [prop= a || b].c:       RecordValue;
-claim [prop= <[y: int]>x].y:  RecordValue;
-claim {a}.c:                  SetValue;
-claim {a.b}.c:                SetValue;
-claim {a || b}.c:             SetValue;
-claim {<[y: int]>x}.y:        SetValue;
-claim {kie -> a}.c:           MapValue;
-claim {kie -> a.b}.c:         MapValue;
-claim {kie -> a || b}.c:      MapValue;
-claim {kie -> <[y: int]>x}.y: MapValue;
+claim (a).c:                      int;
+claim (a.b).c:                    int;
+claim (a || b).c:                 int;
+claim (x as <(y: int)>).y:        int;
+claim [a].c:                      TupleValue;
+claim [a.b].c:                    TupleValue;
+claim [a || b].c:                 TupleValue;
+claim [x as <(y: int)>].y:        TupleValue;
+claim [prop= a].c:                RecordValue;
+claim [prop= a.b].c:              RecordValue;
+claim [prop= a || b].c:           RecordValue;
+claim [prop= x as <(y: int)>].y:  RecordValue;
+claim {a}.c:                      SetValue;
+claim {a.b}.c:                    SetValue;
+claim {a || b}.c:                 SetValue;
+claim {x as <(y: int)>}.y:        SetValue;
+claim {kie -> a}.c:               MapValue;
+claim {kie -> a.b}.c:             MapValue;
+claim {kie -> a || b}.c:          MapValue;
+claim {kie -> x as <(y: int)>}.y: MapValue;
 
 
 % reassignment destructuring:
@@ -264,23 +264,23 @@ set [if$, by= b.j]     = [if= 1, by= 2];
 set [[x$], [y= [b.j]]] = [[x= 1], [y= [2]]];
 
 % not reassignment destructuring:
-set (a).c                  = value;
-set (a.b).c                = value;
-set (a || b).c             = value;
-set (<[y: int]>x).y        = value;
-set [a].c                  = tupleValue;
-set [a.b].c                = tupleValue;
-set [a || b].c             = tupleValue;
-set [<[y: int]>x].y        = tupleValue;
-set [prop= a].c            = recordValue;
-set [prop= a.b].c          = recordValue;
-set [prop= a || b].c       = recordValue;
-set [prop= <[y: int]>x].y  = recordValue;
-set {a}.c                  = setValue;
-set {a.b}.c                = setValue;
-set {a || b}.c             = setValue;
-set {<[y: int]>x}.y        = setValue;
-set {kie -> a}.c           = mapValue;
-set {kie -> a.b}.c         = mapValue;
-set {kie -> a || b}.c      = mapValue;
-set {kie -> <[y: int]>x}.y = mapValue;
+set (a).c                      = value;
+set (a.b).c                    = value;
+set (a || b).c                 = value;
+set (x as <(y: int)>).y        = value;
+set [a].c                      = tupleValue;
+set [a.b].c                    = tupleValue;
+set [a || b].c                 = tupleValue;
+set [x as <(y: int)>].y        = tupleValue;
+set [prop= a].c                = recordValue;
+set [prop= a.b].c              = recordValue;
+set [prop= a || b].c           = recordValue;
+set [prop= x as <(y: int)>].y  = recordValue;
+set {a}.c                      = setValue;
+set {a.b}.c                    = setValue;
+set {a || b}.c                 = setValue;
+set {x as <(y: int)>}.y        = setValue;
+set {kie -> a}.c               = mapValue;
+set {kie -> a.b}.c             = mapValue;
+set {kie -> a || b}.c          = mapValue;
+set {kie -> x as <(y: int)>}.y = mapValue;

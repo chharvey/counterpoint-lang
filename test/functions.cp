@@ -4,7 +4,7 @@ type BinaryOperator = .<out N>(a: N, b?: N) => N;
 type BinaryOperator = .<in N>(a: N, b?: N) => N;
 type BinaryOperator = .(a: N, b?: N) => N | M;
 type BinaryOperatorUnnamed = .(T & U, ?: int | Object~~, ?: bool) => .(float) => int;
-type BinaryOperatorUnnamed = .(?: int | Object, ?: [T, U], ?: .(bool!) => void) => float;
+type BinaryOperatorUnnamed = .(?: int | Object, ?: (T, U), ?: .(bool!) => void) => float;
 type BinaryOperator = .<
 	N narrows int~~,
 >(
