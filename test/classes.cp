@@ -116,7 +116,7 @@ class Foo {
 		private var construtor_field8: int,
 		private construtor_field9= field9: int,
 		private construtor_field10= var field10: int,
-		private construtor_field11= [field11a, var field11b]: (int, int),
+		private construtor_field11= (field11a, var field11b): (int, int),
 
 		public constructor_field12: int ?= 42,
 		public constructor_field13 ?= 42,
@@ -168,7 +168,7 @@ class Foo {
 			private var construtor_field8: int,
 			private construtor_field9= field9: int,
 			private construtor_field10= var field10: int,
-			private construtor_field11= [field11a, var field11b]: (int, int),
+			private construtor_field11= (field11a, var field11b): (int, int),
 		) {;}
 	}
 

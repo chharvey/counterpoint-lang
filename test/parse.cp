@@ -80,14 +80,14 @@ for item of list do {};
 for _ of _ do {};
 for item: T of list do {};
 for _: _ of _ do {};
-for [item, i] of entries do {};
-for [_, i] of entries do {};
-for [item: T, i: int] of entries do {};
-for [a$, b$]: S of records do {};
-for [a= alpha, b= bravo] of records do {};
-for [_$, _= _]: S of records do {};
-for [a= [alpha, bravo]: S, c= [charlie$, 'delta'$]: S] of records do {};
-for [a= [_, bravo]: S, c= [_$, _= delta]: S] of records do {};
+for (item, i) of entries do {};
+for (_, i) of entries do {};
+for (item: T, i: int) of entries do {};
+for (a$, b$): S of records do {};
+for (a= alpha, b= bravo) of records do {};
+for (_$, _= _): S of records do {};
+for (a= (alpha, bravo): S, c= (charlie$, 'delta'$): S) of records do {};
+for (a= (_, bravo): S, c= (_$, _= delta): S) of records do {};
 for prop of .(x: int): int => 2 * x do {};
 for prop of .(x: int): int { return 2 * x; } do {};
 for prop of .(x, y) => y * x do {};
@@ -355,52 +355,63 @@ type T = [fun: .(a: int) => int];
 
 
 % function parameter destructuring:
-function f(param= [x, y]: int          ?= [1, 2]):         int => x + y;
-function f(param= [_, y]: int          ?= [1, 2]):         int => y;
-function f(param= [x: int, y: int]     ?= [1, 2]):         int => x + y;
-function f(param= [_: int, y: int]     ?= [1, 2]):         int => y;
-function f(until= [if$, by= b]: int    ?= [if= 1, by= 2]): int => if + b;
-function f(_=     [_$,  by= _]: int    ?= [_=  1, by= 2]): int => _;
-function f(_=     [_$,  _=  b]: int    ?= [_=  1, _=  2]): int => _;
-function f(param= [x$: int, y= b: int] ?= [x=  1, y=  2]): int => x + b;
-function f(param= [[var x], [y= [b]]]: int ?= [[1], [y= [2]]]): int => x + b;
-let f: Object = .(param= [x, y]: int          ?= [1, 2]):         int => x + y;
-let f: Object = .(param= [_, y]: int          ?= [1, 2]):         int => y;
-let f: Object = .(param= [x: int, y: int]     ?= [1, 2]):         int => x + y;
-let f: Object = .(param= [_: int, y: int]     ?= [1, 2]):         int => y;
-let f: Object = .(until= [if$, by= b]: int    ?= [if= 1, by= 2]): int => if + b;
-let f: Object = .(_=     [_$,  by= _]: int    ?= [_=  1, by= 2]): int => _;
-let f: Object = .(_=     [_$,  _=  b]: int    ?= [_=  1, _=  2]): int => _;
-let f: Object = .(param= [x$: int, y= b: int] ?= [x=  1, y=  2]): int => x + b;
-let f: Object = .(param= [[var x], [y= [b]]]: int ?= [[1], [y= [2]]]): int => x + b;
-let f: Object = .(param= [x, y]: int                  ?= [1, 2]):          int { return x + y; };
-let f: Object = .(param= [x: int, y: int]             ?= [1, 2]):          int { return x + y; };
-let f: Object = .(until= [if$, by= b]: int            ?= [if= 1, by= 2]):  int { return if + b; };
-let f: Object = .(param= [x$: int, y= b: int]         ?= [x= 1, y= 2]):    int { return x + b; };
-let f: Object = .(param= [[var x], [y= [b]]]: int ?= [[1], [y= [2]]]): int { return x + b; };
+function f(param= (x, y): int          ?= [1, 2]):         int => x + y;
+function f(param= (_, y): int          ?= [1, 2]):         int => y;
+function f(param= (x: int, y: int)     ?= [1, 2]):         int => x + y;
+function f(param= (_: int, y: int)     ?= [1, 2]):         int => y;
+function f(until= (if$, by= b): int    ?= [if= 1, by= 2]): int => if + b;
+function f(_=     (_$,  by= _): int    ?= [_=  1, by= 2]): int => _;
+function f(_=     (_$,  _=  b): int    ?= [_=  1, _=  2]): int => _;
+function f(param= (x$: int, y= b: int) ?= [x=  1, y=  2]): int => x + b;
+function f(param= ((var x), (y= (b))): int ?= [[1], [y= [2]]]): int => x + b;
+let f: Object = .(param= (x, y): int          ?= [1, 2]):         int => x + y;
+let f: Object = .(param= (_, y): int          ?= [1, 2]):         int => y;
+let f: Object = .(param= (x: int, y: int)     ?= [1, 2]):         int => x + y;
+let f: Object = .(param= (_: int, y: int)     ?= [1, 2]):         int => y;
+let f: Object = .(until= (if$, by= b): int    ?= [if= 1, by= 2]): int => if + b;
+let f: Object = .(_=     (_$,  by= _): int    ?= [_=  1, by= 2]): int => _;
+let f: Object = .(_=     (_$,  _=  b): int    ?= [_=  1, _=  2]): int => _;
+let f: Object = .(param= (x$: int, y= b: int) ?= [x=  1, y=  2]): int => x + b;
+let f: Object = .(param= ((var x), (y= (b))): int ?= [[1], [y= [2]]]): int => x + b;
+let f: Object = .(param= (x, y): int                  ?= [1, 2]):          int { return x + y; };
+let f: Object = .(param= (x: int, y: int)             ?= [1, 2]):          int { return x + y; };
+let f: Object = .(until= (if$, by= b): int            ?= [if= 1, by= 2]):  int { return if + b; };
+let f: Object = .(param= (x$: int, y= b: int)         ?= [x= 1, y= 2]):    int { return x + b; };
+let f: Object = .(param= ((var x), (y= (b))): int ?= [[1], [y= [2]]]): int { return x + b; };
 
 % record property destructuring:
-[z= 3, [x, y]=       [1, 2]];
-[z= 3, [x, _]=       [1, 2]];
-[z= 3, [x= a]=       [x= 1]];
-[z= 3, [if$, by= b]= [if= 1, by= 2]];
-[z= 3, [_$,  by= _]= [if= 1, by= 2]];
-[z= 3, [[x$], [y= [b]]]= [[x= 1], [y= [2]]]];
+[z= 3, (x, y)=       [1, 2]];
+[z= 3, (x, _)=       [1, 2]];
+[z= 3, (x= a)=       [x= 1]];
+[z= 3, (if$, by= b)= [if= 1, by= 2]];
+[z= 3, (_$,  by= _)= [if= 1, by= 2]];
+[z= 3, ((x$), (y= (b)))= [[x= 1], [y= [2]]]];
 % not destructuring:
-[[x]];
-[[x, y]];
-[[x= a]];
+[(x), (y,)];
+[(x, y)];
+[(x= a)];
 [.(x, y)      => null];
-[.(x, y= [b]) => null];
+[.(x, y= (b)) => null];
 
 % function argument destructuring:
-g.(z= 3, [x, y]=           [1, 2]);
-g.(z= 3, [x= a]=           [x= 1]);
-g.(z= 3, [if$, by= b]=     [if= 1, by= 2]);
-g.(z= 3, [[x$], [y= [b]]]= [[x= 1], [y= [2]]]);
+g.(z= 3, (x, y)=           [1, 2]);
+g.(z= 3, (x= a)=           [x= 1]);
+g.(z= 3, (if$, by= b)=     [if= 1, by= 2]);
+g.(z= 3, ((x$), (y= (b)))= [[x= 1], [y= [2]]]);
 % not destructuring:
-g.([x]);
-g.([x, y]);
-g.([x= a]);
+g.((x), (y,));
+g.((x, y));
+g.((x= a));
 g.(z= 3, .(x, y)      => [1, [2]]);
 g.(z= 3, .(x, y= [b]) => [1, [2]]);
+
+% generic parameter destructuring (with defaults):
+type Or<T= (A narrows C, B ?= B1)> = A | B;
+type Or<T= (a: A, B$)> = A | B;
+type Or<T= (J, (K$, lima: L))> = J | K | L;
+type Or<T= (M$, november: (N, O ?= O1))> = M | N | O;
+type Or<T= (S ?= bool) ?= (anything)> = S | null;
+
+type (A<T>, nominal B<U= V>) = (int | T, float & V);
+type (C$, d: nominal D<out W narrows (anything) ?= X>) = (C: B.<U= null>, d: W.0);
+type (C$, d: D<Y= (nominal out W narrows anything ?= Z) ?= X>) = (C: B.<U= null>, d: W);

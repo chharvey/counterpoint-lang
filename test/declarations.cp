@@ -103,26 +103,6 @@ type U narrows int | bool = int;
 type U<mut in V ?= W.<int>> = V | W.%%c%%<X>;
 type U<V= Vv> = Vv | W;
 
-type [A, B] = (int, float);
-type [c: C, d: D] = (c: int, d: float);
-type [E$, F$] = (E: int, F: float);
-type [S ?= bool] = Tup;
-
-type [G, [H, I]] = Ghi;
-type [J, [K$, lima: L]] = Jkl;
-type [M$, november: [N, O]] = Mno;
-type [P$, quebec: [Q$, romeo: R]] = Pqr;
-
-type Or<T= [A narrows C, B]> = A | B;
-type Or<T= [a: A, B$]> = A | B;
-type Or<T= [J, [K$, lima: L]]> = J | K | L;
-type Or<T= [M$, november: [N, O]]> = M | N | O;
-type Or<T= [S ?= bool] ?= [anything]> = S | null;
-
-type [A<T>, nominal B<U= V>] = (int | T, float & V);
-type [C$, d: nominal D<out W narrows [anything] ?= X>] = (C: B.<U= null>, d: W.0);
-type [C$, d: D<Y= [nominal out W narrows anything ?= Z] ?= X>] = (C: B.<U= null>, d: W);
-
 type T = (a: boolean, b: int, c: T);
 let x: T = (a= false, b= 42, c$);
 
@@ -204,32 +184,43 @@ private typefunc Or<
 
 
 % variable destructuring:
-let [x, y]: int          = [1, 2];
-let [x: int, y: int]     = [1, 2];
-let [if$, by= b]: int    = [if= 1, by= 2];
-let [x$: int, y= b: int] = [x= 1, y= 2];
-let [[var x], [y= [b]]]: int = [[1], [y= [2]]];
+let (x, y): int          = [1, 2];
+let (x: int, y: int)     = [1, 2];
+let (if$, by= b): int    = [if= 1, by= 2];
+let (x$: int, y= b: int) = [x= 1, y= 2];
+let ((var x), (y= (b))): int = [[1], [y= [2]]];
 
 % variable destructuring with defaults:
-let [a:    SomeType.0 ?= x, b:    SomeType.1 ?= y, c:    SomeType.2 ?= z]           = some_object;
-let [a                ?= x, b                ?= y, c                ?= z]: SomeType = some_object;
-let [a= x: SomeType.a ?= t, b= y: SomeType.b ?= u, c= z: SomeType.c ?= v] = some_object;
-let [a= x,                  b= y,                  c= z]: SomeType        = some_object;
+let (a:    SomeType.0 ?= x, b:    SomeType.1 ?= y, c:    SomeType.2 ?= z)           = some_object;
+let (a                ?= x, b                ?= y, c                ?= z): SomeType = some_object;
+let (a= x: SomeType.a ?= t, b= y: SomeType.b ?= u, c= z: SomeType.c ?= v)           = some_object;
+let (a= x,                  b= y,                  c= z):                  SomeType = some_object;
+
+% type destructuring (with defaults):
+type (A, B ?= B1) = (int, float);
+type (c: C, d: D ?= D1) = (c: int, d: float);
+type (E$, F$ ?= F1) = (E: int, F: float);
+type (S ?= bool) = Tup;
+
+type (G, (H, I)) = Ghi;
+type (J, (K$, lima: L)) = Jkl;
+type (M$, november: (N, O)) = Mno;
+type (P$, quebec: (Q$, romeo: R)) = Pqr;
 
 % function parameter destructuring with defaults:
-function f(arg= [a:    SomeType.0 ?= x, b:    SomeType.1 ?= y, c:    SomeType.2 ?= z]) => some_object;
-function f(arg= [a= x: SomeType.a ?= t, b= y: SomeType.b ?= u, c= z: SomeType.c ?= v]) => some_object;
+function f(arg= (a:    SomeType.0 ?= x, b:    SomeType.1 ?= y, c:    SomeType.2 ?= z)) => some_object;
+function f(arg= (a= x: SomeType.a ?= t, b= y: SomeType.b ?= u, c= z: SomeType.c ?= v)) => some_object;
 
 % claim destructuring:
-claim [a]:                (int,);
-claim [x, y]:             (int, int);
-claim [if$, by= b]:       (if: If, by: B);
-claim [[x], [y= [b]]]:    ([X], (y: (B)));
-claim [x.1, y.2]:         (int, int);
-claim [x.i, y.j]:         (int, int);
-claim [x.[i + j], y.[j]]: (int, int);
-claim [if$, by= b.j]:     (if: If, by: Bj);
-claim [[x$], [y= [b.j]]]: ((X), (y: (Bj)));
+claim (a):                (int,);
+claim (x, y):             (int, int);
+claim (if$, by= b):       (if: If, by: B);
+claim ((x), (y= (b))):    ([X], (y: (B)));
+claim (x.1, y.2):         (int, int);
+claim (x.i, y.j):         (int, int);
+claim (x.[i + j], y.[j]): (int, int);
+claim (if$, by= b.j):     (if: If, by: Bj);
+claim ((x$), (y= (b.j))): ((X), (y: (Bj)));
 
 % not claim destructuring:
 claim (a).c:                      int;
@@ -255,13 +246,13 @@ claim {kie -> x as <(y: int)>}.y: MapValue;
 
 
 % reassignment destructuring:
-set [a]                = [1];
-set [x, y] %%c%%       = [1, 2];
-set [x.1, y.2]         = [1, 2];
-set [x.i, y.j]         = [1, 2];
-set [x.[i + j], y.[j]] = [1, 2];
-set [if$, by= b.j]     = [if= 1, by= 2];
-set [[x$], [y= [b.j]]] = [[x= 1], [y= [2]]];
+set (a)                = [1];
+set (x, y) %%c%%       = [1, 2];
+set (x.1, y.2)         = [1, 2];
+set (x.i, y.j)         = [1, 2];
+set (x.[i + j], y.[j]) = [1, 2];
+set (if$, by= b.j)     = [if= 1, by= 2];
+set ((x$), (y= (b.j))) = [[x= 1], [y= [2]]];
 
 % not reassignment destructuring:
 set (a).c                      = value;
