@@ -95,7 +95,7 @@ export const FUNCTIONTYPE = `
 	(?:
 		(?<anglebrackets>
 			${ DELIMS.PARAMS_GN[0] }
-			(?: [^${ DELIMS.PARAMS_GN.join('') }]+ | \\g<anglebrackets> )+
+			(?: (?>[^${ DELIMS.PARAMS_GN.join('') }]+) | \\g<anglebrackets> )+
 			${ DELIMS.PARAMS_GN[1] }
 		)
 		${ OWS }
@@ -107,7 +107,7 @@ export const FUNCTION = `
 	(?:
 		(?<anglebrackets>
 			${ DELIMS.PARAMS_GN[0] }
-			(?: [^${ DELIMS.PARAMS_GN.join('') }]+ | \\g<anglebrackets> )+
+			(?: (?>[^${ DELIMS.PARAMS_GN.join('') }]+) | \\g<anglebrackets> )+
 			${ DELIMS.PARAMS_GN[1] }
 		)
 		${ OWS }
@@ -121,7 +121,7 @@ export const FUNCTION = `
 	(?:
 		(?<parentheses>
 			${ DELIMS.PARAMS_FN[0] }
-			(?: [^${ DELIMS.PARAMS_FN.join('') }]+ | \\g<parentheses> )*
+			(?: (?>[^${ DELIMS.PARAMS_FN.join('') }]+) | \\g<parentheses> )*
 			${ DELIMS.PARAMS_FN[1] }
 		)
 		${ OWS }
