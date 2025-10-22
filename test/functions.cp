@@ -146,7 +146,7 @@ function parameterNoAlias(q: anything): null => null;
 function append<T widens bool>(arr: Array.<T> ?= [], it: T): void {
 	arr.push.<T>(it)~;
 }
-function derivative<T narrows float>(lambda: .(y: T) => T, delta: T): (.(x: T) => T) {
+function derivative<T narrows float>(lambda: .(y: T) => T, delta: T): .(x: T) => T {
 	return .(x: T): T => (lambda.(x + delta)~ - lambda.(x)~) / delta;
 }
 function subset<T ?= Set.<null>, U widens T>(a: Set.<T>, b: Set.<U>): bool {;}
@@ -161,18 +161,18 @@ function returnFunc(): Object => .(x: int): int => x + 1;
 function returnFunc(): (Object) => .(x: int): int => x + 1;
 function returnFunc(): (Object{}) => .(x: int): int => x + 1;
 function returnFunc(): Object => .(x: int): (int{}) => x + 1;
-function returnFunc(): (.(x: int) => int) => .(x) => x + 1;
+function returnFunc(): .(x: int) => int => .(x) => x + 1;
 
-function returnFunc(): (.(A) => (B)) => .(a) => b;
+function returnFunc(): .(A) => (B) => .(a) => b;
 function returnInstance(): interface {
 	x: int;
 	y(): int;
-	z(): (.(str) => int);
+	z(): .(str) => int;
 } => (class {
 	public x: int = 0;
 	public y(): int => 0;
 	public y(): (int) => 0;
-	public z(): (.(str) => int) => .(s: str) => s.length;
+	public z(): .(str) => int => .(s: str) => s.length;
 }).();
 % return type with set/map shorthand syntax
 function return_set_of_int(): (int{}) {

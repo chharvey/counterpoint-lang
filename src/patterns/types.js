@@ -107,6 +107,7 @@ export const TYPEFNRET = {
 			name: 'keyword.operator.text.cp',
 			match: MUTABLE,
 		},
+		{include: '#TypeFunction'},
 		{include: '#TypeInterface'},
 		{include: '#TypeCall'},
 		{include: '#TypeAccess'},
@@ -123,7 +124,6 @@ export const TYPEFNRET = {
 
 export const TYPE = {
 	patterns: [
-		{include: '#TypeFunction'},
 		{include: '#TypeStructureSet'},
 		{include: '#Typefnret'},
 	],
