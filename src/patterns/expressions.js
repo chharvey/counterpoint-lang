@@ -164,16 +164,6 @@ export const EXPRESSIONNONBLOCK = {
 			match: '\\b(nat|int|float|is|isnt|if|then|else)\\b',
 		},
 		{include: '#ExpressionFunction'},
-		{
-			// covers less-than symbol and generic parameters of a function expression
-			name:     'meta.lessthanorgenericparameters.cp',
-			begin:    DELIMS.CLAIM[0],
-			end:      `${ DELIMS.CLAIM[1] }|${ lookaheads([`[${ DELIMS.GROUPING[1] }${ DELIMS.LIST[1] },;]`, DELIMS.SET[1], THINARROW, '\\b(then|else|do|to|by)\\b']) }`,
-			captures: {0: {name: 'punctuation.delimiter.cp'}},
-			patterns: [
-				{include: '#Expression'},
-			],
-		},
 		{include: '#ExpressionClass'},
 		{include: '#ExpressionClaim'},
 		{include: '#ExpressionCall'},

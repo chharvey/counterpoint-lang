@@ -9,7 +9,6 @@ import {
 	VAR,
 	MUTABLE,
 	THINARROW,
-	FATARROW,
 	DOT,
 	DOT_ACCESS,
 } from '../selectors.js';
@@ -107,13 +106,6 @@ export const TYPEFNRET = {
 		{
 			name: 'keyword.operator.text.cp',
 			match: MUTABLE,
-		},
-		{
-			// for cases like `type T = (
-			// 	x: int,
-			// ) => int`
-			name: 'keyword.operator.punctuation.cp',
-			match: FATARROW,
 		},
 		{include: '#TypeInterface'},
 		{include: '#TypeCall'},
