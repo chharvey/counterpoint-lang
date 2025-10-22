@@ -61,17 +61,14 @@ export const TYPE__ACCESS = {
 };
 
 
-export const TYPE__STRUCTURE__GROUPING = {
-	name: 'meta.type.structure.grouping.cp',
-	begin: DELIMS.GROUPING[0],
-	end:   DELIMS.GROUPING[1],
-	captures: {
-		0: {name: 'punctuation.delimiter.cp'},
+export const TYPE__STRUCTURE__GROUPING = list('meta.type.structure.grouping_or_tuple.cp', DELIMS.GROUPING[0], DELIMS.GROUPING[1], [
+	{
+		name: 'keyword.other.spread.cp',
+		match: '##|#',
 	},
-	patterns: [
-		{include: '#Type'},
-	],
-};
+	typeProperty(DELIMS.GROUPING[1]),
+	{include: '#Type'}, // must come after `typeProperty` because we don’t want types to look like record keys
+]);
 
 
 export const TYPE__STRUCTURE__LIST = list('meta.type.structure.list.cp', DELIMS.LIST[0], DELIMS.LIST[1], [
@@ -80,7 +77,7 @@ export const TYPE__STRUCTURE__LIST = list('meta.type.structure.list.cp', DELIMS.
 		match: '##|#',
 	},
 	typeProperty(DELIMS.LIST[1]),
-	{include: '#Type'}, // must come after `typeProperty` because we don’t want types to look like record keys
+	{include: '#Type'}, // must come after `typeProperty` because we don’t want types to look like dict keys
 ]);
 
 

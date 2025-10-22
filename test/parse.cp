@@ -217,9 +217,14 @@ function twice(x: int): int => x * 2;
 	type X = T?.a?;
 	type X = (T?).a;
 	type X = (T?)?.a;
+	type T = (a, [b, b], (c + c), #spread);
+	type R = (a: 3, c: 5, key: value, punn$, 'unipunn'$, ##doublespread, _: blank);
 
+	() + empty_tuple;
 	[a, [b, b], (c + c), #spread];
+	(a, [b, b], (c + c), #spread);
 	[a= 3, c= 5, key= value, punn$, 'unipunn'$, ##doublespread, _= blank];
+	(a= 3, c= 5, key= value, punn$, 'unipunn'$, ##doublespread, _= blank);
 	{+a, -b, #spread, };
 	{+3, -5, #spread, };
 	{+a -> -b, };
@@ -254,6 +259,8 @@ function twice(x: int): int => x * 2;
 		_= blank,
 	)++;
 	funkshin...();
+	funkshin...(());
+	funkshin...((), ());
 	funkshin...%%async%%();
 	funkshin?...();
 	funkshin!...();

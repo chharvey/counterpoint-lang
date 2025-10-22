@@ -119,8 +119,10 @@ let lambdaWithCaptures: Function = .[
 	a,
 	'b',
 ](x) => a + b + x;
-let tuple: [Function] = [.[a, ref b](x) => a + b + x];
-let record: [lambdaWithCaptures: Function] = [lambdaWithCaptures= .[a, ref b](x) => a + b + x];
+let tuple: (Function,) = (.[a, ref b](x) => a + b + x,);
+let record: (lambdaWithCaptures: Function) = (lambdaWithCaptures= .[a, ref b](x) => a + b + x);
+let list: [Function]  = [.[a, ref b](x) => a + b + x];
+let dict: [:Function] = [lambdaWithCaptures= .[a, ref b](x) => a + b + x];
 
 
 
