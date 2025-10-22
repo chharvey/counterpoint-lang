@@ -132,19 +132,19 @@ let var w: 3.2 = 3.2 == 3.2;
 let var w: null = null;
 let var w: T = T;
 let var w = T;
-let tup:  mut [int] = [42];
-let rec:  mut [a: int] = [a= 42];
-let list: mut int[] = List.<int>([42]);
-let hash: mut [:int] = Dict.<int>([a= 42]);
-let set:  mut int{} = Set.<int>([42]);
+let tup:  mut (int,)       = (42,);
+let rec:  mut (a: int)     = (a= 42);
+let list: mut [int]        = [42];
+let dict: mut [:int]       = [a= 42];
+let set:  mut {int}        = {42};
 let map:  mut {int -> str} = {42 -> "42.0", 43 -> "43.0"};
 
 let var w?:    T;
 let var tup?:  (int,);
 let var rec?:  (a: int);
-let var list?: int[];
-let var hash?: [:int];
-let var set?:  int{};
+let var list?: [int];
+let var dict?: [:int];
+let var set?:  {int};
 let var map?:  {int -> str};
 
 delete w;
@@ -191,7 +191,7 @@ private type B<T> = float | T;
 
 type Or<T, U> = T | U;
 type Or<T, U, V> = Or.<T, U> | V | this;
-typefunc Or<T, U> => T | U{};
+typefunc Or<T, U> => T | {U};
 typefunc Or<T, U, V> => Or.<T, U> | V;
 public typefunc Map<T, U> => {T -> U};
 secret typefunc Mapping<in T, out U> => {T -> U};
@@ -221,13 +221,13 @@ function f(arg= [a:    SomeType.0 ?= x, b:    SomeType.1 ?= y, c:    SomeType.2 
 function f(arg= [a= x: SomeType.a ?= t, b= y: SomeType.b ?= u, c= z: SomeType.c ?= v]) => some_object;
 
 % claim destructuring:
-claim [a]:                (int);
-claim [x, y]:             int[2];
+claim [a]:                (int,);
+claim [x, y]:             (int, int);
 claim [if$, by= b]:       (if: If, by: B);
 claim [[x], [y= [b]]]:    ([X], (y: (B)));
-claim [x.1, y.2]:         int[2];
-claim [x.i, y.j]:         int[2];
-claim [x.[i + j], y.[j]]: int[2];
+claim [x.1, y.2]:         (int, int);
+claim [x.i, y.j]:         (int, int);
+claim [x.[i + j], y.[j]]: (int, int);
 claim [if$, by= b.j]:     (if: If, by: Bj);
 claim [[x$], [y= [b.j]]]: ((X), (y: (Bj)));
 
