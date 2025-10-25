@@ -2,7 +2,7 @@
 class Foo {}
 class _ {}
 public class Foo {}
-secret class Foo {}
+internal class Foo {}
 private class Foo {}
 class enum Foo {}
 class final Foo {}
@@ -50,7 +50,7 @@ let classWithCaptures: Class = class [
 % interface declarations
 interface Foo {}
 public interface Foo {}
-secret interface Foo {}
+internal interface Foo {}
 private interface Foo {}
 interface data Foo {}
 interface nominal Foo {}
@@ -79,7 +79,7 @@ type T = anything & (interface extends Bar inherits Diz.<T> {});
 class Foo {
 	% line comment
 	public field: T = 42;
-	secret field: T = 42;
+	internal field: T = 42;
 	private field: T = 42;
 	protected field: T = 42;
 	override field: T = 42;
@@ -98,13 +98,13 @@ class Foo {
 	public field?: static;
 
 	public new () {;}
-	secret new () {;}
+	internal new () {;}
 	private new () {;}
 	protected new () {;}
 	new (
 		constructor_param: int,
 		public constructor_field1: int,
-		secret constructor_field2: int,
+		internal constructor_field2: int,
 		private constructor_field3: int,
 		protected constructor_field4: int,
 		public override constructor_field8: int,
@@ -126,7 +126,7 @@ class Foo {
 	block comment
 	%%
 	public meth(): void {;}
-	secret meth(): void {;}
+	internal meth(): void {;}
 	private meth(): void {;}
 	protected meth(): void {;}
 	override meth(): void {;}
@@ -154,7 +154,7 @@ class Foo {
 		(
 			constructor_param: int,
 			public constructor_field1: int,
-			secret constructor_field2: int,
+			internal constructor_field2: int,
 			private constructor_field3: int,
 			protected constructor_field4: int,
 			public override constructor_field8: int,

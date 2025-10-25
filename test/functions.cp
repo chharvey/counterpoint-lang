@@ -194,5 +194,5 @@ function addCaptures<T>[z](x, y) impl BinaryOperator.<T> {
 function addCaptures<T>[z](x, y) impl BinaryOperator.<T> => x + y + z;
 
 public function subtract(a: N, b: N): N { return a - b; }
-secret function subtract(a: N, b: N): N => a - b;
+internal function subtract(a: N, b: N): N => a - b;
 private function subtract(a: N, b: N): N => a - b;

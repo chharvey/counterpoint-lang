@@ -25,7 +25,7 @@ export const INT     = '(?:\\+|-)?(?:\\\\[bqodxz])?[0-9a-z_]+';
 export const VARNAME = '\\b[A-Za-z_][A-Za-z0-9_]*\\b';
 export const VAR     = `(?:${ VARNAME }|\'.*\')`;
 
-export const COMP_ACCESS = '\\b(public|secret|private)\\b';
+export const COMP_ACCESS = '\\b(public|internal|private)\\b';
 export const MEMB_ACCESS = `\\b(${ COMP_ACCESS }|protected)\\b`;
 export const UNFIXED    = '\\b(var)\\b';
 export const REF        = '\\b(ref)\\b';
