@@ -18,9 +18,7 @@ import {
 	DFLT_START,
 	FATARROW,
 	BLOCK_END,
-	DOT,
-	FUNCTIONTYPE,
-	FUNCTION,
+	BACKSLASH,
 } from '../selectors.js';
 import {
 	identifier,
@@ -35,7 +33,7 @@ import {
 
 export const TYPE__FUNCTION = {
 	name: 'meta.type.func.cp',
-	begin: [DOT, lookaheads([[OWS, FUNCTIONTYPE].join('')])].join(''),
+	begin: [BACKSLASH, lookaheads([`${ OWS }(${ DELIMS.PARAMS_GN[0] }|${ DELIMS.PARAMS_FN[0] })`])].join(''),
 	end:   FATARROW,
 	beginCaptures: {
 		1: {name: 'punctuation.delimiter.cp'},
@@ -54,7 +52,7 @@ export const TYPE__FUNCTION = {
 
 export const EXPRESSION__FUNCTION = {
 	name: 'meta.expression.func.cp',
-	begin: [DOT, lookaheads([[OWS, FUNCTION].join('')])].join(''),
+	begin: [BACKSLASH, lookaheads([`${ OWS }(${ DELIMS.PARAMS_GN[0] }|${ DELIMS.CAPTURES[0] }|${ DELIMS.PARAMS_FN[0] })`])].join(''),
 	end:   [lookbehinds([BLOCK_END]), FATARROW].join('|'),
 	beginCaptures: {
 		1: {name: 'punctuation.delimiter.cp'},
