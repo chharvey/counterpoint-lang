@@ -61,40 +61,45 @@ export const TYPE__ACCESS = {
 };
 
 
-export const TYPE__STRUCTURE__GROUPING = {
-	name: 'meta.type.structure.grouping.cp',
-	begin: DELIMS.GROUPING[0],
-	end:   DELIMS.GROUPING[1],
-	captures: {
-		0: {name: 'punctuation.delimiter.cp'},
-	},
-	patterns: [
-		{include: '#Type'},
-	],
-};
-
-
-export const TYPE__STRUCTURE__LIST = list('meta.type.structure.list.cp', DELIMS.LIST[0], DELIMS.LIST[1], [
+export const TYPE__STRUCTURE__GROUPING = list('meta.type.structure.grouping_or_tuple.cp', DELIMS.GROUPING[0], DELIMS.GROUPING[1], [
 	{
 		name: 'keyword.other.spread.cp',
 		match: '##|#',
 	},
-	typeProperty(DELIMS.LIST[1]),
+	typeProperty(DELIMS.GROUPING[1]),
 	{include: '#Type'}, // must come after `typeProperty` because we don’t want types to look like record keys
 ]);
 
 
-export const TYPE__STRUCTURE__SET = list('meta.type.structure.set.cp', DELIMS.SET[0], DELIMS.SET[1], [
-	{
-		name: 'keyword.other.spread.cp',
-		match: '#',
+export const TYPE__STRUCTURE__LIST = {
+	name:     'meta.type.structure.list.cp',
+	begin:    DELIMS.LIST[0],
+	end:      DELIMS.LIST[1],
+	captures: {
+		0: {name: 'punctuation.delimiter.cp'},
 	},
-	{
-		name: 'keyword.operator.punctuation.cp',
-		match: THINARROW,
+	patterns: [
+		typeProperty(DELIMS.LIST[1]),
+		{include: '#Type'}, // must come after `typeProperty` because we don’t want types to look like dict keys
+	],
+};
+
+
+export const TYPE__STRUCTURE__SET = {
+	name:     'meta.type.structure.set.cp',
+	begin:    DELIMS.SET[0],
+	end:      DELIMS.SET[1],
+	captures: {
+		0: {name: 'punctuation.delimiter.cp'},
 	},
-	{include: '#Type'},
-]);
+	patterns: [
+		{
+			name: 'keyword.operator.punctuation.cp',
+			match: THINARROW,
+		},
+		{include: '#Type'},
+	],
+};
 
 
 export const TYPEFNRET = {

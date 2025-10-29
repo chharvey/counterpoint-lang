@@ -111,17 +111,14 @@ export const EXPRESSION__ASSIGNEE = {
 };
 
 
-export const EXPRESSION__STRUCTURE__GROUPING = {
-	name: 'meta.expression.structure.grouping.cp',
-	begin: DELIMS.GROUPING[0],
-	end:   DELIMS.GROUPING[1],
-	captures: {
-		0: {name: 'punctuation.delimiter.cp'},
+export const EXPRESSION__STRUCTURE__GROUPING = list('meta.expression.structure.grouping_or_tuple.cp', DELIMS.GROUPING[0], DELIMS.GROUPING[1], [
+	{
+		name: 'keyword.other.spread.cp',
+		match: '##|#',
 	},
-	patterns: [
-		{include: '#Expression'},
-	],
-};
+	property(DELIMS.GROUPING[1]),
+	{include: '#Expression'}, // must come after `property` because we don’t want expressions to look like record keys or property destructuring
+]);
 
 
 export const EXPRESSION__STRUCTURE__LIST = list('meta.expression.structure.list.cp', DELIMS.LIST[0], DELIMS.LIST[1], [
@@ -130,7 +127,7 @@ export const EXPRESSION__STRUCTURE__LIST = list('meta.expression.structure.list.
 		match: '##|#',
 	},
 	property(DELIMS.LIST[1]),
-	{include: '#Expression'}, // must come after `property` because we don’t want expressions to look like record keys or property destructuring
+	{include: '#Expression'}, // must come after `property` because we don’t want expressions to look like dict keys or property destructuring
 ]);
 
 

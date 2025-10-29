@@ -4,7 +4,7 @@ type BinaryOperator = .<out N>(a: N, b?: N) => N;
 type BinaryOperator = .<in N>(a: N, b?: N) => N;
 type BinaryOperator = .(a: N, b?: N) => N | M;
 type BinaryOperatorUnnamed = .(T & U, ?: int | Object~~, ?: bool) => .(float) => int;
-type BinaryOperatorUnnamed = .(?: int | Object, ?: [T, U], ?: .(bool!) => void) => float;
+type BinaryOperatorUnnamed = .(?: int | Object, ?: (T, U), ?: .(bool!) => void) => float;
 type BinaryOperator = .<
 	N narrows int~~,
 >(
@@ -28,10 +28,10 @@ let x: .<out T widens U~~, in U ?= Set.<null>>(a: Set.<T>~~, b: Set.<U~~>) => bo
 .(var h: int): int => h + 1;
 .(%%var%% h: int): int => h + 1;
 % return type with set/map shorthand syntax
-.(): (int{}) {
+.(): ({int}) {
 	return {42, 69};
 };
-.(): (int{}) => {42, 69};
+.(): ({int}) => {42, 69};
 .(): ({int -> int}) {
 	return {42 -> 69};
 };
@@ -47,10 +47,10 @@ let x: .(a: str) => str = .(a: str): str {
 	return """<{{ x }}>{{ a }}</{{ x }}>""";
 };
 % return type with set/map shorthand syntax
-let return_set_of_int = .(): (int{}) {
+let return_set_of_int = .(): ({int}) {
 	return {42, 69};
 };
-let return_set_of_int = .(): (int{}) => {42, 69};
+let return_set_of_int = .(): ({int}) => {42, 69};
 let return_map_of_int = .(): ({int -> int}) {
 	return {42 -> 69};
 };
@@ -119,8 +119,10 @@ let lambdaWithCaptures: Function = .[
 	a,
 	'b',
 ](x) => a + b + x;
-let tuple: [Function] = [.[a, ref b](x) => a + b + x];
-let record: [lambdaWithCaptures: Function] = [lambdaWithCaptures= .[a, ref b](x) => a + b + x];
+let tuple: (Function,) = (.[a, ref b](x) => a + b + x,);
+let record: (lambdaWithCaptures: Function) = (lambdaWithCaptures= .[a, ref b](x) => a + b + x);
+let list: [Function]  = [.[a, ref b](x) => a + b + x];
+let dict: [:Function] = [lambdaWithCaptures= .[a, ref b](x) => a + b + x];
 
 
 
@@ -159,8 +161,8 @@ function functionWithCaptures[
 
 function returnFunc(): Object => .(x: int): int => x + 1;
 function returnFunc(): (Object) => .(x: int): int => x + 1;
-function returnFunc(): (Object{}) => .(x: int): int => x + 1;
-function returnFunc(): Object => .(x: int): (int{}) => x + 1;
+function returnFunc(): ({Object}) => .(x: int): int => x + 1;
+function returnFunc(): Object => .(x: int): ({int}) => x + 1;
 function returnFunc(): .(x: int) => int => .(x) => x + 1;
 
 function returnFunc(): .(A) => (B) => .(a) => b;
@@ -175,10 +177,10 @@ function returnInstance(): interface {
 	public z(): .(str) => int => .(s: str) => s.length;
 }).();
 % return type with set/map shorthand syntax
-function return_set_of_int(): (int{}) {
+function return_set_of_int(): ({int}) {
 	return {42, 69};
 };
-function return_set_of_int(): (int{}) => {42, 69};
+function return_set_of_int(): ({int}) => {42, 69};
 function return_map_of_int(): ({int -> int}) {
 	return {42 -> 69};
 };
