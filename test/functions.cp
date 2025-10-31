@@ -36,6 +36,8 @@ let x: \<out T widens U~~, in U ?= Set.<null>>(a: Set.<T>~~, b: Set.<U~~>) => bo
 	return {42 -> 69};
 };
 \(): ({int -> int}) => {42 -> 69};
+% implicitly returning a block-expression
+\(): int => { 42; };
 
 
 
@@ -55,6 +57,9 @@ let return_map_of_int = \(): ({int -> int}) {
 	return {42 -> 69};
 };
 let return_map_of_int = \(): ({int -> int}) => {42 -> 69};
+% implicitly returning a block-expression
+let return_block_expr = \(): int => { 42; };
+
 let lambda: Function = \(            )      { return a * 2; };
 let lambda: Function = \(a           )      { return a * 2; };
 let lambda: Function = \(a: int      ): int { return a * 2; };
@@ -185,6 +190,8 @@ function return_map_of_int(): ({int -> int}) {
 	return {42 -> 69};
 };
 function return_map_of_int(): ({int -> int}) => {42 -> 69};
+% implicitly returning a block-expression
+function return_block_expr(): int => { 42; };
 
 function add<T>(x, y) impl BinaryOperator.<T> {
 	return x + y;

@@ -128,7 +128,7 @@ export const TYPEFNRET = {
 
 export const TYPE = {
 	patterns: [
-		{include: '#TypeStructureSet'},
 		{include: '#Typefnret'},
+		{include: '#TypeStructureSet'},
 	],
 };
