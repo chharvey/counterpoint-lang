@@ -15,6 +15,13 @@ let s: @some_symbol   = @some_symbol;
 let s: @'some symbol' = @'some symbol';
 let s: @UP | @DOWN = @UP;
 
+let d: dec = 4.2d;
+let d: dec = 4.2e4d;
+let d: dec = 4_2.4_2e4_2d;
+let d: 4.2d         = 4.2d;
+let d: 4.2e4d       = 4.2e4d;
+let d: 4_2.4_2e4_2d = 4_2.4_2e4_2d;
+
 %%% The value of `a`. %%
 let a: null | bool = +42 && null;
 let b: int = 004_2. || false;
