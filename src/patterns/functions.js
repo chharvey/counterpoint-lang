@@ -18,8 +18,7 @@ import {
 	DFLT_START,
 	FATARROW,
 	BLOCK_END,
-	FUNCTIONTYPE,
-	FUNCTION,
+	BACKSLASH,
 } from '../selectors.js';
 import {
 	identifier,
@@ -34,8 +33,11 @@ import {
 
 export const TYPE__FUNCTION = {
 	name: 'meta.type.func.cp',
-	begin: lookaheads([FUNCTIONTYPE]),
+	begin: [BACKSLASH, lookaheads([`${ OWS }(${ DELIMS.PARAMS_GN[0] }|${ DELIMS.PARAMS_FN[0] })`])].join(''),
 	end:   FATARROW,
+	beginCaptures: {
+		1: {name: 'punctuation.delimiter.cp'},
+	},
 	endCaptures: {
 		0: {name: 'keyword.operator.punctuation.cp'},
 	},
@@ -50,8 +52,11 @@ export const TYPE__FUNCTION = {
 
 export const EXPRESSION__FUNCTION = {
 	name: 'meta.expression.func.cp',
-	begin: lookaheads([FUNCTION]),
+	begin: [BACKSLASH, lookaheads([`${ OWS }(${ DELIMS.PARAMS_GN[0] }|${ DELIMS.CAPTURES[0] }|${ DELIMS.PARAMS_FN[0] })`])].join(''),
 	end:   [lookbehinds([BLOCK_END]), FATARROW].join('|'),
+	beginCaptures: {
+		1: {name: 'punctuation.delimiter.cp'},
+	},
 	endCaptures: {
 		0: {name: 'storage.type.cp'},
 	},
@@ -170,49 +175,6 @@ export const PARAMETER_PATTERNS = {
 			match: ASSN_START,
 		},
 		{include: '#IdentifierParameter'},
-	],
-};
-
-
-/** Generic parameter, if on separate line. */
-export const POSSIBLE_GENERIC_PARAMETER = {
-	begin: lookaheads([MUTABLE, VARIANCE, [VAR, OWS, `(${ [
-		CONSTRAINT, DFLT_START, ',', // annotated, initialized, or more than 1 generic parameter
-	].join('|') })`].join('')]),
-	end: `,|${ lookaheads([DELIMS.PARAMS_GN[1]]) }`,
-	endCaptures: {
-		0: {name: 'punctuation.separator.cp'},
-	},
-	patterns: [
-		{include: '#GenericParameterPatterns'},
-	],
-};
-
-
-/** Parameter of function type, if on separate line. */
-export const POSSIBLE_TYPE_PARAMETER = {
-	begin: lookaheads([`(${ VAR }${ OWS })?${ ANNO_START }`]),
-	end:   `,|${ lookaheads([DELIMS.PARAMS_FN[1]]) }`,
-	endCaptures: {
-		0: {name: 'punctuation.separator.cp'},
-	},
-	patterns: [
-		{include: '#TypeParameterPatterns'},
-	],
-};
-
-
-/** Parameter of function expression, if on separate line. */
-export const POSSIBLE_PARAMETER = {
-	begin: lookaheads([UNFIXED, [VAR, OWS, `(${ [
-		ASSN_START, ANNO_START, DFLT_START, ',', // aliased, annotated, or initialized, or more than 1 parameter
-	].join('|') })`].join('')]),
-	end: `,|${ lookaheads([DELIMS.PARAMS_FN[1]]) }`,
-	endCaptures: {
-		0: {name: 'punctuation.separator.cp'},
-	},
-	patterns: [
-		{include: '#ParameterPatterns'},
 	],
 };
 

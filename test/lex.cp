@@ -73,11 +73,8 @@ a!.b;
 a.'b';
 a?.'b';
 a!.'b';
-.b;
-.'b';
 type T = A.B;
 type T = A.'B';
-type T = .'B';
 
 if "hello" /* world */ %% then %% then
 true else % false
@@ -85,7 +82,7 @@ else {if !true
 	then false
 	% a line comment
 	else true
-}
+};
 
 while %% this is a
 block comment
@@ -96,7 +93,7 @@ block comment
 	%% "nesting" isnt allowed %%
 	world
 %%
-
+;
 	%%%
 	The thing that does something.
 	@takes x the parameter

@@ -10,6 +10,7 @@ import {
 	THINARROW,
 	BLOCK_END,
 	DOT,
+	DOT_ACCESS,
 } from '../selectors.js';
 import {
 	identifier,
@@ -49,7 +50,7 @@ export const EXPRESSION__CLAIM = {
 
 export const EXPRESSION__CALL = {
 	name: 'meta.expression.call.cp',
-	begin: `(${ DOT }(\\.\\.)?)${ lookaheads([`${ OWS }(${ DELIMS.ARGS_GN[0] }|${ DELIMS.ARGS_FN[0] })`]) }`,
+	begin: [`(${ DOT_ACCESS }${ DOT }{2}?)`, lookaheads([[OWS, `(${ DELIMS.ARGS_GN[0] }|${ DELIMS.ARGS_FN[0] })`].join('')])].join(''),
 	end:   lookbehinds([DELIMS.ARGS_FN[1]]),
 	beginCaptures: {
 		1: {name: 'keyword.operator.punctuation.cp'},
@@ -67,7 +68,7 @@ export const EXPRESSION__ACCESS = {
 	patterns: [
 		{
 			name: 'meta.expression.access.cp',
-			begin: [DOT, lookaheads([[OWS, DELIMS.ACCESS[0]].join('')])].join(''),
+			begin: [DOT_ACCESS, lookaheads([[OWS, DELIMS.ACCESS[0]].join('')])].join(''),
 			end:   lookbehinds([DELIMS.ACCESS[1]]),
 			beginCaptures: {
 				1: {name: 'keyword.operator.punctuation.cp'},
@@ -78,7 +79,7 @@ export const EXPRESSION__ACCESS = {
 		},
 		{
 			name: 'meta.expression.access.cp',
-			begin: [DOT, lookaheads([`${ OWS }(${ INT }|${ VAR })`])].join(''),
+			begin: [DOT_ACCESS, lookaheads([[OWS, `(${ INT }|${ VAR })`].join('')])].join(''),
 			end:   lookbehinds(['[A-Za-z0-9_\']']),
 			beginCaptures: {
 				1: {name: 'keyword.operator.punctuation.cp'},
@@ -109,18 +110,14 @@ export const EXPRESSION__ASSIGNEE = {
 };
 
 
-export const EXPRESSION__STRUCTURE__GROUPING = {
-	name: 'meta.expression.structure.grouping.cp',
-	begin: DELIMS.GROUPING[0],
-	end:   DELIMS.GROUPING[1],
-	captures: {
-		0: {name: 'punctuation.delimiter.cp'},
+export const EXPRESSION__STRUCTURE__GROUPING = list('meta.expression.structure.grouping_or_tuple.cp', DELIMS.GROUPING[0], DELIMS.GROUPING[1], [
+	{
+		name: 'keyword.other.spread.cp',
+		match: '##|#',
 	},
-	patterns: [
-		{include: '#PossibleParameter'},
-		{include: '#Expression'},
-	],
-};
+	property(DELIMS.GROUPING[1]),
+	{include: '#Expression'}, // must come after `property` because we don’t want expressions to look like record keys or property destructuring
+]);
 
 
 export const EXPRESSION__STRUCTURE__LIST = list('meta.expression.structure.list.cp', DELIMS.LIST[0], DELIMS.LIST[1], [
@@ -129,7 +126,7 @@ export const EXPRESSION__STRUCTURE__LIST = list('meta.expression.structure.list.
 		match: '##|#',
 	},
 	property(DELIMS.LIST[1]),
-	{include: '#Expression'}, // must come after `property` because we don’t want expressions to look like record keys or property destructuring
+	{include: '#Expression'}, // must come after `property` because we don’t want expressions to look like dict keys or property destructuring
 ]);
 
 
@@ -163,17 +160,6 @@ export const EXPRESSIONNONBLOCK = {
 			match: '\\b(nat|int|float|is|isnt|if|then|else)\\b',
 		},
 		{include: '#ExpressionFunction'},
-		{
-			// covers less-than symbol and generic parameters of a function expression
-			name:     'meta.lessthanorgenericparameters.cp',
-			begin:    DELIMS.CLAIM[0],
-			end:      `${ DELIMS.CLAIM[1] }|${ lookaheads([`[${ DELIMS.GROUPING[1] }${ DELIMS.LIST[1] },;]`, DELIMS.SET[1], THINARROW, '\\b(then|else|do|to|by)\\b']) }`,
-			captures: {0: {name: 'punctuation.delimiter.cp'}},
-			patterns: [
-				{include: '#PossibleGenericParameter'},
-				{include: '#Expression'},
-			],
-		},
 		{include: '#ExpressionClass'},
 		{include: '#ExpressionClaim'},
 		{include: '#ExpressionCall'},

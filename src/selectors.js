@@ -17,7 +17,7 @@ export const DELIMS = {
 	CAPTURES:  ['\\[', '\\]'],
 	PARAMS_GN: ['<',   '>'],
 	PARAMS_FN: ['\\(', '\\)'],
-	DESTRUCT:  ['\\[', '\\]'],
+	DESTRUCT:  ['\\(', '\\)'],
 };
 
 export const OWS     = '(?:\\s+|(%%(?:%?[^%])*%%))*';
@@ -45,7 +45,9 @@ export const DFLT_START = `\\?${ ASSN_START }`;
 export const THINARROW  = '->';
 export const FATARROW   = '=>';
 export const BLOCK_END  = '\\}'; // used for lookbehinds (cannot contain lookaheads)
-export const DOT        = '(\\.|\\?\\.|\\!\\.)';
+export const DOT        = '(\\.)';
+export const DOT_ACCESS = '(\\.|\\?\\.|\\!\\.)';
+export const BACKSLASH  = '(\\\\)';
 
 function destructure_selector(prop_delim) {
 	return `
@@ -89,49 +91,6 @@ export const DESTRUCTURE_ASSIGNEES = `
 		${ OWS },?
 	${ OWS }${ DELIMS.DESTRUCT[1] })
 `.replace(/\s+/g, '');
-
-export const FUNCTIONTYPE = `
-	${ DELIMS.PARAMS_GN[0] } # any generic parameters
-	| ${ DELIMS.PARAMS_FN[0] }${ OWS }(?:
-		${ DELIMS.PARAMS_FN[1] }${ OWS }(?<aftertypeparams> ${ FATARROW }) # exactly 0 type parameters
-		| ${ ANNO_START }                                                  # annotated unnamed type parameter
-		| ${ VAR }${ OWS }(?:
-			${ DELIMS.PARAMS_FN[1] }${ OWS }\\g<aftertypeparams> # exactly 1 unnamed type parameter
-			| ${ ANNO_START } | ,                                # annotated named type parameter, or more than 1 type parameter
-		)
-	)
-`.replace(/\#.*\n|\s+/g, '');
-
-export const FUNCTION = `
-	(?:
-		(?<aftergenericparams>
-			(?: # captures
-				${ DELIMS.CAPTURES[0] }${ OWS }
-					(?:${ REF }${ OWS })? ${ VAR }
-					(?:${ OWS },${ OWS }(?:${ REF }${ OWS })? ${ VAR })*
-					${ OWS },?
-				${ OWS }${ DELIMS.CAPTURES[1] }
-			)?
-			${ DELIMS.PARAMS_FN[0] }${ OWS }(?:
-				${ DELIMS.PARAMS_FN[1] }${ OWS }(?<afterparams> ${ ANNO_START } | ${ FATARROW } | ${ DELIMS.BLOCK[0] }) # exactly 0 parameters
-				| ${ UNFIXED }
-				| ${ VAR }${ OWS }(?:
-					${ DELIMS.PARAMS_FN[1] }${ OWS }\\g<afterparams>          # exactly 1 unaliased unannotated uninitialized nondestructued parameter
-					| ${ ASSN_START } | ${ ANNO_START } | ${ DFLT_START } | , # aliased, annotated, or initialized, or more than 1 parameter
-				)
-			)
-		)
-		| ${ DELIMS.PARAMS_GN[0] }${ OWS }(?:
-			${ MUTABLE }
-			| ${ VARIANCE }
-			| ${ OWS }${ VAR }${ OWS }(?:
-				${ DELIMS.PARAMS_GN[1] }${ OWS }\\g<aftergenericparams> # exactly 1 unannotated uninitialized generic parameter
-				| ${ CONSTRAINT } | ${ DFLT_START } | ,                 # annotated, or initialized, or more than 1 generic parameter
-			)
-		)
-	)
-	| ${ lookbehinds([DELIMS.PARAMS_FN[1]]) }${ OWS }\\g<afterparams>
-`.replace(/\#.*\n|\s+/g, '');
 
 export const FIELD = `
 	(${ MEMB_ACCESS } ${ OWS })?
