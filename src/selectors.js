@@ -47,6 +47,7 @@ export const FATARROW   = '=>';
 export const BLOCK_END  = '\\}'; // used for lookbehinds (cannot contain lookaheads)
 export const DOT        = '(\\.)';
 export const DOT_ACCESS = '(\\.|\\?\\.|\\!\\.)';
+export const BACKSLASH  = '(\\\\)';
 
 function destructure_selector(prop_delim) {
 	return `
@@ -90,44 +91,6 @@ export const DESTRUCTURE_ASSIGNEES = `
 		${ OWS },?
 	${ OWS }${ DELIMS.DESTRUCT[1] })
 `.replace(/\s+/g, '');
-
-export const FUNCTIONTYPE = `
-	(?:
-		(?<anglebrackets>
-			${ DELIMS.PARAMS_GN[0] }
-			(?: (?>[^${ DELIMS.PARAMS_GN.join('') }]+) | \\g<anglebrackets> )+
-			${ DELIMS.PARAMS_GN[1] }
-		)
-		${ OWS }
-	)?
-	${ DELIMS.PARAMS_FN[0] }
-`.replace(/\#.*\n|\s+/g, '');
-
-export const FUNCTION = `
-	(?:
-		(?<anglebrackets>
-			${ DELIMS.PARAMS_GN[0] }
-			(?: (?>[^${ DELIMS.PARAMS_GN.join('') }]+) | \\g<anglebrackets> )+
-			${ DELIMS.PARAMS_GN[1] }
-		)
-		${ OWS }
-	)?
-	(?:
-		${ DELIMS.CAPTURES[0] }
-		.+
-		${ DELIMS.CAPTURES[1] }
-		${ OWS }
-	)?
-	(?:
-		(?<parentheses>
-			${ DELIMS.PARAMS_FN[0] }
-			(?: (?>[^${ DELIMS.PARAMS_FN.join('') }]+) | \\g<parentheses> )*
-			${ DELIMS.PARAMS_FN[1] }
-		)
-		${ OWS }
-	)
-	(?:${ [ANNO_START, FATARROW, DELIMS.BLOCK[0]].join('|') })
-`.replace(/\#.*\n|\s+/g, '');
 
 export const FIELD = `
 	(${ MEMB_ACCESS } ${ OWS })?

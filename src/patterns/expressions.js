@@ -28,7 +28,6 @@ export const ARGUMENTS = list('meta.arguments.cp', DELIMS.ARGS_FN[0], DELIMS.ARG
 		match: '##|#',
 	},
 	argumentLabel(DELIMS.ARGS_FN[1]),
-	{include: '#ParameterPossible'},
 	{include: '#Expression'}, // must come after `argumentLabel` because we don’t want expressions to look like named arguments or argument destructuring
 ]);
 
