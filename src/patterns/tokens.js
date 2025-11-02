@@ -66,12 +66,13 @@ export const NUMBER = {
 		},
 		{
 			name: 'constant.numeric.decimal.cp',
-			match: `(\\+|-)?${ digits('[0-9]') }(?:(\\.)${ digits('[0-9]') }(?:(e)(\\+|-)?${ digits('[0-9]') })?)?`,
+			match: `(\\+|-)?${ digits('[0-9]') }(?:(\\.)${ digits('[0-9]') }(?:(e)(\\+|-)?${ digits('[0-9]') })?(d)?)?`,
 			captures: {
 				1: {name: 'punctuation.operator.cp'},
 				2: {name: 'punctuation.separator.decimal.cp'},
 				3: {name: 'punctuation.separator.exponent.cp'},
 				4: {name: 'punctuation.operator.cp'},
+				5: {name: 'punctuation.delimiter.decimal.cp'},
 			},
 		},
 	],
