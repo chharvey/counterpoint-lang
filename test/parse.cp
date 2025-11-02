@@ -171,6 +171,7 @@ function twice(x: int): int => x * 2;
 	nat numeric;   % valid operator
 	int numeric;   % valid operator
 	float numeric; % valid operator
+	dec numeric;   % valid operator
 	str numeric;   %> ParseError
 	x <= y;
 	x >= y;
