@@ -46,11 +46,11 @@
     "grammars": [
       {
         "language": "cp",
-        "scopeName": "source.cp",
+        "scopeName": "source.cpl",
         "path": "./syntaxes/cp.tmLanguage.json"
       },
       {
-        "scopeName": "text.html.markdown.cp",
+        "scopeName": "text.html.markdown.cpl",
         "path": "./syntaxes/markdown.tmLanguage.json",
         "injectTo": [
           "text.html.markdown"

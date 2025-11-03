@@ -1,3 +1,4 @@
+import {pattern_name} from '../helpers.js';
 import {
 	UNFIXED,
 	NOMINAL,
@@ -9,7 +10,7 @@ import {
 export const MODIFIERS__DECLARATION__TYPE = {
 	patterns: [
 		{
-			name:  'storage.modifier.cp',
+			name:  pattern_name('storage.modifier'),
 			match: NOMINAL,
 		},
 	],
@@ -19,7 +20,7 @@ export const MODIFIERS__DECLARATION__TYPE = {
 export const MODIFIERS__DECLARATION__LET = {
 	patterns: [
 		{
-			name:  'storage.modifier.cp',
+			name:  pattern_name('storage.modifier'),
 			match: UNFIXED,
 		},
 	],
@@ -30,7 +31,7 @@ export const MODIFIERS__GENERIC_PARAMETER = {
 	patterns: [
 		{include: '#ModifiersDeclarationType'},
 		{
-			name:  'storage.modifier.cp',
+			name:  pattern_name('storage.modifier'),
 			match: `${ MUTABLE }|${ VARIANCE }`,
 		},
 	],
