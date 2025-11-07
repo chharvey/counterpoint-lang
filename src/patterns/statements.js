@@ -103,13 +103,11 @@ export const STATEMENT__CONTROL = {
 				0: {name: 'punctuation.delimiter.cp'},
 			},
 			patterns: [
-				{include: '#CommentBlock'},
-				{include: '#CommentLine'},
 				{include: '#DestructureVariable'},
-				annotation(lookaheads(['\\b(from|of)\\b'])),
+				annotation(lookaheads(['\\b(of)\\b'])),
 				{
-					begin: '\\b(from|to|by|of)\\b',
-					end:   lookaheads(['\\b(to|by|do)\\b']),
+					begin: '\\b(of)\\b',
+					end:   lookaheads(['\\b(do)\\b']),
 					beginCaptures: {
 						0: {name: 'keyword.control.cp'},
 					},
@@ -124,6 +122,8 @@ export const STATEMENT__CONTROL = {
 						0: {name: 'keyword.control.cp'},
 					},
 					patterns: [
+						{include: '#CommentBlock'},
+						{include: '#CommentLine'},
 						{include: '#Block'},
 					],
 				},

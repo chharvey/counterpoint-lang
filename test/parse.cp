@@ -61,23 +61,19 @@ do {
 	true;
 } until false;
 
-for %% int %% i from %% start %% 1 to %% end %% 10 by %% increment %% 2 do {
+for %% <var> %% item %% </var> %% of %% <expr> %% list %% </expr> %% do %% <block> %% {
 	do {
 		if false then """{{ 0 }} 0""" else """{{ 1 }} 1""";
 		(if false then """{{ 0 }} 0""" else """{{ 1 }} 1""");
 		break 1;
 		continue;
 	} while false;
-	for x from if a then b else c to if a then b else c by if a then b else c do {
+	for x of if a then b else c do {
 		do { d; } while if a then b else c;
 	};
-};
-for _ from start to end by incr do {;};
-for _ from _ to _ by _ do {;};
-for i: int from 10 to 20 do {};
-
-for item of list do {};
+} %% </block> %%;
 for _ of _ do {};
+for item of { list; } do {};
 for item: T of list do {};
 for _: _ of _ do {};
 for (item, i) of entries do {};
