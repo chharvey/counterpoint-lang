@@ -32,10 +32,10 @@
   "contributes": {
     "languages": [
       {
-        "id": "cp",
+        "id": "cpl",
         "aliases": [
           "Counterpoint",
-          "cp"
+          "cpl"
         ],
         "extensions": [
           ".cpls",
@@ -47,9 +47,9 @@
     ],
     "grammars": [
       {
-        "language": "cp",
+        "language": "cpl",
         "scopeName": "source.cpl",
-        "path": "./syntaxes/cp.tmLanguage.json"
+        "path": "./syntaxes/cpl.tmLanguage.json"
       },
       {
         "scopeName": "text.html.markdown.cpl",

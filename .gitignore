@@ -107,5 +107,5 @@ dist
 **/.vscode/settings.json
 
 # Build files
-syntaxes/cp.tmLanguage.json
+syntaxes/cpl.tmLanguage.json
 *.vsix
