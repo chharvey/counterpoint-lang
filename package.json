@@ -38,7 +38,9 @@
           "cp"
         ],
         "extensions": [
-          ".cp"
+          ".cpls",
+          ".cplm",
+          ".cplp"
         ],
         "configuration": "./language-configuration.json"
       }
