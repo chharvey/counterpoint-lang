@@ -1,6 +1,7 @@
 import * as fs from 'fs';
 import * as path from 'path';
 
+import {pattern_name} from './src/helpers.js';
 import {
 	identifier,
 	list,
@@ -11,10 +12,10 @@ import {DELIMS} from './src/selectors.js';
 
 
 
-await fs.promises.writeFile(path.join(import.meta.dirname, 'syntaxes', 'cp.tmLanguage.json'), JSON.stringify({
+await fs.promises.writeFile(path.join(import.meta.dirname, 'syntaxes', 'cpl.tmLanguage.json'), JSON.stringify({
 	$schema: 'https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json',
 	name: 'Counterpoint',
-	scopeName: 'source.cp',
+	scopeName: pattern_name('source'),
 	repository: {
 		Arguments:                     Pattern.ARGUMENTS,
 		Block:                         Pattern.BLOCK,
@@ -23,7 +24,7 @@ await fs.promises.writeFile(path.join(import.meta.dirname, 'syntaxes', 'cp.tmLan
 		CommentBlock:                  Pattern.COMMENT_BLOCK,
 		CommentLine:                   Pattern.COMMENT_LINE,
 		ConstructorField:              Pattern.CONSTRUCTOR_FIELD,
-		ConstructorParameters:         list('meta.parameters.cp', DELIMS.PARAMS_FN[0], DELIMS.PARAMS_FN[1], [{include: '#ConstructorField'}, {include: '#ParameterPatterns'}]),
+		ConstructorParameters:         list(pattern_name('meta.parameters'), DELIMS.PARAMS_FN[0], DELIMS.PARAMS_FN[1], [{include: '#ConstructorField'}, {include: '#ParameterPatterns'}]),
 		Declaration:                   Pattern.DECLARATION,
 		DeclarationClaim:              Pattern.DECLARATION__CLAIM,
 		DeclarationClass:              Pattern.DECLARATION__CLASS,
@@ -56,7 +57,7 @@ await fs.promises.writeFile(path.join(import.meta.dirname, 'syntaxes', 'cp.tmLan
 		Expressionnonblock:            Pattern.EXPRESSIONNONBLOCK,
 		GenericArguments:              Pattern.GENERIC_ARGUMENTS,
 		GenericParameterPatterns:      Pattern.GENERIC_PARAMETER_PATTERNS,
-		GenericParameters:             list('meta.genericparameters.cp', DELIMS.PARAMS_GN[0], DELIMS.PARAMS_GN[1], [{include: '#GenericParameterPatterns'}]),
+		GenericParameters:             list(pattern_name('meta.genericparameters'), DELIMS.PARAMS_GN[0], DELIMS.PARAMS_GN[1], [{include: '#GenericParameterPatterns'}]),
 		Heritage:                      Pattern.HERITAGE,
 		IdentifierClass:               identifier('entity.name.class', true),
 		IdentifierFunction:            identifier('entity.name.function', true),
@@ -75,7 +76,7 @@ await fs.promises.writeFile(path.join(import.meta.dirname, 'syntaxes', 'cp.tmLan
 		ModifiersParameter:            Pattern.MODIFIERS__PARAMETER,
 		Number:                        Pattern.NUMBER,
 		ParameterPatterns:             Pattern.PARAMETER_PATTERNS,
-		Parameters:                    list('meta.parameters.cp', DELIMS.PARAMS_FN[0], DELIMS.PARAMS_FN[1], [{include: '#ParameterPatterns'}]),
+		Parameters:                    list(pattern_name('meta.parameters'), DELIMS.PARAMS_FN[0], DELIMS.PARAMS_FN[1], [{include: '#ParameterPatterns'}]),
 		Statement:                     Pattern.STATEMENT,
 		StatementControl:              Pattern.STATEMENT__CONTROL,
 		StatementControlConditional:   Pattern.STATEMENT__CONTROL__CONDITIONAL,
@@ -90,7 +91,7 @@ await fs.promises.writeFile(path.join(import.meta.dirname, 'syntaxes', 'cp.tmLan
 		TypeFunction:                  Pattern.TYPE__FUNCTION,
 		TypeInterface:                 Pattern.TYPE__INTERFACE,
 		TypeParameterPatterns:         Pattern.TYPE_PARAMETER_PATTERNS,
-		TypeParameters:                list('meta.parameters.cp', DELIMS.PARAMS_FN[0], DELIMS.PARAMS_FN[1], [{include: '#TypeParameterPatterns'}]),
+		TypeParameters:                list(pattern_name('meta.parameters'), DELIMS.PARAMS_FN[0], DELIMS.PARAMS_FN[1], [{include: '#TypeParameterPatterns'}]),
 		TypeStructureGrouping:         Pattern.TYPE__STRUCTURE__GROUPING,
 		TypeStructureList:             Pattern.TYPE__STRUCTURE__LIST,
 		TypeStructureSet:              Pattern.TYPE__STRUCTURE__SET,

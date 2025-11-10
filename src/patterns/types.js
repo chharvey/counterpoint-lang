@@ -1,4 +1,5 @@
 import {
+	pattern_name,
 	lookaheads,
 	lookbehinds,
 } from '../helpers.js';
@@ -22,9 +23,9 @@ import {
 
 
 
-export const GENERIC_ARGUMENTS = list('meta.genericarguments.cp', DELIMS.ARGS_GN[0], DELIMS.ARGS_GN[1], [
+export const GENERIC_ARGUMENTS = list(pattern_name('meta.genericarguments'), DELIMS.ARGS_GN[0], DELIMS.ARGS_GN[1], [
 	{
-		name: 'keyword.other.spread.cp',
+		name: pattern_name('keyword.other.spread'),
 		match: '##|#',
 	},
 	genericArgumentLabel(DELIMS.ARGS_GN[1]),
@@ -33,11 +34,11 @@ export const GENERIC_ARGUMENTS = list('meta.genericarguments.cp', DELIMS.ARGS_GN
 
 
 export const TYPE_CALL = {
-	name: 'meta.type.call.cp',
+	name: pattern_name('meta.type.call'),
 	begin: [DOT, lookaheads([[OWS, DELIMS.ARGS_GN[0]].join('')])].join(''),
 	end:   lookbehinds([DELIMS.ARGS_GN[1]]),
 	beginCaptures: {
-		1: {name: 'keyword.operator.punctuation.cp'},
+		1: {name: pattern_name('keyword.operator.punctuation')},
 	},
 	patterns: [
 		{include: '#CommentBlock'},
@@ -47,11 +48,11 @@ export const TYPE_CALL = {
 
 
 export const TYPE__ACCESS = {
-	name: 'meta.type.access.cp',
+	name: pattern_name('meta.type.access'),
 	begin: [DOT_ACCESS, lookaheads([[OWS, `(${ INT }|${ VAR })`].join('')])].join(''),
 	end:   lookbehinds(['[A-Za-z0-9_\']']),
 	beginCaptures: {
-		1: {name: 'keyword.operator.punctuation.cp'},
+		1: {name: pattern_name('keyword.operator.punctuation')},
 	},
 	patterns: [
 		{include: '#Number'},
@@ -60,9 +61,9 @@ export const TYPE__ACCESS = {
 };
 
 
-export const TYPE__STRUCTURE__GROUPING = list('meta.type.structure.grouping_or_tuple.cp', DELIMS.GROUPING[0], DELIMS.GROUPING[1], [
+export const TYPE__STRUCTURE__GROUPING = list(pattern_name('meta.type.structure.grouping_or_tuple'), DELIMS.GROUPING[0], DELIMS.GROUPING[1], [
 	{
-		name: 'keyword.other.spread.cp',
+		name: pattern_name('keyword.other.spread'),
 		match: '##|#',
 	},
 	typeProperty(DELIMS.GROUPING[1]),
@@ -71,11 +72,11 @@ export const TYPE__STRUCTURE__GROUPING = list('meta.type.structure.grouping_or_t
 
 
 export const TYPE__STRUCTURE__LIST = {
-	name:     'meta.type.structure.list.cp',
+	name:     pattern_name('meta.type.structure.list'),
 	begin:    DELIMS.LIST[0],
 	end:      DELIMS.LIST[1],
 	captures: {
-		0: {name: 'punctuation.delimiter.cp'},
+		0: {name: pattern_name('punctuation.delimiter')},
 	},
 	patterns: [
 		typeProperty(DELIMS.LIST[1]),
@@ -85,15 +86,15 @@ export const TYPE__STRUCTURE__LIST = {
 
 
 export const TYPE__STRUCTURE__SET = {
-	name:     'meta.type.structure.set.cp',
+	name:     pattern_name('meta.type.structure.set'),
 	begin:    DELIMS.SET[0],
 	end:      DELIMS.SET[1],
 	captures: {
-		0: {name: 'punctuation.delimiter.cp'},
+		0: {name: pattern_name('punctuation.delimiter')},
 	},
 	patterns: [
 		{
-			name: 'keyword.operator.punctuation.cp',
+			name: pattern_name('keyword.operator.punctuation'),
 			match: THINARROW,
 		},
 		{include: '#Type'},
@@ -104,11 +105,11 @@ export const TYPE__STRUCTURE__SET = {
 export const TYPEFNRET = {
 	patterns: [
 		{
-			name: 'keyword.operator.punctuation.cp',
+			name: pattern_name('keyword.operator.punctuation'),
 			match: `~~|[!^*/&|]`,
 		},
 		{
-			name: 'keyword.operator.text.cp',
+			name: pattern_name('keyword.operator.text'),
 			match: MUTABLE,
 		},
 		{include: '#TypeFunction'},
@@ -119,7 +120,7 @@ export const TYPEFNRET = {
 		{include: '#TypeStructureList'},
 		unit('entity.name.type'),
 		{
-			name: 'keyword.operator.punctuation.cp',
+			name: pattern_name('keyword.operator.punctuation'),
 			match: '\\?', // must come after '#TypeAccess'
 		},
 	],

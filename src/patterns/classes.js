@@ -1,4 +1,5 @@
 import {
+	pattern_name,
 	lookaheads,
 	lookbehinds,
 } from '../helpers.js';
@@ -35,17 +36,17 @@ import {
 
 
 export const HERITAGE = {
-	name:  'meta.heritage.cp',
+	name:  pattern_name('meta.heritage'),
 	begin: `\\b(extends|${ IMPL }|inherits|is)\\b`,
 	end:   lookaheads([`\\b(extends|${ IMPL }|inherits|is)\\b`, DELIMS.BLOCK[0]]),
 	beginCaptures: {
-		0: {name: 'storage.modifier.cp'},
+		0: {name: pattern_name('storage.modifier')},
 	},
 	patterns: [
 		{include: '#TypeCall'},
 		identifier('entity.other.inherited-class'),
 		{
-			name: 'punctuation.separator.cp',
+			name: pattern_name('punctuation.separator'),
 			match: ',',
 		},
 	],
@@ -53,11 +54,11 @@ export const HERITAGE = {
 
 
 export const TYPE__INTERFACE = {
-	name: 'meta.type.interface.cp',
+	name: pattern_name('meta.type.interface'),
 	begin: '\\b(interface)\\b',
 	end:   lookbehinds([BLOCK_END]),
 	beginCaptures: {
-		0: {name: 'storage.type.cp'},
+		0: {name: pattern_name('storage.type')},
 	},
 	patterns: [
 		{include: '#CommentBlock'},
@@ -66,7 +67,7 @@ export const TYPE__INTERFACE = {
 		{include: '#Heritage'},
 		{include: '#ClassBody'},
 		{
-			name: 'storage.modifier.cp',
+			name: pattern_name('storage.modifier'),
 			match: '\\b(data)\\b',
 		},
 	],
@@ -74,11 +75,11 @@ export const TYPE__INTERFACE = {
 
 
 export const EXPRESSION__CLASS = {
-	name: 'meta.expression.class.cp',
+	name: pattern_name('meta.expression.class'),
 	begin: '\\b(class)\\b',
 	end:   lookbehinds([BLOCK_END]),
 	beginCaptures: {
-		0: {name: 'storage.type.cp'},
+		0: {name: pattern_name('storage.type')},
 	},
 	patterns: [
 		{include: '#CommentBlock'},
@@ -88,7 +89,7 @@ export const EXPRESSION__CLASS = {
 		{include: '#Captures'},
 		{include: '#ClassBody'},
 		{
-			name: 'storage.modifier.cp',
+			name: pattern_name('storage.modifier'),
 			match: '\\b(final|abstract|enum|data)\\b',
 		},
 	],
@@ -96,7 +97,7 @@ export const EXPRESSION__CLASS = {
 
 
 export const DECLARATION__CLASS = {
-	name: 'meta.declaration.class.cp',
+	name: pattern_name('meta.declaration.class'),
 	begin: lookaheads([`(${ COMP_ACCESS }${ OWS })?\\b(class)\\b`]),
 	end:   lookbehinds([BLOCK_END]),
 	patterns: [
@@ -105,11 +106,11 @@ export const DECLARATION__CLASS = {
 		{include: '#Heritage'},
 		{include: '#ClassBody'},
 		{
-			name: 'storage.type.cp',
+			name: pattern_name('storage.type'),
 			match: '\\b(class)\\b',
 		},
 		{
-			name:  'storage.modifier.cp',
+			name:  pattern_name('storage.modifier'),
 			match: `\\b(${ COMP_ACCESS }|final|abstract|enum|data|${ NOMINAL })\\b`,
 		},
 		{include: '#IdentifierClass'}, // must come after keywords
@@ -118,7 +119,7 @@ export const DECLARATION__CLASS = {
 
 
 export const DECLARATION__INTERFACE = {
-	name: 'meta.declaration.interface.cp',
+	name: pattern_name('meta.declaration.interface'),
 	begin: lookaheads([`(${ COMP_ACCESS }${ OWS })?\\b(interface)\\b`]),
 	end:   lookbehinds([BLOCK_END]),
 	patterns: [
@@ -126,11 +127,11 @@ export const DECLARATION__INTERFACE = {
 		{include: '#Heritage'},
 		{include: '#ClassBody'},
 		{
-			name: 'storage.type.cp',
+			name: pattern_name('storage.type'),
 			match: '\\b(interface)\\b',
 		},
 		{
-			name:  'storage.modifier.cp',
+			name:  pattern_name('storage.modifier'),
 			match: `\\b(${ COMP_ACCESS }|data|${ NOMINAL })\\b`,
 		},
 		{include: '#IdentifierClass'}, // must come after keywords
@@ -139,16 +140,16 @@ export const DECLARATION__INTERFACE = {
 
 
 export const CONSTRUCTOR_FIELD = {
-	name: 'meta.field.cp',
+	name: pattern_name('meta.field'),
 	begin: lookaheads([FIELD_CONSTRUCTOR]),
 	end:   lookaheads([',', DELIMS.PARAMS_FN[1]]),
 	patterns: [
 		{
-			name:  'storage.modifier.cp',
+			name:  pattern_name('storage.modifier'),
 			match: `${ MEMB_ACCESS }|${ OVR }|${ PERMISSION }|${ UNFIXED }`,
 		},
 		{
-			name:  'punctuation.delimiter.cp',
+			name:  pattern_name('punctuation.delimiter'),
 			match: ASSN_START,
 		},
 		{include: '#IdentifierProperty'},
@@ -160,15 +161,15 @@ export const CONSTRUCTOR_FIELD = {
 
 
 export const MEMBER__FIELD = {
-	name: 'meta.field.cp',
+	name: pattern_name('meta.field'),
 	begin: lookaheads([FIELD]),
 	end:   ';',
 	endCaptures: {
-		0: {name: 'punctuation.delimiter.cp'},
+		0: {name: pattern_name('punctuation.delimiter')},
 	},
 	patterns: [
 		{
-			name:  'storage.modifier.cp',
+			name:  pattern_name('storage.modifier'),
 			match: `${ MEMB_ACCESS }|${ OVR_CLAIM }|${ PERMISSION }`,
 		},
 		{include: '#IdentifierProperty'},
@@ -179,12 +180,12 @@ export const MEMBER__FIELD = {
 
 
 export const MEMBER__CONSTRUCTOR = {
-	name: 'meta.constructor.cp',
+	name: pattern_name('meta.constructor'),
 	begin: lookaheads([CONSTRUCTOR]),
 	end:   [lookbehinds([BLOCK_END]), ';'].join('|'),
 	patterns: [
 		{
-			name:  'storage.modifier.cp',
+			name:  pattern_name('storage.modifier'),
 			match: `\\b(${ MEMB_ACCESS }|new)\\b`,
 		},
 		{include: '#CommentBlock'},
@@ -196,20 +197,20 @@ export const MEMBER__CONSTRUCTOR = {
 
 
 export const MEMBER__CONSTRUCTORGROUP = {
-	name: 'meta.constructorgroup.cp',
+	name: pattern_name('meta.constructorgroup'),
 	begin: lookaheads([CONSTRUCTORGROUP]),
 	end:   lookbehinds([BLOCK_END]),
 	patterns: [
 		{
-			name:  'storage.modifier.cp',
+			name:  pattern_name('storage.modifier'),
 			match: `\\b(${ MEMB_ACCESS }|new)\\b`,
 		},
 		{
-			name: 'meta.constructorgroupbody.cp',
+			name: pattern_name('meta.constructorgroupbody'),
 			begin: DELIMS.BLOCK[0],
 			end:   DELIMS.BLOCK[1],
 			captures: {
-				0: {name: 'punctuation.delimiter.cp'},
+				0: {name: pattern_name('punctuation.delimiter')},
 			},
 			patterns: [
 				{include: '#CommentBlock'},
@@ -222,15 +223,15 @@ export const MEMBER__CONSTRUCTORGROUP = {
 
 
 export const MEMBER__METHOD = {
-	name: 'meta.method.cp',
+	name: pattern_name('meta.method'),
 	begin: lookaheads([METHOD]),
 	end:   [lookbehinds([BLOCK_END]), ';'].join('|'),
 	endCaptures: {
-		0: {name: 'punctuation.delimiter.cp'},
+		0: {name: pattern_name('punctuation.delimiter')},
 	},
 	patterns: [
 		{
-			name:  'storage.modifier.cp',
+			name:  pattern_name('storage.modifier'),
 			match: `\\b(${ MEMB_ACCESS }|${ OVR_CLAIM }|final|${ MUTABLE })\\b`,
 		},
 		{include: '#IdentifierProperty'},
@@ -244,21 +245,21 @@ export const MEMBER__METHOD = {
 
 
 export const MEMBER__METHODGROUP = {
-	name: 'meta.methodgroup.cp',
+	name: pattern_name('meta.methodgroup'),
 	begin: lookaheads([METHODGROUP]),
 	end:   lookbehinds([BLOCK_END]),
 	patterns: [
 		{
-			name:  'storage.modifier.cp',
+			name:  pattern_name('storage.modifier'),
 			match: `\\b(${ MEMB_ACCESS }|${ OVR_CLAIM }|final)\\b`,
 		},
 		{include: '#IdentifierProperty'},
 		{
-			name: 'meta.methodgroupbody.cp',
+			name: pattern_name('meta.methodgroupbody'),
 			begin: DELIMS.BLOCK[0],
 			end:   DELIMS.BLOCK[1],
 			captures: {
-				0: {name: 'punctuation.delimiter.cp'},
+				0: {name: pattern_name('punctuation.delimiter')},
 			},
 			patterns: [
 				{include: '#CommentBlock'},
@@ -271,11 +272,11 @@ export const MEMBER__METHODGROUP = {
 
 
 export const CLASS_BODY = {
-	name: 'meta.classbody.cp',
+	name: pattern_name('meta.classbody'),
 	begin: DELIMS.BLOCK[0],
 	end:   DELIMS.BLOCK[1],
 	captures: {
-		0: {name: 'punctuation.delimiter.cp'},
+		0: {name: pattern_name('punctuation.delimiter')},
 	},
 	patterns: [
 		{include: '#CommentBlock'},

@@ -1,3 +1,7 @@
+export function pattern_name(name) {
+	return name.concat('.cpl');
+}
+
 export function digits(charclass, base = '') {
 	return `${ (base) ? `(\\\\${ base })` : '' }(?:${ charclass }_?)*${ charclass }`;
 }

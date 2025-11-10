@@ -1,0 +1,5 @@
+% This is a Counterpoint module file!
+
+from "module-path" import Component;
+
+class Foo {}
