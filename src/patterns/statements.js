@@ -1,4 +1,5 @@
 import {
+	pattern_name,
 	lookaheads,
 	lookbehinds,
 } from '../helpers.js';
@@ -27,7 +28,7 @@ export const STATEMENT__CONTROL__CONDITIONAL = {
 			begin: '\\b(if|unless)\\b',
 			end:   lookaheads(['\\b(then)\\b']),
 			beginCaptures: {
-				0: {name: 'keyword.control.cp'},
+				0: {name: pattern_name('keyword.control')},
 			},
 			patterns: [
 				{include: '#Expression'},
@@ -37,7 +38,7 @@ export const STATEMENT__CONTROL__CONDITIONAL = {
 			begin: '\\b(then)\\b',
 			end:   lookaheads(['\\b(else)\\b', ';']),
 			beginCaptures: {
-				0: {name: 'keyword.control.cp'},
+				0: {name: pattern_name('keyword.control')},
 			},
 			patterns: [
 				{include: '#Block'},
@@ -48,7 +49,7 @@ export const STATEMENT__CONTROL__CONDITIONAL = {
 			begin: '\\b(else)\\b',
 			end:   lookaheads([';']),
 			beginCaptures: {
-				0: {name: 'keyword.control.cp'},
+				0: {name: pattern_name('keyword.control')},
 			},
 			patterns: [
 				{include: '#StatementControlConditional'},
@@ -63,29 +64,29 @@ export const STATEMENT__CONTROL__CONDITIONAL = {
 export const STATEMENT__CONTROL = {
 	patterns: [
 		{
-			name: 'meta.control.cp',
+			name: pattern_name('meta.control'),
 			begin: lookaheads(['\\b(if|unless)\\b']),
 			end:   ';',
 			endCaptures: {
-				0: {name: 'punctuation.delimiter.cp'},
+				0: {name: pattern_name('punctuation.delimiter')},
 			},
 			patterns: [
 				{include: '#StatementControlConditional'},
 			]
 		},
 		{
-			name:  'meta.control.cp',
+			name:  pattern_name('meta.control'),
 			begin: '\\b(while|until|do)\\b',
 			end:   ';',
 			beginCaptures: {
-				0: {name: 'keyword.control.cp'},
+				0: {name: pattern_name('keyword.control')},
 			},
 			endCaptures: {
-				0: {name: 'punctuation.delimiter.cp'},
+				0: {name: pattern_name('punctuation.delimiter')},
 			},
 			patterns: [
 				{
-					name: 'keyword.control.cp',
+					name: pattern_name('keyword.control'),
 					match: '\\b(do|while|until)\\b',
 				},
 				{include: '#Block'},
@@ -93,25 +94,23 @@ export const STATEMENT__CONTROL = {
 			],
 		},
 		{
-			name:  'meta.control.cp',
+			name:  pattern_name('meta.control'),
 			begin: '\\b(for)\\b',
 			end:   ';',
 			beginCaptures: {
-				0: {name: 'keyword.control.cp'},
+				0: {name: pattern_name('keyword.control')},
 			},
 			endCaptures: {
-				0: {name: 'punctuation.delimiter.cp'},
+				0: {name: pattern_name('punctuation.delimiter')},
 			},
 			patterns: [
-				{include: '#CommentBlock'},
-				{include: '#CommentLine'},
 				{include: '#DestructureVariable'},
-				annotation(lookaheads(['\\b(from|of)\\b'])),
+				annotation(lookaheads(['\\b(of)\\b'])),
 				{
-					begin: '\\b(from|to|by|of)\\b',
-					end:   lookaheads(['\\b(to|by|do)\\b']),
+					begin: '\\b(of)\\b',
+					end:   lookaheads(['\\b(do)\\b']),
 					beginCaptures: {
-						0: {name: 'keyword.control.cp'},
+						0: {name: pattern_name('keyword.control')},
 					},
 					patterns: [
 						{include: '#Expression'},
@@ -121,9 +120,11 @@ export const STATEMENT__CONTROL = {
 					begin: '\\b(do)\\b',
 					end:   lookbehinds([BLOCK_END]),
 					beginCaptures: {
-						0: {name: 'keyword.control.cp'},
+						0: {name: pattern_name('keyword.control')},
 					},
 					patterns: [
+						{include: '#CommentBlock'},
+						{include: '#CommentLine'},
 						{include: '#Block'},
 					],
 				},
@@ -131,14 +132,14 @@ export const STATEMENT__CONTROL = {
 			],
 		},
 		{
-			name: 'meta.control.cp',
+			name: pattern_name('meta.control'),
 			begin: '\\b(break|continue|return|throw)\\b',
 			end:   ';',
 			beginCaptures: {
-				0: {name: 'keyword.control.cp'},
+				0: {name: pattern_name('keyword.control')},
 			},
 			endCaptures: {
-				0: {name: 'punctuation.delimiter.cp'},
+				0: {name: pattern_name('punctuation.delimiter')},
 			},
 			patterns: [{include: '#Expression'}],
 		},
@@ -147,33 +148,33 @@ export const STATEMENT__CONTROL = {
 
 
 export const STATEMENT__IMPORT = {
-	name: 'meta.import.cp',
+	name: pattern_name('meta.import'),
 	begin: '\\b(from)\\b',
 	end:   ';',
 	beginCaptures: {
-		0: {name: 'keyword.control.cp'},
+		0: {name: pattern_name('keyword.control')},
 	},
 	endCaptures: {
-		0: {name: 'punctuation.delimiter.cp'},
+		0: {name: pattern_name('punctuation.delimiter')},
 	},
 	patterns: [
 		{
-			name: 'keyword.control.cp',
+			name: pattern_name('keyword.control'),
 			match: '\\b(import|type|await|all)\\b',
 		},
 		{
-			name: 'keyword.other.alias.cp',
+			name: pattern_name('keyword.other.alias'),
 			match: ALIAS,
 		},
 		{include: '#String'},
 		{include: '#IdentifierVariable'},
 		list('meta.import.list', DELIMS.GROUPING[0], DELIMS.GROUPING[1], [
 			{
-				name: 'keyword.control.cp',
+				name: pattern_name('keyword.control'),
 				match: '\\b(type|await)\\b',
 			},
 			{
-				name: 'keyword.other.alias.cp',
+				name: pattern_name('keyword.other.alias'),
 				match: ALIAS,
 			},
 			{include: '#IdentifierVariable'},
@@ -183,18 +184,18 @@ export const STATEMENT__IMPORT = {
 
 
 export const STATEMENT__EXPORT = {
-	name: 'meta.export.cp',
+	name: pattern_name('meta.export'),
 	begin: '\\b(export)\\b',
 	end:   ';',
 	beginCaptures: {
-		0: {name: 'keyword.control.cp'},
+		0: {name: pattern_name('keyword.control')},
 	},
 	endCaptures: {
-		0: {name: 'punctuation.delimiter.cp'},
+		0: {name: pattern_name('punctuation.delimiter')},
 	},
 	patterns: [
 		{
-			name: 'keyword.other.alias.cp',
+			name: pattern_name('keyword.other.alias'),
 			match: ALIAS,
 		},
 		{include: '#String'},
@@ -211,7 +212,7 @@ export const STATEMENT = {
 		{include: '#StatementExport'},
 		{include: '#Expression'},
 		{
-			name: 'punctuation.delimiter.cp',
+			name: pattern_name('punctuation.delimiter'),
 			match: ';',
 		},
 	],
@@ -219,26 +220,26 @@ export const STATEMENT = {
 
 
 export const BLOCK = {
-	name: 'meta.block.cp',
+	name: pattern_name('meta.block'),
 	begin: DELIMS.BLOCK[0],
 	end:   DELIMS.BLOCK[1],
 	captures: {
-		0: {name: 'punctuation.delimiter.cp'},
+		0: {name: pattern_name('punctuation.delimiter')},
 	},
 	patterns: [
 		{
 			// used only for set/map literal expressions where blocks could be, e.g. `if a then {b} else {c -> d};`
 			patterns: [
 				{
-					name: 'keyword.other.spread.cp',
+					name: pattern_name('keyword.other.spread'),
 					match: '#',
 				},
 				{
-					name: 'punctuation.separator.cp',
+					name: pattern_name('punctuation.separator'),
 					match: ',',
 				},
 				{
-					name: 'keyword.operator.punctuation.cp',
+					name: pattern_name('keyword.operator.punctuation'),
 					match: THINARROW,
 				},
 			],

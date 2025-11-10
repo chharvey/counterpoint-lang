@@ -9,7 +9,7 @@ See [microsoft/vscode-markdown-tm-grammar](https://github.com/microsoft/vscode-m
 """{{ %% world %% }}"""
 ```
 
-```cp
+```cpl
 "hello".world % hello
 """{{ %% world %% }}"""
 ```

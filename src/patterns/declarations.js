@@ -1,4 +1,5 @@
 import {
+	pattern_name,
 	lookaheads,
 } from '../helpers.js';
 import {
@@ -21,11 +22,11 @@ import {
 
 
 export const DECLARATION__TYPE = {
-	name: 'meta.declaration.type.cp',
+	name: pattern_name('meta.declaration.type'),
 	begin: lookaheads([`(${ COMP_ACCESS }${ OWS })?\\b(type)\\b`]),
 	end:   ';',
 	endCaptures: {
-		0: {name: 'punctuation.delimiter.cp'},
+		0: {name: pattern_name('punctuation.delimiter')},
 	},
 	patterns: [
 		{include: '#DestructureTypeAlias'},
@@ -34,11 +35,11 @@ export const DECLARATION__TYPE = {
 		constraint(lookaheads([ASSN_START])),
 		assignment(ASSN_START, lookaheads([';']), '#Type'),
 		{
-			name:  'storage.modifier.cp',
+			name:  pattern_name('storage.modifier'),
 			match: COMP_ACCESS,
 		},
 		{
-			name: 'storage.type.cp',
+			name: pattern_name('storage.type'),
 			match: '\\b(type)\\b',
 		},
 		{include: '#IdentifierType'}, // must come after keywords
@@ -47,11 +48,11 @@ export const DECLARATION__TYPE = {
 
 
 export const DECLARATION__LET = {
-	name: 'meta.declaration.let.cp',
+	name: pattern_name('meta.declaration.let'),
 	begin: lookaheads([`(${ COMP_ACCESS }${ OWS })?\\b(let)\\b`]),
 	end:   ';',
 	endCaptures: {
-		0: {name: 'punctuation.delimiter.cp'},
+		0: {name: pattern_name('punctuation.delimiter')},
 	},
 	patterns: [
 		{include: '#DestructureVariable'},
@@ -59,11 +60,11 @@ export const DECLARATION__LET = {
 		annotation(lookaheads([ASSN_START, ';'])),
 		assignment(ASSN_START, lookaheads([';'])),
 		{
-			name:  'storage.modifier.cp',
+			name:  pattern_name('storage.modifier'),
 			match: COMP_ACCESS,
 		},
 		{
-			name: 'storage.type.cp',
+			name: pattern_name('storage.type'),
 			match: '\\b(let)\\b',
 		},
 		{include: '#IdentifierVariable'}, // must come after keywords
@@ -72,22 +73,22 @@ export const DECLARATION__LET = {
 
 
 export const DECLARATION__CLAIM = {
-	name:  'meta.declaration.claim.cp',
+	name:  pattern_name('meta.declaration.claim'),
 	begin: '\\b(claim)\\b',
 	end:   ';',
 	beginCaptures: {
-		0: {name: 'storage.type.cp'},
+		0: {name: pattern_name('storage.type')},
 	},
 	endCaptures: {
-		0: {name: 'punctuation.delimiter.cp'},
+		0: {name: pattern_name('punctuation.delimiter')},
 	},
 	patterns: [
 		{
-			name:  'meta.heritage.cp',
+			name:  pattern_name('meta.heritage'),
 			begin: IMPL,
 			end:   lookaheads([';']),
 			beginCaptures: {
-				0: {name: 'storage.modifier.cp'},
+				0: {name: pattern_name('storage.modifier')},
 			},
 			patterns: [
 				{include: '#TypeCall'},
@@ -110,34 +111,34 @@ export const DECLARATION__CLAIM = {
 
 
 export const DECLARATION__SET = {
-	name:  'meta.declaration.set.cp',
+	name:  pattern_name('meta.declaration.set'),
 	begin: '\\b(set)\\b',
 	end:   ';',
 	beginCaptures: {
-		0: {name: 'storage.type.cp'},
+		0: {name: pattern_name('storage.type')},
 	},
 	endCaptures: {
-		0: {name: 'punctuation.delimiter.cp'},
+		0: {name: pattern_name('punctuation.delimiter')},
 	},
 	patterns: [
 		{include: '#ExpressionAssignee'},
-		assignment(`${ ASSN_START }|(&&|\\|\\||\\?\\?|![&|]|[\\^*/+-])=`, lookaheads([';'])),
+		assignment(`${ ASSN_START }|(&&|\\|\\||![&|]|[\\^*/+-])=`, lookaheads([';'])),
 	],
 };
 
 
 export const DECLARATION__DELETE = {
-	name:  'meta.declaration.delete.cp',
+	name:  pattern_name('meta.declaration.delete'),
 	begin: '\\b(delete)\\b',
 	end:   ';',
 	beginCaptures: {
-		0: {name: 'storage.type.cp'},
+		0: {name: pattern_name('storage.type')},
 	},
 	endCaptures: {
-		0: {name: 'punctuation.delimiter.cp'},
+		0: {name: pattern_name('punctuation.delimiter')},
 	},
 	patterns: [
-		identifier(),
+		{include: '#ExpressionAssignee'},
 	],
 };
 

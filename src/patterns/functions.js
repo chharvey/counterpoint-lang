@@ -1,4 +1,5 @@
 import {
+	pattern_name,
 	lookaheads,
 	lookbehinds,
 } from '../helpers.js';
@@ -18,8 +19,7 @@ import {
 	DFLT_START,
 	FATARROW,
 	BLOCK_END,
-	FUNCTIONTYPE,
-	FUNCTION,
+	BACKSLASH,
 } from '../selectors.js';
 import {
 	identifier,
@@ -33,11 +33,14 @@ import {
 
 
 export const TYPE__FUNCTION = {
-	name: 'meta.type.func.cp',
-	begin: lookaheads([FUNCTIONTYPE]),
+	name: pattern_name('meta.type.func'),
+	begin: [BACKSLASH, lookaheads([`${ OWS }(${ DELIMS.PARAMS_GN[0] }|${ DELIMS.PARAMS_FN[0] })`])].join(''),
 	end:   FATARROW,
+	beginCaptures: {
+		1: {name: pattern_name('punctuation.delimiter')},
+	},
 	endCaptures: {
-		0: {name: 'keyword.operator.punctuation.cp'},
+		0: {name: pattern_name('keyword.operator.punctuation')},
 	},
 	patterns: [
 		{include: '#CommentBlock'},
@@ -49,11 +52,14 @@ export const TYPE__FUNCTION = {
 
 
 export const EXPRESSION__FUNCTION = {
-	name: 'meta.expression.func.cp',
-	begin: lookaheads([FUNCTION]),
+	name: pattern_name('meta.expression.func'),
+	begin: [BACKSLASH, lookaheads([`${ OWS }(${ DELIMS.PARAMS_GN[0] }|${ DELIMS.CAPTURES[0] }|${ DELIMS.PARAMS_FN[0] })`])].join(''),
 	end:   [lookbehinds([BLOCK_END]), FATARROW].join('|'),
+	beginCaptures: {
+		1: {name: pattern_name('punctuation.delimiter')},
+	},
 	endCaptures: {
-		0: {name: 'storage.type.cp'},
+		0: {name: pattern_name('storage.type')},
 	},
 	patterns: [
 		{include: '#CommentBlock'},
@@ -62,27 +68,27 @@ export const EXPRESSION__FUNCTION = {
 		{include: '#Captures'},
 		{include: '#Parameters'},
 		{include: '#Block'},
-		annotation(lookaheads([DELIMS.BLOCK[0], FATARROW]), false),
+		annotation(lookaheads([DELIMS.BLOCK[0], FATARROW]), true),
 	],
 };
 
 
 export const DECLARATION__TYPEFUNC = {
-	name: 'meta.declaration.typefunc.cp',
+	name: pattern_name('meta.declaration.typefunc'),
 	begin: lookaheads([`(${ COMP_ACCESS }${ OWS })?\\b(typefunc)\\b`]),
 	end:   ';',
 	endCaptures: {
-		0: {name: 'punctuation.delimiter.cp'},
+		0: {name: pattern_name('punctuation.delimiter')},
 	},
 	patterns: [
 		{include: '#GenericParameters'},
 		implicitReturn('#Type'),
 		{
-			name:  'storage.modifier.cp',
+			name:  pattern_name('storage.modifier'),
 			match: COMP_ACCESS,
 		},
 		{
-			name: 'storage.type.cp',
+			name: pattern_name('storage.type'),
 			match: '\\b(typefunc)\\b',
 		},
 		{include: '#IdentifierType'}, // must come after keywords
@@ -91,11 +97,11 @@ export const DECLARATION__TYPEFUNC = {
 
 
 export const DECLARATION__FUNCTION = {
-	name:  'meta.declaration.function.cp',
+	name:  pattern_name('meta.declaration.function'),
 	begin: lookaheads([`(${ COMP_ACCESS }${ OWS })?\\b(function)\\b`]),
 	end:   [lookbehinds([BLOCK_END]), ';'].join('|'),
 	endCaptures: {
-		0: {name: 'punctuation.delimiter.cp'},
+		0: {name: pattern_name('punctuation.delimiter')},
 	},
 	patterns: [
 		{include: '#GenericParameters'},
@@ -103,26 +109,26 @@ export const DECLARATION__FUNCTION = {
 		{include: '#Parameters'},
 		{include: '#Block'},
 		{
-			name:  'storage.modifier.cp',
+			name:  pattern_name('storage.modifier'),
 			match: COMP_ACCESS,
 		},
 		{
-			name: 'storage.type.cp',
+			name: pattern_name('storage.type'),
 			match: '\\b(function)\\b',
 		},
 		{
-			name:  'meta.heritage.cp',
+			name:  pattern_name('meta.heritage'),
 			begin: IMPL,
 			end:   lookaheads([DELIMS.BLOCK[0], FATARROW]),
 			beginCaptures: {
-				0: {name: 'storage.modifier.cp'},
+				0: {name: pattern_name('storage.modifier')},
 			},
 			patterns: [
 				{include: '#TypeCall'},
 				identifier('entity.other.inherited-class'),
 			],
 		},
-		annotation(lookaheads([IMPL, DELIMS.BLOCK[0], FATARROW]), false),
+		annotation(lookaheads([IMPL, DELIMS.BLOCK[0], FATARROW]), true),
 		implicitReturn(),
 		{include: '#IdentifierFunction'}, // must come after keywords
 	],
@@ -136,7 +142,7 @@ export const GENERIC_PARAMETER_PATTERNS = {
 		constraint(lookaheads([DFLT_START, ',', DELIMS.PARAMS_GN[1]])),
 		assignment(DFLT_START, lookaheads([',', DELIMS.PARAMS_GN[1]]), '#Type'),
 		{
-			name:  'punctuation.delimiter.cp',
+			name:  pattern_name('punctuation.delimiter'),
 			match: ASSN_START,
 		},
 		{include: '#IdentifierParameter'},
@@ -154,7 +160,7 @@ export const TYPE_PARAMETER_PATTERNS = {
 				{include: '#IdentifierParameter'},
 			],
 		},
-		{include: '#Type'}, // must come after `variable.parameter.cp` so that it isn’t confused with `entity.name.type.cp`
+		{include: '#Type'}, // must come after `variable.parameter` so that it isn’t confused with `entity.name.type`
 	],
 };
 
@@ -166,7 +172,7 @@ export const PARAMETER_PATTERNS = {
 		annotation(lookaheads([DFLT_START, ',', DELIMS.PARAMS_FN[1]])),
 		assignment(DFLT_START, lookaheads([',', DELIMS.PARAMS_FN[1]])),
 		{
-			name:  'punctuation.delimiter.cp',
+			name:  pattern_name('punctuation.delimiter'),
 			match: ASSN_START,
 		},
 		{include: '#IdentifierParameter'},
@@ -174,52 +180,9 @@ export const PARAMETER_PATTERNS = {
 };
 
 
-/** Generic parameter, if on separate line. */
-export const POSSIBLE_GENERIC_PARAMETER = {
-	begin: lookaheads([MUTABLE, VARIANCE, [VAR, OWS, `(${ [
-		CONSTRAINT, DFLT_START, ',', // annotated, initialized, or more than 1 generic parameter
-	].join('|') })`].join('')]),
-	end: `,|${ lookaheads([DELIMS.PARAMS_GN[1]]) }`,
-	endCaptures: {
-		0: {name: 'punctuation.separator.cp'},
-	},
-	patterns: [
-		{include: '#GenericParameterPatterns'},
-	],
-};
-
-
-/** Parameter of function type, if on separate line. */
-export const POSSIBLE_TYPE_PARAMETER = {
-	begin: lookaheads([`(${ VAR }${ OWS })?${ ANNO_START }`]),
-	end:   `,|${ lookaheads([DELIMS.PARAMS_FN[1]]) }`,
-	endCaptures: {
-		0: {name: 'punctuation.separator.cp'},
-	},
-	patterns: [
-		{include: '#TypeParameterPatterns'},
-	],
-};
-
-
-/** Parameter of function expression, if on separate line. */
-export const POSSIBLE_PARAMETER = {
-	begin: lookaheads([UNFIXED, [VAR, OWS, `(${ [
-		ASSN_START, ANNO_START, DFLT_START, ',', // aliased, annotated, or initialized, or more than 1 parameter
-	].join('|') })`].join('')]),
-	end: `,|${ lookaheads([DELIMS.PARAMS_FN[1]]) }`,
-	endCaptures: {
-		0: {name: 'punctuation.separator.cp'},
-	},
-	patterns: [
-		{include: '#ParameterPatterns'},
-	],
-};
-
-
-export const CAPTURES = list('meta.captures.cp', DELIMS.CAPTURES[0], DELIMS.CAPTURES[1], [
+export const CAPTURES = list(pattern_name('meta.captures'), DELIMS.CAPTURES[0], DELIMS.CAPTURES[1], [
 	{
-		name:  'storage.modifier.cp',
+		name:  pattern_name('storage.modifier'),
 		match: REF,
 	},
 	identifier(),

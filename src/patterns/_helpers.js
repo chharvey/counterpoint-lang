@@ -1,4 +1,5 @@
 import {
+	pattern_name,
 	lookaheads,
 } from '../helpers.js';
 import {
@@ -22,27 +23,27 @@ export function keyword(varname = 'variable.language') {
 	return {
 		patterns: [
 			{
-				name: 'storage.modifier.cp',
+				name: pattern_name('storage.modifier'),
 				match: '\\b(void)\\b',
 			},
 			{
-				name: 'constant.language.cp',
+				name: pattern_name('constant.language'),
 				match: '\\b(null|false|true)\\b',
 			},
 			{
-				name: 'support.type.cp',
-				match: '\\b(never|bool|sym|int|float|str|unknown)\\b',
+				name: pattern_name('support.type'),
+				match: '\\b(nothing|bool|sym|nat|int|float|dec|str|anything)\\b',
 			},
 			{
-				name:  `${ varname }.cp`,
-				match: '\\b(this)\\b',
+				name: pattern_name(varname),
+				match: '\\b(this|static)\\b',
 			},
 			{
-				name: 'variable.language.cp',
+				name: pattern_name('variable.language'),
 				match: '\\b(super|method)\\b',
 			},
 			{
-				name: 'support.class.cp',
+				name: pattern_name('support.class'),
 				match: '\\b(Object|Class|List|Dict|Set|Map)\\b',
 			},
 		],
@@ -56,20 +57,20 @@ export function identifier(varname = 'variable.other', allow_blank = false) {
 			{include: '#CommentBlock'},
 			{include: '#CommentLine'},
 			{
-				name: `${ varname }.quoted.single.cp`,
+				name: pattern_name(`${ varname }.quoted.single`),
 				begin: '\'',
 				end:   '\'',
 				captures: {
-					0: {name: 'punctuation.delimiter.cp'},
+					0: {name: pattern_name('punctuation.delimiter')},
 				},
 			},
 			{
-				name: `${ varname }.cp`,
+				name: pattern_name(varname),
 				match: `\\b[A-Za-z][A-Za-z0-9_]*|_[A-Za-z0-9_]${ allow_blank ? '*' : '+' }\\b`,
 			},
 			{
 				/* Invalid blank variable used as a reference. */
-				name: 'invalid.illegal.cp',
+				name: pattern_name('invalid.illegal'),
 				match: '(?<=\\b)_(?=\\b)',
 			},
 		],
@@ -91,7 +92,7 @@ export function unit(varname = 'variable.other') {
 				 * Invalid underscores in number literals.
 				 * Must come after variables so that they can be lexed correctly.
 				 */
-				name: 'invalid.illegal.cp',
+				name: pattern_name('invalid.illegal'),
 				match: '__|_(?=\\b)',
 			},
 		],
@@ -105,11 +106,11 @@ export function list(name, begin, end, more_patterns) {
 		begin,
 		end,
 		captures: {
-			0: {name: 'punctuation.delimiter.cp'},
+			0: {name: pattern_name('punctuation.delimiter')},
 		},
 		patterns: [
 			{
-				name: 'punctuation.separator.cp',
+				name: pattern_name('punctuation.separator'),
 				match: ',',
 			},
 			...more_patterns,
@@ -120,11 +121,11 @@ export function list(name, begin, end, more_patterns) {
 
 export function constraint(end) {
 	return {
-		name:  'meta.heritage.cp',
+		name:  pattern_name('meta.heritage'),
 		begin: CONSTRAINT,
 		end,
 		beginCaptures: {
-			0: {name: 'storage.modifier.cp'},
+			0: {name: pattern_name('storage.modifier')},
 		},
 		patterns: [
 			{include: '#Type'},
@@ -133,16 +134,16 @@ export function constraint(end) {
 }
 
 
-export function annotation(end, allow_function_type = true) {
+export function annotation(end, fn_ret_annot = false) {
 	return {
-		name: 'meta.annotation.cp',
+		name: pattern_name('meta.annotation'),
 		begin: ANNO_START,
 		end,
 		beginCaptures: {
-			0: {name: 'punctuation.delimiter.cp'},
+			0: {name: pattern_name('punctuation.delimiter')},
 		},
 		patterns: [
-			{include: (allow_function_type) ? '#Type' : '#Typenonfunction'},
+			{include: fn_ret_annot ? '#Typefnret' : '#Type'},
 		],
 	};
 }
@@ -150,11 +151,11 @@ export function annotation(end, allow_function_type = true) {
 
 export function assignment(begin, end, include = '#Expression') {
 	return {
-		name: 'meta.assignment.cp',
+		name: pattern_name('meta.assignment'),
 		begin,
 		end,
 		beginCaptures: {
-			0: {name: 'punctuation.delimiter.cp'},
+			0: {name: pattern_name('punctuation.delimiter')},
 		},
 		patterns: [
 			{include},
@@ -165,11 +166,11 @@ export function assignment(begin, end, include = '#Expression') {
 
 export function implicitReturn(include = '#Expression') {
 	return {
-		name: 'meta.implicitreturn.cp',
+		name: pattern_name('meta.implicitreturn'),
 		begin: FATARROW,
 		end:   lookaheads([';']),
 		beginCaptures: {
-			0: {name: 'storage.type.cp'},
+			0: {name: pattern_name('storage.type')},
 		},
 		patterns: [
 			{include},
@@ -193,7 +194,7 @@ function typePropertyOrGenericArgumentLabel(start, close_delim, identifier_kind,
 				patterns: [
 					{include: identifier_kind},
 					{
-						name: 'keyword.other.alias.cp',
+						name: pattern_name('keyword.other.alias'),
 						match: PUN,
 					},
 					capture_type,
@@ -229,7 +230,7 @@ function propertyOrArgumentLabel(close_delim, identifier_kind, destructure_kind)
 				patterns: [
 					{include: identifier_kind},
 					{
-						name: 'keyword.other.alias.cp',
+						name: pattern_name('keyword.other.alias'),
 						match: PUN,
 					},
 					capture_expression,
@@ -260,20 +261,20 @@ export function destructure(subtype, identifiers) {
 		['TypeAlias', 'GenericParameter', 'TypeProperty', 'GenericArgument'].includes(subtype) ? ANNO_START :
 		ASSN_START
 	);
-	return list(`meta.destructure.${ subtype.toLowerCase() }.cp`, DELIMS.DESTRUCT[0], DELIMS.DESTRUCT[1], [
+	return list(pattern_name(`meta.destructure.${ subtype.toLowerCase() }`), DELIMS.DESTRUCT[0], DELIMS.DESTRUCT[1], [
 		{include: `#Destructure${ subtype }`},
 		{
 			begin:       lookaheads([[VAR, OWS, prop_delim].join('')]),
 			end:         prop_delim,
 			endCaptures: {
-				0: {name: 'punctuation.delimiter.cp'}
+				0: {name: pattern_name('punctuation.delimiter')}
 			},
 			patterns: [
 				{include: '#IdentifierProperty'},
 			],
 		},
 		{
-			name: 'keyword.other.alias.cp',
+			name: pattern_name('keyword.other.alias'),
 			match: PUN,
 		},
 		...(['Variable', 'Parameter'].includes(subtype) ? [

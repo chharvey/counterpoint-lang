@@ -2,7 +2,7 @@
 class Foo {}
 class _ {}
 public class Foo {}
-secret class Foo {}
+internal class Foo {}
 private class Foo {}
 class enum Foo {}
 class final Foo {}
@@ -15,11 +15,13 @@ class Foo<_> {}
 class Foo extends Bar, Diz.<T> {}
 class Foo extends _, Diz.<_> {}
 class Foo impl Bar, Diz.<T> {}
+class Foo is Qux {}
 class Foo extends Bar impl Diz.<T> {}
-class Foo[var a, b ,] {}
-class Foo<T>[a, var b] extends Bar, Diz.<T> {}
+class Foo extends Bar impl Diz.<T> is Qux {}
+class Foo[ref a, b ,] {}
+class Foo<T>[a, ref b] extends Bar, Diz.<T> {}
 class ClassWithCaptures[
-	var a,
+	ref a,
 	'b',
 ] {};
 
@@ -37,10 +39,10 @@ let Foo: Class = Object && Class && (class extends Bar, Diz.<T> {});
 let Foo: Class = Object && Class && (class extends _, Diz.<_> {});
 let Foo: Class = Object && Class && (class impl Bar, Diz.<T> {});
 let Foo: Class = Object && Class && (class extends Bar impl Diz.<T> {});
-let Foo: Class = Object && Class && (class [a, var b ,] extends Bar.<T> {});
+let Foo: Class = Object && Class && (class [a, ref b ,] extends Bar.<T> {});
 let classWithCaptures: Class = class [
 	a,
-	var 'b',
+	ref 'b',
 ] {};
 
 
@@ -48,7 +50,7 @@ let classWithCaptures: Class = class [
 % interface declarations
 interface Foo {}
 public interface Foo {}
-secret interface Foo {}
+internal interface Foo {}
 private interface Foo {}
 interface data Foo {}
 interface nominal Foo {}
@@ -62,14 +64,14 @@ interface Foo extends Bar inherits Diz.<T> {}
 
 
 % interface type expressions
-type T = unknown & (interface {});
-type T = unknown & (interface data {});
-type T = unknown & (interface <T> {});
-type T = unknown & (interface <in T> {});
-type T = unknown & (interface extends Bar, Diz.<T> {});
-type T = unknown & (interface inherits Bar, Diz.<T> {});
-type T = unknown & (interface inherits _, Diz.<_> {});
-type T = unknown & (interface extends Bar inherits Diz.<T> {});
+type T = anything & (interface {});
+type T = anything & (interface data {});
+type T = anything & (interface <T> {});
+type T = anything & (interface <in T> {});
+type T = anything & (interface extends Bar, Diz.<T> {});
+type T = anything & (interface inherits Bar, Diz.<T> {});
+type T = anything & (interface inherits _, Diz.<_> {});
+type T = anything & (interface extends Bar inherits Diz.<T> {});
 
 
 
@@ -77,7 +79,7 @@ type T = unknown & (interface extends Bar inherits Diz.<T> {});
 class Foo {
 	% line comment
 	public field: T = 42;
-	secret field: T = 42;
+	internal field: T = 42;
 	private field: T = 42;
 	protected field: T = 42;
 	override field: T = 42;
@@ -92,14 +94,17 @@ class Foo {
 	public field?: T;
 	public field = 42;
 
+	public field?: this;
+	public field?: static;
+
 	public new () {;}
-	secret new () {;}
+	internal new () {;}
 	private new () {;}
 	protected new () {;}
 	new (
 		constructor_param: int,
 		public constructor_field1: int,
-		secret constructor_field2: int,
+		internal constructor_field2: int,
 		private constructor_field3: int,
 		protected constructor_field4: int,
 		public override constructor_field8: int,
@@ -111,7 +116,7 @@ class Foo {
 		private var construtor_field8: int,
 		private construtor_field9= field9: int,
 		private construtor_field10= var field10: int,
-		private construtor_field11= [field11a, var field11b]: int[2],
+		private construtor_field11= (field11a, var field11b): (int, int),
 
 		public constructor_field12: int ?= 42,
 		public constructor_field13 ?= 42,
@@ -121,7 +126,7 @@ class Foo {
 	block comment
 	%%
 	public meth(): void {;}
-	secret meth(): void {;}
+	internal meth(): void {;}
 	private meth(): void {;}
 	protected meth(): void {;}
 	override meth(): void {;}
@@ -133,9 +138,11 @@ class Foo {
 	meth<out T>(): void {;}
 	meth(x: int): void {;}
 	meth(): void {
-		super; method; this;
+		super; method; this; static;
 	}
 	meth(): int => 42;
+	methReturnsFunc(): \() => int => \() => 42;
+	methReturnsFunc(): \() => (T) => \() => 42;
 	abstractMethod(): void;
 
 	return(ab: void): void { return (ab); }
@@ -149,7 +156,7 @@ class Foo {
 		(
 			constructor_param: int,
 			public constructor_field1: int,
-			secret constructor_field2: int,
+			internal constructor_field2: int,
 			private constructor_field3: int,
 			protected constructor_field4: int,
 			public override constructor_field8: int,
@@ -161,7 +168,7 @@ class Foo {
 			private var construtor_field8: int,
 			private construtor_field9= field9: int,
 			private construtor_field10= var field10: int,
-			private construtor_field11= [field11a, var field11b]: int[2],
+			private construtor_field11= (field11a, var field11b): (int, int),
 		) {;}
 	}
 
@@ -171,9 +178,11 @@ class Foo {
 		<in T>(): void {;}
 		(x: int): void {;}
 		(): void {
-			super; method; this;
+			super; method; this; static;
 		}
 		(): int => 42;
+		(): \() => int => \() => 42;
+		(): \() => (T) => \() => 42;
 	}
 	override methodGroup { (): void {;} }
 	impl methodGroup { (): void {;} }
@@ -191,7 +200,7 @@ interface Foo {
 
 	% constructor signatures
 	new ();
-	new (arg: unknown);
+	new (arg: anything);
 
 	mut meth(): void;
 	meth<T>(): void;
@@ -199,12 +208,14 @@ interface Foo {
 	_<_>(): void;
 	meth(x: int): void;
 	meth(_: int): void;
+	methReturnsFunc(): \() => int;
 
 	public methodGroup {
 		(): void;
 		<T>(): void;
 		<in T>(): void;
 		(x: int): void;
+		(): \() => int;
 	}
 	public methodGroup { mut (): void; }
 }

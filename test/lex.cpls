@@ -1,7 +1,7 @@
-type TypeKeywords    = never | bool | sym | int | float | str | unknown;
+type TypeKeywords    = nothing | bool | sym | nat | int | float | str | anything;
 type TypeClasses     = Object | Class | List | Dict | Set | Map;
 type TypeConstants   = null | false | true;
-type TypeNonKeywords = boolen | integer | string | object | class | list | dict | set | map;
+type TypeNonKeywords = never | boolen | symbol | natural | integer | string | object | class | list | dict | set | map | unknown;
 
 let value_keywords     = null || false || true;
 let value_classes      = Object || Class || List || Dict || Set || Map;
@@ -45,6 +45,31 @@ let value_non_keywords = nil || object || list || dict || set || map;
 +4_2.4_2e-4_2;
 -4_2.4_2e-4_2;
 
+44.42d;
++44.42d;
+-42.42d;
+4_4.4_2d;
++4_4.4_2d;
+-4_2.4_2d;
+42.42e42d;
++42.42e42d;
+-42.42e42d;
+4_2.4_2e4_2d;
++4_2.4_2e4_2d;
+-4_2.4_2e4_2d;
+42.42e+42d;
++42.42e+42d;
+-42.42e+42d;
+4_2.4_2e+4_2d;
++4_2.4_2e+4_2d;
+-4_2.4_2e+4_2d;
+42.42e-42d;
++42.42e-42d;
+-42.42e-42d;
+4_2.4_2e-4_2d;
++4_2.4_2e-4_2d;
+-4_2.4_2e-4_2d;
+
 
 % augmentation operators
 val ^= 42;
@@ -73,11 +98,8 @@ a!.b;
 a.'b';
 a?.'b';
 a!.'b';
-.b;
-.'b';
 type T = A.B;
 type T = A.'B';
-type T = .'B';
 
 if "hello" /* world */ %% then %% then
 true else % false
@@ -85,7 +107,7 @@ else {if !true
 	then false
 	% a line comment
 	else true
-}
+};
 
 while %% this is a
 block comment
@@ -96,7 +118,7 @@ block comment
 	%% "nesting" isnt allowed %%
 	world
 %%
-
+;
 	%%%
 	The thing that does something.
 	@takes x the parameter

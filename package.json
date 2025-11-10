@@ -1,7 +1,7 @@
 {
   "name": "counterpoint-lang",
   "displayName": "Counterpoint Language Support",
-  "version": "2.0.0",
+  "version": "3.0.0",
   "description": "Language support for the Counterpoint programming language.",
   "type": "module",
   "scripts": {
@@ -32,25 +32,27 @@
   "contributes": {
     "languages": [
       {
-        "id": "cp",
+        "id": "cpl",
         "aliases": [
           "Counterpoint",
-          "cp"
+          "cpl"
         ],
         "extensions": [
-          ".cp"
+          ".cpls",
+          ".cplm",
+          ".cplp"
         ],
         "configuration": "./language-configuration.json"
       }
     ],
     "grammars": [
       {
-        "language": "cp",
-        "scopeName": "source.cp",
-        "path": "./syntaxes/cp.tmLanguage.json"
+        "language": "cpl",
+        "scopeName": "source.cpl",
+        "path": "./syntaxes/cpl.tmLanguage.json"
       },
       {
-        "scopeName": "text.html.markdown.cp",
+        "scopeName": "text.html.markdown.cpl",
         "path": "./syntaxes/markdown.tmLanguage.json",
         "injectTo": [
           "text.html.markdown"

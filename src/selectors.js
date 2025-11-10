@@ -17,7 +17,7 @@ export const DELIMS = {
 	CAPTURES:  ['\\[', '\\]'],
 	PARAMS_GN: ['<',   '>'],
 	PARAMS_FN: ['\\(', '\\)'],
-	DESTRUCT:  ['\\[', '\\]'],
+	DESTRUCT:  ['\\(', '\\)'],
 };
 
 export const OWS     = '(?:\\s+|(%%(?:%?[^%])*%%))*';
@@ -25,7 +25,7 @@ export const INT     = '(?:\\+|-)?(?:\\\\[bqodxz])?[0-9a-z_]+';
 export const VARNAME = '\\b[A-Za-z_][A-Za-z0-9_]*\\b';
 export const VAR     = `(?:${ VARNAME }|\'.*\')`;
 
-export const COMP_ACCESS = '\\b(public|secret|private)\\b';
+export const COMP_ACCESS = '\\b(public|internal|private)\\b';
 export const MEMB_ACCESS = `\\b(${ COMP_ACCESS }|protected)\\b`;
 export const UNFIXED    = '\\b(var)\\b';
 export const REF        = '\\b(ref)\\b';
@@ -36,15 +36,18 @@ export const PUN        = '\\$';
 export const VARIANCE   = '\\b(out|in)\\b';
 export const CONSTRAINT = '\\b(narrows|widens)\\b'
 export const PERMISSION = '\\b(const|readonly|writeonly)\\b';
-export const IMPL       = '\\b(override|impl)\\b';
-export const IMPL_CLAIM = '\\b(override|impl|claim)\\b';
+export const IMPL       = '\\b(impl)\\b';
+export const OVR        = '\\b(override|impl)\\b';
+export const OVR_CLAIM  = '\\b(override|impl|claim)\\b';
 export const ANNO_START = `\\??\\:${ lookaheads(['\\:'], true) }`;
-export const ASSN_START = `=${ lookaheads(['=', '>'], true) }`;
+export const ASSN_START = `=${ lookaheads(['[=>]'], true) }`;
 export const DFLT_START = `\\?${ ASSN_START }`;
 export const THINARROW  = '->';
 export const FATARROW   = '=>';
 export const BLOCK_END  = '\\}'; // used for lookbehinds (cannot contain lookaheads)
-export const DOT        = '(\\.|\\?\\.|\\!\\.)';
+export const DOT        = '(\\.)';
+export const DOT_ACCESS = '(\\.|\\?\\.|\\!\\.)';
+export const BACKSLASH  = '(\\\\)';
 
 function destructure_selector(prop_delim) {
 	return `
@@ -89,52 +92,9 @@ export const DESTRUCTURE_ASSIGNEES = `
 	${ OWS }${ DELIMS.DESTRUCT[1] })
 `.replace(/\s+/g, '');
 
-export const FUNCTIONTYPE = `
-	${ DELIMS.PARAMS_GN[0] } # any generic parameters
-	| ${ DELIMS.PARAMS_FN[0] }${ OWS }(?:
-		${ DELIMS.PARAMS_FN[1] }${ OWS }(?<aftertypeparams> ${ FATARROW }) # exactly 0 type parameters
-		| ${ ANNO_START }                                                  # annotated unnamed type parameter
-		| ${ VAR }${ OWS }(?:
-			${ DELIMS.PARAMS_FN[1] }${ OWS }\\g<aftertypeparams> # exactly 1 unnamed type parameter
-			| ${ ANNO_START } | ,                                # annotated named type parameter, or more than 1 type parameter
-		)
-	)
-`.replace(/\#.*\n|\s+/g, '');
-
-export const FUNCTION = `
-	(?:
-		(?<aftergenericparams>
-			(?: # captures
-				${ DELIMS.CAPTURES[0] }${ OWS }
-					(?:${ REF }${ OWS })? ${ VAR }
-					(?:${ OWS },${ OWS }(?:${ REF }${ OWS })? ${ VAR })*
-					${ OWS },?
-				${ OWS }${ DELIMS.CAPTURES[1] }
-			)?
-			${ DELIMS.PARAMS_FN[0] }${ OWS }(?:
-				${ DELIMS.PARAMS_FN[1] }${ OWS }(?<afterparams> ${ ANNO_START } | ${ FATARROW } | ${ DELIMS.BLOCK[0] }) # exactly 0 parameters
-				| ${ UNFIXED }
-				| ${ VAR }${ OWS }(?:
-					${ DELIMS.PARAMS_FN[1] }${ OWS }\\g<afterparams>          # exactly 1 unaliased unannotated uninitialized nondestructued parameter
-					| ${ ASSN_START } | ${ ANNO_START } | ${ DFLT_START } | , # aliased, annotated, or initialized, or more than 1 parameter
-				)
-			)
-		)
-		| ${ DELIMS.PARAMS_GN[0] }${ OWS }(?:
-			${ MUTABLE }
-			| ${ VARIANCE }
-			| ${ OWS }${ VAR }${ OWS }(?:
-				${ DELIMS.PARAMS_GN[1] }${ OWS }\\g<aftergenericparams> # exactly 1 unannotated uninitialized generic parameter
-				| ${ CONSTRAINT } | ${ DFLT_START } | ,                 # annotated, or initialized, or more than 1 generic parameter
-			)
-		)
-	)
-	| ${ lookbehinds([DELIMS.PARAMS_FN[1]]) }${ OWS }\\g<afterparams>
-`.replace(/\#.*\n|\s+/g, '');
-
 export const FIELD = `
 	(${ MEMB_ACCESS } ${ OWS })?
-	(${ IMPL_CLAIM } ${ OWS })?
+	(${ OVR_CLAIM } ${ OWS })?
 	(${ PERMISSION } ${ OWS })?
 	${ VAR } ${ OWS }
 	(?:${ ANNO_START } | ${ ASSN_START })
@@ -142,7 +102,7 @@ export const FIELD = `
 
 export const FIELD_CONSTRUCTOR = `
 	${ MEMB_ACCESS } ${ OWS }
-	(${ IMPL } ${ OWS })?
+	(${ OVR } ${ OWS })?
 	(${ PERMISSION } ${ OWS })?
 	(?:
 		(${ VAR } ${ OWS } ${ ASSN_START } ${ OWS })? (${ UNFIXED } ${ OWS })? ${ VAR } ${ OWS } (${ ANNO_START } | ${ DFLT_START })
@@ -162,7 +122,7 @@ export const CONSTRUCTORGROUP = `
 
 export const METHOD = `
 	(${ MEMB_ACCESS } ${ OWS })?
-	(${ IMPL_CLAIM } ${ OWS })?
+	(${ OVR_CLAIM } ${ OWS })?
 	(\\b final \\b ${ OWS })?
 	(${ MUTABLE } ${ OWS })?
 	(?:${ VAR } ${ OWS })? (?:< | ${ DELIMS.PARAMS_FN[0] })
@@ -170,7 +130,7 @@ export const METHOD = `
 
 export const METHODGROUP = `
 	(${ MEMB_ACCESS } ${ OWS })?
-	(${ IMPL_CLAIM } ${ OWS })?
+	(${ OVR_CLAIM } ${ OWS })?
 	(\\b final \\b ${ OWS })?
 	${ VAR } ${ OWS } ${ DELIMS.BLOCK[0] }
 `.replace(/\s+/g, '');

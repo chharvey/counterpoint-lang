@@ -1,4 +1,5 @@
 import {
+	pattern_name,
 	lookaheads,
 	lookbehinds,
 } from '../helpers.js';
@@ -8,9 +9,9 @@ import {
 	INT,
 	VAR,
 	THINARROW,
-	FATARROW,
 	BLOCK_END,
 	DOT,
+	DOT_ACCESS,
 } from '../selectors.js';
 import {
 	identifier,
@@ -22,9 +23,9 @@ import {
 
 
 
-export const ARGUMENTS = list('meta.arguments.cp', DELIMS.ARGS_FN[0], DELIMS.ARGS_FN[1], [
+export const ARGUMENTS = list(pattern_name('meta.arguments'), DELIMS.ARGS_FN[0], DELIMS.ARGS_FN[1], [
 	{
-		name: 'keyword.other.spread.cp',
+		name: pattern_name('keyword.other.spread'),
 		match: '##|#',
 	},
 	argumentLabel(DELIMS.ARGS_FN[1]),
@@ -33,14 +34,14 @@ export const ARGUMENTS = list('meta.arguments.cp', DELIMS.ARGS_FN[0], DELIMS.ARG
 
 
 export const EXPRESSION__CLAIM = {
-	name:          'meta.expression.claim.cp',
+	name:          pattern_name('meta.expression.claim'),
 	begin:         `\\b(as)\\b${ lookaheads([`${ OWS }(${ DELIMS.CLAIM[0] })`]) }`,
 	end:           DELIMS.CLAIM[1],
-	beginCaptures: {1: {name: 'keyword.operator.text.cp'}},
-	endCaptures:   {0: {name: 'punctuation.delimiter.cp'}},
+	beginCaptures: {1: {name: pattern_name('keyword.operator.text')}},
+	endCaptures:   {0: {name: pattern_name('punctuation.delimiter')}},
 	patterns:      [
 		{
-			name:  'punctuation.delimiter.cp',
+			name:  pattern_name('punctuation.delimiter'),
 			match: DELIMS.CLAIM[0],
 		},
 		{include: '#Type'},
@@ -49,11 +50,11 @@ export const EXPRESSION__CLAIM = {
 
 
 export const EXPRESSION__CALL = {
-	name: 'meta.expression.call.cp',
-	begin: `(${ DOT }(\\.\\.)?)${ lookaheads([`${ OWS }(${ DELIMS.ARGS_GN[0] }|${ DELIMS.ARGS_FN[0] })`]) }`,
+	name: pattern_name('meta.expression.call'),
+	begin: [`(${ DOT_ACCESS }${ DOT }{2}?)`, lookaheads([[OWS, `(${ DELIMS.ARGS_GN[0] }|${ DELIMS.ARGS_FN[0] })`].join('')])].join(''),
 	end:   lookbehinds([DELIMS.ARGS_FN[1]]),
 	beginCaptures: {
-		1: {name: 'keyword.operator.punctuation.cp'},
+		1: {name: pattern_name('keyword.operator.punctuation')},
 	},
 	patterns: [
 		{include: '#CommentBlock'},
@@ -67,22 +68,22 @@ export const EXPRESSION__CALL = {
 export const EXPRESSION__ACCESS = {
 	patterns: [
 		{
-			name: 'meta.expression.access.cp',
-			begin: [DOT, lookaheads([[OWS, DELIMS.ACCESS[0]].join('')])].join(''),
+			name: pattern_name('meta.expression.access'),
+			begin: [DOT_ACCESS, lookaheads([[OWS, DELIMS.ACCESS[0]].join('')])].join(''),
 			end:   lookbehinds([DELIMS.ACCESS[1]]),
 			beginCaptures: {
-				1: {name: 'keyword.operator.punctuation.cp'},
+				1: {name: pattern_name('keyword.operator.punctuation')},
 			},
 			patterns: [
 				{include: '#Expression'},
 			],
 		},
 		{
-			name: 'meta.expression.access.cp',
-			begin: [DOT, lookaheads([`${ OWS }(${ INT }|${ VAR })`])].join(''),
+			name: pattern_name('meta.expression.access'),
+			begin: [DOT_ACCESS, lookaheads([[OWS, `(${ INT }|${ VAR })`].join('')])].join(''),
 			end:   lookbehinds(['[A-Za-z0-9_\']']),
 			beginCaptures: {
-				1: {name: 'keyword.operator.punctuation.cp'},
+				1: {name: pattern_name('keyword.operator.punctuation')},
 			},
 			patterns: [
 				{include: '#Number'},
@@ -96,8 +97,8 @@ export const EXPRESSION__ACCESS = {
 export const EXPRESSION__ASSIGNEE = {
 	patterns: [
 		{
-			name: 'keyword.operator.punctuation.cp',
-			match: '~~|\\+\\+',
+			name: pattern_name('keyword.operator.punctuation'),
+			match: '\\+\\+|~[~?!]',
 		},
 		{include: '#DestructureAssignment'},
 		{include: '#ExpressionCall'},
@@ -110,37 +111,33 @@ export const EXPRESSION__ASSIGNEE = {
 };
 
 
-export const EXPRESSION__STRUCTURE__GROUPING = {
-	name: 'meta.expression.structure.grouping.cp',
-	begin: DELIMS.GROUPING[0],
-	end:   DELIMS.GROUPING[1],
-	captures: {
-		0: {name: 'punctuation.delimiter.cp'},
-	},
-	patterns: [
-		{include: '#PossibleParameter'},
-		{include: '#Expression'},
-	],
-};
-
-
-export const EXPRESSION__STRUCTURE__LIST = list('meta.expression.structure.list.cp', DELIMS.LIST[0], DELIMS.LIST[1], [
+export const EXPRESSION__STRUCTURE__GROUPING = list(pattern_name('meta.expression.structure.grouping_or_tuple'), DELIMS.GROUPING[0], DELIMS.GROUPING[1], [
 	{
-		name: 'keyword.other.spread.cp',
+		name: pattern_name('keyword.other.spread'),
 		match: '##|#',
 	},
-	property(DELIMS.LIST[1]),
+	property(DELIMS.GROUPING[1]),
 	{include: '#Expression'}, // must come after `property` because we don’t want expressions to look like record keys or property destructuring
 ]);
 
 
-export const EXPRESSION__STRUCTURE__SET = list('meta.expression.structure.set.cp', DELIMS.SET[0], DELIMS.SET[1], [
+export const EXPRESSION__STRUCTURE__LIST = list(pattern_name('meta.expression.structure.list'), DELIMS.LIST[0], DELIMS.LIST[1], [
 	{
-		name: 'keyword.other.spread.cp',
+		name: pattern_name('keyword.other.spread'),
+		match: '##|#',
+	},
+	property(DELIMS.LIST[1]),
+	{include: '#Expression'}, // must come after `property` because we don’t want expressions to look like dict keys or property destructuring
+]);
+
+
+export const EXPRESSION__STRUCTURE__SET = list(pattern_name('meta.expression.structure.set'), DELIMS.SET[0], DELIMS.SET[1], [
+	{
+		name: pattern_name('keyword.other.spread'),
 		match: '#',
 	},
 	{
-		name: 'keyword.operator.punctuation.cp',
+		name: pattern_name('keyword.operator.punctuation'),
 		match: THINARROW,
 	},
 	{
@@ -156,30 +153,14 @@ export const EXPRESSION__STRUCTURE__SET = list('meta.expression.structure.set.cp
 export const EXPRESSIONNONBLOCK = {
 	patterns: [
 		{
-			name: 'keyword.operator.punctuation.cp',
-			match: '===|!==|\\+\\+|<=|>=|==|&&|\\|\\||\\?\\?|~[~?!]|![<>=&|]|[\\^*/]',
+			name: pattern_name('keyword.operator.punctuation'),
+			match: '===|!==|\\+\\+|<=|>=|==|&&|\\|\\||~[~?!]|![<>=&|]|[\\^*/]',
 		},
 		{
-			name: 'keyword.operator.text.cp',
-			match: '\\b(is|isnt|if|then|else)\\b',
-		},
-		{
-			// for cases like `(x: int): int{} => Set.([x + 1]);` where the `}` incorrectly ends the function
-			name: 'storage.type.cp',
-			match: FATARROW,
+			name: pattern_name('keyword.operator.text'),
+			match: '\\b(nat|int|float|dec|is|isnt|if|then|else)\\b',
 		},
 		{include: '#ExpressionFunction'},
-		{
-			// covers less-than symbol and generic parameters of a function expression
-			name:     'meta.lessthanorgenericparameters.cp',
-			begin:    DELIMS.CLAIM[0],
-			end:      `${ DELIMS.CLAIM[1] }|${ lookaheads([`[${ DELIMS.GROUPING[1] }${ DELIMS.LIST[1] },;]`, DELIMS.SET[1], THINARROW, '\\b(then|else|do|to|by)\\b']) }`,
-			captures: {0: {name: 'punctuation.delimiter.cp'}},
-			patterns: [
-				{include: '#PossibleGenericParameter'},
-				{include: '#Expression'},
-			],
-		},
 		{include: '#ExpressionClass'},
 		{include: '#ExpressionClaim'},
 		{include: '#ExpressionCall'},
@@ -188,12 +169,12 @@ export const EXPRESSIONNONBLOCK = {
 		{include: '#ExpressionStructureList'},
 		{include: '#ExpressionStructureSet'},
 		{
-			name:  'keyword.operator.text.cp',
+			name:  pattern_name('keyword.operator.text'),
 			match: '\\b(as)(\\b|[?!])', // must come after '#ExpressionClaim'
 		},
 		unit(),
 		{
-			name: 'keyword.operator.punctuation.cp',
+			name: pattern_name('keyword.operator.punctuation'),
 			match: `[
 				! ?   # must come after '#ExpressionCall', 'as[?!]?', and '#ExpressionAccess'
 				+ \\- # must come after 'unit'
