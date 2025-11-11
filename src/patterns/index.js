@@ -4,6 +4,7 @@ export * from './declarations.js';
 export * from './expressions.js';
 export * from './functions.js';
 export * from './modifiers.js';
+export * from './modules.js';
 export * from './statements.js';
 export * from './tokens.js';
 export * from './types.js';
