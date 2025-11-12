@@ -35,7 +35,7 @@ import {
 
 
 
-export const HERITAGE = {
+export const CLASS_HERITAGE = {
 	name:  pattern_name('meta.heritage'),
 	begin: `\\b(extends|${ IMPL }|inherits|is)\\b`,
 	end:   lookaheads([`\\b(extends|${ IMPL }|inherits|is)\\b`, DELIMS.BLOCK[0]]),
@@ -64,7 +64,7 @@ export const TYPE__INTERFACE = {
 		{include: '#CommentBlock'},
 		{include: '#CommentLine'},
 		{include: '#GenericParameters'},
-		{include: '#Heritage'},
+		{include: '#ClassHeritage'},
 		{include: '#ClassBody'},
 		{
 			name: pattern_name('storage.modifier'),
@@ -85,7 +85,7 @@ export const EXPRESSION__CLASS = {
 		{include: '#CommentBlock'},
 		{include: '#CommentLine'},
 		{include: '#GenericParameters'},
-		{include: '#Heritage'},
+		{include: '#ClassHeritage'},
 		{include: '#Captures'},
 		{include: '#ClassBody'},
 		{
@@ -103,7 +103,7 @@ export const DECLARATION__CLASS = {
 	patterns: [
 		{include: '#GenericParameters'},
 		{include: '#Captures'},
-		{include: '#Heritage'},
+		{include: '#ClassHeritage'},
 		{include: '#ClassBody'},
 		{
 			name: pattern_name('storage.type'),
@@ -124,7 +124,7 @@ export const DECLARATION__INTERFACE = {
 	end:   lookbehinds([BLOCK_END]),
 	patterns: [
 		{include: '#GenericParameters'},
-		{include: '#Heritage'},
+		{include: '#ClassHeritage'},
 		{include: '#ClassBody'},
 		{
 			name: pattern_name('storage.type'),
