@@ -27,6 +27,7 @@ import {
 	constraint,
 	annotation,
 	assignment,
+	func_heritage,
 	implicitReturn,
 } from './_helpers.js';
 
@@ -116,18 +117,7 @@ export const DECLARATION__FUNCTION = {
 			name: pattern_name('storage.type'),
 			match: '\\b(function)\\b',
 		},
-		{
-			name:  pattern_name('meta.heritage'),
-			begin: IMPL,
-			end:   lookaheads([DELIMS.BLOCK[0], FATARROW]),
-			beginCaptures: {
-				0: {name: pattern_name('storage.modifier')},
-			},
-			patterns: [
-				{include: '#TypeCall'},
-				qualified_name('entity.other.inherited-class'),
-			],
-		},
+		func_heritage(lookaheads([DELIMS.BLOCK[0], FATARROW])),
 		annotation(lookaheads([IMPL, DELIMS.BLOCK[0], FATARROW]), true),
 		implicitReturn(),
 		{include: '#IdentifierFunction'}, // must come after keywords

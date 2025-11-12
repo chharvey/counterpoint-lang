@@ -9,6 +9,7 @@ import {
 	UNFIXED,
 	PUN,
 	CONSTRAINT,
+	IMPL,
 	ANNO_START,
 	ASSN_START,
 	DFLT_START,
@@ -172,6 +173,20 @@ export function assignment(begin, end, include = '#Expression') {
 		},
 		patterns: [
 			{include},
+		],
+	};
+}
+
+
+export function func_heritage(end) {
+	return {
+		name:  pattern_name('meta.heritage'),
+		begin: IMPL,
+		end,
+		beginCaptures: {0: {name: pattern_name('storage.modifier')}},
+		patterns: [
+			{include: '#TypeCall'},
+			qualified_name('entity.other.inherited-class'),
 		],
 	};
 }

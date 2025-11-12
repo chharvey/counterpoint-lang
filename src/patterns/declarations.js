@@ -13,10 +13,10 @@ import {
 } from '../selectors.js';
 import {
 	unit,
-	qualified_name,
 	constraint,
 	annotation,
 	assignment,
+	func_heritage,
 	implicitReturn,
 } from './_helpers.js';
 
@@ -83,18 +83,7 @@ export const DECLARATION__CLAIM = {
 		0: {name: pattern_name('punctuation.delimiter')},
 	},
 	patterns: [
-		{
-			name:  pattern_name('meta.heritage'),
-			begin: IMPL,
-			end:   lookaheads([';']),
-			beginCaptures: {
-				0: {name: pattern_name('storage.modifier')},
-			},
-			patterns: [
-				{include: '#TypeCall'},
-				qualified_name('entity.other.inherited-class'),
-			],
-		},
+		func_heritage(lookaheads([';'])),
 		{
 			begin: lookaheads([[VAR, OWS, `(${ DELIMS.PARAMS_GN[0] }|${ DELIMS.PARAMS_FN[0] })`].join('')]),
 			end:   lookaheads([ANNO_START, IMPL]),
