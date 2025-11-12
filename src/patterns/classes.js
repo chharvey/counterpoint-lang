@@ -27,7 +27,7 @@ import {
 	METHODGROUP,
 } from '../selectors.js';
 import {
-	identifier,
+	qualified_name,
 	annotation,
 	assignment,
 	implicitReturn,
@@ -35,7 +35,7 @@ import {
 
 
 
-export const HERITAGE = {
+export const CLASS_HERITAGE = {
 	name:  pattern_name('meta.heritage'),
 	begin: `\\b(extends|${ IMPL }|inherits|is)\\b`,
 	end:   lookaheads([`\\b(extends|${ IMPL }|inherits|is)\\b`, DELIMS.BLOCK[0]]),
@@ -44,7 +44,8 @@ export const HERITAGE = {
 	},
 	patterns: [
 		{include: '#TypeCall'},
-		identifier('entity.other.inherited-class'),
+		{include: '#TypeAccess'},
+		qualified_name('entity.other.inherited-class'),
 		{
 			name: pattern_name('punctuation.separator'),
 			match: ',',
@@ -64,7 +65,7 @@ export const TYPE__INTERFACE = {
 		{include: '#CommentBlock'},
 		{include: '#CommentLine'},
 		{include: '#GenericParameters'},
-		{include: '#Heritage'},
+		{include: '#ClassHeritage'},
 		{include: '#ClassBody'},
 		{
 			name: pattern_name('storage.modifier'),
@@ -85,7 +86,7 @@ export const EXPRESSION__CLASS = {
 		{include: '#CommentBlock'},
 		{include: '#CommentLine'},
 		{include: '#GenericParameters'},
-		{include: '#Heritage'},
+		{include: '#ClassHeritage'},
 		{include: '#Captures'},
 		{include: '#ClassBody'},
 		{
@@ -103,7 +104,7 @@ export const DECLARATION__CLASS = {
 	patterns: [
 		{include: '#GenericParameters'},
 		{include: '#Captures'},
-		{include: '#Heritage'},
+		{include: '#ClassHeritage'},
 		{include: '#ClassBody'},
 		{
 			name: pattern_name('storage.type'),
@@ -124,7 +125,7 @@ export const DECLARATION__INTERFACE = {
 	end:   lookbehinds([BLOCK_END]),
 	patterns: [
 		{include: '#GenericParameters'},
-		{include: '#Heritage'},
+		{include: '#ClassHeritage'},
 		{include: '#ClassBody'},
 		{
 			name: pattern_name('storage.type'),

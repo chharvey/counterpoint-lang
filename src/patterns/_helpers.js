@@ -9,6 +9,7 @@ import {
 	UNFIXED,
 	PUN,
 	CONSTRAINT,
+	IMPL,
 	ANNO_START,
 	ASSN_START,
 	DFLT_START,
@@ -78,6 +79,19 @@ export function identifier(varname = 'variable.other', allow_blank = false) {
 }
 
 
+export function qualified_name(varname = 'variable.other') {
+	return {
+		patterns: [
+			identifier(varname),
+			{
+				name:  pattern_name('punctuation.separator.namespace'),
+				match: '::',
+			},
+		],
+	};
+}
+
+
 export function unit(varname = 'variable.other') {
 	return {
 		patterns: [
@@ -86,7 +100,7 @@ export function unit(varname = 'variable.other') {
 			{include: '#Number'},
 			{include: '#Symbol'},
 			(varname === 'entity.name.type' ? keyword('support.type') : keyword()),
-			identifier(varname),
+			qualified_name(varname),
 			{
 				/*
 				 * Invalid underscores in number literals.
@@ -159,6 +173,21 @@ export function assignment(begin, end, include = '#Expression') {
 		},
 		patterns: [
 			{include},
+		],
+	};
+}
+
+
+export function func_heritage(end) {
+	return {
+		name:  pattern_name('meta.heritage'),
+		begin: IMPL,
+		end,
+		beginCaptures: {0: {name: pattern_name('storage.modifier')}},
+		patterns: [
+			{include: '#TypeCall'},
+			{include: '#TypeAccess'},
+			qualified_name('entity.other.inherited-class'),
 		],
 	};
 }

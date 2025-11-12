@@ -22,11 +22,12 @@ import {
 	BACKSLASH,
 } from '../selectors.js';
 import {
-	identifier,
+	qualified_name,
 	list,
 	constraint,
 	annotation,
 	assignment,
+	func_heritage,
 	implicitReturn,
 } from './_helpers.js';
 
@@ -116,18 +117,7 @@ export const DECLARATION__FUNCTION = {
 			name: pattern_name('storage.type'),
 			match: '\\b(function)\\b',
 		},
-		{
-			name:  pattern_name('meta.heritage'),
-			begin: IMPL,
-			end:   lookaheads([DELIMS.BLOCK[0], FATARROW]),
-			beginCaptures: {
-				0: {name: pattern_name('storage.modifier')},
-			},
-			patterns: [
-				{include: '#TypeCall'},
-				identifier('entity.other.inherited-class'),
-			],
-		},
+		func_heritage(lookaheads([DELIMS.BLOCK[0], FATARROW])),
 		annotation(lookaheads([IMPL, DELIMS.BLOCK[0], FATARROW]), true),
 		implicitReturn(),
 		{include: '#IdentifierFunction'}, // must come after keywords
@@ -185,5 +175,5 @@ export const CAPTURES = list(pattern_name('meta.captures'), DELIMS.CAPTURES[0], 
 		name:  pattern_name('storage.modifier'),
 		match: REF,
 	},
-	identifier(),
+	qualified_name(),
 ]);

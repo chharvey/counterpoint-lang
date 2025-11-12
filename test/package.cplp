@@ -1,3 +1,5 @@
 % This is a Counterpoint package file!
 
+export "module-path";
 export "module-path" as Namespace;
+export "module-path" as _;

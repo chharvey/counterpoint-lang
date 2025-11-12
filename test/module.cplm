@@ -1,5 +1,110 @@
 % This is a Counterpoint module file!
 
 from "module-path" import Component;
+from "module-path" import _;
+from "module-path" import type Component;
+from "module-path" import await Component;
+from %% a %% "module-path" %% b %% import %% c %% Component %% d %%;
+private function test(): void {
+	Component;
+}
 
-class Foo {}
+from "module-path" import Component as Alias;
+from "module-path" import type Component as Alias;
+from "module-path" import await Component as Alias;
+from % a
+"module-path" % b
+import % c
+Component % d
+as % e
+Alias% f
+;
+private function test(): void {
+	Component; %> ReferenceError01
+	Alias;
+}
+
+from "module-path" import (A, B);
+from "module-path" import (_, B);
+from "module-path" import type (A, B);
+from "module-path" import await (A, B);
+from "module-path" import (type A, B);
+from "module-path" import (A, await B);
+from "module-path" import (A, %% a %% B %% b %%);
+from "module-path" import (
+	A,
+	B,
+);
+private function test(): void {
+	A;
+	B;
+}
+
+from "module-path" import (A as Alias, B);
+from "module-path" import (A as _, B);
+from "module-path" import type (A as Alias, B);
+from "module-path" import await (A as Alias, B);
+from "module-path" import (type A as Alias, B);
+from "module-path" import (A as Alias, await B);
+from "module-path" import (A %% a %% as %% b %% Alias, B);
+from "module-path" import (
+	A % a
+	as % b
+	Alias,
+	B,
+);
+private function test(): void {
+	A;     %> ReferenceError01
+	Alias;
+	B;
+}
+
+from "module-path" import (A as Alias, B) as Namespace;
+from "module-path" import (A as Alias, B) as _;
+from "module-path" import type (A as Alias, B) as Namespace;
+from "module-path" import await (A as Alias, B) as Namespace;
+from "module-path" import (type A as Alias, B) as Namespace;
+from "module-path" import (A as Alias, await B) as Namespace;
+from "module-path" import (A %% a %% as %% b %% Alias, B) as Namespace;
+from "module-path" import (
+	A % a
+	as % b
+	Alias,
+	B,
+) as Namespace;
+private function test(): void {
+	A;     %> ReferenceError01
+	Alias; %> ReferenceError01
+	B;     %> ReferenceError01
+	Namespace;       %> ReferenceError03: `Namespace` refers to a module, but is used as a value.
+	Namespace.A;     %> TypeError04: Property `A` does not exist on type `Namespace`.
+	Namespace.Alias;
+	Namespace.B;
+}
+
+from "module-path" import all as Namespace;
+from "module-path" import type all as Namespace;
+from "module-path" import await all as Namespace;
+from "module-path" import %% a %% all %% b %% as %% c %% Namespace %% d %%;
+private function test(): void {
+	all;         %> ParseError (not an identifier)
+	A;           %> ReferenceError01
+	B;           %> ReferenceError01
+	Namespace;   %> ReferenceError03: `Namespace` refers to a module, but is used as a value.
+	Namespace.A;
+	Namespace.B;
+}
+
+
+public class Bar extends AwaitMod::Foo {
+	private method(): TypeMod::Qux {
+		let x: float = PlainMod::VALUE * 2.0;
+		return (x,);
+	}
+}
+public class Bar extends AwaitMod::Rec.Foo {
+	private method(): TypeMod::Rec.Qux {
+		let x: float = PlainMod::REC.value * 2.0;
+		return (x,);
+	}
+}
