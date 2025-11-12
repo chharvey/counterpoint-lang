@@ -13,11 +13,14 @@ class Foo<T> {}
 class Foo<out T> {}
 class Foo<_> {}
 class Foo extends Bar, Diz.<T> {}
+class Foo extends Rec.Bar, Rec.Diz.<Rec.T> {}
 class Foo extends NS::Bar, NS::Diz.<NS::T> {}
 class Foo extends _, Diz.<_> {}
 class Foo impl Bar, Diz.<T> {}
+class Foo impl Rec.Bar, Rec.Diz.<Rec.T> {}
 class Foo impl NS::Bar, NS::Diz.<NS::T> {}
 class Foo is Qux {}
+class Foo is Rec.Qux.<Rec.T> {}
 class Foo is NS::Qux.<NS::T> {}
 class Foo extends Bar impl Diz.<T> {}
 class Foo extends Bar impl Diz.<T> is Qux {}

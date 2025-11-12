@@ -44,6 +44,7 @@ export const CLASS_HERITAGE = {
 	},
 	patterns: [
 		{include: '#TypeCall'},
+		{include: '#TypeAccess'},
 		qualified_name('entity.other.inherited-class'),
 		{
 			name: pattern_name('punctuation.separator'),
