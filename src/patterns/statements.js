@@ -9,7 +9,6 @@ import {
 	ASSN_START,
 	THINARROW,
 	BLOCK_END,
-	DESTRUCTURE_ASSIGNEES,
 } from '../selectors.js';
 import {
 	list,

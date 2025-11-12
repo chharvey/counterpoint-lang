@@ -14,8 +14,7 @@ import {
 	ASSN_START,
 	DFLT_START,
 	FATARROW,
-	DESTRUCTURE_TYPE_PROPERTIES_OR_GENERIC_ARGUMENTS,
-	DESTRUCTURE_PROPERTIES_OR_ARGUMENTS,
+	destructure_selector,
 } from '../selectors.js';
 
 
@@ -230,7 +229,7 @@ function typePropertyOrGenericArgumentLabel(start, close_delim, identifier_kind,
 				],
 			},
 			{
-				begin: lookaheads([[DESTRUCTURE_TYPE_PROPERTIES_OR_GENERIC_ARGUMENTS, OWS, start].join('')]),
+				begin: lookaheads([[destructure_selector(ANNO_START), OWS, start].join('')]),
 				end,
 				patterns: [
 					{include: destructure_kind},
@@ -266,7 +265,7 @@ function propertyOrArgumentLabel(close_delim, identifier_kind, destructure_kind)
 				],
 			},
 			{
-				begin: lookaheads([[DESTRUCTURE_PROPERTIES_OR_ARGUMENTS, OWS, ASSN_START].join('')]),
+				begin: lookaheads([[destructure_selector(ASSN_START), OWS, ASSN_START].join('')]),
 				end,
 				patterns: [
 					{include: destructure_kind},
