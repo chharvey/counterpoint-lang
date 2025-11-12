@@ -85,3 +85,12 @@ Namespace.B;
 export "module-path";
 export "module-path" as Namespace;
 export "module-path" as _;
+
+
+
+public class Bar extends AwaitMod::Foo {
+	private method(): TypeMod::Qux {
+		let x: float = PlainMod::VALUE * 2.0;
+		return (x,);
+	}
+}

@@ -13,7 +13,7 @@ import {
 } from '../selectors.js';
 import {
 	unit,
-	identifier,
+	qualified_name,
 	constraint,
 	annotation,
 	assignment,
@@ -92,7 +92,7 @@ export const DECLARATION__CLAIM = {
 			},
 			patterns: [
 				{include: '#TypeCall'},
-				identifier('entity.other.inherited-class'),
+				qualified_name('entity.other.inherited-class'),
 			],
 		},
 		{

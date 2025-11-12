@@ -1,5 +1,6 @@
 %-- type declarations, function types --%
 type BinaryOperator = \<N narrows int>(a: N, b?: N) => N;
+type BinaryOperator = \<N narrows int>(a: N, b?: N) => NAMESPACE::N;
 type BinaryOperator = \<out N>(a: N, b?: N) => N;
 type BinaryOperator = \<in N>(a: N, b?: N) => N;
 type BinaryOperator = \(a: N, b?: N) => N | M;
@@ -27,6 +28,7 @@ let x: \<out T widens U~~, in U ?= Set.<null>>(a: Set.<T>~~, b: Set.<U~~>) => bo
 %-- function expression statements --%
 \(var h: int): int => h + 1;
 \(%%var%% h: int): int => h + 1;
+\(%%var%% h: int): NAMESPACE::Int => h + 1;
 % return type with set/map shorthand syntax
 \(): ({int}) {
 	return {42, 69};
@@ -48,6 +50,8 @@ let x: \(a: str) => str = \(a: str): str {
 	let x: str = "x";
 	return """<{{ x }}>{{ a }}</{{ x }}>""";
 };
+let y: \() => NS::V = \(): NS::V {;};
+let y: \() => NS::N = \(): NS::N => null;
 % return type with set/map shorthand syntax
 let return_set_of_int = \(): ({int}) {
 	return {42, 69};
@@ -134,6 +138,8 @@ let dict: [:Function] = [lambdaWithCaptures= \[a, ref b](x) => a + b + x];
 %-- function declarations --%
 function 'func'(param: annot ?= initial): void {;}
 function _(): void {;}
+function y(): NAMESPACE::Void {;}
+function y(): NAMESPACE::Null => null;
 function <_, B>(): B {;}
 function (_: A, b: B): B {;}
 

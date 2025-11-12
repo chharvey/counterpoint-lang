@@ -22,7 +22,7 @@ import {
 	BACKSLASH,
 } from '../selectors.js';
 import {
-	identifier,
+	qualified_name,
 	list,
 	constraint,
 	annotation,
@@ -125,7 +125,7 @@ export const DECLARATION__FUNCTION = {
 			},
 			patterns: [
 				{include: '#TypeCall'},
-				identifier('entity.other.inherited-class'),
+				qualified_name('entity.other.inherited-class'),
 			],
 		},
 		annotation(lookaheads([IMPL, DELIMS.BLOCK[0], FATARROW]), true),
@@ -185,5 +185,5 @@ export const CAPTURES = list(pattern_name('meta.captures'), DELIMS.CAPTURES[0], 
 		name:  pattern_name('storage.modifier'),
 		match: REF,
 	},
-	identifier(),
+	qualified_name(),
 ]);

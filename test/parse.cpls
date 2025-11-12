@@ -376,6 +376,12 @@ let f: Object = \(until= (if$, by= b): int            ?= [if= 1, by= 2]):  int {
 let f: Object = \(param= (x$: int, y= b: int)         ?= [x= 1, y= 2]):    int { return x + b; };
 let f: Object = \(param= ((var x), (y= (b))): int ?= [[1], [y= [2]]]): int { return x + b; };
 
+let f: \(p: NS::P) => null = \(p: NS::P): null => null;
+let f: Function = \(p= (x): (NS::P0,)): null => null;
+let f: Function = \(p= (x: NS::P0)): null => null;
+let f: Function = \(p= ((x): (NS::P00,))): null => null;
+let f: Function = \(p= ((x: NS::P00))): null => null;
+
 % record property destructuring:
 [z= 3, (x, y)=       [1, 2]];
 [z= 3, (x, _)=       [1, 2]];

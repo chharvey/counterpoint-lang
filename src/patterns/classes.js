@@ -27,7 +27,7 @@ import {
 	METHODGROUP,
 } from '../selectors.js';
 import {
-	identifier,
+	qualified_name,
 	annotation,
 	assignment,
 	implicitReturn,
@@ -44,7 +44,7 @@ export const HERITAGE = {
 	},
 	patterns: [
 		{include: '#TypeCall'},
-		identifier('entity.other.inherited-class'),
+		qualified_name('entity.other.inherited-class'),
 		{
 			name: pattern_name('punctuation.separator'),
 			match: ',',

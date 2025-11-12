@@ -78,6 +78,19 @@ export function identifier(varname = 'variable.other', allow_blank = false) {
 }
 
 
+export function qualified_name(varname = 'variable.other') {
+	return {
+		patterns: [
+			identifier(varname),
+			{
+				name:  pattern_name('punctuation.separator.namespace'),
+				match: '::',
+			},
+		],
+	};
+}
+
+
 export function unit(varname = 'variable.other') {
 	return {
 		patterns: [
@@ -86,7 +99,7 @@ export function unit(varname = 'variable.other') {
 			{include: '#Number'},
 			{include: '#Symbol'},
 			(varname === 'entity.name.type' ? keyword('support.type') : keyword()),
-			identifier(varname),
+			qualified_name(varname),
 			{
 				/*
 				 * Invalid underscores in number literals.
