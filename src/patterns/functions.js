@@ -11,6 +11,7 @@ import {
 	UNFIXED,
 	REF,
 	MUTABLE,
+	PUN,
 	VARIANCE,
 	CONSTRAINT,
 	IMPL,
@@ -136,6 +137,10 @@ export const GENERIC_PARAMETER_PATTERNS = {
 			match: ASSN_START,
 		},
 		{include: '#IdentifierParameter'},
+		{
+			name: pattern_name('keyword.other.alias'),
+			match: PUN,
+		},
 	],
 };
 
@@ -150,7 +155,7 @@ export const TYPE_PARAMETER_PATTERNS = {
 				{include: '#IdentifierParameter'},
 			],
 		},
-		{include: '#Type'}, // must come after `variable.parameter` so that it isn’t confused with `entity.name.type`
+		{include: '#Type'}, // must come after `#IdentifierParameter`
 	],
 };
 
@@ -166,6 +171,10 @@ export const PARAMETER_PATTERNS = {
 			match: ASSN_START,
 		},
 		{include: '#IdentifierParameter'},
+		{
+			name: pattern_name('keyword.other.alias'),
+			match: PUN,
+		},
 	],
 };
 
