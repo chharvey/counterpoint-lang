@@ -58,7 +58,7 @@ export function destructure_selector(prop_delim) {
 					| \\g<DestructurePropertiesOrArguments>
 				)
 				| (?<DestructurePropertyOrArgumentKey>
-					${ VAR } ${ OWS } ${ PUN }
+					${ PUN } ${ OWS } ${ VAR }
 					| ${ VAR } ${ OWS } ${ prop_delim } ${ OWS } \\g<DestructurePropertyOrArgumentItem>
 				)
 			)

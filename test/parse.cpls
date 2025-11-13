@@ -79,11 +79,11 @@ for _: _ of _ do {};
 for (item, i) of entries do {};
 for (_, i) of entries do {};
 for (item: T, i: int) of entries do {};
-for (a$, b$): S of records do {};
+for ($a, $b): S of records do {};
 for (a= alpha, b= bravo) of records do {};
-for (_$, _= _): S of records do {};
-for (a= (alpha, bravo): S, c= (charlie$, 'delta'$): S) of records do {};
-for (a= (_, bravo): S, c= (_$, _= delta): S) of records do {};
+for ($_, _= _): S of records do {};
+for (a= (alpha, bravo): S, c= ($charlie, $'delta'): S) of records do {};
+for (a= (_, bravo): S, c= ($_, _= delta): S) of records do {};
 for prop of \(x: int): int => 2 * x do {};
 for prop of \(x: int): int { return 2 * x; } do {};
 for prop of \(x, y) => y * x do {};
@@ -215,20 +215,20 @@ function twice(x: int): int => x * 2;
 	type X = (T?).a;
 	type X = (T?)?.a;
 	type T = (a, [b], (c | c), #spread);
-	type R = (a: 3, c: 5, key: value, punn$, 'unipunn'$, ##doublespread, _: blank);
+	type R = (a: 3, c: 5, key: value, $punn, $'unipunn', ##doublespread, _: blank);
 
 	() + empty_tuple;
 	[a, [b, b], (c + c), #spread];
 	(a, [b, b], (c + c), #spread);
-	[a= 3, c= 5, key= value, punn$, 'unipunn'$, ##doublespread, _= blank];
-	(a= 3, c= 5, key= value, punn$, 'unipunn'$, ##doublespread, _= blank);
+	[a= 3, c= 5, key= value, $punn, $'unipunn', ##doublespread, _= blank];
+	(a= 3, c= 5, key= value, $punn, $'unipunn', ##doublespread, _= blank);
 	{+a, -b, #spread, };
 	{+3, -5, #spread, };
 	{+a -> -b, };
 	{+3 -> -5, };
 	if true then 1 else 0;
 	null || (if true then 1 else 0);
-	array && [key$];
+	array && [$key];
 	array.1.[index];
 	array.%%dot%%[index];
 	array?.[index];
@@ -239,19 +239,19 @@ function twice(x: int): int => x * 2;
 	funkshin!.(arg);
 	funkshin?.<T>(arg);
 	funkshin!.<T>(arg);
-	funkshin. (call / a, #spread + b, 3, label %% args %% = c, punn$, 'unipunn'$, ##doublespread, _= blank)~~;
-	funkshin.<T>%%c%%(call / a, #spread + b, 3, label %% args %% = c, punn$, ##doublespread, _= blank)++;
+	funkshin. (call / a, #spread + b, 3, label %% args %% = c, $punn, $'unipunn', ##doublespread, _= blank)~~;
+	funkshin.<T>%%c%%(call / a, #spread + b, 3, label %% args %% = c, $punn, ##doublespread, _= blank)++;
 	funkshin.<T>%c
-		(call / a, #spread + b, 3, label %% args %% = c, punn$, ##doublespread, _= blank)~~;
+		(call / a, #spread + b, 3, label %% args %% = c, $punn, ##doublespread, _= blank)~~;
 	funkshin.<T, #U, ##V>();
-	funkshin.<A= T, #U, ##V, B= bool, C$>();
-	funkshin.<A= T, #U, ##V, B= bool, C$, [D, [E]]= De, [F$, g: [H$]]= Fgh>();
+	funkshin.<A= T, #U, ##V, B= bool, $C>();
+	funkshin.<A= T, #U, ##V, B= bool, $C, (D, (E))= De, ($F, g: ($H))= Fgh>();
 	funkshin.%%c%%(
 		call / a,
 		#spread + b,
 		3,
 		label %% args %% = c,
-		punn$,
+		$punn,
 		##doublespread,
 		_= blank,
 	)++;
@@ -356,24 +356,26 @@ function f(param= (x, y): int          ?= [1, 2]):         int => x + y;
 function f(param= (_, y): int          ?= [1, 2]):         int => y;
 function f(param= (x: int, y: int)     ?= [1, 2]):         int => x + y;
 function f(param= (_: int, y: int)     ?= [1, 2]):         int => y;
-function f(until= (if$, by= b): int    ?= [if= 1, by= 2]): int => if + b;
-function f(_=     (_$,  by= _): int    ?= [_=  1, by= 2]): int => _;
-function f(_=     (_$,  _=  b): int    ?= [_=  1, _=  2]): int => _;
-function f(param= (x$: int, y= b: int) ?= [x=  1, y=  2]): int => x + b;
+function f(until= ($if, by= b): int    ?= [if= 1, by= 2]): int => if + b;
+function f(_=     ($_,  by= _): int    ?= [_=  1, by= 2]): int => _;
+function f(_=     ($_,  _=  b): int    ?= [_=  1, _=  2]): int => _;
+function f(param= ($x: int, y= b: int) ?= [x=  1, y=  2]): int => x + b;
 function f(param= ((var x), (y= (b))): int ?= [[1], [y= [2]]]): int => x + b;
+function f(param= ((var $x: int), (y= (b): int)) ?= [[1], [y= [2]]]): int => x + b;
 let f: Object = \(param= (x, y): int          ?= [1, 2]):         int => x + y;
 let f: Object = \(param= (_, y): int          ?= [1, 2]):         int => y;
 let f: Object = \(param= (x: int, y: int)     ?= [1, 2]):         int => x + y;
 let f: Object = \(param= (_: int, y: int)     ?= [1, 2]):         int => y;
-let f: Object = \(until= (if$, by= b): int    ?= [if= 1, by= 2]): int => if + b;
-let f: Object = \(_=     (_$,  by= _): int    ?= [_=  1, by= 2]): int => _;
-let f: Object = \(_=     (_$,  _=  b): int    ?= [_=  1, _=  2]): int => _;
-let f: Object = \(param= (x$: int, y= b: int) ?= [x=  1, y=  2]): int => x + b;
+let f: Object = \(until= ($if, by= b): int    ?= [if= 1, by= 2]): int => if + b;
+let f: Object = \(_=     ($_,  by= _): int    ?= [_=  1, by= 2]): int => _;
+let f: Object = \(_=     ($_,  _=  b): int    ?= [_=  1, _=  2]): int => _;
+let f: Object = \(param= ($x: int, y= b: int) ?= [x=  1, y=  2]): int => x + b;
 let f: Object = \(param= ((var x), (y= (b))): int ?= [[1], [y= [2]]]): int => x + b;
+let f: Object = \(param= ((var $x: int), (y= (b): int)) ?= [[1], [y= [2]]]): int => x + b;
 let f: Object = \(param= (x, y): int                  ?= [1, 2]):          int { return x + y; };
 let f: Object = \(param= (x: int, y: int)             ?= [1, 2]):          int { return x + y; };
-let f: Object = \(until= (if$, by= b): int            ?= [if= 1, by= 2]):  int { return if + b; };
-let f: Object = \(param= (x$: int, y= b: int)         ?= [x= 1, y= 2]):    int { return x + b; };
+let f: Object = \(until= ($if, by= b): int            ?= [if= 1, by= 2]):  int { return if + b; };
+let f: Object = \(param= ($x: int, y= b: int)         ?= [x= 1, y= 2]):    int { return x + b; };
 let f: Object = \(param= ((var x), (y= (b))): int ?= [[1], [y= [2]]]): int { return x + b; };
 
 let f: \(p: NS::P) => null = \(p: NS::P): null => null;
@@ -386,9 +388,9 @@ let f: Function = \(p= ((x: NS::P00))): null => null;
 [z= 3, (x, y)=       [1, 2]];
 [z= 3, (x, _)=       [1, 2]];
 [z= 3, (x= a)=       [x= 1]];
-[z= 3, (if$, by= b)= [if= 1, by= 2]];
-[z= 3, (_$,  by= _)= [if= 1, by= 2]];
-[z= 3, ((x$), (y= (b)))= [[x= 1], [y= [2]]]];
+[z= 3, ($if, by= b)= [if= 1, by= 2]];
+[z= 3, ($_,  by= _)= [if= 1, by= 2]];
+[z= 3, (($x), (y= (b)))= [[x= 1], [y= [2]]]];
 % not destructuring:
 [(x), (y,)];
 [(x, y)];
@@ -399,8 +401,8 @@ let f: Function = \(p= ((x: NS::P00))): null => null;
 % function argument destructuring:
 g.(z= 3, (x, y)=           [1, 2]);
 g.(z= 3, (x= a)=           [x= 1]);
-g.(z= 3, (if$, by= b)=     [if= 1, by= 2]);
-g.(z= 3, ((x$), (y= (b)))= [[x= 1], [y= [2]]]);
+g.(z= 3, ($if, by= b)=     [if= 1, by= 2]);
+g.(z= 3, (($x), (y= (b)))= [[x= 1], [y= [2]]]);
 % not destructuring:
 g.((x), (y,));
 g.((x, y));
@@ -410,11 +412,12 @@ g.(z= 3, \(x, y= (b)) => [1, [2]]);
 
 % generic parameter destructuring (with defaults):
 type Or<T= (A narrows C, B ?= B1)> = A | B;
-type Or<T= (a: A, B$)> = A | B;
-type Or<T= (J, (K$, lima: L))> = J | K | L;
-type Or<T= (M$, november: (N, O ?= O1))> = M | N | O;
+type Or<T= (a: A, $B)> = A | B;
+type Or<T= (J, ($K, lima: L))> = J | K | L;
+type Or<T= ($M, november: (N, O ?= O1))> = M | N | O;
 type Or<T= (S ?= bool) ?= (anything)> = S | null;
 
 type (A<T>, nominal B<U= V>) = (int | T, float & V);
-type (C$, d: nominal D<out W narrows (anything) ?= X>) = (C: B.<U= null>, d: W.0);
-type (C$, d: D<Y= (nominal out W narrows anything ?= Z) ?= X>) = (C: B.<U= null>, d: W);
+type ($C, d: nominal D<out W narrows (anything) ?= X>) = (C: B.<U= null>, d: W.0);
+type ($C, d: D<Y= (nominal out W narrows anything ?= Z) ?= X>) = (C: B.<U= null>, d: W);
+type (e: nominal e, nominal $f) = (e: Echo, f: Foxtrot);

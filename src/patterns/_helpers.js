@@ -217,7 +217,10 @@ function typePropertyOrGenericArgumentLabel(start, close_delim, identifier_kind,
 	return {
 		patterns: [
 			{
-				begin: lookaheads([[`(${ VAR }${ OWS })?`, `(${ PUN }|${ start })`].join('')]),
+				begin: lookaheads([
+					[PUN, OWS, VAR].join(''),
+					[VAR, OWS, start].join(''),
+				]),
 				end,
 				patterns: [
 					{include: identifier_kind},
@@ -253,7 +256,10 @@ function propertyOrArgumentLabel(close_delim, identifier_kind, destructure_kind)
 	return {
 		patterns: [
 			{
-				begin: lookaheads([[VAR, OWS, `(${ PUN }|${ ASSN_START })`].join('')]),
+				begin: lookaheads([
+					[PUN, OWS, VAR].join(''),
+					[VAR, OWS, ASSN_START].join(''),
+				]),
 				end,
 				patterns: [
 					{include: identifier_kind},
@@ -316,7 +322,7 @@ export function destructure(subtype, identifiers) {
 		] : []),
 		...(['TypeAlias', 'GenericParameter'].includes(subtype) ? [
 			...(subtype === 'TypeAlias' ? [
-				{include: '#GenericParameters'},
+				{include: '#GenericParameters'}, // because type aliases can have parameters
 				{include: '#ModifiersDeclarationType'},
 			] : [
 				{include: '#ModifiersGenericParameter'},
