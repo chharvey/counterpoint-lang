@@ -108,3 +108,21 @@ public class Bar extends AwaitMod::Rec.Foo {
 		return (x,);
 	}
 }
+
+
+% inner modules
+module "mock-module-path" {
+	module "nested-module-path" {
+		from "module-path" import (type A as Alias, await B) as Namespace;
+		from "real-module-path" import type Qux;
+		from "mock-module-path" import Bar;
+		public class Foo extends Namespace::B {}
+	}
+
+	from "real-module-path" import type Qux;
+	from "nested-module-path" import await Foo;
+	public class Bar extends Foo {}
+}
+from "nested-module-path" import type Foo; % invalid (inner modules are always private)
+from "mock-module-path" import await Bar;
+public class Qux extends Bar {}

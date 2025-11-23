@@ -12,6 +12,18 @@ import {DELIMS} from './src/selectors.js';
 
 
 
+const SOURCE_FILE = {
+	patterns: [
+		{include: '#ModuleExport'},
+		{include: '#ModuleImport'},
+		{include: '#ModuleInner'},
+		{include: '#Block'},
+		{include: '#Declaration'},
+		{include: '#Statement'},
+	],
+};
+
+
 await fs.promises.writeFile(path.join(import.meta.dirname, 'syntaxes', 'cpl.tmLanguage.json'), JSON.stringify({
 	$schema: 'https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json',
 	name: 'Counterpoint',
@@ -76,9 +88,11 @@ await fs.promises.writeFile(path.join(import.meta.dirname, 'syntaxes', 'cpl.tmLa
 		ModifiersParameter:            Pattern.MODIFIERS__PARAMETER,
 		ModuleExport:                  Pattern.MODULE__EXPORT,
 		ModuleImport:                  Pattern.MODULE__IMPORT,
+		ModuleInner:                   Pattern.MODULE__INNER,
 		Number:                        Pattern.NUMBER,
 		ParameterPatterns:             Pattern.PARAMETER_PATTERNS,
 		Parameters:                    list(pattern_name('meta.parameters'), DELIMS.PARAMS_FN[0], DELIMS.PARAMS_FN[1], [{include: '#ParameterPatterns'}]),
+		SourceFile:                    SOURCE_FILE,
 		Statement:                     Pattern.STATEMENT,
 		StatementControl:              Pattern.STATEMENT__CONTROL,
 		StatementControlConditional:   Pattern.STATEMENT__CONTROL__CONDITIONAL,
@@ -97,11 +111,5 @@ await fs.promises.writeFile(path.join(import.meta.dirname, 'syntaxes', 'cpl.tmLa
 		TypeStructureSet:              Pattern.TYPE__STRUCTURE__SET,
 		Typefnret:                     Pattern.TYPEFNRET,
 	},
-	patterns: [
-		{include: '#ModuleExport'},
-		{include: '#ModuleImport'},
-		{include: '#Block'},
-		{include: '#Declaration'},
-		{include: '#Statement'},
-	],
+	patterns: [{include: '#SourceFile'}],
 }));

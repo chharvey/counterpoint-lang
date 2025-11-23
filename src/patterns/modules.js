@@ -1,10 +1,32 @@
-import {pattern_name} from '../helpers.js';
+import {
+	pattern_name,
+	lookbehinds,
+} from '../helpers.js';
 import {
 	DELIMS,
 	ALIAS,
+	BLOCK_END,
 } from '../selectors.js';
 import {list} from './_helpers.js';
 
+
+
+export const MODULE__INNER = {
+	name:          pattern_name('meta.declaration.module'),
+	begin:         '\\b(module)\\b',
+	end:           lookbehinds([BLOCK_END]),
+	beginCaptures: {0: {name: pattern_name('storage.type')}},
+	patterns:      [
+		{include: '#String'},
+		{
+			name:     pattern_name('meta.module'),
+			begin:    DELIMS.BLOCK[0],
+			end:      DELIMS.BLOCK[1],
+			captures: {0: {name: pattern_name('punctuation.delimiter')}},
+			patterns: [{include: '#SourceFile'}],
+		},
+	],
+};
 
 
 export const MODULE__IMPORT = {
