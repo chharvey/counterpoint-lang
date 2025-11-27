@@ -151,11 +151,11 @@ export const STATEMENT__CONTROL = {
 
 
 export const STATEMENT__CLAIM = {
-	name:  pattern_name('meta.declaration.claim'),
+	name:  pattern_name('meta.statement.claim'),
 	begin: '\\b(claim)\\b',
 	end:   ';',
 	beginCaptures: {
-		0: {name: pattern_name('storage.type')},
+		0: {name: pattern_name('keyword.control')},
 	},
 	endCaptures: {
 		0: {name: pattern_name('punctuation.delimiter')},
@@ -178,11 +178,11 @@ export const STATEMENT__CLAIM = {
 
 
 export const STATEMENT__SET = {
-	name:  pattern_name('meta.declaration.set'),
+	name:  pattern_name('meta.statement.set'),
 	begin: '\\b(set)\\b',
 	end:   ';',
 	beginCaptures: {
-		0: {name: pattern_name('storage.type')},
+		0: {name: pattern_name('keyword.control')},
 	},
 	endCaptures: {
 		0: {name: pattern_name('punctuation.delimiter')},
@@ -195,11 +195,11 @@ export const STATEMENT__SET = {
 
 
 export const STATEMENT__DELETE = {
-	name:  pattern_name('meta.declaration.delete'),
+	name:  pattern_name('meta.statement.delete'),
 	begin: '\\b(delete)\\b',
 	end:   ';',
 	beginCaptures: {
-		0: {name: pattern_name('storage.type')},
+		0: {name: pattern_name('keyword.control')},
 	},
 	endCaptures: {
 		0: {name: pattern_name('punctuation.delimiter')},
