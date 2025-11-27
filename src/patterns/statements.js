@@ -24,46 +24,18 @@ import {
 
 
 export const STATEMENT__CONDITIONAL = {
-	name:  pattern_name('meta.statement.conditional'),
-	begin: lookaheads(['\\b(if|unless)\\b']),
-	end:   ';',
-	endCaptures: {
-		0: {name: pattern_name('punctuation.delimiter')},
-	},
-	patterns: [
+	name:          pattern_name('meta.statement.conditional'),
+	begin:         '\\b(if|unless)\\b',
+	end:           ';',
+	beginCaptures: {0: {name: pattern_name('keyword.control')}},
+	endCaptures:   {0: {name: pattern_name('punctuation.delimiter')}},
+	patterns:      [
 		{
-			begin: '\\b(if|unless)\\b',
-			end:   lookaheads(['\\b(then)\\b']),
-			beginCaptures: {
-				0: {name: pattern_name('keyword.control')},
-			},
-			patterns: [
-				{include: '#Expression'},
-			],
+			name:  pattern_name('keyword.control'),
+			match: '\\b(then|else|if)\\b',
 		},
-		{
-			begin: '\\b(then)\\b',
-			end:   lookaheads(['\\b(else)\\b', ';']),
-			beginCaptures: {
-				0: {name: pattern_name('keyword.control')},
-			},
-			patterns: [
-				{include: '#Block'},
-				{include: '#Expression'}, // in case this isn’t a control statement but a conditional expression statement, e.g. `if a then b;`
-			],
-		},
-		{
-			begin: '\\b(else)\\b',
-			end:   lookaheads([';']),
-			beginCaptures: {
-				0: {name: pattern_name('keyword.control')},
-			},
-			patterns: [
-				{include: '#StatementConditional'},
-				{include: '#Block'},
-				{include: '#Expression'}, // in case this isn’t a control statement but a conditional expression statement, e.g. `if a then b else c;`
-			],
-		},
+		{include: '#Block'},
+		{include: '#Expression'},
 	],
 };
 
