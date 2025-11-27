@@ -140,12 +140,7 @@ export const EXPRESSION__STRUCTURE__SET = list(pattern_name('meta.expression.str
 		name: pattern_name('keyword.operator.punctuation'),
 		match: THINARROW,
 	},
-	{
-		// used only for block expressions where sets could be, e.g. `a + ({ b; })`
-		patterns: [
-			{include: '#Statement'},
-		],
-	},
+	{include: '#Statement'}, // used only for block expressions where sets could be, e.g. `a + ({ b; })`
 	{include: '#Expression'},
 ]);
 
