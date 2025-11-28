@@ -165,7 +165,7 @@ export const EXPRESSIONNONBLOCK = {
 		{include: '#ExpressionStructureSet'},
 		{
 			name:  pattern_name('keyword.operator.text'),
-			match: '\\b(as)(\\b|[?!])', // must come after '#ExpressionClaim'
+			match: '\\b(as)([?!]|\\b)', // must come after '#ExpressionClaim'
 		},
 		unit(),
 		{
