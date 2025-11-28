@@ -89,12 +89,6 @@ for prop of \(x: int): int { return 2 * x; } do {};
 for prop of \(x, y) => y * x do {};
 for prop of \(x, y) { return y * x; } do {};
 
-%%
-	hello
-	%% "nesting" isnt allowed %%
-	world
-%%;
-
 	%%%
 	The thing that does something.
 	@takes x the parameter
@@ -197,7 +191,7 @@ function twice(x: int): int => x * 2;
 	x as ?X;
 	x as !X;
 	x is y;
-	x isnt y;
+	x !is y;
 	a + b;
 	a - b;
 	x < y;

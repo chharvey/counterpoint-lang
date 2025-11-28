@@ -153,7 +153,7 @@ export const EXPRESSIONNONBLOCK = {
 		},
 		{
 			name: pattern_name('keyword.operator.text'),
-			match: '\\b(isset|nat|int|float|dec|is|isnt|if|then|else)\\b',
+			match: '\\b(isset|nat|int|float|dec|is|if|then|else)\\b|!is\\b',
 		},
 		{include: '#ExpressionFunction'},
 		{include: '#ExpressionClass'},
