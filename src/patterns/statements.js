@@ -23,6 +23,66 @@ import {
 
 
 
+export const STATEMENT__CLAIM = {
+	name:  pattern_name('meta.statement.claim'),
+	begin: '\\b(claim)\\b',
+	end:   ';',
+	beginCaptures: {
+		0: {name: pattern_name('keyword.control')},
+	},
+	endCaptures: {
+		0: {name: pattern_name('punctuation.delimiter')},
+	},
+	patterns: [
+		func_heritage(lookaheads([';'])),
+		{
+			begin: lookaheads([[VAR, OWS, `(${ DELIMS.PARAMS_GN[0] }|${ DELIMS.PARAMS_FN[0] })`].join('')]),
+			end:   lookaheads([ANNO_START, IMPL]),
+			patterns: [
+				{include: '#IdentifierFunction'},
+				{include: '#GenericParameters'},
+				{include: '#TypeParameters'},
+			],
+		},
+		{include: '#ExpressionAssignee'},
+		annotation(lookaheads([IMPL, ';'])),
+	],
+};
+
+
+export const STATEMENT__SET = {
+	name:  pattern_name('meta.statement.set'),
+	begin: '\\b(set)\\b',
+	end:   ';',
+	beginCaptures: {
+		0: {name: pattern_name('keyword.control')},
+	},
+	endCaptures: {
+		0: {name: pattern_name('punctuation.delimiter')},
+	},
+	patterns: [
+		{include: '#ExpressionAssignee'},
+		assignment(`${ ASSN_START }|(&&|\\|\\||![&|]|[\\^*/+-])=`, lookaheads([';'])),
+	],
+};
+
+
+export const STATEMENT__DELETE = {
+	name:  pattern_name('meta.statement.delete'),
+	begin: '\\b(delete)\\b',
+	end:   ';',
+	beginCaptures: {
+		0: {name: pattern_name('keyword.control')},
+	},
+	endCaptures: {
+		0: {name: pattern_name('punctuation.delimiter')},
+	},
+	patterns: [
+		{include: '#ExpressionAssignee'},
+	],
+};
+
+
 export const STATEMENT__CONDITIONAL = {
 	name:          pattern_name('meta.statement.conditional'),
 	begin:         '\\b(if|unless)\\b',
@@ -115,76 +175,16 @@ export const STATEMENT__BREAK = {
 };
 
 
-export const STATEMENT__CLAIM = {
-	name:  pattern_name('meta.statement.claim'),
-	begin: '\\b(claim)\\b',
-	end:   ';',
-	beginCaptures: {
-		0: {name: pattern_name('keyword.control')},
-	},
-	endCaptures: {
-		0: {name: pattern_name('punctuation.delimiter')},
-	},
-	patterns: [
-		func_heritage(lookaheads([';'])),
-		{
-			begin: lookaheads([[VAR, OWS, `(${ DELIMS.PARAMS_GN[0] }|${ DELIMS.PARAMS_FN[0] })`].join('')]),
-			end:   lookaheads([ANNO_START, IMPL]),
-			patterns: [
-				{include: '#IdentifierFunction'},
-				{include: '#GenericParameters'},
-				{include: '#TypeParameters'},
-			],
-		},
-		{include: '#ExpressionAssignee'},
-		annotation(lookaheads([IMPL, ';'])),
-	],
-};
-
-
-export const STATEMENT__SET = {
-	name:  pattern_name('meta.statement.set'),
-	begin: '\\b(set)\\b',
-	end:   ';',
-	beginCaptures: {
-		0: {name: pattern_name('keyword.control')},
-	},
-	endCaptures: {
-		0: {name: pattern_name('punctuation.delimiter')},
-	},
-	patterns: [
-		{include: '#ExpressionAssignee'},
-		assignment(`${ ASSN_START }|(&&|\\|\\||![&|]|[\\^*/+-])=`, lookaheads([';'])),
-	],
-};
-
-
-export const STATEMENT__DELETE = {
-	name:  pattern_name('meta.statement.delete'),
-	begin: '\\b(delete)\\b',
-	end:   ';',
-	beginCaptures: {
-		0: {name: pattern_name('keyword.control')},
-	},
-	endCaptures: {
-		0: {name: pattern_name('punctuation.delimiter')},
-	},
-	patterns: [
-		{include: '#ExpressionAssignee'},
-	],
-};
-
-
 export const STATEMENT = {
 	patterns: [
 		{include: '#Declaration'},
+		{include: '#StatementClaim'},
+		{include: '#StatementSet'},
+		{include: '#StatementDelete'},
 		{include: '#StatementConditional'},
 		{include: '#StatementLoop'},
 		{include: '#StatementIteration'},
 		{include: '#StatementBreak'},
-		{include: '#StatementClaim'},
-		{include: '#StatementSet'},
-		{include: '#StatementDelete'},
 		{include: '#Expression'},
 		{
 			name: pattern_name('punctuation.delimiter'),
