@@ -61,33 +61,33 @@ do {
 	true;
 } until false;
 
-for %% <var> %% item %% </var> %% of %% <expr> %% list %% </expr> %% do %% <block> %% {
+for %% <var> %% item %% </var> %% in %% <expr> %% list %% </expr> %% do %% <block> %% {
 	do {
 		if false then """{{ 0 }} 0""" else """{{ 1 }} 1""";
 		(if false then """{{ 0 }} 0""" else """{{ 1 }} 1""");
 		break 1;
 		continue;
 	} while false;
-	for x of if a then b else c do {
+	for x in if a then b else c do {
 		do { d; } while if a then b else c;
 	};
 } %% </block> %%;
-for _ of _ do {};
-for item of { list; } do {};
-for item: T of list do {};
-for _: _ of _ do {};
-for (item, i) of entries do {};
-for (_, i) of entries do {};
-for (item: T, i: int) of entries do {};
-for (a$, b$): S of records do {};
-for (a= alpha, b= bravo) of records do {};
-for (_$, _= _): S of records do {};
-for (a= (alpha, bravo): S, c= (charlie$, 'delta'$): S) of records do {};
-for (a= (_, bravo): S, c= (_$, _= delta): S) of records do {};
-for prop of \(x: int): int => 2 * x do {};
-for prop of \(x: int): int { return 2 * x; } do {};
-for prop of \(x, y) => y * x do {};
-for prop of \(x, y) { return y * x; } do {};
+for _ in _ do {};
+for item in { list; } do {};
+for item: T in list do {};
+for _: _ in _ do {};
+for (item, i) in entries do {};
+for (_, i) in entries do {};
+for (item: T, i: int) in entries do {};
+for (a$, b$): S in records do {};
+for (a= alpha, b= bravo) in records do {};
+for (_$, _= _): S in records do {};
+for (a= (alpha, bravo): S, c= (charlie$, 'delta'$): S) in records do {};
+for (a= (_, bravo): S, c= (_$, _= delta): S) in records do {};
+for prop in \(x: int): int => 2 * x do {};
+for prop in \(x: int): int { return 2 * x; } do {};
+for prop in \(x, y) => y * x do {};
+for prop in \(x, y) { return y * x; } do {};
 
 %%
 	hello

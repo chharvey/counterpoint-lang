@@ -104,9 +104,9 @@ export const STATEMENT__CONTROL = {
 			},
 			patterns: [
 				{include: '#DestructureVariable'},
-				annotation(lookaheads(['\\b(of)\\b'])),
+				annotation(lookaheads(['\\b(in)\\b'])),
 				{
-					begin: '\\b(of)\\b',
+					begin: '\\b(in)\\b',
 					end:   lookaheads(['\\b(do)\\b']),
 					beginCaptures: {
 						0: {name: pattern_name('keyword.control')},
