@@ -132,7 +132,7 @@ export const STATEMENT__CONTROL = {
 		},
 		{
 			name: pattern_name('meta.control'),
-			begin: '\\b(break|continue|return|throw)\\b',
+			begin: '\\b(break|skip|return|throw)\\b',
 			end:   ';',
 			beginCaptures: {
 				0: {name: pattern_name('keyword.control')},
