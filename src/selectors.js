@@ -49,7 +49,7 @@ export const DOT        = '(\\.)';
 export const DOT_ACCESS = '(\\.|\\?\\.|\\!\\.)';
 export const BACKSLASH  = '(\\\\)';
 
-function destructure_selector(prop_delim) {
+export function destructure_selector(prop_delim) {
 	return `
 		(?<DestructurePropertiesOrArguments>${ DELIMS.DESTRUCT[0] }${ OWS }
 			(?<DestructurePropertyOrArgumentItemOrKey>
@@ -58,7 +58,7 @@ function destructure_selector(prop_delim) {
 					| \\g<DestructurePropertiesOrArguments>
 				)
 				| (?<DestructurePropertyOrArgumentKey>
-					${ VAR } ${ OWS } ${ PUN }
+					${ PUN } ${ OWS } ${ VAR }
 					| ${ VAR } ${ OWS } ${ prop_delim } ${ OWS } \\g<DestructurePropertyOrArgumentItem>
 				)
 			)
@@ -67,30 +67,6 @@ function destructure_selector(prop_delim) {
 		${ OWS }${ DELIMS.DESTRUCT[1] })
 	`.replace(/\s+/g, '');
 }
-
-export const DESTRUCTURE_TYPE_PROPERTIES_OR_GENERIC_ARGUMENTS = destructure_selector(ANNO_START);
-export const DESTRUCTURE_PROPERTIES_OR_ARGUMENTS              = destructure_selector(ASSN_START);
-
-export const DESTRUCTURE_ASSIGNEES = `
-	(?<DestructureAssignees>${ DELIMS.DESTRUCT[0] }${ OWS }
-		(?<DestructureAssigneeItemOrKey>
-			(?<DestructureAssigneeItem>
-				(?<Assignee> ${ VAR }${ OWS }(?:\\.${ OWS }(?:
-					${ INT }
-					| ${ VAR }
-					| (?:${ DELIMS.LIST[0] })(?: ${ OWS } | .* )${ DELIMS.LIST[1] }
-				)${ OWS })*)
-				| \\g<DestructureAssignees>
-			)
-			| (?<DestructureAssigneeKey>
-				${ VAR } ${ OWS } ${ PUN }
-				| ${ VAR } ${ OWS } ${ ASSN_START } ${ OWS } \\g<DestructureAssigneeItem>
-			)
-		)
-		(?:${ OWS },${ OWS }\\g<DestructureAssigneeItemOrKey>)*
-		${ OWS },?
-	${ OWS }${ DELIMS.DESTRUCT[1] })
-`.replace(/\s+/g, '');
 
 export const FIELD = `
 	(${ MEMB_ACCESS } ${ OWS })?

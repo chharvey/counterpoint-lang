@@ -14,8 +14,7 @@ import {
 	ASSN_START,
 	DFLT_START,
 	FATARROW,
-	DESTRUCTURE_TYPE_PROPERTIES_OR_GENERIC_ARGUMENTS,
-	DESTRUCTURE_PROPERTIES_OR_ARGUMENTS,
+	destructure_selector,
 } from '../selectors.js';
 
 
@@ -218,7 +217,10 @@ function typePropertyOrGenericArgumentLabel(start, close_delim, identifier_kind,
 	return {
 		patterns: [
 			{
-				begin: lookaheads([[`(${ VAR }${ OWS })?`, `(${ PUN }|${ start })`].join('')]),
+				begin: lookaheads([
+					[PUN, OWS, VAR].join(''),
+					[VAR, OWS, start].join(''),
+				]),
 				end,
 				patterns: [
 					{include: identifier_kind},
@@ -230,7 +232,7 @@ function typePropertyOrGenericArgumentLabel(start, close_delim, identifier_kind,
 				],
 			},
 			{
-				begin: lookaheads([[DESTRUCTURE_TYPE_PROPERTIES_OR_GENERIC_ARGUMENTS, OWS, start].join('')]),
+				begin: lookaheads([[destructure_selector(ANNO_START), OWS, start].join('')]),
 				end,
 				patterns: [
 					{include: destructure_kind},
@@ -254,7 +256,10 @@ function propertyOrArgumentLabel(close_delim, identifier_kind, destructure_kind)
 	return {
 		patterns: [
 			{
-				begin: lookaheads([[VAR, OWS, `(${ PUN }|${ ASSN_START })`].join('')]),
+				begin: lookaheads([
+					[PUN, OWS, VAR].join(''),
+					[VAR, OWS, ASSN_START].join(''),
+				]),
 				end,
 				patterns: [
 					{include: identifier_kind},
@@ -266,7 +271,7 @@ function propertyOrArgumentLabel(close_delim, identifier_kind, destructure_kind)
 				],
 			},
 			{
-				begin: lookaheads([[DESTRUCTURE_PROPERTIES_OR_ARGUMENTS, OWS, ASSN_START].join('')]),
+				begin: lookaheads([[destructure_selector(ASSN_START), OWS, ASSN_START].join('')]),
 				end,
 				patterns: [
 					{include: destructure_kind},
@@ -317,7 +322,7 @@ export function destructure(subtype, identifiers) {
 		] : []),
 		...(['TypeAlias', 'GenericParameter'].includes(subtype) ? [
 			...(subtype === 'TypeAlias' ? [
-				{include: '#GenericParameters'},
+				{include: '#GenericParameters'}, // because type aliases can have parameters
 				{include: '#ModifiersDeclarationType'},
 			] : [
 				{include: '#ModifiersGenericParameter'},
