@@ -118,6 +118,7 @@ block comment
 %%
 	hello
 	%% "nesting" isnt allowed %%
+	%% "nesting" !is allowed %%
 	world
 %%
 ;

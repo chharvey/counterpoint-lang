@@ -140,12 +140,7 @@ export const EXPRESSION__STRUCTURE__SET = list(pattern_name('meta.expression.str
 		name: pattern_name('keyword.operator.punctuation'),
 		match: THINARROW,
 	},
-	{
-		// used only for block expressions where sets could be, e.g. `a + ({ b; })`
-		patterns: [
-			{include: '#Statement'},
-		],
-	},
+	{include: '#Statement'}, // used only for block expressions where sets could be, e.g. `a + ({ b; })`
 	{include: '#Expression'},
 ]);
 
@@ -158,7 +153,7 @@ export const EXPRESSIONNONBLOCK = {
 		},
 		{
 			name: pattern_name('keyword.operator.text'),
-			match: '\\b(nat|int|float|dec|is|isnt|if|then|else)\\b',
+			match: '\\b(isset|nat|int|float|dec|is|if|then|else)\\b|(!isset|!is)\\b',
 		},
 		{include: '#ExpressionFunction'},
 		{include: '#ExpressionClass'},
@@ -170,7 +165,7 @@ export const EXPRESSIONNONBLOCK = {
 		{include: '#ExpressionStructureSet'},
 		{
 			name:  pattern_name('keyword.operator.text'),
-			match: '\\b(as)(\\b|[?!])', // must come after '#ExpressionClaim'
+			match: '\\b(as)([?!]|\\b)', // must come after '#ExpressionClaim'
 		},
 		unit(),
 		{
