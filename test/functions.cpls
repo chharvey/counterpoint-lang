@@ -4,7 +4,7 @@ type BinaryOperator = \<N narrows int>(a: N, b?: N) => NAMESPACE::N;
 type BinaryOperator = \<out N>(a: N, b?: N) => N;
 type BinaryOperator = \<in N>(a: N, b?: N) => N;
 type BinaryOperator = \(a: N, b?: N) => N | M;
-type BinaryOperatorUnnamed = \(T & U, ?: int | Object~~, ?: bool) => \(float) => int;
+type BinaryOperatorUnnamed = \(T & U?, ?: int | Object~~, ?: bool) => \(float) => int;
 type BinaryOperatorUnnamed = \(?: int | Object, ?: (T, U), ?: \(bool!) => void) => float;
 type BinaryOperator = \<
 	N narrows int~~,
@@ -137,6 +137,7 @@ let dict: [:Function] = [lambdaWithCaptures= \[a, ref b](x) => a + b + x];
 
 %-- function declarations --%
 function 'func'(param: annot ?= initial): void {;}
+function 'func'(param?: annot): void {;}
 function _(): void {;}
 function y(): NAMESPACE::Void {;}
 function y(): NAMESPACE::Null => null;

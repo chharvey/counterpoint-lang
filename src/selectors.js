@@ -33,13 +33,14 @@ export const NOMINAL    = '\\b(nominal)\\b';
 export const MUTABLE    = '\\b(mut)\\b';
 export const ALIAS      = '\\b(as)\\b';
 export const PUN        = '\\$';
+export const OPT        = '\\?';
 export const VARIANCE   = '\\b(out|in)\\b';
 export const CONSTRAINT = '\\b(narrows|widens)\\b'
 export const PERMISSION = '\\b(const|readonly|writeonly)\\b';
 export const IMPL       = '\\b(impl)\\b';
 export const OVR        = '\\b(override|impl)\\b';
 export const OVR_CLAIM  = '\\b(override|impl|claim)\\b';
-export const ANNO_START = `\\??\\:${ lookaheads(['\\:'], true) }`;
+export const ANNO_START = `\\:${ lookaheads(['\\:'], true) }`;
 export const ASSN_START = `=${ lookaheads(['[=>]'], true) }`;
 export const DFLT_START = `\\?${ ASSN_START }`;
 export const THINARROW  = '->';
@@ -66,7 +67,7 @@ export const FIELD = `
 	(${ MEMB_ACCESS } ${ OWS })?
 	(${ OVR_CLAIM } ${ OWS })?
 	(${ PERMISSION } ${ OWS })?
-	${ VAR } ${ OWS }
+	${ VAR } ${ OWS } (${ OPT } ${ OWS })?
 	(?:${ ANNO_START } | ${ ASSN_START })
 `.replace(/\s+/g, '');
 
@@ -75,7 +76,7 @@ export const FIELD_CONSTRUCTOR = `
 	(${ OVR } ${ OWS })?
 	(${ PERMISSION } ${ OWS })?
 	(?:
-		(${ VAR } ${ OWS } ${ ASSN_START } ${ OWS })? (${ UNFIXED } ${ OWS })? ${ VAR } ${ OWS } (${ ANNO_START } | ${ DFLT_START })
+		(${ VAR } ${ OWS } ${ ASSN_START } ${ OWS })? (${ UNFIXED } ${ OWS })? ${ VAR } ${ OWS } (${ OPT } ${ OWS })? (${ ANNO_START } | ${ DFLT_START })
 		| ${ VAR } ${ OWS } ${ ASSN_START } ${ OWS } ${ DELIMS.DESTRUCT[0] }
 	)
 `.replace(/\s+/g, '');

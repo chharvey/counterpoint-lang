@@ -8,6 +8,7 @@ import {
 	VAR,
 	UNFIXED,
 	PUN,
+	OPT,
 	CONSTRAINT,
 	IMPL,
 	ANNO_START,
@@ -219,7 +220,7 @@ function typePropertyOrGenericArgumentLabel(start, close_delim, identifier_kind,
 			{
 				begin: lookaheads([
 					[PUN, OWS, VAR].join(''),
-					[VAR, OWS, start].join(''),
+					`(${ VAR }${ OWS })?(${ OPT }${ OWS })?${ start }`,
 				]),
 				end,
 				patterns: [
@@ -227,6 +228,10 @@ function typePropertyOrGenericArgumentLabel(start, close_delim, identifier_kind,
 					{
 						name: pattern_name('keyword.other.alias'),
 						match: PUN,
+					},
+					{
+						name:  pattern_name('keyword.other.optional'),
+						match: OPT,
 					},
 					capture_type,
 				],

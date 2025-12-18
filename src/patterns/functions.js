@@ -12,6 +12,7 @@ import {
 	REF,
 	MUTABLE,
 	PUN,
+	OPT,
 	VARIANCE,
 	CONSTRAINT,
 	IMPL,
@@ -149,8 +150,12 @@ export const TYPE_PARAMETER_PATTERNS = {
 	patterns: [
 		annotation(lookaheads([',', DELIMS.PARAMS_FN[1]])),
 		{
-			begin: lookaheads([`${ VAR }${ OWS }${ ANNO_START }`]),
-			end:   lookaheads([ANNO_START]),
+			name:  pattern_name('keyword.other.optional'),
+			match: OPT,
+		},
+		{
+			begin: lookaheads([`(${ VAR }${ OWS })?(${ OPT }${ OWS })?${ ANNO_START }`]),
+			end:   lookaheads([OPT, ANNO_START]),
 			patterns: [
 				{include: '#IdentifierParameter'},
 			],
@@ -174,6 +179,10 @@ export const PARAMETER_PATTERNS = {
 		{
 			name: pattern_name('keyword.other.alias'),
 			match: PUN,
+		},
+		{
+			name:  pattern_name('keyword.other.optional'),
+			match: OPT,
 		},
 	],
 };

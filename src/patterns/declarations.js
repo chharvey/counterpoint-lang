@@ -5,6 +5,7 @@ import {
 import {
 	OWS,
 	COMP_ACCESS,
+	OPT,
 	ASSN_START,
 } from '../selectors.js';
 import {
@@ -60,6 +61,10 @@ export const DECLARATION__LET = {
 		{
 			name: pattern_name('storage.type'),
 			match: '\\b(let)\\b',
+		},
+		{
+			name:  pattern_name('keyword.other.optional'),
+			match: OPT,
 		},
 		{include: '#IdentifierVariable'}, // must come after keywords
 	],

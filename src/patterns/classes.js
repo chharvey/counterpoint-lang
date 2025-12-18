@@ -11,6 +11,7 @@ import {
 	UNFIXED,
 	NOMINAL,
 	MUTABLE,
+	OPT,
 	PERMISSION,
 	IMPL,
 	OVR,
@@ -150,6 +151,10 @@ export const CONSTRUCTOR_FIELD = {
 			match: `${ MEMB_ACCESS }|${ OVR }|${ PERMISSION }|${ UNFIXED }`,
 		},
 		{
+			name:  pattern_name('keyword.other.optional'),
+			match: OPT,
+		},
+		{
 			name:  pattern_name('punctuation.delimiter'),
 			match: ASSN_START,
 		},
@@ -172,6 +177,10 @@ export const MEMBER__FIELD = {
 		{
 			name:  pattern_name('storage.modifier'),
 			match: `${ MEMB_ACCESS }|${ OVR_CLAIM }|${ PERMISSION }`,
+		},
+		{
+			name:  pattern_name('keyword.other.optional'),
+			match: OPT,
 		},
 		{include: '#IdentifierProperty'},
 		annotation(lookaheads([ASSN_START, ';'])),
@@ -234,6 +243,10 @@ export const MEMBER__METHOD = {
 		{
 			name:  pattern_name('storage.modifier'),
 			match: `\\b(${ MEMB_ACCESS }|${ OVR_CLAIM }|final|${ MUTABLE })\\b`,
+		},
+		{
+			name:  pattern_name('keyword.other.optional'),
+			match: OPT,
 		},
 		{include: '#IdentifierProperty'},
 		{include: '#GenericParameters'},
