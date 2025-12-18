@@ -95,7 +95,7 @@ type nominal SpreadTest = (T, #Spread) | (name: T, ##DoubleSpread);
 type Tup = (A, ?: B);
 type Rec = (a: A, $B, c?: C);
 type RecDestructure = [a: A, $B, c?: C, (d, (e)): De, ($f, g: ($h)): Fg];
-type Awaited<T> = T~~;
+typefunc Awaited<T> => T~~;
 type SpreadTest = (
 	T,
 	#Spread,
@@ -103,12 +103,12 @@ type SpreadTest = (
 	name: T,
 	##DoubleSpread,
 );
-type T<out U> = U & V
+typefunc T<out U> => U & V
 	.<W>;
-type U<in V narrows W.<int>> = V | W.<X>;
+typefunc U<in V narrows W.<int>> => V | W.<X>;
 type U narrows int | bool = int;
-type U<mut in V ?= W.<int>> = V | W.%%c%%<X>;
-type U<V= Vv> = Vv | W;
+typefunc U<mut in V ?= W.<int>> => V | W.%%c%%<X>;
+typefunc U<V= Vv> => Vv | W;
 
 type T = (a: boolean, b: int, c: T);
 let x: T = (a= false, b= 42, $c);
@@ -154,7 +154,7 @@ claim x: T;
 claim NAMESPACE::Foo.prop: T;
 claim x.<U>(42)~~.y++.0.["prop" || "key"]: T;
 
-type VoidFn<Arg> = \(arg: Arg) => void;
+typefunc VoidFn<Arg> => \(arg: Arg) => void;
 function print(message: str): void {;}
 function print(message) impl VoidFn.<str> {;}
 function print<T>(message) impl VoidFn.<T> {;}
@@ -175,12 +175,12 @@ private let y: float = 0.0;
 public type X = float | int;
 internal type X = float | int;
 private type Y = float | int;
-public type A<T> = float | T;
-internal type A<T> = float | T;
-private type B<T> = float | T;
+public typefunc A<T> => float | T;
+internal typefunc A<T> => float | T;
+private typefunc B<T> => float | T;
 
-type Or<T, U> = T | U;
-type Or<T, U, V> = Or.<T, U> | V | this;
+typefunc Or<T, U> => T | U;
+typefunc Or<T, U, V> => Or.<T, U> | V | this;
 typefunc Or<T, U> => T | {U};
 typefunc Or<T, U, V> => Or.<T, U> | V;
 public typefunc Map<T, U> => {T -> U};

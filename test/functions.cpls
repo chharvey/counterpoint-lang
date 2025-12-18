@@ -228,8 +228,6 @@ let subtract: Function = \(   var $a      ?= 0,    %%var%% $b      ?= a): int =>
 let subtract: Function = \(   var $a,              %%var%% $b):           int => a - b;
 
 
-%-- punning in generic type aliases / typefunc params --%
-type Binop<A= nominal out A  narrows int ?= int, B= %%nominal%% mut in B widens int ?= A> = int;
-type Binop<   nominal out $A narrows int ?= int, B= %%nominal%% mut in B widens int ?= A> = int;
+%-- punning in generic typefunc params --%
 typefunc Binop<A= nominal out A  narrows int ?= int, B= %%nominal%% mut in B  widens int ?= A> => int;
 typefunc Binop<   nominal out $A narrows int ?= int,    %%nominal%% mut in $B widens int ?= A> => int;

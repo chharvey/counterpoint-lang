@@ -1,7 +1,4 @@
 % type alias declaration destructuring
-type (A<T>, nominal B<U= V>) = (int | T, float & V);
-type ($C, d: nominal D<out W narrows (anything) ?= X>) = (C: B.<U= null>, d: W.0);
-type ($C, d: D<Y= (nominal out W narrows anything ?= Z) ?= X>) = (C: B.<U= null>, d: W);
 type (e: nominal e, nominal $f) = (e: Echo, f: Foxtrot);
 
 % type alias destructuring (with defaults):
@@ -19,11 +16,11 @@ type (nominal $P, quebec: (nominal $Q, romeo: R)) = Pqr;
 
 
 % generic parameter destructuring (with defaults):
-type Or<T= (A narrows C, B ?= B1)> = A | B;
-type Or<T= (a: A, $B)> = A | B;
-type Or<T= (J, ($K, lima: L))> = J | K | L;
-type Or<T= ($M, november: (N, O ?= O1))> = M | N | O;
-type Or<T= (S ?= bool) ?= (anything)> = S | null;
+typefunc Or<T= (A narrows C, B ?= B1)> => A | B;
+typefunc Or<T= (a: A, $B)> => A | B;
+typefunc Or<T= (J, ($K, lima: L))> => J | K | L;
+typefunc Or<T= ($M, november: (N, O ?= O1))> => M | N | O;
+typefunc Or<T= (S ?= bool) ?= (anything)> => S | null;
 
 
 

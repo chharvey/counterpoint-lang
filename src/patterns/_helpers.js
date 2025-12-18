@@ -322,7 +322,6 @@ export function destructure(subtype, identifiers) {
 		] : []),
 		...(['TypeAlias', 'GenericParameter'].includes(subtype) ? [
 			...(subtype === 'TypeAlias' ? [
-				{include: '#GenericParameters'}, // because type aliases can have parameters
 				{include: '#ModifiersDeclarationType'},
 			] : [
 				{include: '#ModifiersGenericParameter'},
