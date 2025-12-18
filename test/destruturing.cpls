@@ -1,0 +1,198 @@
+% type alias declaration destructuring
+type (A<T>, nominal B<U= V>) = (int | T, float & V);
+type ($C, d: nominal D<out W narrows (anything) ?= X>) = (C: B.<U= null>, d: W.0);
+type ($C, d: D<Y= (nominal out W narrows anything ?= Z) ?= X>) = (C: B.<U= null>, d: W);
+type (e: nominal e, nominal $f) = (e: Echo, f: Foxtrot);
+
+% type alias destructuring (with defaults):
+type (A, B ?= B1) = (int, float);
+type (c: C, d: D ?= D1) = (c: int, d: float);
+type ($E, $F ?= F1) = (E: int, F: float);
+type ($E, nominal $F ?= F1) = (E: int, F: float);
+type (S ?= bool) = Tup;
+
+type (G, (H, I)) = Ghi;
+type (J, ($K, lima: L)) = Jkl;
+type ($M, november: (N, O)) = Mno;
+type (nominal $P, quebec: (nominal $Q, romeo: R)) = Pqr;
+
+
+
+% generic parameter destructuring (with defaults):
+type Or<T= (A narrows C, B ?= B1)> = A | B;
+type Or<T= (a: A, $B)> = A | B;
+type Or<T= (J, ($K, lima: L))> = J | K | L;
+type Or<T= ($M, november: (N, O ?= O1))> = M | N | O;
+type Or<T= (S ?= bool) ?= (anything)> = S | null;
+
+
+
+
+% variable declaration destructuring:
+let (x, y): int          = [1, 2];
+let (x: int, y: int)     = [1, 2];
+let ($if, by= b): int    = [if= 1, by= 2];
+let ($x: int, y= b: int) = [x= 1, y= 2];
+let ((var x), (y= (b))): int = [[1], [y= [2]]];
+let ((var $x), (y= (var $b))): int = [[1], [y= [2]]];
+
+% variable destructuring with defaults:
+let (a:    SomeType.0 ?= x, b:    SomeType.1 ?= y, c:    SomeType.2 ?= z)           = some_object;
+let (a                ?= x, b                ?= y, c                ?= z): SomeType = some_object;
+let (a= x: SomeType.a ?= t, b= y: SomeType.b ?= u, c= z: SomeType.c ?= v)           = some_object;
+let (a= x,                  b= y,                  c= z):                  SomeType = some_object;
+let (var $a ?= t, (var $b) ?= u, (d= (var $c))?= v): SomeType = some_object;
+
+
+
+% function parameter destructuring:
+function f(param= (x, y): int          ?= [1, 2]):         int => x + y;
+function f(param= (_, y): int          ?= [1, 2]):         int => y;
+function f(       (x: int, y: int)     ?= [1, 2]):         int => x + y;
+function f(       (_: int, y: int)     ?= [1, 2]):         int => y;
+function f(until= ($if, by= b): int    ?= [if= 1, by= 2]): int => if + b;
+function f(_=     ($_,  by= _): int    ?= [_=  1, by= 2]): int => _;
+function f(_=     ($_,  _=  b): int    ?= [_=  1, _=  2]): int => _;
+function f(param= ($x: int, y= b: int) ?= [x=  1, y=  2]): int => x + b;
+function f(param= ((var x), (y= (b))): int ?= [[1], [y= [2]]]): int => x + b;
+function f(param= ((var $x: int), (y= (b): int)) ?= [[1], [y= [2]]]): int => x + b;
+let f: Object = \(param= (x, y): int          ?= [1, 2]):         int => x + y;
+let f: Object = \(param= (_, y): int          ?= [1, 2]):         int => y;
+let f: Object = \(param= (x: int, y: int)     ?= [1, 2]):         int => x + y;
+let f: Object = \(param= (_: int, y: int)     ?= [1, 2]):         int => y;
+let f: Object = \(until= ($if, by= b): int    ?= [if= 1, by= 2]): int => if + b;
+let f: Object = \(_=     ($_,  by= _): int    ?= [_=  1, by= 2]): int => _;
+let f: Object = \(_=     ($_,  _=  b): int    ?= [_=  1, _=  2]): int => _;
+let f: Object = \(param= ($x: int, y= b: int) ?= [x=  1, y=  2]): int => x + b;
+let f: Object = \(param= ((var x), (y= (b))): int ?= [[1], [y= [2]]]): int => x + b;
+let f: Object = \(param= ((var $x: int), (y= (b): int)) ?= [[1], [y= [2]]]): int => x + b;
+let f: Object = \(param= (x, y): int                  ?= [1, 2]):          int { return x + y; };
+let f: Object = \(param= (x: int, y: int)             ?= [1, 2]):          int { return x + y; };
+let f: Object = \(until= ($if, by= b): int            ?= [if= 1, by= 2]):  int { return if + b; };
+let f: Object = \(param= ($x: int, y= b: int)         ?= [x= 1, y= 2]):    int { return x + b; };
+let f: Object = \(param= ((var x), (y= (b))): int ?= [[1], [y= [2]]]): int { return x + b; };
+
+let f: \(p: NS::P) => null = \(p: NS::P): null => null;
+let f: Function = \(p= (x): (NS::P0,)): null => null;
+let f: Function = \(p= (x: NS::P0)): null => null;
+let f: Function = \(p= ((x): (NS::P00,))): null => null;
+let f: Function = \(p= ((x: NS::P00))): null => null;
+
+% function parameter destructuring with defaults:
+function f(     (a:    SomeType.0 ?= x, b:    SomeType.1 ?= y, c:    SomeType.2 ?= z)) => some_object;
+function f(     (a= x: SomeType.a ?= t, b= y: SomeType.b ?= u, c= z: SomeType.c ?= v)) => some_object;
+function f(arg= (a:    SomeType.0 ?= x, b:    SomeType.1 ?= y, c:    SomeType.2 ?= z)) => some_object;
+function f(arg= (a= x: SomeType.a ?= t, b= y: SomeType.b ?= u, c= z: SomeType.c ?= v)) => some_object;
+
+
+
+
+% record type property destructuring:
+type RecordTypePropertyDest = ((a, b): TupType, ($x, $y): RecType, (x: xray, y: yankee): RecType);
+
+
+
+% generic argument destructuring
+type T = GenericCall.<(A, B)= TupType, ($C, $D)= RecType, (E: Echo, F: Foxtrot)= RecType>;
+
+
+
+
+% record/dict property destructuring:
+[z= 3, (x, y)=       [1, 2]];
+[z= 3, (x, _)=       [1, 2]];
+[z= 3, (x= a)=       [x= 1]];
+[z= 3, ($if, by= b)= [if= 1, by= 2]];
+[z= 3, ($_,  by= _)= [if= 1, by= 2]];
+[z= 3, (($x), (y= (b)))= [[x= 1], [y= [2]]]];
+
+% not record/dict destructuring:
+[(x), (y,)];
+[(x, y)];
+[(x= a)];
+[\(x, y)      => null];
+[\(x, y= (b)) => null];
+
+
+
+% function argument destructuring:
+g.(z= 3, (x, y)=           [1, 2]);
+g.(z= 3, (x= a)=           [x= 1]);
+g.(z= 3, ($if, by= b)=     [if= 1, by= 2]);
+g.(z= 3, (($x), (y= (b)))= [[x= 1], [y= [2]]]);
+
+% not function argument destructuring:
+g.((x), (y,));
+g.((x, y));
+g.((x= a));
+g.(z= 3, \(x, y)      => [1, [2]]);
+g.(z= 3, \(x, y= (b)) => [1, [2]]);
+
+
+
+
+% claim destructuring:
+claim (a):                (int,);
+claim (x, y):             (int, int);
+claim ($if, by= b):       (if: If, by: B);
+claim ((x), (y= (b))):    ([X], (y: (B)));
+claim (x.1, y.2):         (int, int);
+claim (x.i, y.j):         (int, int);
+claim (x.[i + j], y.[j]): (int, int);
+claim ($if, by= b.j):     (if: If, by: Bj);
+claim (($x), (y= (b.j))): ((X), (y: (Bj)));
+
+% not claim destructuring:
+claim (a).c:                      int;
+claim (a.b).c:                    int;
+claim (a || b).c:                 int;
+claim (x as <(y: int)>).y:        int;
+claim [a].c:                      TupleValue;
+claim [a.b].c:                    TupleValue;
+claim [a || b].c:                 TupleValue;
+claim [x as <(y: int)>].y:        TupleValue;
+claim [prop= a].c:                RecordValue;
+claim [prop= a.b].c:              RecordValue;
+claim [prop= a || b].c:           RecordValue;
+claim [prop= x as <(y: int)>].y:  RecordValue;
+claim {a}.c:                      SetValue;
+claim {a.b}.c:                    SetValue;
+claim {a || b}.c:                 SetValue;
+claim {x as <(y: int)>}.y:        SetValue;
+claim {kie -> a}.c:               MapValue;
+claim {kie -> a.b}.c:             MapValue;
+claim {kie -> a || b}.c:          MapValue;
+claim {kie -> x as <(y: int)>}.y: MapValue;
+
+
+
+% reassignment destructuring:
+set (a)                = [1];
+set (x, y) %%c%%       = [1, 2];
+set (x.1, y.2)         = [1, 2];
+set (x.i, y.j)         = [1, 2];
+set (x.[i + j], y.[j]) = [1, 2];
+set ($if, by= b.j)     = [if= 1, by= 2];
+set (($x), (y= (b.j))) = [[x= 1], [y= [2]]];
+
+% not reassignment destructuring:
+set (a).c                      = value;
+set (a.b).c                    = value;
+set (a || b).c                 = value;
+set (x as <(y: int)>).y        = value;
+set [a].c                      = tupleValue;
+set [a.b].c                    = tupleValue;
+set [a || b].c                 = tupleValue;
+set [x as <(y: int)>].y        = tupleValue;
+set [prop= a].c                = recordValue;
+set [prop= a.b].c              = recordValue;
+set [prop= a || b].c           = recordValue;
+set [prop= x as <(y: int)>].y  = recordValue;
+set {a}.c                      = setValue;
+set {a.b}.c                    = setValue;
+set {a || b}.c                 = setValue;
+set {x as <(y: int)>}.y        = setValue;
+set {kie -> a}.c               = mapValue;
+set {kie -> a.b}.c             = mapValue;
+set {kie -> a || b}.c          = mapValue;
+set {kie -> x as <(y: int)>}.y = mapValue;

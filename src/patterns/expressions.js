@@ -28,7 +28,7 @@ export const ARGUMENTS = list(pattern_name('meta.arguments'), DELIMS.ARGS_FN[0],
 		name: pattern_name('keyword.other.spread'),
 		match: '##|#',
 	},
-	argumentLabel(DELIMS.ARGS_FN[1]),
+	argumentLabel(),
 	{include: '#Expression'}, // must come after `argumentLabel` because we don’t want expressions to look like named arguments or argument destructuring
 ]);
 

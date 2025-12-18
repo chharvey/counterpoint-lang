@@ -51,18 +51,12 @@ export const BACKSLASH  = '(\\\\)';
 
 export function destructure_selector(prop_delim) {
 	return `
-		(?<DestructurePropertiesOrArguments>${ DELIMS.DESTRUCT[0] }${ OWS }
-			(?<DestructurePropertyOrArgumentItemOrKey>
-				(?<DestructurePropertyOrArgumentItem>
-					${ VAR }
-					| \\g<DestructurePropertiesOrArguments>
-				)
-				| (?<DestructurePropertyOrArgumentKey>
-					${ PUN } ${ OWS } ${ VAR }
-					| ${ VAR } ${ OWS } ${ prop_delim } ${ OWS } \\g<DestructurePropertyOrArgumentItem>
-				)
+		(?<DestructureLabels>${ DELIMS.DESTRUCT[0] }${ OWS }
+			(?<DestructureLabel>
+				  (${ VAR } ${ OWS } ${ prop_delim } | ${ PUN })? ${ OWS } ${ VAR }
+				| (${ VAR } ${ OWS } ${ prop_delim })?            ${ OWS } \\g<DestructureLabels>
 			)
-			(?:${ OWS },${ OWS }\\g<DestructurePropertyOrArgumentItemOrKey>)*
+			(?:${ OWS },${ OWS }\\g<DestructureLabel>)*
 			${ OWS },?
 		${ OWS }${ DELIMS.DESTRUCT[1] })
 	`.replace(/\s+/g, '');

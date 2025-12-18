@@ -245,8 +245,8 @@ function typePropertyOrGenericArgumentLabel(start, close_delim, identifier_kind,
 export function typeProperty(close_delim) {
 	return typePropertyOrGenericArgumentLabel(ANNO_START, close_delim, '#IdentifierProperty', '#DestructureTypeProperty');
 }
-export function genericArgumentLabel(close_delim) {
-	return typePropertyOrGenericArgumentLabel(ASSN_START, close_delim, '#IdentifierParameter', '#DestructureGenericArgument');
+export function genericArgumentLabel() {
+	return typePropertyOrGenericArgumentLabel(ASSN_START, DELIMS.ARGS_GN[1], '#IdentifierParameter', '#DestructureGenericArgument');
 }
 
 
@@ -284,8 +284,8 @@ function propertyOrArgumentLabel(close_delim, identifier_kind, destructure_kind)
 export function property(close_delim) {
 	return propertyOrArgumentLabel(close_delim, '#IdentifierProperty', '#DestructureProperty');
 }
-export function argumentLabel(close_delim) {
-	return propertyOrArgumentLabel(close_delim, '#IdentifierParameter', '#DestructureArgument');
+export function argumentLabel() {
+	return propertyOrArgumentLabel(DELIMS.ARGS_FN[1], '#IdentifierParameter', '#DestructureArgument');
 }
 
 

@@ -28,7 +28,7 @@ export const GENERIC_ARGUMENTS = list(pattern_name('meta.genericarguments'), DEL
 		name: pattern_name('keyword.other.spread'),
 		match: '##|#',
 	},
-	genericArgumentLabel(DELIMS.ARGS_GN[1]),
+	genericArgumentLabel(),
 	{include: '#Type'}, // must come after `genericArgumentLabel` because we don’t want types to look like named arguments
 ]);
 
