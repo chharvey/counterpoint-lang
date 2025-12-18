@@ -13,7 +13,6 @@ import {
 	IMPL,
 	ANNO_START,
 	ASSN_START,
-	DFLT_START,
 	FATARROW,
 	destructure_selector,
 } from '../selectors.js';
@@ -129,6 +128,17 @@ export function list(name, begin, end, more_patterns) {
 			},
 			...more_patterns,
 		],
+	};
+}
+
+
+export function param_label(prop_delim, identifier_kind) {
+	return {
+		name:        pattern_name('meta.label'),
+		begin:       lookaheads([[VAR, OWS, prop_delim].join('')]),
+		end:         prop_delim,
+		endCaptures: {0: {name: pattern_name('punctuation.delimiter')}},
+		patterns:    [{include: identifier_kind}],
 	};
 }
 
@@ -302,19 +312,14 @@ export function destructure(subtype, identifiers) {
 	);
 	return list(pattern_name(`meta.destructure.${ subtype.toLowerCase() }`), DELIMS.DESTRUCT[0], DELIMS.DESTRUCT[1], [
 		{include: `#Destructure${ subtype }`},
-		{
-			begin:       lookaheads([[VAR, OWS, prop_delim].join('')]),
-			end:         prop_delim,
-			endCaptures: {
-				0: {name: pattern_name('punctuation.delimiter')}
-			},
-			patterns: [
-				{include: '#IdentifierProperty'},
-			],
-		},
+		param_label(prop_delim, '#IdentifierProperty'),
 		{
 			name: pattern_name('keyword.other.alias'),
 			match: PUN,
+		},
+		{
+			name:  pattern_name('keyword.other.optional'),
+			match: OPT,
 		},
 		...(['Variable', 'Parameter'].includes(subtype) ? [
 			...(subtype === 'Variable' ? [
@@ -322,8 +327,8 @@ export function destructure(subtype, identifiers) {
 			] : [
 				{include: '#ModifiersParameter'},
 			]),
-			annotation(lookaheads([DFLT_START, ',', DELIMS.DESTRUCT[1]])),
-			assignment(DFLT_START, lookaheads([',', DELIMS.DESTRUCT[1]])),
+			annotation(lookaheads([ASSN_START, ',', DELIMS.DESTRUCT[1]])),
+			assignment(ASSN_START, lookaheads([',', DELIMS.DESTRUCT[1]])),
 		] : []),
 		...(['TypeAlias', 'GenericParameter'].includes(subtype) ? [
 			...(subtype === 'TypeAlias' ? [
@@ -331,8 +336,8 @@ export function destructure(subtype, identifiers) {
 			] : [
 				{include: '#ModifiersGenericParameter'},
 			]),
-			constraint(lookaheads([DFLT_START, ',', DELIMS.DESTRUCT[1]])),
-			assignment(DFLT_START, lookaheads([',', DELIMS.DESTRUCT[1]]), '#Type'),
+			constraint(lookaheads([ASSN_START, ',', DELIMS.DESTRUCT[1]])),
+			assignment(ASSN_START, lookaheads([',', DELIMS.DESTRUCT[1]]), '#Type'),
 		] : []),
 		identifiers,
 	]);

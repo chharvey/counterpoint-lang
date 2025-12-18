@@ -17,7 +17,6 @@ import {
 	OVR,
 	OVR_CLAIM,
 	ASSN_START,
-	DFLT_START,
 	FATARROW,
 	BLOCK_END,
 	FIELD,
@@ -29,6 +28,7 @@ import {
 } from '../selectors.js';
 import {
 	qualified_name,
+	param_label,
 	annotation,
 	assignment,
 	implicitReturn,
@@ -146,6 +146,7 @@ export const CONSTRUCTOR_FIELD = {
 	begin: lookaheads([FIELD_CONSTRUCTOR]),
 	end:   lookaheads([',', DELIMS.PARAMS_FN[1]]),
 	patterns: [
+		{include: '#DestructureParameter'},
 		{
 			name:  pattern_name('storage.modifier'),
 			match: `${ MEMB_ACCESS }|${ OVR }|${ PERMISSION }|${ UNFIXED }`,
@@ -154,14 +155,10 @@ export const CONSTRUCTOR_FIELD = {
 			name:  pattern_name('keyword.other.optional'),
 			match: OPT,
 		},
-		{
-			name:  pattern_name('punctuation.delimiter'),
-			match: ASSN_START,
-		},
+		param_label(ASSN_START, '#IdentifierProperty'),
+		annotation(lookaheads([ASSN_START, ',', DELIMS.PARAMS_FN[1]])),
+		assignment(ASSN_START, lookaheads([',', DELIMS.PARAMS_FN[1]])),
 		{include: '#IdentifierProperty'},
-		{include: '#DestructureParameter'},
-		annotation(lookaheads([DFLT_START, ',', DELIMS.PARAMS_FN[1]])),
-		assignment(DFLT_START, lookaheads([',', DELIMS.PARAMS_FN[1]])),
 	],
 };
 

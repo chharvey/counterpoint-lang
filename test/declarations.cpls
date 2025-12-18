@@ -107,7 +107,7 @@ typefunc T<out U> => U & V
 	.<W>;
 typefunc U<in V narrows W.<int>> => V | W.<X>;
 type U narrows int | bool = int;
-typefunc U<mut in V ?= W.<int>> => V | W.%%c%%<X>;
+typefunc U<mut in V? = W.<int>> => V | W.%%c%%<X>;
 typefunc U<V= Vv> => Vv | W;
 
 type T = (a: boolean, b: int, c: T);

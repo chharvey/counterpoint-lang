@@ -42,7 +42,6 @@ export const OVR        = '\\b(override|impl)\\b';
 export const OVR_CLAIM  = '\\b(override|impl|claim)\\b';
 export const ANNO_START = `\\:${ lookaheads(['\\:'], true) }`;
 export const ASSN_START = `=${ lookaheads(['[=>]'], true) }`;
-export const DFLT_START = `\\?${ ASSN_START }`;
 export const THINARROW  = '->';
 export const FATARROW   = '=>';
 export const BLOCK_END  = '\\}'; // used for lookbehinds (cannot contain lookaheads)
@@ -76,7 +75,7 @@ export const FIELD_CONSTRUCTOR = `
 	(${ OVR } ${ OWS })?
 	(${ PERMISSION } ${ OWS })?
 	(?:
-		(${ VAR } ${ OWS } ${ ASSN_START } ${ OWS })? (${ UNFIXED } ${ OWS })? ${ VAR } ${ OWS } (${ OPT } ${ OWS })? (${ ANNO_START } | ${ DFLT_START })
+		(${ VAR } ${ OWS } ${ ASSN_START } ${ OWS })? (${ UNFIXED } ${ OWS })? ${ VAR } ${ OWS } (${ OPT } ${ OWS })? (${ ANNO_START } | ${ ASSN_START })
 		| ${ VAR } ${ OWS } ${ ASSN_START } ${ OWS } ${ DELIMS.DESTRUCT[0] }
 	)
 `.replace(/\s+/g, '');
