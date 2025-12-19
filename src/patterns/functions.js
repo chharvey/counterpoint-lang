@@ -74,7 +74,7 @@ export const EXPRESSION__FUNCTION = {
 };
 
 
-export const DECLARATION__TYPEFUNC = {
+export const DECLARATION__TYPEFUNCTION = {
 	name: pattern_name('meta.declaration.typefunc'),
 	begin: lookaheads([`(${ COMP_ACCESS }${ OWS })?\\b(typefunc)\\b`]),
 	end:   ';',

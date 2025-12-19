@@ -17,7 +17,7 @@ export const MODIFIERS__DECLARATION__TYPE = {
 };
 
 
-export const MODIFIERS__DECLARATION__LET = {
+export const MODIFIERS__DECLARATION__VARIABLE = {
 	patterns: [
 		{
 			name:  pattern_name('storage.modifier'),
@@ -40,6 +40,6 @@ export const MODIFIERS__GENERIC_PARAMETER = {
 
 export const MODIFIERS__PARAMETER = {
 	patterns: [
-		{include: '#ModifiersDeclarationLet'},
+		{include: '#ModifiersDeclarationVariable'},
 	],
 };

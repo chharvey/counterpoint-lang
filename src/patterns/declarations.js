@@ -42,7 +42,7 @@ export const DECLARATION__TYPE = {
 };
 
 
-export const DECLARATION__LET = {
+export const DECLARATION__VARIABLE = {
 	name: pattern_name('meta.declaration.let'),
 	begin: lookaheads([`(${ COMP_ACCESS }${ OWS })?\\b(let)\\b`]),
 	end:   ';',
@@ -51,7 +51,7 @@ export const DECLARATION__LET = {
 	},
 	patterns: [
 		{include: '#DestructureVariable'},
-		{include: '#ModifiersDeclarationLet'},
+		{include: '#ModifiersDeclarationVariable'},
 		annotation(lookaheads([ASSN_START, ';'])),
 		assignment(ASSN_START, lookaheads([';'])),
 		{
@@ -74,8 +74,8 @@ export const DECLARATION__LET = {
 export const DECLARATION = {
 	patterns: [
 		{include: '#DeclarationType'},
-		{include: '#DeclarationTypefunc'},
-		{include: '#DeclarationLet'},
+		{include: '#DeclarationTypefunction'},
+		{include: '#DeclarationVariable'},
 		{include: '#DeclarationFunction'},
 		{include: '#DeclarationClass'},
 		{include: '#DeclarationInterface'},
