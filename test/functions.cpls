@@ -26,9 +26,9 @@ let x: \<out T widens U~~, in U? = Set.<null>>(a: Set.<T>~~, b: Set.<U~~>) => bo
 
 
 %-- function expression statements --%
-\(var h: int): int => h + 1;
-\(%%var%% h: int): int => h + 1;
-\(%%var%% h: int): NAMESPACE::Int => h + 1;
+\(mut h: int): int => h + 1;
+\(%%mut%% h: int): int => h + 1;
+\(%%mut%% h: int): NAMESPACE::Int => h + 1;
 % return type with set/map shorthand syntax
 \(): ({int}) {
 	return {42, 69};
@@ -88,14 +88,14 @@ let lambda: Function = \(
 	a: int,
 	a?      = 42,
 	a?: int = 42,
-	var b,
+	mut b,
 ) { return a * 2; };
 let lambda: Function = \(
 	a,
 	a: int,
 	a?      = 42,
 	a?: int = 42,
-	var b,
+	mut b,
 ) => a * 2;
 let lambda: Function = \<
 	T,
@@ -145,7 +145,7 @@ func <_, B>(): B {;}
 func (_: A, b: B): B {;}
 
 func add(a?: int = 0, b?: int = 0): int { return a + b; }
-func subtract(var a?: int = 0, %%var%% b?: int = a): int => a - b;
+func subtract(mut a?: int = 0, %%mut%% b?: int = a): int => a - b;
 func %%comm%% do_nothing(): void {
 	let x: anything = 0;
 	return;
@@ -220,16 +220,16 @@ func add(a? = x):    int => a + b;
 func add(a= x?):     int => a + b;
 func add(a= x? = 0): int => a + b;
 %-- punning in function params --%
-func subtract(a= var a?:  int = 0, b= %%var%% b?:  int = a): int => a - b;
-func subtract(   var $a?: int = 0,    %%var%% $b?: int = a): int => a - b;
-func subtract(   var $a: int,         %%var%% $b: int):      int => a - b;
-func subtract(   var $a?      = 0,    %%var%% $b?      = a): int => a - b;
-func subtract(   var $a,              %%var%% $b):           int => a - b;
-let subtract: Function = \(a= var a?:  int = 0, b= %%var%% b?:  int = a): int => a - b;
-let subtract: Function = \(   var $a?: int = 0,    %%var%% $b?: int = a): int => a - b;
-let subtract: Function = \(   var $a: int,         %%var%% $b: int):      int => a - b;
-let subtract: Function = \(   var $a?      = 0,    %%var%% $b?      = a): int => a - b;
-let subtract: Function = \(   var $a,              %%var%% $b):           int => a - b;
+func subtract(a= mut a?:  int = 0, b= %%mut%% b?:  int = a): int => a - b;
+func subtract(   mut $a?: int = 0,    %%mut%% $b?: int = a): int => a - b;
+func subtract(   mut $a: int,         %%mut%% $b: int):      int => a - b;
+func subtract(   mut $a?      = 0,    %%mut%% $b?      = a): int => a - b;
+func subtract(   mut $a,              %%mut%% $b):           int => a - b;
+let subtract: Function = \(a= mut a?:  int = 0, b= %%mut%% b?:  int = a): int => a - b;
+let subtract: Function = \(   mut $a?: int = 0,    %%mut%% $b?: int = a): int => a - b;
+let subtract: Function = \(   mut $a: int,         %%mut%% $b: int):      int => a - b;
+let subtract: Function = \(   mut $a?      = 0,    %%mut%% $b?      = a): int => a - b;
+let subtract: Function = \(   mut $a,              %%mut%% $b):           int => a - b;
 
 
 %-- punning in generic typefunc params --%

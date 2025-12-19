@@ -6,7 +6,6 @@ import {
 	DELIMS,
 	OWS,
 	VAR,
-	UNFIXED,
 	PUN,
 	OPT,
 	CONSTRAINT,

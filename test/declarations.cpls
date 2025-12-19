@@ -30,7 +30,7 @@ let d: str = 42.2e4_2;
 let e: Object = 42.2e+4_2;
 let f: %% comm %% TypeF | String = "f";
 
-let %%var%% 'var': int =
+let %%mut%% 'mut': int =
 	  -\b13579fz
 	+ -\q13579fz
 	+ -\s13579fz
@@ -114,11 +114,11 @@ type T = (a: boolean, b: int, c: T);
 let x: T = (a= false, b= 42, $c);
 
 let 'bōōl || flō' = 'flō || bōōl' || flo || boo;
-let var w: bool | T | 'floàt | bōōl' = bool;
-let var w: 3.2 = 3.2 == 3.2;
-let var w: null = null;
-let var w: T = T;
-let var w = T;
+let mut w: bool | T | 'floàt | bōōl' = bool;
+let mut w: 3.2 = 3.2 == 3.2;
+let mut w: null = null;
+let mut w: T = T;
+let mut w = T;
 let tup:  mut (int,)       = (42,);
 let rec:  mut (a: int)     = (a= 42);
 let list: mut [int]        = [42];
@@ -126,13 +126,13 @@ let dict: mut [:int]       = [a= 42];
 let set:  mut {int}        = {42};
 let map:  mut {int -> str} = {42 -> "42.0", 43 -> "43.0"};
 
-let var w?:    T;
-let var tup?:  (int,);
-let var rec?:  (a: int);
-let var list?: [int];
-let var dict?: [:int];
-let var set?:  {int};
-let var map?:  {int -> str};
+let mut w?:    T;
+let mut tup?:  (int,);
+let mut rec?:  (a: int);
+let mut list?: [int];
+let mut dict?: [:int];
+let mut set?:  {int};
+let mut map?:  {int -> str};
 
 delete w;
 delete w %% comment %% ;
