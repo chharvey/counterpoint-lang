@@ -12,12 +12,12 @@ import {
 	REF,
 	MUTABLE,
 	PUN,
+	OPT,
 	VARIANCE,
 	CONSTRAINT,
 	IMPL,
 	ANNO_START,
 	ASSN_START,
-	DFLT_START,
 	FATARROW,
 	BLOCK_END,
 	BACKSLASH,
@@ -25,6 +25,7 @@ import {
 import {
 	qualified_name,
 	list,
+	param_label,
 	constraint,
 	annotation,
 	assignment,
@@ -130,17 +131,18 @@ export const GENERIC_PARAMETER_PATTERNS = {
 	patterns: [
 		{include: '#ModifiersGenericParameter'},
 		{include: '#DestructureGenericParameter'},
-		constraint(lookaheads([DFLT_START, ',', DELIMS.PARAMS_GN[1]])),
-		assignment(DFLT_START, lookaheads([',', DELIMS.PARAMS_GN[1]]), '#Type'),
-		{
-			name:  pattern_name('punctuation.delimiter'),
-			match: ASSN_START,
-		},
-		{include: '#IdentifierParameter'},
 		{
 			name: pattern_name('keyword.other.alias'),
 			match: PUN,
 		},
+		{
+			name:  pattern_name('keyword.other.optional'),
+			match: OPT,
+		},
+		param_label(ASSN_START, '#IdentifierParameter'),
+		constraint(lookaheads([ASSN_START, ',', DELIMS.PARAMS_GN[1]])),
+		assignment(ASSN_START, lookaheads([',', DELIMS.PARAMS_GN[1]]), '#Type'),
+		{include: '#IdentifierParameter'},
 	],
 };
 
@@ -149,8 +151,12 @@ export const TYPE_PARAMETER_PATTERNS = {
 	patterns: [
 		annotation(lookaheads([',', DELIMS.PARAMS_FN[1]])),
 		{
-			begin: lookaheads([`${ VAR }${ OWS }${ ANNO_START }`]),
-			end:   lookaheads([ANNO_START]),
+			name:  pattern_name('keyword.other.optional'),
+			match: OPT,
+		},
+		{
+			begin: lookaheads([`(${ VAR }${ OWS })?(${ OPT }${ OWS })?${ ANNO_START }`]),
+			end:   lookaheads([OPT, ANNO_START]),
 			patterns: [
 				{include: '#IdentifierParameter'},
 			],
@@ -164,17 +170,18 @@ export const PARAMETER_PATTERNS = {
 	patterns: [
 		{include: '#ModifiersParameter'},
 		{include: '#DestructureParameter'},
-		annotation(lookaheads([DFLT_START, ',', DELIMS.PARAMS_FN[1]])),
-		assignment(DFLT_START, lookaheads([',', DELIMS.PARAMS_FN[1]])),
-		{
-			name:  pattern_name('punctuation.delimiter'),
-			match: ASSN_START,
-		},
-		{include: '#IdentifierParameter'},
 		{
 			name: pattern_name('keyword.other.alias'),
 			match: PUN,
 		},
+		{
+			name:  pattern_name('keyword.other.optional'),
+			match: OPT,
+		},
+		param_label(ASSN_START, '#IdentifierParameter'),
+		annotation(lookaheads([ASSN_START, ',', DELIMS.PARAMS_FN[1]])),
+		assignment(ASSN_START, lookaheads([',', DELIMS.PARAMS_FN[1]])),
+		{include: '#IdentifierParameter'},
 	],
 };
 

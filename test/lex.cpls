@@ -195,7 +195,7 @@ let g: int =
 
 
 type 'floàt | bōōl' = float | bool;
-type T<U> = U & V;
+typefunc T<U> => U & V;
 
 
 "a string that

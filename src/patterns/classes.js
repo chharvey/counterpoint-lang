@@ -11,12 +11,12 @@ import {
 	UNFIXED,
 	NOMINAL,
 	MUTABLE,
+	OPT,
 	PERMISSION,
 	IMPL,
 	OVR,
 	OVR_CLAIM,
 	ASSN_START,
-	DFLT_START,
 	FATARROW,
 	BLOCK_END,
 	FIELD,
@@ -28,6 +28,7 @@ import {
 } from '../selectors.js';
 import {
 	qualified_name,
+	param_label,
 	annotation,
 	assignment,
 	implicitReturn,
@@ -145,18 +146,19 @@ export const CONSTRUCTOR_FIELD = {
 	begin: lookaheads([FIELD_CONSTRUCTOR]),
 	end:   lookaheads([',', DELIMS.PARAMS_FN[1]]),
 	patterns: [
+		{include: '#DestructureParameter'},
 		{
 			name:  pattern_name('storage.modifier'),
 			match: `${ MEMB_ACCESS }|${ OVR }|${ PERMISSION }|${ UNFIXED }`,
 		},
 		{
-			name:  pattern_name('punctuation.delimiter'),
-			match: ASSN_START,
+			name:  pattern_name('keyword.other.optional'),
+			match: OPT,
 		},
+		param_label(ASSN_START, '#IdentifierProperty'),
+		annotation(lookaheads([ASSN_START, ',', DELIMS.PARAMS_FN[1]])),
+		assignment(ASSN_START, lookaheads([',', DELIMS.PARAMS_FN[1]])),
 		{include: '#IdentifierProperty'},
-		{include: '#DestructureParameter'},
-		annotation(lookaheads([DFLT_START, ',', DELIMS.PARAMS_FN[1]])),
-		assignment(DFLT_START, lookaheads([',', DELIMS.PARAMS_FN[1]])),
 	],
 };
 
@@ -172,6 +174,10 @@ export const MEMBER__FIELD = {
 		{
 			name:  pattern_name('storage.modifier'),
 			match: `${ MEMB_ACCESS }|${ OVR_CLAIM }|${ PERMISSION }`,
+		},
+		{
+			name:  pattern_name('keyword.other.optional'),
+			match: OPT,
 		},
 		{include: '#IdentifierProperty'},
 		annotation(lookaheads([ASSN_START, ';'])),
@@ -234,6 +240,10 @@ export const MEMBER__METHOD = {
 		{
 			name:  pattern_name('storage.modifier'),
 			match: `\\b(${ MEMB_ACCESS }|${ OVR_CLAIM }|final|${ MUTABLE })\\b`,
+		},
+		{
+			name:  pattern_name('keyword.other.optional'),
+			match: OPT,
 		},
 		{include: '#IdentifierProperty'},
 		{include: '#GenericParameters'},
