@@ -43,8 +43,8 @@ export const DECLARATION__TYPE = {
 
 
 export const DECLARATION__VARIABLE = {
-	name: pattern_name('meta.declaration.let'),
-	begin: lookaheads([`(${ COMP_ACCESS }${ OWS })?\\b(let)\\b`]),
+	name: pattern_name('meta.declaration.val'),
+	begin: lookaheads([`(${ COMP_ACCESS }${ OWS })?\\b(val)\\b`]),
 	end:   ';',
 	endCaptures: {
 		0: {name: pattern_name('punctuation.delimiter')},
@@ -60,7 +60,7 @@ export const DECLARATION__VARIABLE = {
 		},
 		{
 			name: pattern_name('storage.type'),
-			match: '\\b(let)\\b',
+			match: '\\b(val)\\b',
 		},
 		{
 			name:  pattern_name('keyword.other.optional'),

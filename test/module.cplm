@@ -98,13 +98,13 @@ private func test(): void {
 
 public class Bar extends AwaitMod::Foo {
 	private method(): TypeMod::Qux {
-		let x: float = PlainMod::VALUE * 2.0;
+		val x: float = PlainMod::VALUE * 2.0;
 		return (x,);
 	}
 }
 public class Bar extends AwaitMod::Rec.Foo {
 	private method(): TypeMod::Rec.Qux {
-		let x: float = PlainMod::REC.value * 2.0;
+		val x: float = PlainMod::REC.value * 2.0;
 		return (x,);
 	}
 }

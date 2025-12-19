@@ -100,7 +100,7 @@ func twice(x: int): int => x * 2;
 1 + 2 + ({
 	% symbols:
 	@SYMBOL + ({
-		let lobmys: sym = @LOBMYS;
+		val lobmys: sym = @LOBMYS;
 		lobmys;
 	});
 	@some_symbol;

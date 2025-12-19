@@ -22,7 +22,7 @@ type Const = \() => int;
 type Const = \(
 ) => int;
 type ReturnsTemplateType = \() => """a {{ string }} template type""";
-let x: \<out T widens U~~, in U? = Set.<null>>(a: Set.<T>~~, b: Set.<U~~>) => bool = null;
+val x: \<out T widens U~~, in U? = Set.<null>>(a: Set.<T>~~, b: Set.<U~~>) => bool = null;
 
 
 %-- function expression statements --%
@@ -44,60 +44,60 @@ let x: \<out T widens U~~, in U? = Set.<null>>(a: Set.<T>~~, b: Set.<U~~>) => bo
 
 
 %-- variable declarations, function expressions --%
-let x: \(a: str) => str = \(a: str): str => """<x>{{ a }}</x>""";
-let x: \(a: str) => str = \(a: str): str {
+val x: \(a: str) => str = \(a: str): str => """<x>{{ a }}</x>""";
+val x: \(a: str) => str = \(a: str): str {
 	func y(): void {;}
-	let x: str = "x";
+	val x: str = "x";
 	return """<{{ x }}>{{ a }}</{{ x }}>""";
 };
-let y: \() => NS::V = \(): NS::V {;};
-let y: \() => NS::N = \(): NS::N => null;
+val y: \() => NS::V = \(): NS::V {;};
+val y: \() => NS::N = \(): NS::N => null;
 % return type with set/map shorthand syntax
-let return_set_of_int = \(): ({int}) {
+val return_set_of_int = \(): ({int}) {
 	return {42, 69};
 };
-let return_set_of_int = \(): ({int}) => {42, 69};
-let return_map_of_int = \(): ({int -> int}) {
+val return_set_of_int = \(): ({int}) => {42, 69};
+val return_map_of_int = \(): ({int -> int}) {
 	return {42 -> 69};
 };
-let return_map_of_int = \(): ({int -> int}) => {42 -> 69};
+val return_map_of_int = \(): ({int -> int}) => {42 -> 69};
 % implicitly returning a block-expression
-let return_block_expr = \(): int => { 42; };
+val return_block_expr = \(): int => { 42; };
 
-let lambda: Function = \(            )      { return a * 2; };
-let lambda: Function = \(a           )      { return a * 2; };
-let lambda: Function = \(a: int      ): int { return a * 2; };
-let lambda: Function = \(a?      = 42): int { return a * 2; };
-let lambda: Function = \(a?: int = 42): int { return a * 2; };
-let lambda: Function = \(            )      => a * 2;
-let lambda: Function = \(a           )      => a * 2;
-let lambda: Function = \(a: int      ): int => a * 2;
-let lambda: Function = \(a?      = 42): int => a * 2;
-let lambda: Function = \(a?: int = 42): int => a * 2;
-let lambda: Function = \<T               >() {};
-let lambda: Function = \<out T           >() {};
-let lambda: Function = \<in  T           >() {};
-let lambda: Function = \<T narrows U     >() {};
-let lambda: Function = \<T?           = V>() {};
-let lambda: Function = \<T? narrows U = V>() {};
-let not_lambda: NotFunction = a < b > (c);
-let not_lambda: NotFunction = a.<b>(c);
+val lambda: Function = \(            )      { return a * 2; };
+val lambda: Function = \(a           )      { return a * 2; };
+val lambda: Function = \(a: int      ): int { return a * 2; };
+val lambda: Function = \(a?      = 42): int { return a * 2; };
+val lambda: Function = \(a?: int = 42): int { return a * 2; };
+val lambda: Function = \(            )      => a * 2;
+val lambda: Function = \(a           )      => a * 2;
+val lambda: Function = \(a: int      ): int => a * 2;
+val lambda: Function = \(a?      = 42): int => a * 2;
+val lambda: Function = \(a?: int = 42): int => a * 2;
+val lambda: Function = \<T               >() {};
+val lambda: Function = \<out T           >() {};
+val lambda: Function = \<in  T           >() {};
+val lambda: Function = \<T narrows U     >() {};
+val lambda: Function = \<T?           = V>() {};
+val lambda: Function = \<T? narrows U = V>() {};
+val not_lambda: NotFunction = a < b > (c);
+val not_lambda: NotFunction = a.<b>(c);
 
-let lambda: Function = \(
+val lambda: Function = \(
 	a,
 	a: int,
 	a?      = 42,
 	a?: int = 42,
 	mut b,
 ) { return a * 2; };
-let lambda: Function = \(
+val lambda: Function = \(
 	a,
 	a: int,
 	a?      = 42,
 	a?: int = 42,
 	mut b,
 ) => a * 2;
-let lambda: Function = \<
+val lambda: Function = \<
 	T,
 	out T,
 	in  T,
@@ -108,30 +108,30 @@ let lambda: Function = \<
 	T? narrows U = V,
 >() {};
 
-let nestedfunctions: \(a: \(x: int) %%c%% => %%c%% int) %%c%% => %%c%% bool
+val nestedfunctions: \(a: \(x: int) %%c%% => %%c%% int) %%c%% => %%c%% bool
 	= \(a?: \(x: int) %%c%% => %%c%% int = \(x) %%c%% => %%c%% x * 2) %%c%% => %%c%% !!a;
 
-let lambdawithblockcomments: Function = \<T, U>%%hello%%(a: T, b: U): Object %%world%% => a || b;
-let lambdawithblockcomments: Function = \<T, U>%%hello%%(a: T, b: U) %%world%% => a || b;
-let lambdawithlinecomments:  Function = \<T, U> % hello
+val lambdawithblockcomments: Function = \<T, U>%%hello%%(a: T, b: U): Object %%world%% => a || b;
+val lambdawithblockcomments: Function = \<T, U>%%hello%%(a: T, b: U) %%world%% => a || b;
+val lambdawithlinecomments:  Function = \<T, U> % hello
 	(a: T, b: U): Object % world
 	=> a || b;
-let lambdawithlinecomments: Function = \<T, U> % hello
+val lambdawithlinecomments: Function = \<T, U> % hello
 	(a: T, b: U) % world
 	=> a || b;
 
-let lambdaWithCaptures: Function = \[a, b ,](x) => a + b + x;
-let lambdaWithCaptures: Function = \<T>[a, b ,](x) => a + b + x;
-let lambdaWithCaptures: Function = \<T, U>[a, b ,](x) => a + b + x;
-let lambdaWithGeneric:  Function = \<T>(x) => a + b + x;
-let lambdaWithCaptures: Function = \[
+val lambdaWithCaptures: Function = \[a, b ,](x) => a + b + x;
+val lambdaWithCaptures: Function = \<T>[a, b ,](x) => a + b + x;
+val lambdaWithCaptures: Function = \<T, U>[a, b ,](x) => a + b + x;
+val lambdaWithGeneric:  Function = \<T>(x) => a + b + x;
+val lambdaWithCaptures: Function = \[
 	a,
 	'b',
 ](x) => a + b + x;
-let tuple: (Function,) = (\[a, ref b](x) => a + b + x,);
-let record: (lambdaWithCaptures: Function) = (lambdaWithCaptures= \[a, ref b](x) => a + b + x);
-let list: [Function]  = [\[a, ref b](x) => a + b + x];
-let dict: [:Function] = [lambdaWithCaptures= \[a, ref b](x) => a + b + x];
+val tuple: (Function,) = (\[a, ref b](x) => a + b + x,);
+val record: (lambdaWithCaptures: Function) = (lambdaWithCaptures= \[a, ref b](x) => a + b + x);
+val list: [Function]  = [\[a, ref b](x) => a + b + x];
+val dict: [:Function] = [lambdaWithCaptures= \[a, ref b](x) => a + b + x];
 
 
 
@@ -147,7 +147,7 @@ func (_: A, b: B): B {;}
 func add(a?: int = 0, b?: int = 0): int { return a + b; }
 func subtract(mut a?: int = 0, %%mut%% b?: int = a): int => a - b;
 func %%comm%% do_nothing(): void {
-	let x: anything = 0;
+	val x: anything = 0;
 	return;
 }
 func error(): nothing {
@@ -225,11 +225,11 @@ func subtract(   mut $a?: int = 0,    %%mut%% $b?: int = a): int => a - b;
 func subtract(   mut $a: int,         %%mut%% $b: int):      int => a - b;
 func subtract(   mut $a?      = 0,    %%mut%% $b?      = a): int => a - b;
 func subtract(   mut $a,              %%mut%% $b):           int => a - b;
-let subtract: Function = \(a= mut a?:  int = 0, b= %%mut%% b?:  int = a): int => a - b;
-let subtract: Function = \(   mut $a?: int = 0,    %%mut%% $b?: int = a): int => a - b;
-let subtract: Function = \(   mut $a: int,         %%mut%% $b: int):      int => a - b;
-let subtract: Function = \(   mut $a?      = 0,    %%mut%% $b?      = a): int => a - b;
-let subtract: Function = \(   mut $a,              %%mut%% $b):           int => a - b;
+val subtract: Function = \(a= mut a?:  int = 0, b= %%mut%% b?:  int = a): int => a - b;
+val subtract: Function = \(   mut $a?: int = 0,    %%mut%% $b?: int = a): int => a - b;
+val subtract: Function = \(   mut $a: int,         %%mut%% $b: int):      int => a - b;
+val subtract: Function = \(   mut $a?      = 0,    %%mut%% $b?      = a): int => a - b;
+val subtract: Function = \(   mut $a,              %%mut%% $b):           int => a - b;
 
 
 %-- punning in generic typefunc params --%

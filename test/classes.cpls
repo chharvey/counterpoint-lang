@@ -34,19 +34,19 @@ class ClassWithCaptures[
 
 
 % class expressions
-let Foo: Class = Object && Class && (class {});
-let Foo: Class = Object && Class && (class enum {});
-let Foo: Class = Object && Class && (class final {});
-let Foo: Class = Object && Class && (class abstract {});
-let Foo: Class = Object && Class && (class data {});
-let Foo: Class = Object && Class && (class <T> extends Bar.<T> {});
-let Foo: Class = Object && Class && (class <in T> extends Bar.<T> {});
-let Foo: Class = Object && Class && (class extends Bar, Diz.<T> {});
-let Foo: Class = Object && Class && (class extends _, Diz.<_> {});
-let Foo: Class = Object && Class && (class impl Bar, Diz.<T> {});
-let Foo: Class = Object && Class && (class extends Bar impl Diz.<T> {});
-let Foo: Class = Object && Class && (class [a, ref b ,] extends Bar.<T> {});
-let classWithCaptures: Class = class [
+val Foo: Class = Object && Class && (class {});
+val Foo: Class = Object && Class && (class enum {});
+val Foo: Class = Object && Class && (class final {});
+val Foo: Class = Object && Class && (class abstract {});
+val Foo: Class = Object && Class && (class data {});
+val Foo: Class = Object && Class && (class <T> extends Bar.<T> {});
+val Foo: Class = Object && Class && (class <in T> extends Bar.<T> {});
+val Foo: Class = Object && Class && (class extends Bar, Diz.<T> {});
+val Foo: Class = Object && Class && (class extends _, Diz.<_> {});
+val Foo: Class = Object && Class && (class impl Bar, Diz.<T> {});
+val Foo: Class = Object && Class && (class extends Bar impl Diz.<T> {});
+val Foo: Class = Object && Class && (class [a, ref b ,] extends Bar.<T> {});
+val classWithCaptures: Class = class [
 	a,
 	ref 'b',
 ] {};

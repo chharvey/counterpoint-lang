@@ -26,19 +26,19 @@ typefunc Or<T= (S? = bool)? = (anything,)> => S | null;
 
 
 % variable declaration destructuring:
-let (x, y): int          = [1, 2];
-let (x: int, y: int)     = [1, 2];
-let ($if, by= b): int    = [if= 1, by= 2];
-let ($x: int, y= b: int) = [x= 1, y= 2];
-let ((mut x), (y= (b))): int = [[1], [y= [2]]];
-let ((mut $x), (y= (mut $b))): int = [[1], [y= [2]]];
+val (x, y): int          = [1, 2];
+val (x: int, y: int)     = [1, 2];
+val ($if, by= b): int    = [if= 1, by= 2];
+val ($x: int, y= b: int) = [x= 1, y= 2];
+val ((mut x), (y= (b))): int = [[1], [y= [2]]];
+val ((mut $x), (y= (mut $b))): int = [[1], [y= [2]]];
 
 % variable destructuring with defaults:
-let (   a?: SomeType.0 = x,    b?: SomeType.1 = y,    c?: SomeType.2 = z)           = some_object;
-let (   a?             = x,    b?             = y,    c?             = z): SomeType = some_object;
-let (a= x?: SomeType.a = t, b= y?: SomeType.b = u, c= z?: SomeType.c = v)           = some_object;
-let (a= x,                  b= y,                  c= z):                  SomeType = some_object;
-let (mut $a? = t, b= (mut $b)? = u, c= (d= (mut $c))? = v):                SomeType = some_object;
+val (   a?: SomeType.0 = x,    b?: SomeType.1 = y,    c?: SomeType.2 = z)           = some_object;
+val (   a?             = x,    b?             = y,    c?             = z): SomeType = some_object;
+val (a= x?: SomeType.a = t, b= y?: SomeType.b = u, c= z?: SomeType.c = v)           = some_object;
+val (a= x,                  b= y,                  c= z):                  SomeType = some_object;
+val (mut $a? = t, b= (mut $b)? = u, c= (d= (mut $c))? = v):                SomeType = some_object;
 
 
 
@@ -53,27 +53,27 @@ func f(_=     ($_,  _=  b)?: int    = [_=  1, _=  2]): int => _;
 func f(param= ($x: int, y= b: int)? = [x=  1, y=  2]): int => x + b;
 func f(param= ((mut x), (y= (b)))?: int = [[1], [y= [2]]]): int => x + b;
 func f(param= ((mut $x: int), (y= (b): int))? = [[1], [y= [2]]]): int => x + b;
-let f: Object = \(param= (x, y)?: int          = [1, 2]):         int => x + y;
-let f: Object = \(param= (_, y)?: int          = [1, 2]):         int => y;
-let f: Object = \(param= (x: int, y: int)?     = [1, 2]):         int => x + y;
-let f: Object = \(param= (_: int, y: int)?     = [1, 2]):         int => y;
-let f: Object = \(until= ($if, by= b)?: int    = [if= 1, by= 2]): int => if + b;
-let f: Object = \(_=     ($_,  by= _)?: int    = [_=  1, by= 2]): int => _;
-let f: Object = \(_=     ($_,  _=  b)?: int    = [_=  1, _=  2]): int => _;
-let f: Object = \(param= ($x: int, y= b: int)? = [x=  1, y=  2]): int => x + b;
-let f: Object = \(param= ((mut x), (y= (b)))?: int = [[1], [y= [2]]]): int => x + b;
-let f: Object = \(param= ((mut $x: int), (y= (b): int))? = [[1], [y= [2]]]): int => x + b;
-let f: Object = \(param= (x, y)?: int                  = [1, 2]):          int { return x + y; };
-let f: Object = \(param= (x: int, y: int)?             = [1, 2]):          int { return x + y; };
-let f: Object = \(until= ($if, by= b)?: int            = [if= 1, by= 2]):  int { return if + b; };
-let f: Object = \(param= ($x: int, y= b: int)?         = [x= 1, y= 2]):    int { return x + b; };
-let f: Object = \(param= ((mut x), (y= (b)))?: int = [[1], [y= [2]]]): int { return x + b; };
+val f: Object = \(param= (x, y)?: int          = [1, 2]):         int => x + y;
+val f: Object = \(param= (_, y)?: int          = [1, 2]):         int => y;
+val f: Object = \(param= (x: int, y: int)?     = [1, 2]):         int => x + y;
+val f: Object = \(param= (_: int, y: int)?     = [1, 2]):         int => y;
+val f: Object = \(until= ($if, by= b)?: int    = [if= 1, by= 2]): int => if + b;
+val f: Object = \(_=     ($_,  by= _)?: int    = [_=  1, by= 2]): int => _;
+val f: Object = \(_=     ($_,  _=  b)?: int    = [_=  1, _=  2]): int => _;
+val f: Object = \(param= ($x: int, y= b: int)? = [x=  1, y=  2]): int => x + b;
+val f: Object = \(param= ((mut x), (y= (b)))?: int = [[1], [y= [2]]]): int => x + b;
+val f: Object = \(param= ((mut $x: int), (y= (b): int))? = [[1], [y= [2]]]): int => x + b;
+val f: Object = \(param= (x, y)?: int                  = [1, 2]):          int { return x + y; };
+val f: Object = \(param= (x: int, y: int)?             = [1, 2]):          int { return x + y; };
+val f: Object = \(until= ($if, by= b)?: int            = [if= 1, by= 2]):  int { return if + b; };
+val f: Object = \(param= ($x: int, y= b: int)?         = [x= 1, y= 2]):    int { return x + b; };
+val f: Object = \(param= ((mut x), (y= (b)))?: int = [[1], [y= [2]]]): int { return x + b; };
 
-let f: \(p: NS::P) => null = \(p: NS::P): null => null;
-let f: Function = \(p= (x): (NS::P0,)): null => null;
-let f: Function = \(p= (x: NS::P0)): null => null;
-let f: Function = \(p= ((x): (NS::P00,))): null => null;
-let f: Function = \(p= ((x: NS::P00))): null => null;
+val f: \(p: NS::P) => null = \(p: NS::P): null => null;
+val f: Function = \(p= (x): (NS::P0,)): null => null;
+val f: Function = \(p= (x: NS::P0)): null => null;
+val f: Function = \(p= ((x): (NS::P00,))): null => null;
+val f: Function = \(p= ((x: NS::P00))): null => null;
 
 % function parameter destructuring with defaults:
 func f(     (   a?: SomeType.0 = x,    b?: SomeType.1 = y,    c?: SomeType.2 = z)) => some_object;
