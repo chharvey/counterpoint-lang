@@ -155,11 +155,11 @@ claim NAMESPACE::Foo.prop: T;
 claim x.<U>(42)~~.y++.0.["prop" || "key"]: T;
 
 typefunc VoidFn<Arg> => \(arg: Arg) => void;
-function print(message: str): void {;}
-function print(message) impl VoidFn.<str> {;}
-function print<T>(message) impl VoidFn.<T> {;}
-function print<T>(message) impl NAMESPACE::VoidFn.<T> {;}
-function print<T narrows str>(message) impl VoidFn.<T> {;}
+func print(message: str): void {;}
+func print(message) impl VoidFn.<str> {;}
+func print<T>(message) impl VoidFn.<T> {;}
+func print<T>(message) impl NAMESPACE::VoidFn.<T> {;}
+func print<T narrows str>(message) impl VoidFn.<T> {;}
 claim print(message: str): void;
 claim print(message) impl VoidFn.<str>;
 claim print<T>(message) impl VoidFn.<T>;

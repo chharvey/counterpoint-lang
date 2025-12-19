@@ -95,7 +95,7 @@ for prop in \(x, y) { return y * x; } do {};
 	@returns what it returns
 	@throws if something bad happened
 	%%
-function twice(x: int): int => x * 2;
+func twice(x: int): int => x * 2;
 
 1 + 2 + ({
 	% symbols:
