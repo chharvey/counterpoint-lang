@@ -8,9 +8,7 @@ import {
 	OWS,
 	VAR,
 	COMP_ACCESS,
-	UNFIXED,
 	REF,
-	MUTABLE,
 	PUN,
 	OPT,
 	VARIANCE,
@@ -76,7 +74,7 @@ export const EXPRESSION__FUNCTION = {
 };
 
 
-export const DECLARATION__TYPEFUNC = {
+export const DECLARATION__TYPEFUNCTION = {
 	name: pattern_name('meta.declaration.typefunc'),
 	begin: lookaheads([`(${ COMP_ACCESS }${ OWS })?\\b(typefunc)\\b`]),
 	end:   ';',
@@ -100,8 +98,8 @@ export const DECLARATION__TYPEFUNC = {
 
 
 export const DECLARATION__FUNCTION = {
-	name:  pattern_name('meta.declaration.function'),
-	begin: lookaheads([`(${ COMP_ACCESS }${ OWS })?\\b(function)\\b`]),
+	name:  pattern_name('meta.declaration.func'),
+	begin: lookaheads([`(${ COMP_ACCESS }${ OWS })?\\b(func)\\b`]),
 	end:   [lookbehinds([BLOCK_END]), ';'].join('|'),
 	endCaptures: {
 		0: {name: pattern_name('punctuation.delimiter')},
@@ -117,7 +115,7 @@ export const DECLARATION__FUNCTION = {
 		},
 		{
 			name: pattern_name('storage.type'),
-			match: '\\b(function)\\b',
+			match: '\\b(func)\\b',
 		},
 		func_heritage(lookaheads([DELIMS.BLOCK[0], FATARROW])),
 		annotation(lookaheads([IMPL, DELIMS.BLOCK[0], FATARROW]), true),

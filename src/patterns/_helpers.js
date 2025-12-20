@@ -6,7 +6,6 @@ import {
 	DELIMS,
 	OWS,
 	VAR,
-	UNFIXED,
 	PUN,
 	OPT,
 	CONSTRAINT,
@@ -323,7 +322,7 @@ export function destructure(subtype, identifiers) {
 		},
 		...(['Variable', 'Parameter'].includes(subtype) ? [
 			...(subtype === 'Variable' ? [
-				{include: '#ModifiersDeclarationLet'},
+				{include: '#ModifiersDeclarationVariable'},
 			] : [
 				{include: '#ModifiersParameter'},
 			]),
