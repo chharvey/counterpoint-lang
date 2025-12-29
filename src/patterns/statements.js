@@ -14,7 +14,6 @@ import {
 	BLOCK_END,
 } from '../selectors.js';
 import {
-	list,
 	annotation,
 	assignment,
 	func_heritage,

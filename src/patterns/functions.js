@@ -11,8 +11,6 @@ import {
 	REF,
 	PUN,
 	OPT,
-	VARIANCE,
-	CONSTRAINT,
 	IMPL,
 	ANNO_START,
 	ASSN_START,

@@ -9,7 +9,6 @@ import {
 	INT,
 	VAR,
 	THINARROW,
-	BLOCK_END,
 	DOT,
 	DOT_ACCESS,
 } from '../selectors.js';

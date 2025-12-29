@@ -9,11 +9,9 @@ import {
 	ASSN_START,
 } from '../selectors.js';
 import {
-	unit,
 	constraint,
 	annotation,
 	assignment,
-	implicitReturn,
 } from './_helpers.js';
 
 
