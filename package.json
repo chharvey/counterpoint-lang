@@ -4,8 +4,9 @@
   "version": "4.0.0",
   "description": "Language support for the Counterpoint programming language.",
   "type": "module",
+  "main": "./out/extension.js",
   "scripts": {
-    "build": "node build.js",
+    "build": "node build.js && npx tsc",
     "pack": "vsce package",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -57,6 +58,12 @@
         "injectTo": [
           "text.html.markdown"
         ]
+      }
+    ],
+    "commands": [
+      {
+        "command": "helloworld.helloWorld",
+        "title": "Hello World"
       }
     ]
   },

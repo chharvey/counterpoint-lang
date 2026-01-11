@@ -108,4 +108,5 @@ dist
 
 # Build files
 syntaxes/cpl.tmLanguage.json
+out/
 *.vsix
