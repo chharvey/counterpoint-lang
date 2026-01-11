@@ -61,6 +61,7 @@
     ]
   },
   "devDependencies": {
-    "vsce": "^2.11.0"
+    "vsce": "^2.11.0",
+    "vscode": "^1.1.37"
   }
 }
