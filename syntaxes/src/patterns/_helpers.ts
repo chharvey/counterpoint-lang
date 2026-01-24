@@ -112,7 +112,7 @@ export function unit(varname = 'variable.other') {
 }
 
 
-export function list(name, begin, end, more_patterns) {
+export function list(name: string, begin: string, end: string, more_patterns: readonly object[]) {
 	return {
 		name,
 		begin,
@@ -131,7 +131,7 @@ export function list(name, begin, end, more_patterns) {
 }
 
 
-export function param_label(prop_delim, identifier_kind) {
+export function param_label(prop_delim: string, identifier_kind: string) {
 	return {
 		name:        pattern_name('meta.label'),
 		begin:       lookaheads([[VAR, OWS, prop_delim].join('')]),
@@ -142,7 +142,7 @@ export function param_label(prop_delim, identifier_kind) {
 }
 
 
-export function constraint(end) {
+export function constraint(end: string) {
 	return {
 		name:  pattern_name('meta.heritage'),
 		begin: CONSTRAINT,
@@ -157,7 +157,7 @@ export function constraint(end) {
 }
 
 
-export function annotation(end, fn_ret_annot = false) {
+export function annotation(end: string, fn_ret_annot = false) {
 	return {
 		name: pattern_name('meta.annotation'),
 		begin: ANNO_START,
@@ -172,7 +172,7 @@ export function annotation(end, fn_ret_annot = false) {
 }
 
 
-export function assignment(begin, end, include = '#Expression') {
+export function assignment(begin: string, end: string, include = '#Expression') {
 	return {
 		name: pattern_name('meta.assignment'),
 		begin,
@@ -187,7 +187,7 @@ export function assignment(begin, end, include = '#Expression') {
 }
 
 
-export function func_heritage(end) {
+export function func_heritage(end: string) {
 	return {
 		name:  pattern_name('meta.heritage'),
 		begin: IMPL,
@@ -217,7 +217,7 @@ export function implicitReturn(include = '#Expression') {
 }
 
 
-function typePropertyOrGenericArgumentLabel(start, close_delim, identifier_kind, destructure_kind) {
+function typePropertyOrGenericArgumentLabel(start: string, close_delim: string, identifier_kind: string, destructure_kind: string) {
 	const end = lookaheads([',', close_delim]);
 	const capture_type = (
 		start === ANNO_START ? annotation(end) :
@@ -256,7 +256,7 @@ function typePropertyOrGenericArgumentLabel(start, close_delim, identifier_kind,
 		],
 	};
 }
-export function typeProperty(close_delim) {
+export function typeProperty(close_delim: string) {
 	return typePropertyOrGenericArgumentLabel(ANNO_START, close_delim, '#IdentifierProperty', '#DestructureTypeProperty');
 }
 export function genericArgumentLabel() {
@@ -264,7 +264,7 @@ export function genericArgumentLabel() {
 }
 
 
-function propertyOrArgumentLabel(close_delim, identifier_kind, destructure_kind) {
+function propertyOrArgumentLabel(close_delim: string, identifier_kind: string, destructure_kind: string) {
 	const end = lookaheads([',', close_delim]);
 	const capture_expression = assignment(ASSN_START, end);
 	return {
@@ -295,7 +295,7 @@ function propertyOrArgumentLabel(close_delim, identifier_kind, destructure_kind)
 		],
 	};
 }
-export function property(close_delim) {
+export function property(close_delim: string) {
 	return propertyOrArgumentLabel(close_delim, '#IdentifierProperty', '#DestructureProperty');
 }
 export function argumentLabel() {
@@ -303,7 +303,7 @@ export function argumentLabel() {
 }
 
 
-export function destructure(subtype, identifiers) {
+export function destructure(subtype: string, identifiers: object) {
 	const prop_delim = (
 		['Variable', 'Parameter', 'Property', 'Argument', 'Assignment'].includes(subtype)      ? ASSN_START :
 		['TypeAlias', 'GenericParameter', 'TypeProperty', 'GenericArgument'].includes(subtype) ? ANNO_START :
