@@ -2,7 +2,7 @@ import {
 	pattern_name,
 	lookaheads,
 	lookbehinds,
-} from '../helpers.js';
+} from '../helpers.ts';
 import {
 	DELIMS,
 	OWS,
@@ -25,14 +25,14 @@ import {
 	CONSTRUCTORGROUP,
 	METHOD,
 	METHODGROUP,
-} from '../selectors.js';
+} from '../selectors.ts';
 import {
 	qualified_name,
 	param_label,
 	annotation,
 	assignment,
 	implicitReturn,
-} from './_helpers.js';
+} from './_helpers.ts';
 
 
 

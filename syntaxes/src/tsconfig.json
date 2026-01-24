@@ -1,0 +1,27 @@
+{
+	"compilerOptions": {
+		// Type Checking
+		"exactOptionalPropertyTypes":         true,
+		"noImplicitOverride":                 true,
+		"noImplicitReturns":                  true,
+		"noPropertyAccessFromIndexSignature": true,
+		"strict":                             true,
+
+		// Modules
+		"module":                          "node20",
+		"rewriteRelativeImportExtensions": true,
+		"resolveJsonModule":               true,
+		"rootDir":                         "./",
+
+		// Emit
+		"noEmit": true,
+
+		// Interop Constraints
+		"allowSyntheticDefaultImports": true,
+		"verbatimModuleSyntax":         true,
+
+		// Completeness
+		"skipLibCheck": true,
+	},
+	"include": ["./"],
+}

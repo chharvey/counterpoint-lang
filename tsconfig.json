@@ -2,9 +2,10 @@
 	"compilerOptions": {
 		"strict": true,
 		"module": "node16",
-		"rootDir": "src",
-		"outDir": "out",
+		"rootDir": "./src/",
+		"outDir": "./out/",
 		"sourceMap": true,
 		"target": "es2022",
-	}
+	},
+	"include": ["./src/extension.ts"],
 }

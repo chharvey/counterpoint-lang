@@ -2,7 +2,7 @@ import {
 	pattern_name,
 	lookaheads,
 	lookbehinds,
-} from '../helpers.js';
+} from '../helpers.ts';
 import {
 	DELIMS,
 	OWS,
@@ -17,7 +17,7 @@ import {
 	FATARROW,
 	BLOCK_END,
 	BACKSLASH,
-} from '../selectors.js';
+} from '../selectors.ts';
 import {
 	qualified_name,
 	list,
@@ -27,7 +27,7 @@ import {
 	assignment,
 	func_heritage,
 	implicitReturn,
-} from './_helpers.js';
+} from './_helpers.ts';
 
 
 

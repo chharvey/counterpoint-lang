@@ -1,4 +1,4 @@
-import {lookaheads} from './helpers.js';
+import {lookaheads} from './helpers.ts';
 
 
 

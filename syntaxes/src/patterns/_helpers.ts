@@ -1,7 +1,7 @@
 import {
 	pattern_name,
 	lookaheads,
-} from '../helpers.js';
+} from '../helpers.ts';
 import {
 	DELIMS,
 	OWS,
@@ -14,7 +14,7 @@ import {
 	ASSN_START,
 	FATARROW,
 	destructure_selector,
-} from '../selectors.js';
+} from '../selectors.ts';
 
 
 

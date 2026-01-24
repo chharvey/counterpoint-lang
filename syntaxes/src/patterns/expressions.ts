@@ -2,7 +2,7 @@ import {
 	pattern_name,
 	lookaheads,
 	lookbehinds,
-} from '../helpers.js';
+} from '../helpers.ts';
 import {
 	DELIMS,
 	OWS,
@@ -11,14 +11,14 @@ import {
 	THINARROW,
 	DOT,
 	DOT_ACCESS,
-} from '../selectors.js';
+} from '../selectors.ts';
 import {
 	identifier,
 	unit,
 	list,
 	property,
 	argumentLabel,
-} from './_helpers.js';
+} from './_helpers.ts';
 
 
 

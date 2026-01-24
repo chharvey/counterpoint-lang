@@ -1,18 +1,18 @@
 import {
 	pattern_name,
 	lookaheads,
-} from '../helpers.js';
+} from '../helpers.ts';
 import {
 	OWS,
 	COMP_ACCESS,
 	OPT,
 	ASSN_START,
-} from '../selectors.js';
+} from '../selectors.ts';
 import {
 	constraint,
 	annotation,
 	assignment,
-} from './_helpers.js';
+} from './_helpers.ts';
 
 
 export const DECLARATION__TYPE = {

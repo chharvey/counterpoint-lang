@@ -1,10 +1,10 @@
-import {pattern_name} from '../helpers.js';
+import {pattern_name} from '../helpers.ts';
 import {
 	UNFIXED,
 	NOMINAL,
 	MUTABLE,
 	VARIANCE,
-} from '../selectors.js';
+} from '../selectors.ts';
 
 
 export const MODIFIERS__DECLARATION__TYPE = {
