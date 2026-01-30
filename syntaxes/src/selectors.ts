@@ -1,4 +1,4 @@
-import {lookaheads} from './helpers.js';
+import {lookaheads} from './helpers.ts';
 
 
 
@@ -46,7 +46,7 @@ export const DOT        = '(\\.)';
 export const DOT_ACCESS = '(\\.|\\?\\.|\\!\\.)';
 export const BACKSLASH  = '(\\\\)';
 
-export function destructure_selector(prop_delim) {
+export function destructure_selector(prop_delim: string) {
 	return `
 		(?<DestructureLabels>${ DELIMS.DESTRUCT[0] }${ OWS }
 			(?<DestructureLabel>

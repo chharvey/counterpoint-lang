@@ -1,14 +1,14 @@
-import * as fs from 'fs';
-import * as path from 'path';
+import * as fs from 'node:fs';
+import * as path from 'node:path';
 
-import {pattern_name} from './src/helpers.js';
+import {pattern_name} from './helpers.ts';
 import {
 	identifier,
 	list,
 	destructure,
-} from './src/patterns/index.js';
-import * as Pattern from './src/patterns/index.js';
-import {DELIMS} from './src/selectors.js';
+} from './patterns/index.ts';
+import * as Pattern from './patterns/index.ts';
+import {DELIMS} from './selectors.ts';
 
 
 
@@ -24,7 +24,7 @@ const SOURCE_FILE = {
 };
 
 
-await fs.promises.writeFile(path.join(import.meta.dirname, 'syntaxes', 'cpl.tmLanguage.json'), JSON.stringify({
+await fs.promises.writeFile(path.join(import.meta.dirname, '../', 'cpl.tmLanguage.json'), JSON.stringify({
 	$schema: 'https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json',
 	name: 'Counterpoint',
 	scopeName: pattern_name('source'),

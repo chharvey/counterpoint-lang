@@ -2,7 +2,7 @@ import {
 	pattern_name,
 	lookaheads,
 	lookbehinds,
-} from '../helpers.js';
+} from '../helpers.ts';
 import {
 	DELIMS,
 	OWS,
@@ -12,12 +12,12 @@ import {
 	ASSN_START,
 	THINARROW,
 	BLOCK_END,
-} from '../selectors.js';
+} from '../selectors.ts';
 import {
 	annotation,
 	assignment,
 	func_heritage,
-} from './_helpers.js';
+} from './_helpers.ts';
 
 
 

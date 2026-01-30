@@ -1,8 +1,8 @@
 import {
 	pattern_name,
 	digits,
-} from '../helpers.js';
-import {VARNAME} from '../selectors.js';
+} from '../helpers.ts';
+import {VARNAME} from '../selectors.ts';
 
 
 

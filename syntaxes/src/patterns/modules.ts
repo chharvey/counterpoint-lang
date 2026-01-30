@@ -1,13 +1,13 @@
 import {
 	pattern_name,
 	lookbehinds,
-} from '../helpers.js';
+} from '../helpers.ts';
 import {
 	DELIMS,
 	ALIAS,
 	BLOCK_END,
-} from '../selectors.js';
-import {list} from './_helpers.js';
+} from '../selectors.ts';
+import {list} from './_helpers.ts';
 
 
 
