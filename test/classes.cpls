@@ -24,12 +24,12 @@ class Foo is Rec.Qux.<Rec.T> {}
 class Foo is NS::Qux.<NS::T> {}
 class Foo extends Bar impl Diz.<T> {}
 class Foo extends Bar impl Diz.<T> is Qux {}
-class Foo[ref a, b ,] {}
-class Foo<T>[a, ref b] extends Bar, Diz.<T> {}
-class ClassWithCaptures[
+class Foo with (ref a, b ,) {}
+class Foo<T> extends Bar, Diz.<T> with (a, ref b) {}
+class ClassWithCaptures with (
 	ref a,
 	'b',
-] {};
+) {};
 
 
 
@@ -45,11 +45,11 @@ val Foo: Class = Object && Class && (class extends Bar, Diz.<T> {});
 val Foo: Class = Object && Class && (class extends _, Diz.<_> {});
 val Foo: Class = Object && Class && (class impl Bar, Diz.<T> {});
 val Foo: Class = Object && Class && (class extends Bar impl Diz.<T> {});
-val Foo: Class = Object && Class && (class [a, ref b ,] extends Bar.<T> {});
-val classWithCaptures: Class = class [
+val Foo: Class = Object && Class && (class extends Bar.<T> with (a, ref b ,) {});
+val classWithCaptures: Class = class with (
 	a,
 	ref 'b',
-] {};
+) {};
 
 
 

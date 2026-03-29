@@ -11,7 +11,7 @@ export const DELIMS = {
 	ACCESS:    ['\\[', '\\]'],
 	CLAIM:     ['<',   '>'],
 	BLOCK:     ['\\{', `\\}${ lookaheads(['\\}'], true) }`],
-	CAPTURES:  ['\\[', '\\]'],
+	CAPTURES:  ['\\(', '\\)'],
 	PARAMS_GN: ['<',   '>'],
 	PARAMS_FN: ['\\(', '\\)'],
 	DESTRUCT:  ['\\(', '\\)'],
@@ -38,6 +38,7 @@ export const PERMISSION = '\\b(const|readonly|writeonly)\\b';
 export const IMPL       = '\\b(impl)\\b';
 export const OVR        = '\\b(override|impl)\\b';
 export const OVR_CLAIM  = '\\b(override|impl|claim)\\b';
+export const CAPTURE    = '\\b(with)\\b';
 export const ANNO_START = `\\:${ lookaheads(['\\:'], true) }`;
 export const ASSN_START = `=${ lookaheads(['[=>]'], true) }`;
 export const THINARROW  = '->';
