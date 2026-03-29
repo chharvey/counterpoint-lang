@@ -35,15 +35,18 @@ export const ARGUMENTS = list(pattern_name('meta.arguments'), DELIMS.ARGS_FN[0],
 export const EXPRESSION__CLAIM = {
 	name:          pattern_name('meta.expression.claim'),
 	begin:         `\\b(as)\\b${ lookaheads([`${ OWS }(${ DELIMS.CLAIM[0] })`]) }`,
-	end:           DELIMS.CLAIM[1],
+	end:           lookbehinds([DELIMS.CLAIM[1]]),
 	beginCaptures: {1: {name: pattern_name('keyword.operator.text')}},
-	endCaptures:   {0: {name: pattern_name('punctuation.delimiter')}},
 	patterns:      [
+		{include: '#CommentBlock'},
+		{include: '#CommentLine'},
 		{
-			name:  pattern_name('punctuation.delimiter'),
-			match: DELIMS.CLAIM[0],
+			name:     pattern_name('meta.expression.claim.type'),
+			begin:    DELIMS.CLAIM[0],
+			end:      DELIMS.CLAIM[1],
+			captures: {0: {name: pattern_name('punctuation.delimiter')}},
+			patterns: [{include: '#Type'}],
 		},
-		{include: '#Type'},
 	],
 };
 

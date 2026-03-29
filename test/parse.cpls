@@ -302,15 +302,18 @@ func twice(x: int): int => x * 2;
 });
 
 % Type claims
-(5 / 3) as <float & Numeric.<T>> - 2.0;
-five_thirds as <float & Numeric.<T>> - 2.0;
-[(5 / 3)%%comm%%as%%comm%%<float>];
+(5 / 3) as :float & Numeric.<T>: - 2.0;
+five_thirds as :float & Numeric.<T>: - 2.0;
+[(5 / 3)%%comm%%as%%comm%%:float:];
 [(5 / 3)%comm
 	as%comm
-	<float>];
-f.((5 / 3)%%comm%%as%%comm%%<Float.<T>>);
+	:float:];
+f.((5 / 3)%%comm%%as%%comm%%:Float.<T>:);
 f.((5 / 3)%comm
-		as %%comm%% <Float.<T>>);
+	as %%comm%% :
+		%%comm%% | Int.<T>
+		%%comm%% | Float.<T>
+	:);
 
 % type casts
 five_thirds as Numeric;
