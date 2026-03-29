@@ -16,11 +16,11 @@ type (nominal $P, quebec: (nominal $Q, romeo: R)) = Pqr;
 
 
 % generic parameter destructuring (with defaults):
-typefunc Or<T= (A narrows C, B? = B1)> => A | B;
-typefunc Or<T= (a: A, $B)> => A | B;
-typefunc Or<T= (J, ($K, lima: L))> => J | K | L;
-typefunc Or<T= ($M, november: (N, O? = O1))> => M | N | O;
-typefunc Or<T= (S? = bool)? = (anything,)> => S | null;
+typefunc Or[T= (A narrows C, B? = B1)] => A | B;
+typefunc Or[T= (a: A, $B)] => A | B;
+typefunc Or[T= (J, ($K, lima: L))] => J | K | L;
+typefunc Or[T= ($M, november: (N, O? = O1))] => M | N | O;
+typefunc Or[T= (S? = bool)? = (anything,)] => S | null;
 
 
 
@@ -90,7 +90,7 @@ type RecordTypePropertyDest = ((a, b): TupType, ($x, $y): RecType, (x: xray, y: 
 
 
 % generic argument destructuring
-type T = GenericCall.<(A, B)= TupType, ($C, $D)= RecType, (E: Echo, F: Foxtrot)= RecType>;
+type T = GenericCall.[(A, B)= TupType, ($C, $D)= RecType, (E: Echo, F: Foxtrot)= RecType];
 
 
 

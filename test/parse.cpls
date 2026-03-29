@@ -117,8 +117,8 @@ func twice(x: int): int => x * 2;
 	funkshin.%%dot%%(@arg);
 	funkshin?.(@arg);
 	funkshin!.(@arg);
-	funkshin?.<T>(@arg);
-	funkshin!.<T>(@arg);
+	funkshin?.[T](@arg);
+	funkshin!.[T](@arg);
 
 	% operators:
 	!a;
@@ -240,15 +240,15 @@ func twice(x: int): int => x * 2;
 	funkshin.(arg, ument);
 	funkshin?.(arg);
 	funkshin!.(arg);
-	funkshin?.<T>(arg);
-	funkshin!.<T>(arg);
+	funkshin?.[T](arg);
+	funkshin!.[T](arg);
 	funkshin. (call / a, #spread + b, 3, label %% args %% = c, $punn, $'unipunn', ##doublespread, _= blank)~~;
-	funkshin.<T>%%c%%(call / a, #spread + b, 3, label %% args %% = c, $punn, ##doublespread, _= blank)++;
-	funkshin.<T>%c
+	funkshin.[T]%%c%%(call / a, #spread + b, 3, label %% args %% = c, $punn, ##doublespread, _= blank)++;
+	funkshin.[T]%c
 		(call / a, #spread + b, 3, label %% args %% = c, $punn, ##doublespread, _= blank)~~;
-	funkshin.<T, #U, ##V>();
-	funkshin.<A= T, #U, ##V, B= bool, $C>();
-	funkshin.<A= T, #U, ##V, B= bool, $C, (D, (E))= De, ($F, g: ($H))= Fgh>();
+	funkshin.[T, #U, ##V]();
+	funkshin.[A= T, #U, ##V, B= bool, $C]();
+	funkshin.[A= T, #U, ##V, B= bool, $C, (D, (E))= De, ($F, g: ($H))= Fgh]();
 	funkshin.%%c%%(
 		call / a,
 		#spread + b,
@@ -264,15 +264,15 @@ func twice(x: int): int => x * 2;
 	funkshin...%%async%%();
 	funkshin?...();
 	funkshin!...();
-	funkshin?...<T>();
-	funkshin!...<T>();
-	funkshin?...<T>%%async%%();
-	funkshin!...<T>%%async%%();
-	List.<T>();
-	Dict.<T>();
-	Set.<T>();
-	Map.<T, U>();
-	Mapping.<T, U>();
+	funkshin?...[T]();
+	funkshin!...[T]();
+	funkshin?...[T]%%async%%();
+	funkshin!...[T]%%async%%();
+	List.[T]();
+	Dict.[T]();
+	Set.[T]();
+	Map.[T, U]();
+	Mapping.[T, U]();
 	structure.property + p;
 	structure.'pr op' + p;
 	structure.%%dot%%property + p;
@@ -302,17 +302,17 @@ func twice(x: int): int => x * 2;
 });
 
 % Type claims
-(5 / 3) as :float & Numeric.<T>: - 2.0;
-five_thirds as :float & Numeric.<T>: - 2.0;
+(5 / 3) as :float & Numeric.[T]: - 2.0;
+five_thirds as :float & Numeric.[T]: - 2.0;
 [(5 / 3)%%comm%%as%%comm%%:float:];
 [(5 / 3)%comm
 	as%comm
 	:float:];
-f.((5 / 3)%%comm%%as%%comm%%:Float.<T>:);
+f.((5 / 3)%%comm%%as%%comm%%:Float.[T]:);
 f.((5 / 3)%comm
 	as %%comm%% :
-		%%comm%% | Int.<T>
-		%%comm%% | Float.<T>
+		%%comm%% | Int.[T]
+		%%comm%% | Float.[T]
 	:);
 
 % type casts

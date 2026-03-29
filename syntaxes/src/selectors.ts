@@ -6,12 +6,12 @@ export const DELIMS = {
 	GROUPING:  ['\\(', '\\)'],
 	LIST:      ['\\[', '\\]'],
 	SET:       ['\\{', `\\}${ lookaheads(['\\}'], true) }`],
-	ARGS_GN:   ['<',   '>'],
+	ARGS_GN:   ['\\[', '\\]'],
 	ARGS_FN:   ['\\(', '\\)'],
 	CLAIM:     [':',   ':'],
 	BLOCK:     ['\\{', `\\}${ lookaheads(['\\}'], true) }`],
 	CAPTURES:  ['\\(', '\\)'],
-	PARAMS_GN: ['<',   '>'],
+	PARAMS_GN: ['\\[', '\\]'],
 	PARAMS_FN: ['\\(', '\\)'],
 	DESTRUCT:  ['\\(', '\\)'],
 	IMPORT:    ['\\(', '\\)'],
@@ -93,7 +93,7 @@ export const METHOD = `
 	(${ OVR_CLAIM } ${ OWS })?
 	(\\b final \\b ${ OWS })?
 	(${ MUTABLE } ${ OWS })?
-	(?:${ VAR } ${ OWS })? (?:< | ${ DELIMS.PARAMS_FN[0] })
+	(?:${ VAR } ${ OWS })? (?:${ DELIMS.PARAMS_GN[0] } | ${ DELIMS.PARAMS_FN[0] })
 `.replace(/\s+/g, '');
 
 export const METHODGROUP = `

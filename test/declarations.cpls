@@ -44,7 +44,7 @@ set g = 42 == 42;
 set g == 42;
 set g = if true then 1 else 0;
 set g = if true then {1,} else {0,};
-set g.<U>(42)~~.y++.0.("prop" || "key") = 42;
+set g.[U](42)~~.y++.0.("prop" || "key") = 42;
 
 % unit access assignments
 set """a template""".value = val;
@@ -95,7 +95,7 @@ type nominal SpreadTest = (T, #Spread) | (name: T, ##DoubleSpread);
 type Tup = (A, ?: B);
 type Rec = (a: A, $B, c?: C);
 type RecDestructure = [a: A, $B, c?: C, (d, (e)): De, ($f, g: ($h)): Fg];
-typefunc Awaited<T> => T~~;
+typefunc Awaited[T] => T~~;
 type SpreadTest = (
 	T,
 	#Spread,
@@ -103,12 +103,12 @@ type SpreadTest = (
 	name: T,
 	##DoubleSpread,
 );
-typefunc T<out U> => U & V
-	.<W>;
-typefunc U<in V narrows W.<int>> => V | W.<X>;
+typefunc T[out U] => U & V
+	.[W];
+typefunc U[in V narrows W.[int]] => V | W.[X];
 type U narrows int | bool = int;
-typefunc U<mut in V? = W.<int>> => V | W.%%c%%<X>;
-typefunc U<V= Vv> => Vv | W;
+typefunc U[mut in V? = W.[int]] => V | W.%%c%%[X];
+typefunc U[V= Vv] => Vv | W;
 
 type T = (a: boolean, b: int, c: T);
 val x: T = (a= false, b= 42, $c);
@@ -152,22 +152,22 @@ delete a!.b~~!.c~?!.d~!!.e++!.().f;
 
 claim x: T;
 claim NAMESPACE::Foo.prop: T;
-claim x.<U>(42)~~.y++.0.("prop" || "key"): T;
+claim x.[U](42)~~.y++.0.("prop" || "key"): T;
 
-typefunc VoidFn<Arg> => \(arg: Arg) => void;
+typefunc VoidFn[Arg] => \(arg: Arg) => void;
 func print(message: str): void {;}
-func print(message) impl VoidFn.<str> {;}
-func print<T>(message) impl VoidFn.<T> {;}
-func print<T>(message) impl NAMESPACE::VoidFn.<T> {;}
-func print<T narrows str>(message) impl VoidFn.<T> {;}
+func print(message) impl VoidFn.[str] {;}
+func print[T](message) impl VoidFn.[T] {;}
+func print[T](message) impl NAMESPACE::VoidFn.[T] {;}
+func print[T narrows str](message) impl VoidFn.[T] {;}
 claim print(message: str): void;
-claim print(message) impl VoidFn.<str>;
-claim print<T>(message) impl VoidFn.<T>;
-claim print<T>(message) impl NAMESPACE::VoidFn.<T>;
-claim print<T narrows str>(message) impl VoidFn.<T>;
+claim print(message) impl VoidFn.[str];
+claim print[T](message) impl VoidFn.[T];
+claim print[T](message) impl NAMESPACE::VoidFn.[T];
+claim print[T narrows str](message) impl VoidFn.[T];
 claim print: \(message: str) => void;
-claim print: \<T narrows str>(message: T) => void;
-claim print: VoidFn.<str>;
+claim print: \[T narrows str](message: T) => void;
+claim print: VoidFn.[str];
 
 public val x: float = 0.0;
 internal val x: float = 0.0;
@@ -175,19 +175,19 @@ private val y: float = 0.0;
 public type X = float | int;
 internal type X = float | int;
 private type Y = float | int;
-public typefunc A<T> => float | T;
-internal typefunc A<T> => float | T;
-private typefunc B<T> => float | T;
+public typefunc A[T] => float | T;
+internal typefunc A[T] => float | T;
+private typefunc B[T] => float | T;
 
-typefunc Or<T, U> => T | U;
-typefunc Or<T, U, V> => Or.<T, U> | V | this;
-typefunc Or<T, U> => T | {U};
-typefunc Or<T, U, V> => Or.<T, U> | V;
-public typefunc Map<T, U> => {T -> U};
-internal typefunc Mapping<in T, out U> => {T -> U};
+typefunc Or[T, U] => T | U;
+typefunc Or[T, U, V] => Or.[T, U] | V | this;
+typefunc Or[T, U] => T | {U};
+typefunc Or[T, U, V] => Or.[T, U] | V;
+public typefunc Map[T, U] => {T -> U};
+internal typefunc Mapping[in T, out U] => {T -> U};
 private typefunc Or<
 	mut in out T,
 	in mut out U,
 	mut in mut out V,
 	in out W,
-> => Or.<T, U> | [:V & W];
+> => Or.[T, U] | [:V & W];
