@@ -133,8 +133,8 @@ export const DECLARATION__FUNCTION = {
 			name: pattern_name('storage.type'),
 			match: '\\b(func)\\b',
 		},
-		func_heritage(lookaheads([CAPTURE, DELIMS.BLOCK[0], FATARROW])),
 		annotation(lookaheads([IMPL, CAPTURE, DELIMS.BLOCK[0], FATARROW]), true),
+		func_heritage(lookaheads([CAPTURE, DELIMS.BLOCK[0], FATARROW])),
 		implicitReturn(),
 		{include: '#IdentifierFunction'}, // must come after keywords
 	],

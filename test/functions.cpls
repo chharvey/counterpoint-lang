@@ -207,6 +207,9 @@ func add<T>(x, y) impl BinaryOperator.<T> => x + y;
 func addCaptures<T>(x, y) impl BinaryOperator.<T> with (z) {
 	return x + y + z;
 }
+func addCaptures<T>(x: int, y: int): int impl BinaryOperator.<T> with (z) {
+	return x + y + z;
+}
 func addCaptures<T>(x, y) impl BinaryOperator.<T> with (z) => x + y + z;
 
 public func subtract(a: N, b: N): N { return a - b; }
