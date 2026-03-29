@@ -16,6 +16,7 @@ import {
 	IMPL,
 	OVR,
 	OVR_CLAIM,
+	CAPTURE,
 	ASSN_START,
 	FATARROW,
 	BLOCK_END,
@@ -39,7 +40,7 @@ import {
 export const CLASS_HERITAGE = {
 	name:  pattern_name('meta.heritage'),
 	begin: `\\b(extends|${ IMPL }|inherits|is)\\b`,
-	end:   lookaheads([`\\b(extends|${ IMPL }|inherits|is)\\b`, DELIMS.BLOCK[0]]),
+	end:   lookaheads([`\\b(extends|${ IMPL }|inherits|is)\\b`, CAPTURE, DELIMS.BLOCK[0]]),
 	beginCaptures: {
 		0: {name: pattern_name('storage.modifier')},
 	},
@@ -104,8 +105,8 @@ export const DECLARATION__CLASS = {
 	end:   lookbehinds([BLOCK_END]),
 	patterns: [
 		{include: '#GenericParameters'},
-		{include: '#Captures'},
 		{include: '#ClassHeritage'},
+		{include: '#Captures'},
 		{include: '#ClassBody'},
 		{
 			name: pattern_name('storage.type'),

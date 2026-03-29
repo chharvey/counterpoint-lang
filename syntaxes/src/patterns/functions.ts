@@ -12,6 +12,7 @@ import {
 	PUN,
 	OPT,
 	IMPL,
+	CAPTURE,
 	ANNO_START,
 	ASSN_START,
 	FATARROW,
@@ -29,6 +30,23 @@ import {
 	implicitReturn,
 } from './_helpers.ts';
 
+
+
+export const CAPTURES = {
+	name:          pattern_name('meta.capture'),
+	begin:         CAPTURE,
+	end:           lookbehinds([DELIMS.CAPTURES[1]]),
+	beginCaptures: {0: {name: pattern_name('storage.modifier')}},
+	patterns: [
+		list(pattern_name('meta.capture.list'), DELIMS.CAPTURES[0], DELIMS.CAPTURES[1], [
+			{
+				name:  pattern_name('storage.modifier'),
+				match: REF,
+			},
+			qualified_name(),
+		]),
+	]
+};
 
 
 export const TYPE__FUNCTION = {
@@ -64,10 +82,10 @@ export const EXPRESSION__FUNCTION = {
 		{include: '#CommentBlock'},
 		{include: '#CommentLine'},
 		{include: '#GenericParameters'},
-		{include: '#Captures'},
 		{include: '#Parameters'},
+		{include: '#Captures'},
 		{include: '#Block'},
-		annotation(lookaheads([DELIMS.BLOCK[0], FATARROW]), true),
+		annotation(lookaheads([CAPTURE, DELIMS.BLOCK[0], FATARROW]), true),
 	],
 };
 
@@ -104,8 +122,8 @@ export const DECLARATION__FUNCTION = {
 	},
 	patterns: [
 		{include: '#GenericParameters'},
-		{include: '#Captures'},
 		{include: '#Parameters'},
+		{include: '#Captures'},
 		{include: '#Block'},
 		{
 			name:  pattern_name('storage.modifier'),
@@ -115,8 +133,8 @@ export const DECLARATION__FUNCTION = {
 			name: pattern_name('storage.type'),
 			match: '\\b(func)\\b',
 		},
-		func_heritage(lookaheads([DELIMS.BLOCK[0], FATARROW])),
-		annotation(lookaheads([IMPL, DELIMS.BLOCK[0], FATARROW]), true),
+		annotation(lookaheads([IMPL, CAPTURE, DELIMS.BLOCK[0], FATARROW]), true),
+		func_heritage(lookaheads([CAPTURE, DELIMS.BLOCK[0], FATARROW])),
 		implicitReturn(),
 		{include: '#IdentifierFunction'}, // must come after keywords
 	],
@@ -180,12 +198,3 @@ export const PARAMETER_PATTERNS = {
 		{include: '#IdentifierParameter'},
 	],
 };
-
-
-export const CAPTURES = list(pattern_name('meta.captures'), DELIMS.CAPTURES[0], DELIMS.CAPTURES[1], [
-	{
-		name:  pattern_name('storage.modifier'),
-		match: REF,
-	},
-	qualified_name(),
-]);
