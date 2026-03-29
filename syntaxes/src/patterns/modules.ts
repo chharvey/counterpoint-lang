@@ -50,7 +50,7 @@ export const MODULE__IMPORT = {
 		},
 		{include: '#String'},
 		{include: '#IdentifierVariable'},
-		list('meta.import.list', DELIMS.GROUPING[0], DELIMS.GROUPING[1], [
+		list('meta.import.list', DELIMS.IMPORT[0], DELIMS.IMPORT[1], [
 			{
 				name: pattern_name('keyword.control'),
 				match: '\\b(type|await)\\b',

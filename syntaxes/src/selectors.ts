@@ -15,6 +15,7 @@ export const DELIMS = {
 	PARAMS_GN: ['<',   '>'],
 	PARAMS_FN: ['\\(', '\\)'],
 	DESTRUCT:  ['\\(', '\\)'],
+	IMPORT:    ['\\(', '\\)'],
 };
 
 export const OWS     = '(?:\\s+|(%%(?:%?[^%])*%%))*';
