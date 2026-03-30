@@ -135,7 +135,7 @@ claim ($if, by= b):       (if: If, by: B);
 claim ((x), (y= (b))):    ([X], (y: (B)));
 claim (x.1, y.2):         (int, int);
 claim (x.i, y.j):         (int, int);
-claim (x.[i + j], y.[j]): (int, int);
+claim (x.(i + j), y.(j)): (int, int);
 claim ($if, by= b.j):     (if: If, by: Bj);
 claim (($x), (y= (b.j))): ((X), (y: (Bj)));
 
@@ -168,7 +168,7 @@ set (a)                = [1];
 set (x, y) %%c%%       = [1, 2];
 set (x.1, y.2)         = [1, 2];
 set (x.i, y.j)         = [1, 2];
-set (x.[i + j], y.[j]) = [1, 2];
+set (x.(i + j), y.(j)) = [1, 2];
 set ($if, by= b.j)     = [if= 1, by= 2];
 set (($x), (y= (b.j))) = [[x= 1], [y= [2]]];
 

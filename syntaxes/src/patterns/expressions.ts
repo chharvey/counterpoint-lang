@@ -71,17 +71,6 @@ export const EXPRESSION__ACCESS = {
 	patterns: [
 		{
 			name: pattern_name('meta.expression.access'),
-			begin: [DOT_ACCESS, lookaheads([[OWS, DELIMS.ACCESS[0]].join('')])].join(''),
-			end:   lookbehinds([DELIMS.ACCESS[1]]),
-			beginCaptures: {
-				1: {name: pattern_name('keyword.operator.punctuation')},
-			},
-			patterns: [
-				{include: '#Expression'},
-			],
-		},
-		{
-			name: pattern_name('meta.expression.access'),
 			begin: [DOT_ACCESS, lookaheads([[OWS, `(${ INT }|${ VAR })`].join('')])].join(''),
 			end:   lookbehinds(['[A-Za-z0-9_\']']),
 			beginCaptures: {

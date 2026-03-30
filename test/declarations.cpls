@@ -44,7 +44,7 @@ set g = 42 == 42;
 set g == 42;
 set g = if true then 1 else 0;
 set g = if true then {1,} else {0,};
-set g.<U>(42)~~.y++.0.["prop" || "key"] = 42;
+set g.<U>(42)~~.y++.0.("prop" || "key") = 42;
 
 % unit access assignments
 set """a template""".value = val;
@@ -152,7 +152,7 @@ delete a!.b~~!.c~?!.d~!!.e++!.().f;
 
 claim x: T;
 claim NAMESPACE::Foo.prop: T;
-claim x.<U>(42)~~.y++.0.["prop" || "key"]: T;
+claim x.<U>(42)~~.y++.0.("prop" || "key"): T;
 
 typefunc VoidFn<Arg> => \(arg: Arg) => void;
 func print(message: str): void {;}

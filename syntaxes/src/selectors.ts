@@ -8,7 +8,6 @@ export const DELIMS = {
 	SET:       ['\\{', `\\}${ lookaheads(['\\}'], true) }`],
 	ARGS_GN:   ['<',   '>'],
 	ARGS_FN:   ['\\(', '\\)'],
-	ACCESS:    ['\\[', '\\]'],
 	CLAIM:     [':',   ':'],
 	BLOCK:     ['\\{', `\\}${ lookaheads(['\\}'], true) }`],
 	CAPTURES:  ['\\(', '\\)'],
