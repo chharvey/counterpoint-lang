@@ -107,6 +107,7 @@ func twice(x: int): int => x * 2;
 	@'some symbol';
 	@'somé symböl ? "yes" (: "no")';
 
+	% calls:
 	record.get.(@key);
 	record.get.(@'key');
 	record.get.(@'this is a symbol used as a key');
@@ -117,8 +118,21 @@ func twice(x: int): int => x * 2;
 	funkshin.%%dot%%(@arg);
 	funkshin?.(@arg);
 	funkshin!.(@arg);
+	funkshin%%dot%%.[T](@arg);
+	funkshin.%%dot%%[T](@arg);
+	funkshin.[T]%%dot%%(@arg);
+	funkshin%comm
+		%%dot%%.[T](@arg);
+	funkshin%%dot%%.[T]%comm
+		(@arg);
 	funkshin?.[T](@arg);
 	funkshin!.[T](@arg);
+
+	type T = F.[TArg];
+	type T = F%%dot%%.[TArg];
+	type T = F.%%dot%%[TArg];
+	type T = F%comm
+		.[TArg];
 
 	% operators:
 	!a;
