@@ -18,7 +18,7 @@ export const DELIMS = {
 };
 
 export const OWS     = '(?:\\s+|(%%(?:%?[^%])*%%))*';
-export const INT     = '(?:\\+|-)?(?:\\\\[bqodxz])?[0-9a-z_]+';
+export const INT     = '(?:\\+|-)?(?:\\\\[bqsodxz])?[0-9a-z_]+';
 export const VARNAME = '\\b[A-Za-z_][A-Za-z0-9_]*\\b';
 export const VAR     = `(?:${ VARNAME }|\'.*\')`;
 
