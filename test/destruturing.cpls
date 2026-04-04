@@ -90,7 +90,7 @@ type RecordTypePropertyDest = ((a, b): TupType, ($x, $y): RecType, (x: xray, y: 
 
 
 % generic argument destructuring
-type T = GenericCall.[(A, B)= TupType, ($C, $D)= RecType, (E: Echo, F: Foxtrot)= RecType];
+type T = GenericCall[(A, B)= TupType, ($C, $D)= RecType, (E: Echo, F: Foxtrot)= RecType];
 
 
 
@@ -113,17 +113,17 @@ type T = GenericCall.[(A, B)= TupType, ($C, $D)= RecType, (E: Echo, F: Foxtrot)=
 
 
 % function argument destructuring:
-g.(z= 3, (x, y)=           [1, 2]);
-g.(z= 3, (x= a)=           [x= 1]);
-g.(z= 3, ($if, by= b)=     [if= 1, by= 2]);
-g.(z= 3, (($x), (y= (b)))= [[x= 1], [y= [2]]]);
+g(z= 3, (x, y)=           [1, 2]);
+g(z= 3, (x= a)=           [x= 1]);
+g(z= 3, ($if, by= b)=     [if= 1, by= 2]);
+g(z= 3, (($x), (y= (b)))= [[x= 1], [y= [2]]]);
 
 % not function argument destructuring:
-g.((x), (y,));
-g.((x, y));
-g.((x= a));
-g.(z= 3, \(x, y)      => [1, [2]]);
-g.(z= 3, \(x, y= (b)) => [1, [2]]);
+g((x), (y,));
+g((x, y));
+g((x= a));
+g(z= 3, \(x, y)      => [1, [2]]);
+g(z= 3, \(x, y= (b)) => [1, [2]]);
 
 
 
@@ -135,7 +135,7 @@ claim ($if, by= b):       (if: If, by: B);
 claim ((x), (y= (b))):    ([X], (y: (B)));
 claim (x.1, y.2):         (int, int);
 claim (x.i, y.j):         (int, int);
-claim (x.(i + j), y.(j)): (int, int);
+claim (x(i + j), y(j)):   (int, int);
 claim ($if, by= b.j):     (if: If, by: Bj);
 claim (($x), (y= (b.j))): ((X), (y: (Bj)));
 
@@ -168,7 +168,7 @@ set (a)                = [1];
 set (x, y) %%c%%       = [1, 2];
 set (x.1, y.2)         = [1, 2];
 set (x.i, y.j)         = [1, 2];
-set (x.(i + j), y.(j)) = [1, 2];
+set (x(i + j), y(j))   = [1, 2];
 set ($if, by= b.j)     = [if= 1, by= 2];
 set (($x), (y= (b.j))) = [[x= 1], [y= [2]]];
 

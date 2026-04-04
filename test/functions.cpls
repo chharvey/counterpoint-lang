@@ -22,7 +22,7 @@ type Const = \() => int;
 type Const = \(
 ) => int;
 type ReturnsTemplateType = \() => """a {{ string }} template type""";
-val x: \[out T widens U~~, in U? = Set.[null]](a: Set.[T]~~, b: Set.[U~~]) => bool = null;
+val x: \[out T widens U~~, in U? = Set[null]](a: Set[T]~~, b: Set[U~~]) => bool = null;
 
 
 %-- function expression statements --%
@@ -81,7 +81,7 @@ val lambda: Function = \[T narrows U     ]() {};
 val lambda: Function = \[T?           = V]() {};
 val lambda: Function = \[T? narrows U = V]() {};
 val not_lambda: NotFunction = a < b > (c);
-val not_lambda: NotFunction = a.[b](c);
+val not_lambda: NotFunction = a[b](c);
 
 val lambda: Function = \(
 	a,
@@ -157,13 +157,13 @@ func error(): nothing {
 func parameterAlias(p %%c%% = %%c%% q: anything): null => null;
 func parameterNoAlias(q: anything): null => null;
 
-func append[T widens bool](arr?: Array.[T] = [], it: T): void {
-	arr.push.[T](it)~;
+func append[T widens bool](arr?: Array[T] = [], it: T): void {
+	arr.push[T](it)~;
 }
 func derivative[T narrows float](lambda: \(y: T) => T, delta: T): \(x: T) => T {
-	return \(x: T): T => (lambda.(x + delta)~ - lambda.(x)~) / delta;
+	return \(x: T): T => (lambda(x + delta)~ - lambda(x)~) / delta;
 }
-func subset[T? = Set.[null], U widens T](a: Set.[T], b: Set.[U]): bool {;}
+func subset[T? = Set[null], U widens T](a: Set[T], b: Set[U]): bool {;}
 
 func functionWithCaptures(x: int): int with (a, ref b) => a + b + x;
 func functionWithCaptures[
@@ -187,7 +187,7 @@ func returnInstance(): interface {
 	public y(): int => 0;
 	public y(): (int) => 0;
 	public z(): \(str) => int => \(s: str) => s.length;
-}).();
+})();
 % return type with set/map shorthand syntax
 func return_set_of_int(): ({int}) {
 	return {42, 69};
@@ -200,17 +200,17 @@ func return_map_of_int(): ({int -> int}) => {42 -> 69};
 % implicitly returning a block-expression
 func return_block_expr(): int => { 42; };
 
-func add[T](x, y) impl BinaryOperator.[T] {
+func add[T](x, y) impl BinaryOperator[T] {
 	return x + y;
 }
-func add[T](x, y) impl BinaryOperator.[T] => x + y;
-func addCaptures[T](x, y) impl BinaryOperator.[T] with (z) {
+func add[T](x, y) impl BinaryOperator[T] => x + y;
+func addCaptures[T](x, y) impl BinaryOperator[T] with (z) {
 	return x + y + z;
 }
-func addCaptures[T](x: int, y: int): int impl BinaryOperator.[T] with (z) {
+func addCaptures[T](x: int, y: int): int impl BinaryOperator[T] with (z) {
 	return x + y + z;
 }
-func addCaptures[T](x, y) impl BinaryOperator.[T] with (z) => x + y + z;
+func addCaptures[T](x, y) impl BinaryOperator[T] with (z) => x + y + z;
 
 public func subtract(a: N, b: N): N { return a - b; }
 internal func subtract(a: N, b: N): N => a - b;

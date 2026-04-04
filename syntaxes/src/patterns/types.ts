@@ -33,20 +33,6 @@ export const GENERIC_ARGUMENTS = list(pattern_name('meta.genericarguments'), DEL
 ]);
 
 
-export const TYPE_CALL = {
-	name: pattern_name('meta.type.call'),
-	begin: [DOT, lookaheads([[OWS, DELIMS.ARGS_GN[0]].join('')])].join(''),
-	end:   lookbehinds([DELIMS.ARGS_GN[1]]),
-	beginCaptures: {
-		1: {name: pattern_name('keyword.operator.punctuation')},
-	},
-	patterns: [
-		{include: '#CommentBlock'},
-		{include: '#GenericArguments'},
-	],
-};
-
-
 export const TYPE__ACCESS = {
 	name: pattern_name('meta.type.access'),
 	begin: [DOT_ACCESS, lookaheads([[OWS, `(${ INT }|${ VAR })`].join('')])].join(''),
@@ -58,6 +44,24 @@ export const TYPE__ACCESS = {
 		{include: '#Number'},
 		identifier('variable.other', true),
 	],
+};
+
+
+export const TYPE_CALL = {
+	name:  pattern_name('meta.type.call'),
+	begin: [
+		lookbehinds([`([A-Za-z0-9_~?!]|${ [
+			DELIMS.GROUPING[1],
+			'\\}', // DELIMS.BLOCK[1],
+			DELIMS.LIST[1],
+			'\\}', // DELIMS.SET[1],
+			DELIMS.ARGS_GN[1],
+			DELIMS.ARGS_FN[1],
+		].join('|') })${ OWS }`]),
+		lookaheads([DELIMS.ARGS_GN[0]]),
+	].join(''),
+	end:      lookbehinds([DELIMS.ARGS_GN[1]]),
+	patterns: [{include: '#GenericArguments'}],
 };
 
 
@@ -114,8 +118,8 @@ export const TYPEFNRET = {
 		},
 		{include: '#TypeFunction'},
 		{include: '#TypeInterface'},
-		{include: '#TypeCall'},
 		{include: '#TypeAccess'},
+		{include: '#TypeCall'},
 		{include: '#TypeStructureGrouping'},
 		{include: '#TypeStructureList'},
 		unit('entity.name.type'),

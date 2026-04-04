@@ -194,8 +194,8 @@ export function func_heritage(end: string) {
 		end,
 		beginCaptures: {0: {name: pattern_name('storage.modifier')}},
 		patterns: [
-			{include: '#TypeCall'},
 			{include: '#TypeAccess'},
+			{include: '#TypeCall'},
 			qualified_name('entity.other.inherited-class'),
 		],
 	};

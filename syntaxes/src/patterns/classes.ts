@@ -45,8 +45,8 @@ export const CLASS_HERITAGE = {
 		0: {name: pattern_name('storage.modifier')},
 	},
 	patterns: [
-		{include: '#TypeCall'},
 		{include: '#TypeAccess'},
+		{include: '#TypeCall'},
 		qualified_name('entity.other.inherited-class'),
 		{
 			name: pattern_name('punctuation.separator'),
