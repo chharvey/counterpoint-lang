@@ -32,7 +32,7 @@ export function keyword(varname = 'variable.language') {
 			},
 			{
 				name: pattern_name('support.type'),
-				match: R.w(R.c('nothing', 'bool', 'sym', 'nat', 'int', 'float', 'dec', 'str', 'anything')),
+				match: R.w(R.c('nothing', 'bool', 'sym', 'int', 'nat', 'float', 'dec', 'str', 'anything')),
 			},
 			{
 				name: pattern_name(varname),

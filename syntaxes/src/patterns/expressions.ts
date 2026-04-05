@@ -74,7 +74,7 @@ export const EXPRESSION__CALL = {
 	name:  pattern_name('meta.expression.call'),
 	begin: R.s(
 		lookbehinds([R.s(R.c(
-			'[A-Za-z0-9_~?!]',
+			'[A-Za-z0-9_]|~[~?!]',
 			DELIMS.GROUPING[1],
 			'\\}', // DELIMS.BLOCK[1],
 			DELIMS.LIST[1],
@@ -153,7 +153,7 @@ export const EXPRESSIONNONBLOCK = {
 		},
 		{
 			name: pattern_name('keyword.operator.text'),
-			match: R.c(R.w(R.c('isset', 'nat', 'int', 'float', 'dec', 'is', 'if', 'then', 'else')), R.s(R.c('!isset', '!is'), '\\b')),
+			match: R.c(R.w(R.c('isset', 'int', 'nat', 'float', 'dec', 'is', 'if', 'then', 'else')), R.s(R.c('!isset', '!is'), '\\b')),
 		},
 		{include: '#ExpressionFunction'},
 		{include: '#ExpressionClass'},
