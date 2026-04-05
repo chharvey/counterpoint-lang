@@ -1,6 +1,7 @@
 import {
 	pattern_name,
 	lookaheads,
+	R,
 } from '../helpers.ts';
 import {
 	OWS,
@@ -17,7 +18,7 @@ import {
 
 export const DECLARATION__TYPE = {
 	name: pattern_name('meta.declaration.type'),
-	begin: lookaheads([`(${ COMP_ACCESS }${ OWS })?\\b(type)\\b`]),
+	begin: lookaheads([R.s(R.o(R.s(COMP_ACCESS, OWS)), R.w('type'))]),
 	end:   ';',
 	endCaptures: {
 		0: {name: pattern_name('punctuation.delimiter')},
@@ -33,7 +34,7 @@ export const DECLARATION__TYPE = {
 		},
 		{
 			name: pattern_name('storage.type'),
-			match: '\\b(type)\\b',
+			match: R.w('type'),
 		},
 		{include: '#IdentifierType'}, // must come after keywords
 	],
@@ -42,7 +43,7 @@ export const DECLARATION__TYPE = {
 
 export const DECLARATION__VARIABLE = {
 	name: pattern_name('meta.declaration.val'),
-	begin: lookaheads([`(${ COMP_ACCESS }${ OWS })?\\b(val)\\b`]),
+	begin: lookaheads([R.s(R.o(R.s(COMP_ACCESS, OWS)), R.w('val'))]),
 	end:   ';',
 	endCaptures: {
 		0: {name: pattern_name('punctuation.delimiter')},
@@ -58,7 +59,7 @@ export const DECLARATION__VARIABLE = {
 		},
 		{
 			name: pattern_name('storage.type'),
-			match: '\\b(val)\\b',
+			match: R.w('val'),
 		},
 		{
 			name:  pattern_name('keyword.other.optional'),

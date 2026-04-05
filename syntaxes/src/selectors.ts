@@ -1,4 +1,7 @@
-import {lookaheads} from './helpers.ts';
+import {
+	lookaheads,
+	R,
+} from './helpers.ts';
 
 
 
@@ -23,22 +26,22 @@ export const INT     = '(?:\\+|-)?(?:\\\\[bqodxz])?[0-9a-z_]+';
 export const VARNAME = '\\b[A-Za-z_][A-Za-z0-9_]*\\b';
 export const VAR     = `(?:${ VARNAME }|\'.*\')`;
 
-export const COMP_ACCESS = '\\b(public|internal|private)\\b';
-export const MEMB_ACCESS = `\\b(${ COMP_ACCESS }|protected)\\b`;
-export const UNFIXED    = '\\b(mut)\\b';
-export const REF        = '\\b(ref)\\b';
-export const NOMINAL    = '\\b(nominal)\\b';
-export const MUTABLE    = '\\b(mut)\\b';
-export const ALIAS      = '\\b(as)\\b';
+export const COMP_ACCESS = R.w(R.c('public', 'internal', 'private'));
+export const MEMB_ACCESS = R.w(R.c(COMP_ACCESS, 'protected'));
+export const UNFIXED     = R.w('mut');
+export const REF         = R.w('ref');
+export const NOMINAL     = R.w('nominal');
+export const MUTABLE     = R.w('mut');
+export const ALIAS       = R.w('as');
 export const PUN        = '\\$';
 export const OPT        = '\\?';
-export const VARIANCE   = '\\b(out|in)\\b';
-export const CONSTRAINT = '\\b(narrows|widens)\\b'
-export const PERMISSION = '\\b(const|readonly|writeonly)\\b';
-export const IMPL       = '\\b(impl)\\b';
-export const OVR        = '\\b(override|impl)\\b';
-export const OVR_CLAIM  = '\\b(override|impl|claim)\\b';
-export const CAPTURE    = '\\b(with)\\b';
+export const VARIANCE   = R.w(R.c('out', 'in'));
+export const CONSTRAINT = R.w(R.c('narrows', 'widens'));
+export const PERMISSION = R.w(R.c('const', 'readonly', 'writeonly'));
+export const IMPL       = R.w('impl');
+export const OVR        = R.w(R.c('override', 'impl'));
+export const OVR_CLAIM  = R.w(R.c(OVR, 'claim'));
+export const CAPTURE    = R.w('with');
 export const ANNO_START = `\\:${ lookaheads(['\\:'], true) }`;
 export const ASSN_START = `=${ lookaheads(['[=>]'], true) }`;
 export const THINARROW  = '->';

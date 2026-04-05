@@ -1,4 +1,7 @@
-import {pattern_name} from '../helpers.ts';
+import {
+	pattern_name,
+	R,
+} from '../helpers.ts';
 import {
 	UNFIXED,
 	NOMINAL,
@@ -32,7 +35,7 @@ export const MODIFIERS__GENERIC_PARAMETER = {
 		{include: '#ModifiersDeclarationType'},
 		{
 			name:  pattern_name('storage.modifier'),
-			match: `${ MUTABLE }|${ VARIANCE }`,
+			match: R.c(MUTABLE, VARIANCE),
 		},
 	],
 };

@@ -1,6 +1,7 @@
 import {
 	pattern_name,
 	lookaheads,
+	R,
 } from '../helpers.ts';
 import {
 	DELIMS,
@@ -23,27 +24,27 @@ export function keyword(varname = 'variable.language') {
 		patterns: [
 			{
 				name: pattern_name('storage.modifier'),
-				match: '\\b(void)\\b',
+				match: R.w('void'),
 			},
 			{
 				name: pattern_name('constant.language'),
-				match: '\\b(null|false|true)\\b',
+				match: R.w(R.c('null', 'false', 'true')),
 			},
 			{
 				name: pattern_name('support.type'),
-				match: '\\b(nothing|bool|sym|nat|int|float|dec|str|anything)\\b',
+				match: R.w(R.c('nothing', 'bool', 'sym', 'nat', 'int', 'float', 'dec', 'str', 'anything')),
 			},
 			{
 				name: pattern_name(varname),
-				match: '\\b(this|static)\\b',
+				match: R.w(R.c('this', 'static')),
 			},
 			{
 				name: pattern_name('variable.language'),
-				match: '\\b(super|method)\\b',
+				match: R.w(R.c('super', 'method')),
 			},
 			{
 				name: pattern_name('support.class'),
-				match: '\\b(Object|Class|List|Dict|Set|Map)\\b',
+				match: R.w(R.c('Object', 'Class', 'List', 'Dict', 'Set', 'Map')),
 			},
 		],
 	};
@@ -65,7 +66,7 @@ export function identifier(varname = 'variable.other', allow_blank = false) {
 			},
 			{
 				name: pattern_name(varname),
-				match: `\\b[A-Za-z][A-Za-z0-9_]*|_[A-Za-z0-9_]${ allow_blank ? '*' : '+' }\\b`,
+				match: R.w(`[A-Za-z][A-Za-z0-9_]*|_[A-Za-z0-9_]${ allow_blank ? '*' : '+' }`),
 			},
 			{
 				/* Invalid blank variable used as a reference. */
@@ -134,7 +135,7 @@ export function list(name: string, begin: string, end: string, more_patterns: re
 export function param_label(prop_delim: string, identifier_kind: string) {
 	return {
 		name:        pattern_name('meta.label'),
-		begin:       lookaheads([[VAR, OWS, prop_delim].join('')]),
+		begin:       lookaheads([R.s(VAR, OWS, prop_delim)]),
 		end:         prop_delim,
 		endCaptures: {0: {name: pattern_name('punctuation.delimiter')}},
 		patterns:    [{include: identifier_kind}],
@@ -228,8 +229,8 @@ function typePropertyOrGenericArgumentLabel(start: string, close_delim: string, 
 		patterns: [
 			{
 				begin: lookaheads([
-					[PUN, OWS, VAR].join(''),
-					`(${ VAR }${ OWS })?(${ OPT }${ OWS })?${ start }`,
+					R.s(PUN, OWS, VAR),
+					R.s(R.o(R.s(VAR, OWS)), R.o(R.s(OPT, OWS)), start),
 				]),
 				end,
 				patterns: [
@@ -246,7 +247,7 @@ function typePropertyOrGenericArgumentLabel(start: string, close_delim: string, 
 				],
 			},
 			{
-				begin: lookaheads([[destructure_selector(ANNO_START), OWS, start].join('')]),
+				begin: lookaheads([R.s(destructure_selector(ANNO_START), OWS, start)]),
 				end,
 				patterns: [
 					{include: destructure_kind},
@@ -271,8 +272,8 @@ function propertyOrArgumentLabel(close_delim: string, identifier_kind: string, d
 		patterns: [
 			{
 				begin: lookaheads([
-					[PUN, OWS, VAR].join(''),
-					[VAR, OWS, ASSN_START].join(''),
+					R.s(PUN, OWS, VAR),
+					R.s(VAR, OWS, ASSN_START),
 				]),
 				end,
 				patterns: [
@@ -285,7 +286,7 @@ function propertyOrArgumentLabel(close_delim: string, identifier_kind: string, d
 				],
 			},
 			{
-				begin: lookaheads([[destructure_selector(ASSN_START), OWS, ASSN_START].join('')]),
+				begin: lookaheads([R.s(destructure_selector(ASSN_START), OWS, ASSN_START)]),
 				end,
 				patterns: [
 					{include: destructure_kind},
