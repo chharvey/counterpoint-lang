@@ -1,6 +1,7 @@
 import {
 	pattern_name,
 	digits,
+	R,
 } from '../helpers.ts';
 import {VARNAME} from '../selectors.ts';
 
@@ -45,7 +46,7 @@ export const NUMBER = {
 	patterns: [
 		{
 			name: pattern_name('constant.numeric.radix'),
-			match: `(\\+|-)?(?:${ [
+			match: `(\\+|-)?(?:${ R.c(
 				digits('[0-1]',    'b'), // `(\\\\b)(?:[0-1]_?)*[0-1]`
 				digits('[0-3]',    'q'),
 				digits('[0-5]',    's'),
@@ -53,7 +54,7 @@ export const NUMBER = {
 				digits('[0-9]',    'd'),
 				digits('[0-9a-f]', 'x'),
 				digits('[0-9a-z]', 'z'),
-			].join('|') })`,
+			) })`,
 			captures: {
 				1: {name: pattern_name('punctuation.operator')},
 				2: {name: pattern_name('punctuation.delimiter.radix')},

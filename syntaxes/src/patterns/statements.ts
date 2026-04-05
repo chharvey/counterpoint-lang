@@ -2,6 +2,7 @@ import {
 	pattern_name,
 	lookaheads,
 	lookbehinds,
+	R,
 } from '../helpers.ts';
 import {
 	DELIMS,
@@ -23,7 +24,7 @@ import {
 
 export const STATEMENT__CLAIM = {
 	name:  pattern_name('meta.statement.claim'),
-	begin: '\\b(claim)\\b',
+	begin: R.w('claim'),
 	end:   ';',
 	beginCaptures: {
 		0: {name: pattern_name('keyword.control')},
@@ -34,7 +35,7 @@ export const STATEMENT__CLAIM = {
 	patterns: [
 		func_heritage(lookaheads([';'])),
 		{
-			begin: lookaheads([[VAR, OWS, `(${ DELIMS.PARAMS_GN[0] }|${ DELIMS.PARAMS_FN[0] })`].join('')]),
+			begin: lookaheads([R.s(VAR, OWS, R.c(DELIMS.PARAMS_GN[0], DELIMS.PARAMS_FN[0]))]),
 			end:   lookaheads([ANNO_START, IMPL]),
 			patterns: [
 				{include: '#IdentifierFunction'},
@@ -50,7 +51,7 @@ export const STATEMENT__CLAIM = {
 
 export const STATEMENT__SET = {
 	name:  pattern_name('meta.statement.set'),
-	begin: '\\b(set)\\b',
+	begin: R.w('set'),
 	end:   ';',
 	beginCaptures: {
 		0: {name: pattern_name('keyword.control')},
@@ -60,14 +61,14 @@ export const STATEMENT__SET = {
 	},
 	patterns: [
 		{include: '#ExpressionAssignee'},
-		assignment(`${ ASSN_START }|(&&|\\|\\||![&|]|[\\^*/+-])=`, lookaheads([';'])),
+		assignment(R.c(ASSN_START, '(&&|\\|\\||![&|]|[\\^*/+-])='), lookaheads([';'])),
 	],
 };
 
 
 export const STATEMENT__DELETE = {
 	name:  pattern_name('meta.statement.delete'),
-	begin: '\\b(delete)\\b',
+	begin: R.w('delete'),
 	end:   ';',
 	beginCaptures: {
 		0: {name: pattern_name('keyword.control')},
@@ -83,14 +84,14 @@ export const STATEMENT__DELETE = {
 
 export const STATEMENT__CONDITIONAL = {
 	name:          pattern_name('meta.statement.conditional'),
-	begin:         '\\b(if|unless)\\b',
+	begin:         R.w(R.c('if', 'unless')),
 	end:           ';',
 	beginCaptures: {0: {name: pattern_name('keyword.control')}},
 	endCaptures:   {0: {name: pattern_name('punctuation.delimiter')}},
 	patterns:      [
 		{
 			name:  pattern_name('keyword.control'),
-			match: '\\b(then|else|if)\\b',
+			match: R.w(R.c('then', 'else', 'if')),
 		},
 		{include: '#Block'},
 		{include: '#Expression'},
@@ -100,7 +101,7 @@ export const STATEMENT__CONDITIONAL = {
 
 export const STATEMENT__LOOP = {
 	name:  pattern_name('meta.statement.loop'),
-	begin: '\\b(while|until|do)\\b',
+	begin: R.w(R.c('while', 'until', 'do')),
 	end:   ';',
 	beginCaptures: {
 		0: {name: pattern_name('keyword.control')},
@@ -111,7 +112,7 @@ export const STATEMENT__LOOP = {
 	patterns: [
 		{
 			name: pattern_name('keyword.control'),
-			match: '\\b(do|while|until)\\b',
+			match: R.w(R.c('do', 'while', 'until')),
 		},
 		{include: '#Block'},
 		{include: '#Expression'},
@@ -121,7 +122,7 @@ export const STATEMENT__LOOP = {
 
 export const STATEMENT__ITERATION = {
 	name:  pattern_name('meta.statement.iteration'),
-	begin: '\\b(for)\\b',
+	begin: R.w('for'),
 	end:   ';',
 	beginCaptures: {
 		0: {name: pattern_name('keyword.control')},
@@ -131,10 +132,10 @@ export const STATEMENT__ITERATION = {
 	},
 	patterns: [
 		{include: '#DestructureVariable'},
-		annotation(lookaheads(['\\b(in)\\b'])),
+		annotation(lookaheads([R.w('in')])),
 		{
-			begin: '\\b(in)\\b',
-			end:   lookaheads(['\\b(do)\\b']),
+			begin: R.w('in'),
+			end:   lookaheads([R.w('do')]),
 			beginCaptures: {
 				0: {name: pattern_name('keyword.control')},
 			},
@@ -143,7 +144,7 @@ export const STATEMENT__ITERATION = {
 			],
 		},
 		{
-			begin: '\\b(do)\\b',
+			begin: R.w('do'),
 			end:   lookbehinds([BLOCK_END]),
 			beginCaptures: {
 				0: {name: pattern_name('keyword.control')},
@@ -161,7 +162,7 @@ export const STATEMENT__ITERATION = {
 
 export const STATEMENT__BREAK = {
 	name: pattern_name('meta.statement.break'),
-	begin: '\\b(break|skip|return|throw)\\b',
+	begin: R.w(R.c('break', 'skip', 'return', 'throw')),
 	end:   ';',
 	beginCaptures: {
 		0: {name: pattern_name('keyword.control')},

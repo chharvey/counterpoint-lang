@@ -2,6 +2,7 @@ import {
 	pattern_name,
 	lookaheads,
 	lookbehinds,
+	R,
 } from '../helpers.ts';
 import {
 	DELIMS,
@@ -51,7 +52,7 @@ export const CAPTURES = {
 
 export const TYPE__FUNCTION = {
 	name: pattern_name('meta.type.func'),
-	begin: [BACKSLASH, lookaheads([`${ OWS }(${ DELIMS.PARAMS_GN[0] }|${ DELIMS.PARAMS_FN[0] })`])].join(''),
+	begin: R.s(BACKSLASH, lookaheads([R.s(OWS, R.c(DELIMS.PARAMS_GN[0], DELIMS.PARAMS_FN[0]))])),
 	end:   FATARROW,
 	beginCaptures: {
 		1: {name: pattern_name('punctuation.delimiter')},
@@ -70,8 +71,8 @@ export const TYPE__FUNCTION = {
 
 export const EXPRESSION__FUNCTION = {
 	name: pattern_name('meta.expression.func'),
-	begin: [BACKSLASH, lookaheads([`${ OWS }(${ DELIMS.PARAMS_GN[0] }|${ DELIMS.CAPTURES[0] }|${ DELIMS.PARAMS_FN[0] })`])].join(''),
-	end:   [lookbehinds([BLOCK_END]), FATARROW].join('|'),
+	begin: R.s(BACKSLASH, lookaheads([R.s(OWS, R.c(DELIMS.PARAMS_GN[0], DELIMS.CAPTURES[0], DELIMS.PARAMS_FN[0]))])),
+	end:   R.c(lookbehinds([BLOCK_END]), FATARROW),
 	beginCaptures: {
 		1: {name: pattern_name('punctuation.delimiter')},
 	},
@@ -92,7 +93,7 @@ export const EXPRESSION__FUNCTION = {
 
 export const DECLARATION__TYPEFUNCTION = {
 	name: pattern_name('meta.declaration.typefunc'),
-	begin: lookaheads([`(${ COMP_ACCESS }${ OWS })?\\b(typefunc)\\b`]),
+	begin: lookaheads([R.s(R.o(R.s(COMP_ACCESS, OWS)), R.w('typefunc'))]),
 	end:   ';',
 	endCaptures: {
 		0: {name: pattern_name('punctuation.delimiter')},
@@ -106,7 +107,7 @@ export const DECLARATION__TYPEFUNCTION = {
 		},
 		{
 			name: pattern_name('storage.type'),
-			match: '\\b(typefunc)\\b',
+			match: R.w('typefunc'),
 		},
 		{include: '#IdentifierType'}, // must come after keywords
 	],
@@ -115,8 +116,8 @@ export const DECLARATION__TYPEFUNCTION = {
 
 export const DECLARATION__FUNCTION = {
 	name:  pattern_name('meta.declaration.func'),
-	begin: lookaheads([`(${ COMP_ACCESS }${ OWS })?\\b(func)\\b`]),
-	end:   [lookbehinds([BLOCK_END]), ';'].join('|'),
+	begin: lookaheads([R.s(R.o(R.s(COMP_ACCESS, OWS)), R.w('func'))]),
+	end:   R.c(lookbehinds([BLOCK_END]), ';'),
 	endCaptures: {
 		0: {name: pattern_name('punctuation.delimiter')},
 	},
@@ -131,7 +132,7 @@ export const DECLARATION__FUNCTION = {
 		},
 		{
 			name: pattern_name('storage.type'),
-			match: '\\b(func)\\b',
+			match: R.w('func'),
 		},
 		annotation(lookaheads([IMPL, CAPTURE, DELIMS.BLOCK[0], FATARROW]), true),
 		func_heritage(lookaheads([CAPTURE, DELIMS.BLOCK[0], FATARROW])),
@@ -169,7 +170,7 @@ export const TYPE_PARAMETER_PATTERNS = {
 			match: OPT,
 		},
 		{
-			begin: lookaheads([`(${ VAR }${ OWS })?(${ OPT }${ OWS })?${ ANNO_START }`]),
+			begin: lookaheads([R.s(R.o(R.s(VAR, OWS)), R.o(R.s(OPT, OWS)), ANNO_START)]),
 			end:   lookaheads([OPT, ANNO_START]),
 			patterns: [
 				{include: '#IdentifierParameter'},
