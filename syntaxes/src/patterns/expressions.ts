@@ -35,7 +35,7 @@ export const ARGUMENTS = list(pattern_name('meta.arguments'), DELIMS.ARGS_FN[0],
 
 export const EXPRESSION__CLAIM = {
 	name:          pattern_name('meta.expression.claim'),
-	begin:         R.s(R.w('as'), lookaheads([R.s(OWS, DELIMS.CLAIM[0])])),
+	begin:         R.s(R.g(R.w('as')), lookaheads([R.s(OWS, DELIMS.CLAIM[0])])),
 	end:           lookbehinds([DELIMS.CLAIM[1]]),
 	beginCaptures: {1: {name: pattern_name('keyword.operator.text')}},
 	patterns:      [
