@@ -134,7 +134,7 @@ export const EXPRESSION__ASSIGNEE = {
 		{include: '#ExpressionStructureGrouping'},
 		{include: '#ExpressionStructureList'},
 		{include: '#ExpressionStructureSet'},
-		unit(),
+		unit(false),
 	],
 };
 
@@ -189,7 +189,7 @@ export const EXPRESSIONNONBLOCK = {
 			name:  pattern_name('keyword.operator.text'),
 			match: '\\b(as)([?!]|\\b)', // must come after '#ExpressionClaim'
 		},
-		unit(),
+		unit(false),
 		{
 			name: pattern_name('keyword.operator.punctuation'),
 			match: `[

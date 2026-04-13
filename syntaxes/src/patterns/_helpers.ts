@@ -18,7 +18,7 @@ import {
 
 
 
-export function keyword(varname = 'variable.language') {
+function keyword(is_type: boolean) {
 	return {
 		patterns: [
 			{
@@ -34,7 +34,7 @@ export function keyword(varname = 'variable.language') {
 				match: R.w(R.c('nothing', 'bool', 'sym', 'int', 'nat', 'float', 'dec', 'str', 'anything')),
 			},
 			{
-				name: pattern_name(varname),
+				name: pattern_name(is_type ? 'support.type' : 'variable.language'),
 				match: R.w(R.c('this', 'static')),
 			},
 			{
@@ -50,13 +50,13 @@ export function keyword(varname = 'variable.language') {
 }
 
 
-export function identifier(varname = 'variable.other', allow_blank = false) {
+export function identifier(patternname = 'variable.other', allow_blank = false) {
 	return {
 		patterns: [
 			{include: '#CommentBlock'},
 			{include: '#CommentLine'},
 			{
-				name: pattern_name(`${ varname }.quoted.single`),
+				name: pattern_name(`${ patternname }.quoted.single`),
 				begin: '\'',
 				end:   '\'',
 				captures: {
@@ -64,7 +64,7 @@ export function identifier(varname = 'variable.other', allow_blank = false) {
 				},
 			},
 			{
-				name: pattern_name(varname),
+				name: pattern_name(patternname),
 				match: R.w(`[A-Za-z][A-Za-z0-9_]*|_[A-Za-z0-9_]${ allow_blank ? '*' : '+' }`),
 			},
 			{
@@ -77,10 +77,13 @@ export function identifier(varname = 'variable.other', allow_blank = false) {
 }
 
 
-export function qualified_name(varname = 'variable.other') {
+export function qualified_name(is_type_or_patternname: boolean | string) {
 	return {
 		patterns: [
-			identifier(varname),
+			identifier((typeof is_type_or_patternname === 'string'
+				? is_type_or_patternname
+				: is_type_or_patternname ? 'entity.name.type' : 'variable.other'
+			)),
 			{
 				name:  pattern_name('punctuation.separator.namespace'),
 				match: '::',
@@ -90,15 +93,15 @@ export function qualified_name(varname = 'variable.other') {
 }
 
 
-export function unit(varname = 'variable.other') {
+export function unit(is_type: boolean) {
 	return {
 		patterns: [
 			{include: '#Template'},
 			{include: '#String'},
 			{include: '#Number'},
 			{include: '#Symbol'},
-			(varname === 'entity.name.type' ? keyword('support.type') : keyword()),
-			qualified_name(varname),
+			keyword(is_type),
+			qualified_name(is_type),
 			{
 				/*
 				 * Invalid underscores in number literals.

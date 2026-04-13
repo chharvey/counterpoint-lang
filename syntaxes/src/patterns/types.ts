@@ -148,7 +148,7 @@ export const TYPEFNRET = {
 		{include: '#TypeCall'},
 		{include: '#TypeStructureGrouping'},
 		{include: '#TypeStructureList'},
-		unit('entity.name.type'),
+		unit(true),
 	],
 };
 

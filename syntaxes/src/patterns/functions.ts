@@ -44,7 +44,7 @@ export const CAPTURES = {
 				name:  pattern_name('storage.modifier'),
 				match: REF,
 			},
-			qualified_name(),
+			qualified_name(false),
 		]),
 	]
 };
