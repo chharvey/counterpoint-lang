@@ -12,8 +12,8 @@ import {
 	PUN,
 	ASSN_START,
 	THINARROW,
-	DOT,
 	DOT_ACCESS,
+	DOT_CALL,
 	destructure_selector,
 } from '../selectors.ts';
 import {
@@ -99,7 +99,7 @@ export const EXPRESSION__ACCESS = {
 
 export const EXPRESSION__CALL = {
 	name:  pattern_name('meta.expression.call'),
-	begin: R.s(
+	begin: R.c(R.g(DOT_CALL), R.s(
 		lookbehinds([R.s(R.c(
 			'[A-Za-z0-9_]|~[~?!]|\\+\\+',
 			DELIMS.GROUPING[1],
@@ -110,9 +110,10 @@ export const EXPRESSION__CALL = {
 			DELIMS.ARGS_FN[1],
 		), OWS, '[?!]?')]),
 		lookaheads([DELIMS.ARGS_GN[0], DELIMS.ARGS_FN[0]]),
-	),
-	end:      R.s(lookbehinds([DELIMS.ARGS_FN[1]]), lookaheads([DELIMS.ARGS_GN[0], DELIMS.ARGS_FN[0]], true)),
-	patterns: [
+	)),
+	end:           R.s(lookbehinds([DELIMS.ARGS_FN[1]]), lookaheads([DELIMS.ARGS_GN[0], DELIMS.ARGS_FN[0]], true)),
+	beginCaptures: {1: {name: pattern_name('keyword.operator.punctuation')}},
+	patterns:      [
 		{include: '#CommentBlock'},
 		{include: '#CommentLine'},
 		{include: '#GenericArguments'},

@@ -14,7 +14,6 @@ import {
 	ASSN_START,
 	MUTABLE,
 	THINARROW,
-	DOT,
 	DOT_ACCESS,
 	destructure_selector,
 } from '../selectors.ts';

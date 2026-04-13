@@ -151,6 +151,29 @@ func twice(x: int): int => x * 2;
 	array?.get(index);
 	array!.get(index);
 
+	funkspawn..(arg, arg);
+	funkspawn?..(arg, arg);
+	funkspawn!..(arg, arg);
+	funkspawn%%dotdot%%..(arg, arg);
+	funkspawn%%dotdot%%?..(arg, arg);
+	funkspawn%%dotdot%%!..(arg, arg);
+	funkspawn..%%dotdot%%(arg, arg);
+	funkspawn?..%%dotdot%%(arg, arg);
+	funkspawn!..%%dotdot%%(arg, arg);
+	funkspawn..[T, S](arg, arg);
+	funkspawn?..[T, S](arg, arg);
+	funkspawn!..[T, S](arg, arg);
+	funkspawn%%dotdot%%..[T, S](arg, arg);
+	funkspawn%%dotdot%%?..[T, S](arg, arg);
+	funkspawn%%dotdot%%!..[T, S](arg, arg);
+	funkspawn?..%%dotdot%%[T, S](arg, arg);
+	funkspawn!..%%dotdot%%[T, S](arg, arg);
+
+	funkspawn?%%dotdot%%..(arg, arg);
+	funkspawn!%%dotdot%%..(arg, arg);
+	funkspawn?%%dotdot%%..[T, S](arg, arg);
+	funkspawn!%%dotdot%%..[T, S](arg, arg);
+
 	type T = U[A];
 	type T = U[A][B, C];
 	type T = (U[A])[B, C];
