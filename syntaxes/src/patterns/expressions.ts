@@ -12,8 +12,8 @@ import {
 	PUN,
 	ASSN_START,
 	THINARROW,
-	DOT,
 	DOT_ACCESS,
+	DOT_CALL,
 	destructure_selector,
 } from '../selectors.ts';
 import {
@@ -83,7 +83,7 @@ export const EXPRESSION__ACCESS = {
 	patterns: [
 		{
 			name: pattern_name('meta.expression.access'),
-			begin: R.s(DOT_ACCESS, lookaheads([R.s(OWS, R.c(INT, VAR))])),
+			begin: R.s(R.g(DOT_ACCESS)),
 			end:   lookbehinds(['[A-Za-z0-9_\']']),
 			beginCaptures: {
 				1: {name: pattern_name('keyword.operator.punctuation')},
@@ -99,20 +99,21 @@ export const EXPRESSION__ACCESS = {
 
 export const EXPRESSION__CALL = {
 	name:  pattern_name('meta.expression.call'),
-	begin: R.s(
+	begin: R.c(R.g(DOT_CALL), R.s(
 		lookbehinds([R.s(R.c(
-			'[A-Za-z0-9_]|~[~?!]',
+			'[A-Za-z0-9_]|~[~?!]|\\+\\+',
 			DELIMS.GROUPING[1],
 			'\\}', // DELIMS.BLOCK[1],
 			DELIMS.LIST[1],
 			'\\}', // DELIMS.SET[1],
 			DELIMS.ARGS_GN[1],
 			DELIMS.ARGS_FN[1],
-		), OWS)]),
+		), OWS, '[?!]?')]),
 		lookaheads([DELIMS.ARGS_GN[0], DELIMS.ARGS_FN[0]]),
-	),
-	end:      lookbehinds([DELIMS.ARGS_FN[1]]),
-	patterns: [
+	)),
+	end:           R.s(lookbehinds([DELIMS.ARGS_FN[1]]), lookaheads([DELIMS.ARGS_GN[0], DELIMS.ARGS_FN[0]], true)),
+	beginCaptures: {1: {name: pattern_name('keyword.operator.punctuation')}},
+	patterns:      [
 		{include: '#CommentBlock'},
 		{include: '#CommentLine'},
 		{include: '#GenericArguments'},
@@ -179,8 +180,8 @@ export const EXPRESSIONNONBLOCK = {
 		{include: '#ExpressionFunction'},
 		{include: '#ExpressionClass'},
 		{include: '#ExpressionClaim'},
+		{include: '#ExpressionCall'}, // must come before '#ExpressionAccess' due to `DOT_CALL`
 		{include: '#ExpressionAccess'},
-		{include: '#ExpressionCall'},
 		{include: '#ExpressionStructureGrouping'},
 		{include: '#ExpressionStructureList'},
 		{include: '#ExpressionStructureSet'},
@@ -192,7 +193,7 @@ export const EXPRESSIONNONBLOCK = {
 		{
 			name: pattern_name('keyword.operator.punctuation'),
 			match: `[
-				! ?   # must come after '#ExpressionCall', 'as[?!]?', and '#ExpressionAccess'
+				! ?   # must come after '!isset', '!is', 'as[?!]?'
 				+ \\- # must come after 'unit'
 				< >   # must come after '#ExpressionFunction' and '#ExpressionCall'
 			]`.replace(/\#.*\n|\s+/g, ''),

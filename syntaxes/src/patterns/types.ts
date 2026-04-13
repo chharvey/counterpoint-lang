@@ -14,7 +14,6 @@ import {
 	ASSN_START,
 	MUTABLE,
 	THINARROW,
-	DOT,
 	DOT_ACCESS,
 	destructure_selector,
 } from '../selectors.ts';
@@ -71,7 +70,7 @@ export const GENERIC_ARGUMENTS = list(pattern_name('meta.genericarguments'), DEL
 
 export const TYPE__ACCESS = {
 	name: pattern_name('meta.type.access'),
-	begin: R.s(DOT_ACCESS, lookaheads([R.s(OWS, R.c(INT, VAR))])),
+	begin: R.s(R.g(DOT_ACCESS)),
 	end:   lookbehinds(['[A-Za-z0-9_\']']),
 	beginCaptures: {
 		1: {name: pattern_name('keyword.operator.punctuation')},
@@ -89,15 +88,13 @@ export const TYPE_CALL = {
 		lookbehinds([R.s(R.c(
 			'[A-Za-z0-9_?!^*]|~~',
 			DELIMS.GROUPING[1],
-			'\\}', // DELIMS.BLOCK[1],
 			DELIMS.LIST[1],
 			'\\}', // DELIMS.SET[1],
 			DELIMS.ARGS_GN[1],
-			DELIMS.ARGS_FN[1],
 		), OWS)]),
 		lookaheads([DELIMS.ARGS_GN[0]]),
 	),
-	end:      lookbehinds([DELIMS.ARGS_GN[1]]),
+	end:      R.s(lookbehinds([DELIMS.ARGS_GN[1]]), lookaheads([DELIMS.ARGS_GN[0]], true)),
 	patterns: [{include: '#GenericArguments'}],
 };
 
@@ -139,7 +136,7 @@ export const TYPEFNRET = {
 	patterns: [
 		{
 			name: pattern_name('keyword.operator.punctuation'),
-			match: '~~|[!^*/&|]',
+			match: '~~|[?!^*/&|]',
 		},
 		{
 			name: pattern_name('keyword.operator.text'),
@@ -152,10 +149,6 @@ export const TYPEFNRET = {
 		{include: '#TypeStructureGrouping'},
 		{include: '#TypeStructureList'},
 		unit('entity.name.type'),
-		{
-			name: pattern_name('keyword.operator.punctuation'),
-			match: '\\?', // must come after '#TypeAccess'
-		},
 	],
 };
 

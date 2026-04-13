@@ -109,23 +109,37 @@ func twice(x: int): int => x * 2;
 
 	% calls:
 	funkshin(@arg);
+	funkshin(@arg)(@arg);
 	funkshin%%comm%%(@arg);
+	funkshin%%comm%%(@arg)%%comm%%(@arg);
 	funkshin?(@arg);
 	funkshin!(@arg || null);
+	funkshin[T](@arg);
+	funkshin[T](@arg)(@arg);
+	funkshin[T](@arg)[T](@arg);
 	funkshin%%comm%%[T](@arg);
+	funkshin%%comm%%[T](@arg)%%comm%%(@arg);
+	funkshin%%comm%%[T](@arg)%%comm%%[T](@arg);
 	funkshin[T]%%comm%%(@arg);
+	funkshin[T]%%comm%%(@arg)(@arg);
+	funkshin[T]%%comm%%(@arg)[T]%%comm%%(@arg);
 	funkshin%comm
 		%%comm%%[T](@arg);
 	funkshin%%comm%%[T]%comm
 		(@arg);
-	funkshin?[T](arg);
-	funkshin![T](arg);
-	funkshin?[T](@arg);
-	funkshin![T](@arg);
-	funkshin%%comm%%(arg);
-	funkshin(arg, ument);
 	funkshin?(arg);
 	funkshin!(arg);
+	funkshin~?(arg);
+	funkshin~!(arg);
+	funkshin~~(arg);
+	funkshin++(arg);
+	funkshin?[T](arg);
+	funkshin![T](arg);
+	funkshin~?[T](arg);
+	funkshin~![T](arg);
+	funkshin~~[T](arg);
+	funkshin++[T](arg);
+	funkshin(arg, ument);
 	record.get(@key);
 	record.get(@'key');
 	record.get(@'this is a symbol used as a key');
@@ -137,7 +151,34 @@ func twice(x: int): int => x * 2;
 	array?.get(index);
 	array!.get(index);
 
+	funkspawn..(arg, arg);
+	funkspawn?..(arg, arg);
+	funkspawn!..(arg, arg);
+	funkspawn%%dotdot%%..(arg, arg);
+	funkspawn%%dotdot%%?..(arg, arg);
+	funkspawn%%dotdot%%!..(arg, arg);
+	funkspawn?%%dotdot%%..(arg, arg);
+	funkspawn!%%dotdot%%..(arg, arg);
+	funkspawn..%%dotdot%%(arg, arg);
+	funkspawn?..%%dotdot%%(arg, arg);
+	funkspawn!..%%dotdot%%(arg, arg);
+	funkspawn..[T, S](arg, arg);
+	funkspawn?..[T, S](arg, arg);
+	funkspawn!..[T, S](arg, arg);
+	funkspawn%%dotdot%%..[T, S](arg, arg);
+	funkspawn%%dotdot%%?..[T, S](arg, arg);
+	funkspawn%%dotdot%%!..[T, S](arg, arg);
+	funkspawn?%%dotdot%%..[T, S](arg, arg);
+	funkspawn!%%dotdot%%..[T, S](arg, arg);
+	funkspawn?..%%dotdot%%[T, S](arg, arg);
+	funkspawn!..%%dotdot%%[T, S](arg, arg);
+
 	type T = U[A];
+	type T = U[A][B, C];
+	type T = (U[A])[B, C];
+	type T = [A][B, C];
+	type T = U%%comm%%[A]%%comm%%[B, C];
+	type T = (U%%comm%%[A])%%comm%%[B, C];
 	val x: U[A] = U[A]();
 
 	type T = F[TArg, B= Targ, $C];
@@ -360,3 +401,78 @@ unless (a + b) then { return (c); } else { throw (d); };
 [\(h?: int = 0): int => h + 1];
 [fun= \(h: int): int => h + 1];
 type T = [fun: \(a: int) => int];
+
+
+% unary operators on collections
+
+type A = (T, U, V)?;
+type B = [T]?;
+type C = (x: T, y: U, z: V)?;
+type D = [:T]?;
+
+type A = (T, U, V)!;
+type B = [T]!;
+type C = (x: T, y: U, z: V)!;
+type D = [:T]!;
+
+!(a, b, c);
+![a, b, c];
+!(x= a, y= b, z= c);
+![x= a, y= b, z= c];
+!($a, $b, $c);
+![$a, $b, $c];
+
+?(a, b, c);
+?[a, b, c];
+?(x= a, y= b, z= c);
+?[x= a, y= b, z= c];
+?($a, $b, $c);
+?[$a, $b, $c];
+
+% function calls
+type A = (T, U, V)[Z];
+type B = [T][Z];
+type C = (x: T, y: U, z: V)[Z];
+type D = [:T][Z];
+
+call(a, b, c);
+call[T, U, V]();
+call(x= a, y= b, z= c);
+call[X= T, Y= U, Z= V]();
+call($a, $b, $c);
+call[$T, $U, $V]();
+call..(a, b, c);
+call..[T, U, V]();
+call..(x= a, y= b, z= c);
+call..[X= T, Y= U, Z= V]();
+call..($a, $b, $c);
+call..[$T, $U, $V]();
+
+% maybe-function calls
+call?(a, b, c);
+call?[T, U, V]();
+call?(x= a, y= b, z= c);
+call?[X= T, Y= U, Z= V]();
+call?($a, $b, $c);
+call?[$T, $U, $V]();
+
+call?..(a, b, c);
+call?..[T, U, V]();
+call?..(x= a, y= b, z= c);
+call?..[X= T, Y= U, Z= V]();
+call?..($a, $b, $c);
+call?..[$T, $U, $V]();
+
+% resultish-function calls
+call!(a, b, c);
+call![T, U, V]();
+call!(x= a, y= b, z= c);
+call![X= T, Y= U, Z= V]();
+call!($a, $b, $c);
+call![$T, $U, $V]();
+call!..(a, b, c);
+call!..[T, U, V]();
+call!..(x= a, y= b, z= c);
+call!..[X= T, Y= U, Z= V]();
+call!..($a, $b, $c);
+call!..[$T, $U, $V]();
