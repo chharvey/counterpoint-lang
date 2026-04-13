@@ -61,7 +61,7 @@ export const STATEMENT__SET = {
 	},
 	patterns: [
 		{include: '#ExpressionAssignee'},
-		assignment(R.c(ASSN_START, '(&&|\\|\\||![&|]|[\\^*/+-])='), lookaheads([';'])),
+		assignment(lookaheads([';']), false, R.c(ASSN_START, '(&&|\\|\\||![&|]|[\\^*/+-])=')),
 	],
 };
 

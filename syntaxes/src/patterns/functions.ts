@@ -23,7 +23,7 @@ import {
 import {
 	qualified_name,
 	list,
-	param_label,
+	label,
 	constraint,
 	annotation,
 	assignment,
@@ -154,9 +154,9 @@ export const GENERIC_PARAMETER_PATTERNS = {
 			name:  pattern_name('keyword.other.optional'),
 			match: OPT,
 		},
-		param_label(ASSN_START, '#IdentifierParameter'),
+		label(ASSN_START, '#IdentifierParameter'),
 		constraint(lookaheads([ASSN_START, ',', DELIMS.PARAMS_GN[1]])),
-		assignment(ASSN_START, lookaheads([',', DELIMS.PARAMS_GN[1]]), '#Type'),
+		assignment(lookaheads([',', DELIMS.PARAMS_GN[1]]), true),
 		{include: '#IdentifierParameter'},
 	],
 };
@@ -193,9 +193,9 @@ export const PARAMETER_PATTERNS = {
 			name:  pattern_name('keyword.other.optional'),
 			match: OPT,
 		},
-		param_label(ASSN_START, '#IdentifierParameter'),
+		label(ASSN_START, '#IdentifierParameter'),
 		annotation(lookaheads([ASSN_START, ',', DELIMS.PARAMS_FN[1]])),
-		assignment(ASSN_START, lookaheads([',', DELIMS.PARAMS_FN[1]])),
+		assignment(lookaheads([',', DELIMS.PARAMS_FN[1]])),
 		{include: '#IdentifierParameter'},
 	],
 };
