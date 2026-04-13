@@ -9,28 +9,55 @@ import {
 	OWS,
 	INT,
 	VAR,
+	PUN,
+	ASSN_START,
 	THINARROW,
 	DOT,
 	DOT_ACCESS,
+	destructure_selector,
 } from '../selectors.ts';
 import {
 	identifier,
 	unit,
 	list,
-	property,
-	argumentLabel,
+	param_label,
+	assignment,
 } from './_helpers.ts';
 
 
 
-export const ARGUMENTS = list(pattern_name('meta.arguments'), DELIMS.ARGS_FN[0], DELIMS.ARGS_FN[1], [
-	{
-		name: pattern_name('keyword.other.spread'),
-		match: '##|#',
-	},
-	argumentLabel(),
-	{include: '#Expression'}, // must come after `argumentLabel` because we don’t want expressions to look like named arguments or argument destructuring
-]);
+function argument_or_property(end: string, destructure_kind: string, identifier_kind: string) {
+	return [
+		{
+			end,
+			begin:    lookaheads([R.s(destructure_selector(ASSN_START), OWS, ASSN_START)]), // need to include `ASSN_START`, otherwise could be grouping/tuple/record
+			patterns: [
+				{include: destructure_kind},
+				assignment(ASSN_START, end),
+			],
+		},
+		{
+			end,
+			begin:         PUN,
+			beginCaptures: {0: {name: pattern_name('keyword.other.alias')}},
+			patterns:      [{include: identifier_kind}],
+		},
+		param_label(ASSN_START, identifier_kind),
+		assignment(ASSN_START, end),
+		{
+			name: pattern_name('keyword.other.spread'),
+			match: '##|#',
+		},
+		{include: '#Expression'},
+	];
+}
+
+
+export const ARGUMENTS = list(pattern_name('meta.arguments'), DELIMS.ARGS_FN[0], DELIMS.ARGS_FN[1], argument_or_property(
+	lookaheads([',', DELIMS.ARGS_FN[1]]),
+	'#DestructureArgument',
+	'#IdentifierParameter',
+));
 
 
 export const EXPRESSION__CLAIM = {
@@ -111,24 +138,18 @@ export const EXPRESSION__ASSIGNEE = {
 };
 
 
-export const EXPRESSION__STRUCTURE__GROUPING = list(pattern_name('meta.expression.structure.grouping_or_tuple'), DELIMS.GROUPING[0], DELIMS.GROUPING[1], [
-	{
-		name: pattern_name('keyword.other.spread'),
-		match: '##|#',
-	},
-	property(DELIMS.GROUPING[1]),
-	{include: '#Expression'}, // must come after `property` because we don’t want expressions to look like record keys or property destructuring
-]);
+export const EXPRESSION__STRUCTURE__GROUPING = list(pattern_name('meta.expression.structure.grouping_or_tuple'), DELIMS.GROUPING[0], DELIMS.GROUPING[1], argument_or_property(
+	lookaheads([',', DELIMS.GROUPING[1]]),
+	'#DestructureProperty',
+	'#IdentifierProperty',
+));
 
 
-export const EXPRESSION__STRUCTURE__LIST = list(pattern_name('meta.expression.structure.list'), DELIMS.LIST[0], DELIMS.LIST[1], [
-	{
-		name: pattern_name('keyword.other.spread'),
-		match: '##|#',
-	},
-	property(DELIMS.LIST[1]),
-	{include: '#Expression'}, // must come after `property` because we don’t want expressions to look like dict keys or property destructuring
-]);
+export const EXPRESSION__STRUCTURE__LIST = list(pattern_name('meta.expression.structure.list'), DELIMS.LIST[0], DELIMS.LIST[1], argument_or_property(
+	lookaheads([',', DELIMS.LIST[1]]),
+	'#DestructureProperty',
+	'#IdentifierProperty',
+));
 
 
 export const EXPRESSION__STRUCTURE__SET = list(pattern_name('meta.expression.structure.set'), DELIMS.SET[0], DELIMS.SET[1], [

@@ -96,6 +96,12 @@ type T = GenericCall[(A, B)= TupType, ($C, $D)= RecType, (E: Echo, F: Foxtrot)= 
 
 
 % record/dict property destructuring:
+(z= 3, (x, y)=       [1, 2]);
+(z= 3, (x, _)=       [1, 2]);
+(z= 3, (x= a)=       [x= 1]);
+(z= 3, ($if, by= b)= [if= 1, by= 2]);
+(z= 3, ($_,  by= _)= [if= 1, by= 2]);
+(z= 3, (($x), (y= (b)))= [[x= 1], [y= [2]]]);
 [z= 3, (x, y)=       [1, 2]];
 [z= 3, (x, _)=       [1, 2]];
 [z= 3, (x= a)=       [x= 1]];
@@ -104,6 +110,11 @@ type T = GenericCall[(A, B)= TupType, ($C, $D)= RecType, (E: Echo, F: Foxtrot)= 
 [z= 3, (($x), (y= (b)))= [[x= 1], [y= [2]]]];
 
 % not record/dict destructuring:
+((x), (y,));
+((x, y));
+((x= a));
+(\(x, y)      => null);
+(\(x, y= (b)) => null);
 [(x), (y,)];
 [(x, y)];
 [(x= a)];

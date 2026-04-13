@@ -14,7 +14,6 @@ import {
 	ANNO_START,
 	ASSN_START,
 	FATARROW,
-	destructure_selector,
 } from '../selectors.ts';
 
 
@@ -215,92 +214,6 @@ export function implicitReturn(include = '#Expression') {
 			{include},
 		],
 	};
-}
-
-
-function typePropertyOrGenericArgumentLabel(start: string, close_delim: string, identifier_kind: string, destructure_kind: string) {
-	const end = lookaheads([',', close_delim]);
-	const capture_type = (
-		start === ANNO_START ? annotation(end) :
-		start === ASSN_START ? assignment(ASSN_START, end, '#Type') :
-		{}
-	);
-	return {
-		patterns: [
-			{
-				begin: lookaheads([
-					R.s(PUN, OWS, VAR),
-					R.s(R.o(R.s(VAR, OWS)), R.o(R.s(OPT, OWS)), start),
-				]),
-				end,
-				patterns: [
-					{include: identifier_kind},
-					{
-						name: pattern_name('keyword.other.alias'),
-						match: PUN,
-					},
-					{
-						name:  pattern_name('keyword.other.optional'),
-						match: OPT,
-					},
-					capture_type,
-				],
-			},
-			{
-				begin: lookaheads([R.s(destructure_selector(ANNO_START), OWS, start)]),
-				end,
-				patterns: [
-					{include: destructure_kind},
-					capture_type,
-				],
-			},
-		],
-	};
-}
-export function typeProperty(close_delim: string) {
-	return typePropertyOrGenericArgumentLabel(ANNO_START, close_delim, '#IdentifierProperty', '#DestructureTypeProperty');
-}
-export function genericArgumentLabel() {
-	return typePropertyOrGenericArgumentLabel(ASSN_START, DELIMS.ARGS_GN[1], '#IdentifierParameter', '#DestructureGenericArgument');
-}
-
-
-function propertyOrArgumentLabel(close_delim: string, identifier_kind: string, destructure_kind: string) {
-	const end = lookaheads([',', close_delim]);
-	const capture_expression = assignment(ASSN_START, end);
-	return {
-		patterns: [
-			{
-				begin: lookaheads([
-					R.s(PUN, OWS, VAR),
-					R.s(VAR, OWS, ASSN_START),
-				]),
-				end,
-				patterns: [
-					{include: identifier_kind},
-					{
-						name: pattern_name('keyword.other.alias'),
-						match: PUN,
-					},
-					capture_expression,
-				],
-			},
-			{
-				begin: lookaheads([R.s(destructure_selector(ASSN_START), OWS, ASSN_START)]),
-				end,
-				patterns: [
-					{include: destructure_kind},
-					capture_expression,
-				],
-			},
-		],
-	};
-}
-export function property(close_delim: string) {
-	return propertyOrArgumentLabel(close_delim, '#IdentifierProperty', '#DestructureProperty');
-}
-export function argumentLabel() {
-	return propertyOrArgumentLabel(DELIMS.ARGS_FN[1], '#IdentifierParameter', '#DestructureArgument');
 }
 
 

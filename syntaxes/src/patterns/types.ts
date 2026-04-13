@@ -9,29 +9,64 @@ import {
 	OWS,
 	INT,
 	VAR,
+	PUN,
+	ANNO_START,
+	ASSN_START,
 	MUTABLE,
 	THINARROW,
 	DOT,
 	DOT_ACCESS,
+	destructure_selector,
 } from '../selectors.ts';
 import {
 	identifier,
 	unit,
 	list,
-	typeProperty,
-	genericArgumentLabel,
+	param_label,
+	annotation,
+	assignment,
 } from './_helpers.ts';
 
 
 
-export const GENERIC_ARGUMENTS = list(pattern_name('meta.genericarguments'), DELIMS.ARGS_GN[0], DELIMS.ARGS_GN[1], [
-	{
-		name: pattern_name('keyword.other.spread'),
-		match: '##|#',
-	},
-	genericArgumentLabel(),
-	{include: '#Type'}, // must come after `genericArgumentLabel` because we don’t want types to look like named arguments
-]);
+function type_argument_or_property(end: string, destructure_kind: string, identifier_kind: string, label_delim: string) {
+	const label_value = (
+		label_delim === ANNO_START ? annotation(end) :
+		label_delim === ASSN_START ? assignment(ASSN_START, end, '#Type') :
+		{}
+	);
+	return [
+		{
+			end,
+			begin:    lookaheads([R.s(destructure_selector(ANNO_START), OWS, label_delim)]), // need to include `label_delim`, otherwise could be grouping/tuple/record
+			patterns: [
+				{include: destructure_kind},
+				label_value,
+			],
+		},
+		{
+			end,
+			begin:         PUN,
+			beginCaptures: {0: {name: pattern_name('keyword.other.alias')}},
+			patterns:      [{include: identifier_kind}],
+		},
+		param_label(label_delim, identifier_kind),
+		label_value,
+		{
+			name: pattern_name('keyword.other.spread'),
+			match: '##|#',
+		},
+		{include: '#Type'},
+	];
+}
+
+
+export const GENERIC_ARGUMENTS = list(pattern_name('meta.genericarguments'), DELIMS.ARGS_GN[0], DELIMS.ARGS_GN[1], type_argument_or_property(
+	lookaheads([',', DELIMS.ARGS_GN[1]]),
+	'#DestructureGenericArgument',
+	'#IdentifierParameter',
+	ASSN_START,
+));
 
 
 export const TYPE__ACCESS = {
@@ -67,28 +102,20 @@ export const TYPE_CALL = {
 };
 
 
-export const TYPE__STRUCTURE__GROUPING = list(pattern_name('meta.type.structure.grouping_or_tuple'), DELIMS.GROUPING[0], DELIMS.GROUPING[1], [
-	{
-		name: pattern_name('keyword.other.spread'),
-		match: '##|#',
-	},
-	typeProperty(DELIMS.GROUPING[1]),
-	{include: '#Type'}, // must come after `typeProperty` because we don’t want types to look like record keys
-]);
+export const TYPE__STRUCTURE__GROUPING = list(pattern_name('meta.type.structure.grouping_or_tuple'), DELIMS.GROUPING[0], DELIMS.GROUPING[1], type_argument_or_property(
+	lookaheads([',', DELIMS.GROUPING[1]]),
+	'#DestructureTypeProperty',
+	'#IdentifierProperty',
+	ANNO_START,
+));
 
 
-export const TYPE__STRUCTURE__LIST = {
-	name:     pattern_name('meta.type.structure.list'),
-	begin:    DELIMS.LIST[0],
-	end:      DELIMS.LIST[1],
-	captures: {
-		0: {name: pattern_name('punctuation.delimiter')},
-	},
-	patterns: [
-		typeProperty(DELIMS.LIST[1]),
-		{include: '#Type'}, // must come after `typeProperty` because we don’t want types to look like dict keys
-	],
-};
+export const TYPE__STRUCTURE__LIST = list(pattern_name('meta.type.structure.list'), DELIMS.LIST[0], DELIMS.LIST[1], type_argument_or_property(
+	lookaheads([',', DELIMS.LIST[1]]),
+	'#DestructureTypeProperty',
+	'#IdentifierProperty',
+	ANNO_START,
+));
 
 
 export const TYPE__STRUCTURE__SET = {
