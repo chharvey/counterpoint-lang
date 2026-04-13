@@ -70,7 +70,7 @@ export const GENERIC_ARGUMENTS = list(pattern_name('meta.genericarguments'), DEL
 
 export const TYPE__ACCESS = {
 	name: pattern_name('meta.type.access'),
-	begin: R.s(R.g(DOT_ACCESS), lookaheads([R.s(OWS, R.c(INT, VAR))])),
+	begin: R.s(R.g(DOT_ACCESS)),
 	end:   lookbehinds(['[A-Za-z0-9_\']']),
 	beginCaptures: {
 		1: {name: pattern_name('keyword.operator.punctuation')},

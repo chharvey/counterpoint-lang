@@ -83,7 +83,7 @@ export const EXPRESSION__ACCESS = {
 	patterns: [
 		{
 			name: pattern_name('meta.expression.access'),
-			begin: R.s(R.g(DOT_ACCESS), lookaheads([R.s(OWS, R.c(INT, VAR))])),
+			begin: R.s(R.g(DOT_ACCESS)),
 			end:   lookbehinds(['[A-Za-z0-9_\']']),
 			beginCaptures: {
 				1: {name: pattern_name('keyword.operator.punctuation')},
@@ -180,8 +180,8 @@ export const EXPRESSIONNONBLOCK = {
 		{include: '#ExpressionFunction'},
 		{include: '#ExpressionClass'},
 		{include: '#ExpressionClaim'},
+		{include: '#ExpressionCall'}, // must come before '#ExpressionAccess' due to `DOT_CALL`
 		{include: '#ExpressionAccess'},
-		{include: '#ExpressionCall'},
 		{include: '#ExpressionStructureGrouping'},
 		{include: '#ExpressionStructureList'},
 		{include: '#ExpressionStructureSet'},
