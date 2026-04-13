@@ -159,7 +159,7 @@ export const CONSTRUCTOR_FIELD = {
 		},
 		label(ASSN_START, '#IdentifierProperty'),
 		annotation(lookaheads([ASSN_START, ',', DELIMS.PARAMS_FN[1]])),
-		assignment(ASSN_START, lookaheads([',', DELIMS.PARAMS_FN[1]])),
+		assignment(lookaheads([',', DELIMS.PARAMS_FN[1]])),
 		{include: '#IdentifierProperty'},
 	],
 };
@@ -183,7 +183,7 @@ export const MEMBER__FIELD = {
 		},
 		{include: '#IdentifierProperty'},
 		annotation(lookaheads([ASSN_START, ';'])),
-		assignment(ASSN_START, lookaheads([';'])),
+		assignment(lookaheads([';'])),
 	],
 };
 

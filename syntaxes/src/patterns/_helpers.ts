@@ -172,7 +172,7 @@ export function annotation(end: string, fn_ret_annot = false) {
 }
 
 
-export function assignment(begin: string, end: string, include = '#Expression') {
+export function assignment(end: string, is_type = false, begin = ASSN_START) {
 	return {
 		name: pattern_name('meta.assignment'),
 		begin,
@@ -181,7 +181,7 @@ export function assignment(begin: string, end: string, include = '#Expression') 
 			0: {name: pattern_name('punctuation.delimiter')},
 		},
 		patterns: [
-			{include},
+			{include: is_type ? '#Type' : '#Expression'},
 		],
 	};
 }
@@ -241,7 +241,7 @@ export function destructure(subtype: string, identifiers: object) {
 				{include: '#ModifiersParameter'},
 			]),
 			annotation(lookaheads([ASSN_START, ',', DELIMS.DESTRUCT[1]])),
-			assignment(ASSN_START, lookaheads([',', DELIMS.DESTRUCT[1]])),
+			assignment(lookaheads([',', DELIMS.DESTRUCT[1]])),
 		] : []),
 		...(['TypeAlias', 'GenericParameter'].includes(subtype) ? [
 			...(subtype === 'TypeAlias' ? [
@@ -250,7 +250,7 @@ export function destructure(subtype: string, identifiers: object) {
 				{include: '#ModifiersGenericParameter'},
 			]),
 			constraint(lookaheads([ASSN_START, ',', DELIMS.DESTRUCT[1]])),
-			assignment(ASSN_START, lookaheads([',', DELIMS.DESTRUCT[1]]), '#Type'),
+			assignment(lookaheads([',', DELIMS.DESTRUCT[1]]), true),
 		] : []),
 		identifiers,
 	]);

@@ -32,7 +32,7 @@ import {
 function type_argument_or_property(end: string, destructure_kind: string, identifier_kind: string, label_delim: string) {
 	const label_value = (
 		label_delim === ANNO_START ? annotation(end) :
-		label_delim === ASSN_START ? assignment(ASSN_START, end, '#Type') :
+		label_delim === ASSN_START ? assignment(end, true) :
 		{}
 	);
 	return [

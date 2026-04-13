@@ -33,7 +33,7 @@ function argument_or_property(end: string, destructure_kind: string, identifier_
 			begin:    lookaheads([R.s(destructure_selector(ASSN_START), OWS, ASSN_START)]), // need to include `ASSN_START`, otherwise could be grouping/tuple/record
 			patterns: [
 				{include: destructure_kind},
-				assignment(ASSN_START, end),
+				assignment(end),
 			],
 		},
 		{
@@ -43,7 +43,7 @@ function argument_or_property(end: string, destructure_kind: string, identifier_
 			patterns:      [{include: identifier_kind}],
 		},
 		label(ASSN_START, identifier_kind),
-		assignment(ASSN_START, end),
+		assignment(end),
 		{
 			name: pattern_name('keyword.other.spread'),
 			match: '##|#',

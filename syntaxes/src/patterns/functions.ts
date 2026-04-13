@@ -156,7 +156,7 @@ export const GENERIC_PARAMETER_PATTERNS = {
 		},
 		label(ASSN_START, '#IdentifierParameter'),
 		constraint(lookaheads([ASSN_START, ',', DELIMS.PARAMS_GN[1]])),
-		assignment(ASSN_START, lookaheads([',', DELIMS.PARAMS_GN[1]]), '#Type'),
+		assignment(lookaheads([',', DELIMS.PARAMS_GN[1]]), true),
 		{include: '#IdentifierParameter'},
 	],
 };
@@ -195,7 +195,7 @@ export const PARAMETER_PATTERNS = {
 		},
 		label(ASSN_START, '#IdentifierParameter'),
 		annotation(lookaheads([ASSN_START, ',', DELIMS.PARAMS_FN[1]])),
-		assignment(ASSN_START, lookaheads([',', DELIMS.PARAMS_FN[1]])),
+		assignment(lookaheads([',', DELIMS.PARAMS_FN[1]])),
 		{include: '#IdentifierParameter'},
 	],
 };

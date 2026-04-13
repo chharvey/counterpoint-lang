@@ -27,7 +27,7 @@ export const DECLARATION__TYPE = {
 		{include: '#DestructureTypeAlias'},
 		{include: '#ModifiersDeclarationType'},
 		constraint(lookaheads([ASSN_START])),
-		assignment(ASSN_START, lookaheads([';']), '#Type'),
+		assignment(lookaheads([';']), true),
 		{
 			name:  pattern_name('storage.modifier'),
 			match: COMP_ACCESS,
@@ -52,7 +52,7 @@ export const DECLARATION__VARIABLE = {
 		{include: '#DestructureVariable'},
 		{include: '#ModifiersDeclarationVariable'},
 		annotation(lookaheads([ASSN_START, ';'])),
-		assignment(ASSN_START, lookaheads([';'])),
+		assignment(lookaheads([';'])),
 		{
 			name:  pattern_name('storage.modifier'),
 			match: COMP_ACCESS,
