@@ -111,7 +111,7 @@ export const EXPRESSION__CALL = {
 		), OWS)]),
 		lookaheads([DELIMS.ARGS_GN[0], DELIMS.ARGS_FN[0]]),
 	),
-	end:      lookbehinds([DELIMS.ARGS_FN[1]]),
+	end:      R.s(lookbehinds([DELIMS.ARGS_FN[1]]), lookaheads([DELIMS.ARGS_GN[0], DELIMS.ARGS_FN[0]], true)),
 	patterns: [
 		{include: '#CommentBlock'},
 		{include: '#CommentLine'},

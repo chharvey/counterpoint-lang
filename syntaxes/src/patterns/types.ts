@@ -97,7 +97,7 @@ export const TYPE_CALL = {
 		), OWS)]),
 		lookaheads([DELIMS.ARGS_GN[0]]),
 	),
-	end:      lookbehinds([DELIMS.ARGS_GN[1]]),
+	end:      R.s(lookbehinds([DELIMS.ARGS_GN[1]]), lookaheads([DELIMS.ARGS_GN[0]], true)),
 	patterns: [{include: '#GenericArguments'}],
 };
 

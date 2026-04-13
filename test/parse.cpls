@@ -109,11 +109,20 @@ func twice(x: int): int => x * 2;
 
 	% calls:
 	funkshin(@arg);
+	funkshin(@arg)(@arg);
 	funkshin%%comm%%(@arg);
+	funkshin%%comm%%(@arg)%%comm%%(@arg);
 	funkshin?(@arg);
 	funkshin!(@arg || null);
+	funkshin[T](@arg);
+	funkshin[T](@arg)(@arg);
+	funkshin[T](@arg)[T](@arg);
 	funkshin%%comm%%[T](@arg);
+	funkshin%%comm%%[T](@arg)%%comm%%(@arg);
+	funkshin%%comm%%[T](@arg)%%comm%%[T](@arg);
 	funkshin[T]%%comm%%(@arg);
+	funkshin[T]%%comm%%(@arg)(@arg);
+	funkshin[T]%%comm%%(@arg)[T]%%comm%%(@arg);
 	funkshin%comm
 		%%comm%%[T](@arg);
 	funkshin%%comm%%[T]%comm
@@ -138,6 +147,11 @@ func twice(x: int): int => x * 2;
 	array!.get(index);
 
 	type T = U[A];
+	type T = U[A][B, C];
+	type T = (U[A])[B, C];
+	type T = [A][B, C];
+	type T = U%%comm%%[A]%%comm%%[B, C];
+	type T = (U%%comm%%[A])%%comm%%[B, C];
 	val x: U[A] = U[A]();
 
 	type T = F[TArg, B= Targ, $C];
