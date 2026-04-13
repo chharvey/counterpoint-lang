@@ -1,7 +1,7 @@
 {
   "name": "counterpoint-lang",
   "displayName": "Counterpoint Language Support",
-  "version": "4.0.0",
+  "version": "4.1.0",
   "description": "Language support for the Counterpoint programming language.",
   "type": "module",
   "main": "./out/extension.js",
