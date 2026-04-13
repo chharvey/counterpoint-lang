@@ -3,9 +3,9 @@ type TypeClasses     = Object | Class | List | Dict | Set | Map;
 type TypeConstants   = null | false | true;
 type TypeNonKeywords = never | boolen | symbol | natural | integer | string | object | class | list | dict | set | map | unknown;
 
-let value_keywords     = null || false || true;
-let value_classes      = Object || Class || List || Dict || Set || Map;
-let value_non_keywords = nil || object || list || dict || set || map;
+val value_keywords     = null || false || true;
+val value_classes      = Object || Class || List || Dict || Set || Map;
+val value_non_keywords = nil || object || list || dict || set || map;
 
 
 % symbols
@@ -86,7 +86,9 @@ __a && __b && c_;
 '__a' && '__b' && 'c_';
 004__2. || 2.4_ || \xa__b || \xa_b_;
 a + _ + 'c';
-type T = U | _;
+NAMESPACE::a + NAMESPACE::_ + NAMESPACE::'c';
+type T = U | _ | 'W';
+type T = NAMESPACE::U | NAMESPACE::_ | NAMESPACE::'W';
 a._;
 _.a;
 type T = U._;
@@ -116,6 +118,7 @@ block comment
 %%
 	hello
 	%% "nesting" isnt allowed %%
+	%% "nesting" !is allowed %%
 	world
 %%
 ;
@@ -125,7 +128,7 @@ block comment
 	@returns what it returns
 	@throws if something bad happened
 	%%
-function twice(x: int): int => x * 2;
+func twice(x: int): int => x * 2;
 
 (
 	% operators:
@@ -174,14 +177,14 @@ function twice(x: int): int => x * 2;
 
 
 %%% The value of `a`. %%
-let a: null | bool = +42 && null;
-let b: int = 004_2. || false;
-let c: float = -42.2_4 || true;
-let d: str = 42.2e4_2;
-let var e: Object = 42.2e+4_2;
-let f: TypeF | String | obj = "f";
+val a: null | bool = +42 && null;
+val b: int = 004_2. || false;
+val c: float = -42.2_4 || true;
+val d: str = 42.2e4_2;
+val mut e: Object = 42.2e+4_2;
+val f: TypeF | String | obj = "f";
 
-let g: int =
+val g: int =
 	+ -\b1379fz
 	+ -\q1379fz
 	+ -\o1379fz
@@ -192,7 +195,7 @@ let g: int =
 
 
 type 'floàt | bōōl' = float | bool;
-type T<U> = U & V;
+typefunc T<U> => U & V;
 
 
 "a string that

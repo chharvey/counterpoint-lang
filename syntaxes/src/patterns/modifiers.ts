@@ -1,10 +1,13 @@
-import {pattern_name} from '../helpers.js';
+import {
+	pattern_name,
+	R,
+} from '../helpers.ts';
 import {
 	UNFIXED,
 	NOMINAL,
 	MUTABLE,
 	VARIANCE,
-} from '../selectors.js';
+} from '../selectors.ts';
 
 
 export const MODIFIERS__DECLARATION__TYPE = {
@@ -17,7 +20,7 @@ export const MODIFIERS__DECLARATION__TYPE = {
 };
 
 
-export const MODIFIERS__DECLARATION__LET = {
+export const MODIFIERS__DECLARATION__VARIABLE = {
 	patterns: [
 		{
 			name:  pattern_name('storage.modifier'),
@@ -32,7 +35,7 @@ export const MODIFIERS__GENERIC_PARAMETER = {
 		{include: '#ModifiersDeclarationType'},
 		{
 			name:  pattern_name('storage.modifier'),
-			match: `${ MUTABLE }|${ VARIANCE }`,
+			match: R.c(MUTABLE, VARIANCE),
 		},
 	],
 };
@@ -40,6 +43,6 @@ export const MODIFIERS__GENERIC_PARAMETER = {
 
 export const MODIFIERS__PARAMETER = {
 	patterns: [
-		{include: '#ModifiersDeclarationLet'},
+		{include: '#ModifiersDeclarationVariable'},
 	],
 };

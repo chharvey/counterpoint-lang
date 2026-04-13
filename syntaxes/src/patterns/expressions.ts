@@ -2,24 +2,24 @@ import {
 	pattern_name,
 	lookaheads,
 	lookbehinds,
-} from '../helpers.js';
+	R,
+} from '../helpers.ts';
 import {
 	DELIMS,
 	OWS,
 	INT,
 	VAR,
 	THINARROW,
-	BLOCK_END,
 	DOT,
 	DOT_ACCESS,
-} from '../selectors.js';
+} from '../selectors.ts';
 import {
 	identifier,
 	unit,
 	list,
 	property,
 	argumentLabel,
-} from './_helpers.js';
+} from './_helpers.ts';
 
 
 
@@ -28,14 +28,14 @@ export const ARGUMENTS = list(pattern_name('meta.arguments'), DELIMS.ARGS_FN[0],
 		name: pattern_name('keyword.other.spread'),
 		match: '##|#',
 	},
-	argumentLabel(DELIMS.ARGS_FN[1]),
+	argumentLabel(),
 	{include: '#Expression'}, // must come after `argumentLabel` because we don’t want expressions to look like named arguments or argument destructuring
 ]);
 
 
 export const EXPRESSION__CLAIM = {
 	name:          pattern_name('meta.expression.claim'),
-	begin:         `\\b(as)\\b${ lookaheads([`${ OWS }(${ DELIMS.CLAIM[0] })`]) }`,
+	begin:         R.s(R.g(R.w('as')), lookaheads([R.s(OWS, DELIMS.CLAIM[0])])),
 	end:           DELIMS.CLAIM[1],
 	beginCaptures: {1: {name: pattern_name('keyword.operator.text')}},
 	endCaptures:   {0: {name: pattern_name('punctuation.delimiter')}},
@@ -51,7 +51,7 @@ export const EXPRESSION__CLAIM = {
 
 export const EXPRESSION__CALL = {
 	name: pattern_name('meta.expression.call'),
-	begin: [`(${ DOT_ACCESS }${ DOT }{2}?)`, lookaheads([[OWS, `(${ DELIMS.ARGS_GN[0] }|${ DELIMS.ARGS_FN[0] })`].join('')])].join(''),
+	begin: R.s(R.g(R.s(DOT_ACCESS, R.o(`${ DOT }{2}`))), lookaheads([R.s(OWS, R.c(DELIMS.ARGS_GN[0], DELIMS.ARGS_FN[0]))])),
 	end:   lookbehinds([DELIMS.ARGS_FN[1]]),
 	beginCaptures: {
 		1: {name: pattern_name('keyword.operator.punctuation')},
@@ -69,7 +69,7 @@ export const EXPRESSION__ACCESS = {
 	patterns: [
 		{
 			name: pattern_name('meta.expression.access'),
-			begin: [DOT_ACCESS, lookaheads([[OWS, DELIMS.ACCESS[0]].join('')])].join(''),
+			begin: R.s(DOT_ACCESS, lookaheads([R.s(OWS, DELIMS.ACCESS[0])])),
 			end:   lookbehinds([DELIMS.ACCESS[1]]),
 			beginCaptures: {
 				1: {name: pattern_name('keyword.operator.punctuation')},
@@ -80,7 +80,7 @@ export const EXPRESSION__ACCESS = {
 		},
 		{
 			name: pattern_name('meta.expression.access'),
-			begin: [DOT_ACCESS, lookaheads([[OWS, `(${ INT }|${ VAR })`].join('')])].join(''),
+			begin: R.s(DOT_ACCESS, lookaheads([R.s(OWS, R.c(INT, VAR))])),
 			end:   lookbehinds(['[A-Za-z0-9_\']']),
 			beginCaptures: {
 				1: {name: pattern_name('keyword.operator.punctuation')},
@@ -140,12 +140,7 @@ export const EXPRESSION__STRUCTURE__SET = list(pattern_name('meta.expression.str
 		name: pattern_name('keyword.operator.punctuation'),
 		match: THINARROW,
 	},
-	{
-		// used only for block expressions where sets could be, e.g. `a + ({ b; })`
-		patterns: [
-			{include: '#Statement'},
-		],
-	},
+	{include: '#Statement'}, // used only for block expressions where sets could be, e.g. `a + ({ b; })`
 	{include: '#Expression'},
 ]);
 
@@ -158,7 +153,7 @@ export const EXPRESSIONNONBLOCK = {
 		},
 		{
 			name: pattern_name('keyword.operator.text'),
-			match: '\\b(nat|int|float|dec|is|isnt|if|then|else)\\b',
+			match: R.c(R.w(R.c('isset', 'nat', 'int', 'float', 'dec', 'is', 'if', 'then', 'else')), R.s(R.c('!isset', '!is'), '\\b')),
 		},
 		{include: '#ExpressionFunction'},
 		{include: '#ExpressionClass'},
@@ -170,7 +165,7 @@ export const EXPRESSIONNONBLOCK = {
 		{include: '#ExpressionStructureSet'},
 		{
 			name:  pattern_name('keyword.operator.text'),
-			match: '\\b(as)(\\b|[?!])', // must come after '#ExpressionClaim'
+			match: '\\b(as)([?!]|\\b)', // must come after '#ExpressionClaim'
 		},
 		unit(),
 		{

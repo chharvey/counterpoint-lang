@@ -1,21 +1,21 @@
 import {
 	pattern_name,
 	lookaheads,
-} from '../helpers.js';
+	R,
+} from '../helpers.ts';
 import {
 	DELIMS,
 	OWS,
 	VAR,
-	UNFIXED,
 	PUN,
+	OPT,
 	CONSTRAINT,
+	IMPL,
 	ANNO_START,
 	ASSN_START,
-	DFLT_START,
 	FATARROW,
-	DESTRUCTURE_TYPE_PROPERTIES_OR_GENERIC_ARGUMENTS,
-	DESTRUCTURE_PROPERTIES_OR_ARGUMENTS,
-} from '../selectors.js';
+	destructure_selector,
+} from '../selectors.ts';
 
 
 
@@ -24,27 +24,27 @@ export function keyword(varname = 'variable.language') {
 		patterns: [
 			{
 				name: pattern_name('storage.modifier'),
-				match: '\\b(void)\\b',
+				match: R.w('void'),
 			},
 			{
 				name: pattern_name('constant.language'),
-				match: '\\b(null|false|true)\\b',
+				match: R.w(R.c('null', 'false', 'true')),
 			},
 			{
 				name: pattern_name('support.type'),
-				match: '\\b(nothing|bool|sym|nat|int|float|dec|str|anything)\\b',
+				match: R.w(R.c('nothing', 'bool', 'sym', 'nat', 'int', 'float', 'dec', 'str', 'anything')),
 			},
 			{
 				name: pattern_name(varname),
-				match: '\\b(this|static)\\b',
+				match: R.w(R.c('this', 'static')),
 			},
 			{
 				name: pattern_name('variable.language'),
-				match: '\\b(super|method)\\b',
+				match: R.w(R.c('super', 'method')),
 			},
 			{
 				name: pattern_name('support.class'),
-				match: '\\b(Object|Class|List|Dict|Set|Map)\\b',
+				match: R.w(R.c('Object', 'Class', 'List', 'Dict', 'Set', 'Map')),
 			},
 		],
 	};
@@ -66,7 +66,7 @@ export function identifier(varname = 'variable.other', allow_blank = false) {
 			},
 			{
 				name: pattern_name(varname),
-				match: `\\b[A-Za-z][A-Za-z0-9_]*|_[A-Za-z0-9_]${ allow_blank ? '*' : '+' }\\b`,
+				match: R.w(`[A-Za-z][A-Za-z0-9_]*|_[A-Za-z0-9_]${ allow_blank ? '*' : '+' }`),
 			},
 			{
 				/* Invalid blank variable used as a reference. */
@@ -78,6 +78,19 @@ export function identifier(varname = 'variable.other', allow_blank = false) {
 }
 
 
+export function qualified_name(varname = 'variable.other') {
+	return {
+		patterns: [
+			identifier(varname),
+			{
+				name:  pattern_name('punctuation.separator.namespace'),
+				match: '::',
+			},
+		],
+	};
+}
+
+
 export function unit(varname = 'variable.other') {
 	return {
 		patterns: [
@@ -86,7 +99,7 @@ export function unit(varname = 'variable.other') {
 			{include: '#Number'},
 			{include: '#Symbol'},
 			(varname === 'entity.name.type' ? keyword('support.type') : keyword()),
-			identifier(varname),
+			qualified_name(varname),
 			{
 				/*
 				 * Invalid underscores in number literals.
@@ -100,7 +113,7 @@ export function unit(varname = 'variable.other') {
 }
 
 
-export function list(name, begin, end, more_patterns) {
+export function list(name: string, begin: string, end: string, more_patterns: readonly object[]) {
 	return {
 		name,
 		begin,
@@ -119,7 +132,18 @@ export function list(name, begin, end, more_patterns) {
 }
 
 
-export function constraint(end) {
+export function param_label(prop_delim: string, identifier_kind: string) {
+	return {
+		name:        pattern_name('meta.label'),
+		begin:       lookaheads([R.s(VAR, OWS, prop_delim)]),
+		end:         prop_delim,
+		endCaptures: {0: {name: pattern_name('punctuation.delimiter')}},
+		patterns:    [{include: identifier_kind}],
+	};
+}
+
+
+export function constraint(end: string) {
 	return {
 		name:  pattern_name('meta.heritage'),
 		begin: CONSTRAINT,
@@ -134,7 +158,7 @@ export function constraint(end) {
 }
 
 
-export function annotation(end, fn_ret_annot = false) {
+export function annotation(end: string, fn_ret_annot = false) {
 	return {
 		name: pattern_name('meta.annotation'),
 		begin: ANNO_START,
@@ -149,7 +173,7 @@ export function annotation(end, fn_ret_annot = false) {
 }
 
 
-export function assignment(begin, end, include = '#Expression') {
+export function assignment(begin: string, end: string, include = '#Expression') {
 	return {
 		name: pattern_name('meta.assignment'),
 		begin,
@@ -159,6 +183,21 @@ export function assignment(begin, end, include = '#Expression') {
 		},
 		patterns: [
 			{include},
+		],
+	};
+}
+
+
+export function func_heritage(end: string) {
+	return {
+		name:  pattern_name('meta.heritage'),
+		begin: IMPL,
+		end,
+		beginCaptures: {0: {name: pattern_name('storage.modifier')}},
+		patterns: [
+			{include: '#TypeCall'},
+			{include: '#TypeAccess'},
+			qualified_name('entity.other.inherited-class'),
 		],
 	};
 }
@@ -179,7 +218,7 @@ export function implicitReturn(include = '#Expression') {
 }
 
 
-function typePropertyOrGenericArgumentLabel(start, close_delim, identifier_kind, destructure_kind) {
+function typePropertyOrGenericArgumentLabel(start: string, close_delim: string, identifier_kind: string, destructure_kind: string) {
 	const end = lookaheads([',', close_delim]);
 	const capture_type = (
 		start === ANNO_START ? annotation(end) :
@@ -189,7 +228,10 @@ function typePropertyOrGenericArgumentLabel(start, close_delim, identifier_kind,
 	return {
 		patterns: [
 			{
-				begin: lookaheads([[`(${ VAR }${ OWS })?`, `(${ PUN }|${ start })`].join('')]),
+				begin: lookaheads([
+					R.s(PUN, OWS, VAR),
+					R.s(R.o(R.s(VAR, OWS)), R.o(R.s(OPT, OWS)), start),
+				]),
 				end,
 				patterns: [
 					{include: identifier_kind},
@@ -197,11 +239,15 @@ function typePropertyOrGenericArgumentLabel(start, close_delim, identifier_kind,
 						name: pattern_name('keyword.other.alias'),
 						match: PUN,
 					},
+					{
+						name:  pattern_name('keyword.other.optional'),
+						match: OPT,
+					},
 					capture_type,
 				],
 			},
 			{
-				begin: lookaheads([[DESTRUCTURE_TYPE_PROPERTIES_OR_GENERIC_ARGUMENTS, OWS, start].join('')]),
+				begin: lookaheads([R.s(destructure_selector(ANNO_START), OWS, start)]),
 				end,
 				patterns: [
 					{include: destructure_kind},
@@ -211,21 +257,24 @@ function typePropertyOrGenericArgumentLabel(start, close_delim, identifier_kind,
 		],
 	};
 }
-export function typeProperty(close_delim) {
+export function typeProperty(close_delim: string) {
 	return typePropertyOrGenericArgumentLabel(ANNO_START, close_delim, '#IdentifierProperty', '#DestructureTypeProperty');
 }
-export function genericArgumentLabel(close_delim) {
-	return typePropertyOrGenericArgumentLabel(ASSN_START, close_delim, '#IdentifierParameter', '#DestructureGenericArgument');
+export function genericArgumentLabel() {
+	return typePropertyOrGenericArgumentLabel(ASSN_START, DELIMS.ARGS_GN[1], '#IdentifierParameter', '#DestructureGenericArgument');
 }
 
 
-function propertyOrArgumentLabel(close_delim, identifier_kind, destructure_kind) {
+function propertyOrArgumentLabel(close_delim: string, identifier_kind: string, destructure_kind: string) {
 	const end = lookaheads([',', close_delim]);
 	const capture_expression = assignment(ASSN_START, end);
 	return {
 		patterns: [
 			{
-				begin: lookaheads([[VAR, OWS, `(${ PUN }|${ ASSN_START })`].join('')]),
+				begin: lookaheads([
+					R.s(PUN, OWS, VAR),
+					R.s(VAR, OWS, ASSN_START),
+				]),
 				end,
 				patterns: [
 					{include: identifier_kind},
@@ -237,7 +286,7 @@ function propertyOrArgumentLabel(close_delim, identifier_kind, destructure_kind)
 				],
 			},
 			{
-				begin: lookaheads([[DESTRUCTURE_PROPERTIES_OR_ARGUMENTS, OWS, ASSN_START].join('')]),
+				begin: lookaheads([R.s(destructure_selector(ASSN_START), OWS, ASSN_START)]),
 				end,
 				patterns: [
 					{include: destructure_kind},
@@ -247,15 +296,15 @@ function propertyOrArgumentLabel(close_delim, identifier_kind, destructure_kind)
 		],
 	};
 }
-export function property(close_delim) {
+export function property(close_delim: string) {
 	return propertyOrArgumentLabel(close_delim, '#IdentifierProperty', '#DestructureProperty');
 }
-export function argumentLabel(close_delim) {
-	return propertyOrArgumentLabel(close_delim, '#IdentifierParameter', '#DestructureArgument');
+export function argumentLabel() {
+	return propertyOrArgumentLabel(DELIMS.ARGS_FN[1], '#IdentifierParameter', '#DestructureArgument');
 }
 
 
-export function destructure(subtype, identifiers) {
+export function destructure(subtype: string, identifiers: object) {
 	const prop_delim = (
 		['Variable', 'Parameter', 'Property', 'Argument', 'Assignment'].includes(subtype)      ? ASSN_START :
 		['TypeAlias', 'GenericParameter', 'TypeProperty', 'GenericArgument'].includes(subtype) ? ANNO_START :
@@ -263,38 +312,32 @@ export function destructure(subtype, identifiers) {
 	);
 	return list(pattern_name(`meta.destructure.${ subtype.toLowerCase() }`), DELIMS.DESTRUCT[0], DELIMS.DESTRUCT[1], [
 		{include: `#Destructure${ subtype }`},
-		{
-			begin:       lookaheads([[VAR, OWS, prop_delim].join('')]),
-			end:         prop_delim,
-			endCaptures: {
-				0: {name: pattern_name('punctuation.delimiter')}
-			},
-			patterns: [
-				{include: '#IdentifierProperty'},
-			],
-		},
+		param_label(prop_delim, '#IdentifierProperty'),
 		{
 			name: pattern_name('keyword.other.alias'),
 			match: PUN,
 		},
+		{
+			name:  pattern_name('keyword.other.optional'),
+			match: OPT,
+		},
 		...(['Variable', 'Parameter'].includes(subtype) ? [
 			...(subtype === 'Variable' ? [
-				{include: '#ModifiersDeclarationLet'},
+				{include: '#ModifiersDeclarationVariable'},
 			] : [
 				{include: '#ModifiersParameter'},
 			]),
-			annotation(lookaheads([DFLT_START, ',', DELIMS.DESTRUCT[1]])),
-			assignment(DFLT_START, lookaheads([',', DELIMS.DESTRUCT[1]])),
+			annotation(lookaheads([ASSN_START, ',', DELIMS.DESTRUCT[1]])),
+			assignment(ASSN_START, lookaheads([',', DELIMS.DESTRUCT[1]])),
 		] : []),
 		...(['TypeAlias', 'GenericParameter'].includes(subtype) ? [
 			...(subtype === 'TypeAlias' ? [
-				{include: '#GenericParameters'},
 				{include: '#ModifiersDeclarationType'},
 			] : [
 				{include: '#ModifiersGenericParameter'},
 			]),
-			constraint(lookaheads([DFLT_START, ',', DELIMS.DESTRUCT[1]])),
-			assignment(DFLT_START, lookaheads([',', DELIMS.DESTRUCT[1]]), '#Type'),
+			constraint(lookaheads([ASSN_START, ',', DELIMS.DESTRUCT[1]])),
+			assignment(ASSN_START, lookaheads([',', DELIMS.DESTRUCT[1]]), '#Type'),
 		] : []),
 		identifiers,
 	]);

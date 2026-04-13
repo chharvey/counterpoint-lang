@@ -1,18 +1,30 @@
-import * as fs from 'fs';
-import * as path from 'path';
+import * as fs from 'node:fs';
+import * as path from 'node:path';
 
-import {pattern_name} from './src/helpers.js';
+import {pattern_name} from './helpers.ts';
 import {
 	identifier,
 	list,
 	destructure,
-} from './src/patterns/index.js';
-import * as Pattern from './src/patterns/index.js';
-import {DELIMS} from './src/selectors.js';
+} from './patterns/index.ts';
+import * as Pattern from './patterns/index.ts';
+import {DELIMS} from './selectors.ts';
 
 
 
-await fs.promises.writeFile(path.join(import.meta.dirname, 'syntaxes', 'cpl.tmLanguage.json'), JSON.stringify({
+const SOURCE_FILE = {
+	patterns: [
+		{include: '#ModuleExport'},
+		{include: '#ModuleImport'},
+		{include: '#ModuleInner'},
+		{include: '#Block'},
+		{include: '#Declaration'},
+		{include: '#Statement'},
+	],
+};
+
+
+await fs.promises.writeFile(path.join(import.meta.dirname, '../', 'cpl.tmLanguage.json'), JSON.stringify({
 	$schema: 'https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json',
 	name: 'Counterpoint',
 	scopeName: pattern_name('source'),
@@ -21,20 +33,18 @@ await fs.promises.writeFile(path.join(import.meta.dirname, 'syntaxes', 'cpl.tmLa
 		Block:                         Pattern.BLOCK,
 		Captures:                      Pattern.CAPTURES,
 		ClassBody:                     Pattern.CLASS_BODY,
+		ClassHeritage:                 Pattern.CLASS_HERITAGE,
 		CommentBlock:                  Pattern.COMMENT_BLOCK,
 		CommentLine:                   Pattern.COMMENT_LINE,
 		ConstructorField:              Pattern.CONSTRUCTOR_FIELD,
 		ConstructorParameters:         list(pattern_name('meta.parameters'), DELIMS.PARAMS_FN[0], DELIMS.PARAMS_FN[1], [{include: '#ConstructorField'}, {include: '#ParameterPatterns'}]),
 		Declaration:                   Pattern.DECLARATION,
-		DeclarationClaim:              Pattern.DECLARATION__CLAIM,
 		DeclarationClass:              Pattern.DECLARATION__CLASS,
 		DeclarationFunction:           Pattern.DECLARATION__FUNCTION,
-		DeclarationDelete:             Pattern.DECLARATION__DELETE,
 		DeclarationInterface:          Pattern.DECLARATION__INTERFACE,
-		DeclarationLet:                Pattern.DECLARATION__LET,
-		DeclarationSet:                Pattern.DECLARATION__SET,
 		DeclarationType:               Pattern.DECLARATION__TYPE,
-		DeclarationTypefunc:           Pattern.DECLARATION__TYPEFUNC,
+		DeclarationTypefunction:       Pattern.DECLARATION__TYPEFUNCTION,
+		DeclarationVariable:           Pattern.DECLARATION__VARIABLE,
 		DestructureArgument:           destructure('Argument',         {include: '#IdentifierParameter'}),
 		DestructureAssignment:         destructure('Assignment',       {include: '#ExpressionAssignee'}),
 		DestructureGenericArgument:    destructure('GenericArgument',  {include: '#IdentifierParameter'}),
@@ -58,7 +68,6 @@ await fs.promises.writeFile(path.join(import.meta.dirname, 'syntaxes', 'cpl.tmLa
 		GenericArguments:              Pattern.GENERIC_ARGUMENTS,
 		GenericParameterPatterns:      Pattern.GENERIC_PARAMETER_PATTERNS,
 		GenericParameters:             list(pattern_name('meta.genericparameters'), DELIMS.PARAMS_GN[0], DELIMS.PARAMS_GN[1], [{include: '#GenericParameterPatterns'}]),
-		Heritage:                      Pattern.HERITAGE,
 		IdentifierClass:               identifier('entity.name.class', true),
 		IdentifierFunction:            identifier('entity.name.function', true),
 		IdentifierParameter:           identifier('variable.parameter', true),
@@ -70,18 +79,25 @@ await fs.promises.writeFile(path.join(import.meta.dirname, 'syntaxes', 'cpl.tmLa
 		MemberField:                   Pattern.MEMBER__FIELD,
 		MemberMethod:                  Pattern.MEMBER__METHOD,
 		MemberMethodgroup:             Pattern.MEMBER__METHODGROUP,
-		ModifiersDeclarationLet:       Pattern.MODIFIERS__DECLARATION__LET,
 		ModifiersDeclarationType:      Pattern.MODIFIERS__DECLARATION__TYPE,
+		ModifiersDeclarationVariable:  Pattern.MODIFIERS__DECLARATION__VARIABLE,
 		ModifiersGenericParameter:     Pattern.MODIFIERS__GENERIC_PARAMETER,
 		ModifiersParameter:            Pattern.MODIFIERS__PARAMETER,
+		ModuleExport:                  Pattern.MODULE__EXPORT,
+		ModuleImport:                  Pattern.MODULE__IMPORT,
+		ModuleInner:                   Pattern.MODULE__INNER,
 		Number:                        Pattern.NUMBER,
 		ParameterPatterns:             Pattern.PARAMETER_PATTERNS,
 		Parameters:                    list(pattern_name('meta.parameters'), DELIMS.PARAMS_FN[0], DELIMS.PARAMS_FN[1], [{include: '#ParameterPatterns'}]),
+		SourceFile:                    SOURCE_FILE,
 		Statement:                     Pattern.STATEMENT,
-		StatementControl:              Pattern.STATEMENT__CONTROL,
-		StatementControlConditional:   Pattern.STATEMENT__CONTROL__CONDITIONAL,
-		StatementExport:               Pattern.STATEMENT__EXPORT,
-		StatementImport:               Pattern.STATEMENT__IMPORT,
+		StatementBreak:                Pattern.STATEMENT__BREAK,
+		StatementClaim:                Pattern.STATEMENT__CLAIM,
+		StatementConditional:          Pattern.STATEMENT__CONDITIONAL,
+		StatementDelete:               Pattern.STATEMENT__DELETE,
+		StatementIteration:            Pattern.STATEMENT__ITERATION,
+		StatementLoop:                 Pattern.STATEMENT__LOOP,
+		StatementSet:                  Pattern.STATEMENT__SET,
 		String:                        Pattern.STRING,
 		Symbol:                        Pattern.SYMBOL,
 		Template:                      Pattern.TEMPLATE,
@@ -97,9 +113,5 @@ await fs.promises.writeFile(path.join(import.meta.dirname, 'syntaxes', 'cpl.tmLa
 		TypeStructureSet:              Pattern.TYPE__STRUCTURE__SET,
 		Typefnret:                     Pattern.TYPEFNRET,
 	},
-	patterns: [
-		{include: '#Block'},
-		{include: '#Declaration'},
-		{include: '#Statement'},
-	],
+	patterns: [{include: '#SourceFile'}],
 }));

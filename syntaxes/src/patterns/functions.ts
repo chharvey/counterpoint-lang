@@ -2,39 +2,57 @@ import {
 	pattern_name,
 	lookaheads,
 	lookbehinds,
-} from '../helpers.js';
+	R,
+} from '../helpers.ts';
 import {
 	DELIMS,
 	OWS,
 	VAR,
 	COMP_ACCESS,
-	UNFIXED,
 	REF,
-	MUTABLE,
-	VARIANCE,
-	CONSTRAINT,
+	PUN,
+	OPT,
 	IMPL,
+	CAPTURE,
 	ANNO_START,
 	ASSN_START,
-	DFLT_START,
 	FATARROW,
 	BLOCK_END,
 	BACKSLASH,
-} from '../selectors.js';
+} from '../selectors.ts';
 import {
-	identifier,
+	qualified_name,
 	list,
+	param_label,
 	constraint,
 	annotation,
 	assignment,
+	func_heritage,
 	implicitReturn,
-} from './_helpers.js';
+} from './_helpers.ts';
 
+
+
+export const CAPTURES = {
+	name:          pattern_name('meta.capture'),
+	begin:         CAPTURE,
+	end:           lookbehinds([DELIMS.CAPTURES[1]]),
+	beginCaptures: {0: {name: pattern_name('storage.modifier')}},
+	patterns: [
+		list(pattern_name('meta.capture.list'), DELIMS.CAPTURES[0], DELIMS.CAPTURES[1], [
+			{
+				name:  pattern_name('storage.modifier'),
+				match: REF,
+			},
+			qualified_name(),
+		]),
+	]
+};
 
 
 export const TYPE__FUNCTION = {
 	name: pattern_name('meta.type.func'),
-	begin: [BACKSLASH, lookaheads([`${ OWS }(${ DELIMS.PARAMS_GN[0] }|${ DELIMS.PARAMS_FN[0] })`])].join(''),
+	begin: R.s(BACKSLASH, lookaheads([R.s(OWS, R.c(DELIMS.PARAMS_GN[0], DELIMS.PARAMS_FN[0]))])),
 	end:   FATARROW,
 	beginCaptures: {
 		1: {name: pattern_name('punctuation.delimiter')},
@@ -53,8 +71,8 @@ export const TYPE__FUNCTION = {
 
 export const EXPRESSION__FUNCTION = {
 	name: pattern_name('meta.expression.func'),
-	begin: [BACKSLASH, lookaheads([`${ OWS }(${ DELIMS.PARAMS_GN[0] }|${ DELIMS.CAPTURES[0] }|${ DELIMS.PARAMS_FN[0] })`])].join(''),
-	end:   [lookbehinds([BLOCK_END]), FATARROW].join('|'),
+	begin: R.s(BACKSLASH, lookaheads([R.s(OWS, R.c(DELIMS.PARAMS_GN[0], DELIMS.CAPTURES[0], DELIMS.PARAMS_FN[0]))])),
+	end:   R.c(lookbehinds([BLOCK_END]), FATARROW),
 	beginCaptures: {
 		1: {name: pattern_name('punctuation.delimiter')},
 	},
@@ -65,17 +83,17 @@ export const EXPRESSION__FUNCTION = {
 		{include: '#CommentBlock'},
 		{include: '#CommentLine'},
 		{include: '#GenericParameters'},
-		{include: '#Captures'},
 		{include: '#Parameters'},
+		{include: '#Captures'},
 		{include: '#Block'},
-		annotation(lookaheads([DELIMS.BLOCK[0], FATARROW]), true),
+		annotation(lookaheads([CAPTURE, DELIMS.BLOCK[0], FATARROW]), true),
 	],
 };
 
 
-export const DECLARATION__TYPEFUNC = {
+export const DECLARATION__TYPEFUNCTION = {
 	name: pattern_name('meta.declaration.typefunc'),
-	begin: lookaheads([`(${ COMP_ACCESS }${ OWS })?\\b(typefunc)\\b`]),
+	begin: lookaheads([R.s(R.o(R.s(COMP_ACCESS, OWS)), R.w('typefunc'))]),
 	end:   ';',
 	endCaptures: {
 		0: {name: pattern_name('punctuation.delimiter')},
@@ -89,7 +107,7 @@ export const DECLARATION__TYPEFUNC = {
 		},
 		{
 			name: pattern_name('storage.type'),
-			match: '\\b(typefunc)\\b',
+			match: R.w('typefunc'),
 		},
 		{include: '#IdentifierType'}, // must come after keywords
 	],
@@ -97,16 +115,16 @@ export const DECLARATION__TYPEFUNC = {
 
 
 export const DECLARATION__FUNCTION = {
-	name:  pattern_name('meta.declaration.function'),
-	begin: lookaheads([`(${ COMP_ACCESS }${ OWS })?\\b(function)\\b`]),
-	end:   [lookbehinds([BLOCK_END]), ';'].join('|'),
+	name:  pattern_name('meta.declaration.func'),
+	begin: lookaheads([R.s(R.o(R.s(COMP_ACCESS, OWS)), R.w('func'))]),
+	end:   R.c(lookbehinds([BLOCK_END]), ';'),
 	endCaptures: {
 		0: {name: pattern_name('punctuation.delimiter')},
 	},
 	patterns: [
 		{include: '#GenericParameters'},
-		{include: '#Captures'},
 		{include: '#Parameters'},
+		{include: '#Captures'},
 		{include: '#Block'},
 		{
 			name:  pattern_name('storage.modifier'),
@@ -114,21 +132,10 @@ export const DECLARATION__FUNCTION = {
 		},
 		{
 			name: pattern_name('storage.type'),
-			match: '\\b(function)\\b',
+			match: R.w('func'),
 		},
-		{
-			name:  pattern_name('meta.heritage'),
-			begin: IMPL,
-			end:   lookaheads([DELIMS.BLOCK[0], FATARROW]),
-			beginCaptures: {
-				0: {name: pattern_name('storage.modifier')},
-			},
-			patterns: [
-				{include: '#TypeCall'},
-				identifier('entity.other.inherited-class'),
-			],
-		},
-		annotation(lookaheads([IMPL, DELIMS.BLOCK[0], FATARROW]), true),
+		annotation(lookaheads([IMPL, CAPTURE, DELIMS.BLOCK[0], FATARROW]), true),
+		func_heritage(lookaheads([CAPTURE, DELIMS.BLOCK[0], FATARROW])),
 		implicitReturn(),
 		{include: '#IdentifierFunction'}, // must come after keywords
 	],
@@ -139,12 +146,17 @@ export const GENERIC_PARAMETER_PATTERNS = {
 	patterns: [
 		{include: '#ModifiersGenericParameter'},
 		{include: '#DestructureGenericParameter'},
-		constraint(lookaheads([DFLT_START, ',', DELIMS.PARAMS_GN[1]])),
-		assignment(DFLT_START, lookaheads([',', DELIMS.PARAMS_GN[1]]), '#Type'),
 		{
-			name:  pattern_name('punctuation.delimiter'),
-			match: ASSN_START,
+			name: pattern_name('keyword.other.alias'),
+			match: PUN,
 		},
+		{
+			name:  pattern_name('keyword.other.optional'),
+			match: OPT,
+		},
+		param_label(ASSN_START, '#IdentifierParameter'),
+		constraint(lookaheads([ASSN_START, ',', DELIMS.PARAMS_GN[1]])),
+		assignment(ASSN_START, lookaheads([',', DELIMS.PARAMS_GN[1]]), '#Type'),
 		{include: '#IdentifierParameter'},
 	],
 };
@@ -154,13 +166,17 @@ export const TYPE_PARAMETER_PATTERNS = {
 	patterns: [
 		annotation(lookaheads([',', DELIMS.PARAMS_FN[1]])),
 		{
-			begin: lookaheads([`${ VAR }${ OWS }${ ANNO_START }`]),
-			end:   lookaheads([ANNO_START]),
+			name:  pattern_name('keyword.other.optional'),
+			match: OPT,
+		},
+		{
+			begin: lookaheads([R.s(R.o(R.s(VAR, OWS)), R.o(R.s(OPT, OWS)), ANNO_START)]),
+			end:   lookaheads([OPT, ANNO_START]),
 			patterns: [
 				{include: '#IdentifierParameter'},
 			],
 		},
-		{include: '#Type'}, // must come after `variable.parameter` so that it isn’t confused with `entity.name.type`
+		{include: '#Type'}, // must come after `#IdentifierParameter`
 	],
 };
 
@@ -169,21 +185,17 @@ export const PARAMETER_PATTERNS = {
 	patterns: [
 		{include: '#ModifiersParameter'},
 		{include: '#DestructureParameter'},
-		annotation(lookaheads([DFLT_START, ',', DELIMS.PARAMS_FN[1]])),
-		assignment(DFLT_START, lookaheads([',', DELIMS.PARAMS_FN[1]])),
 		{
-			name:  pattern_name('punctuation.delimiter'),
-			match: ASSN_START,
+			name: pattern_name('keyword.other.alias'),
+			match: PUN,
 		},
+		{
+			name:  pattern_name('keyword.other.optional'),
+			match: OPT,
+		},
+		param_label(ASSN_START, '#IdentifierParameter'),
+		annotation(lookaheads([ASSN_START, ',', DELIMS.PARAMS_FN[1]])),
+		assignment(ASSN_START, lookaheads([',', DELIMS.PARAMS_FN[1]])),
 		{include: '#IdentifierParameter'},
 	],
 };
-
-
-export const CAPTURES = list(pattern_name('meta.captures'), DELIMS.CAPTURES[0], DELIMS.CAPTURES[1], [
-	{
-		name:  pattern_name('storage.modifier'),
-		match: REF,
-	},
-	identifier(),
-]);
