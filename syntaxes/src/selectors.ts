@@ -9,20 +9,19 @@ export const DELIMS = {
 	GROUPING:  ['\\(', '\\)'],
 	LIST:      ['\\[', '\\]'],
 	SET:       ['\\{', `\\}${ lookaheads(['\\}'], true) }`],
-	ARGS_GN:   ['<',   '>'],
+	ARGS_GN:   ['\\[', '\\]'],
 	ARGS_FN:   ['\\(', '\\)'],
-	ACCESS:    ['\\[', '\\]'],
-	CLAIM:     ['<',   '>'],
+	CLAIM:     [':',   ':'],
 	BLOCK:     ['\\{', `\\}${ lookaheads(['\\}'], true) }`],
 	CAPTURES:  ['\\(', '\\)'],
-	PARAMS_GN: ['<',   '>'],
+	PARAMS_GN: ['\\[', '\\]'],
 	PARAMS_FN: ['\\(', '\\)'],
 	DESTRUCT:  ['\\(', '\\)'],
 	IMPORT:    ['\\(', '\\)'],
 };
 
 export const OWS     = '(?:\\s+|(%%(?:%?[^%])*%%))*';
-export const INT     = '(?:\\+|-)?(?:\\\\[bqodxz])?[0-9a-z_]+';
+export const INT     = '(?:\\+|-)?(?:\\\\[bqsodxz])?[0-9a-z_]+';
 export const VARNAME = '\\b[A-Za-z_][A-Za-z0-9_]*\\b';
 export const VAR     = `(?:${ VARNAME }|\'.*\')`;
 
@@ -47,8 +46,8 @@ export const ASSN_START = `=${ lookaheads(['[=>]'], true) }`;
 export const THINARROW  = '->';
 export const FATARROW   = '=>';
 export const BLOCK_END  = '\\}'; // used for lookbehinds (cannot contain lookaheads)
-export const DOT        = '(\\.)';
-export const DOT_ACCESS = '(\\.|\\?\\.|\\!\\.)';
+export const DOT_ACCESS = '\\.';
+export const DOT_CALL   = '\\.\\.';
 export const BACKSLASH  = '(\\\\)';
 
 export function destructure_selector(prop_delim: string) {
@@ -97,7 +96,7 @@ export const METHOD = `
 	(${ OVR_CLAIM } ${ OWS })?
 	(\\b final \\b ${ OWS })?
 	(${ MUTABLE } ${ OWS })?
-	(?:${ VAR } ${ OWS })? (?:< | ${ DELIMS.PARAMS_FN[0] })
+	(?:${ VAR } ${ OWS })? (?:${ DELIMS.PARAMS_GN[0] } | ${ DELIMS.PARAMS_FN[0] })
 `.replace(/\s+/g, '');
 
 export const METHODGROUP = `

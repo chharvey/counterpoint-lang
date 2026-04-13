@@ -16,11 +16,11 @@ type (nominal $P, quebec: (nominal $Q, romeo: R)) = Pqr;
 
 
 % generic parameter destructuring (with defaults):
-typefunc Or<T= (A narrows C, B? = B1)> => A | B;
-typefunc Or<T= (a: A, $B)> => A | B;
-typefunc Or<T= (J, ($K, lima: L))> => J | K | L;
-typefunc Or<T= ($M, november: (N, O? = O1))> => M | N | O;
-typefunc Or<T= (S? = bool)? = (anything,)> => S | null;
+typefunc Or[T= (A narrows C, B? = B1)] => A | B;
+typefunc Or[T= (a: A, $B)] => A | B;
+typefunc Or[T= (J, ($K, lima: L))] => J | K | L;
+typefunc Or[T= ($M, november: (N, O? = O1))] => M | N | O;
+typefunc Or[T= (S? = bool)? = (anything,)] => S | null;
 
 
 
@@ -90,12 +90,18 @@ type RecordTypePropertyDest = ((a, b): TupType, ($x, $y): RecType, (x: xray, y: 
 
 
 % generic argument destructuring
-type T = GenericCall.<(A, B)= TupType, ($C, $D)= RecType, (E: Echo, F: Foxtrot)= RecType>;
+type T = GenericCall[(A, B)= TupType, ($C, $D)= RecType, (E: Echo, F: Foxtrot)= RecType];
 
 
 
 
 % record/dict property destructuring:
+(z= 3, (x, y)=       [1, 2]);
+(z= 3, (x, _)=       [1, 2]);
+(z= 3, (x= a)=       [x= 1]);
+(z= 3, ($if, by= b)= [if= 1, by= 2]);
+(z= 3, ($_,  by= _)= [if= 1, by= 2]);
+(z= 3, (($x), (y= (b)))= [[x= 1], [y= [2]]]);
 [z= 3, (x, y)=       [1, 2]];
 [z= 3, (x, _)=       [1, 2]];
 [z= 3, (x= a)=       [x= 1]];
@@ -104,6 +110,11 @@ type T = GenericCall.<(A, B)= TupType, ($C, $D)= RecType, (E: Echo, F: Foxtrot)=
 [z= 3, (($x), (y= (b)))= [[x= 1], [y= [2]]]];
 
 % not record/dict destructuring:
+((x), (y,));
+((x, y));
+((x= a));
+(\(x, y)      => null);
+(\(x, y= (b)) => null);
 [(x), (y,)];
 [(x, y)];
 [(x= a)];
@@ -113,17 +124,17 @@ type T = GenericCall.<(A, B)= TupType, ($C, $D)= RecType, (E: Echo, F: Foxtrot)=
 
 
 % function argument destructuring:
-g.(z= 3, (x, y)=           [1, 2]);
-g.(z= 3, (x= a)=           [x= 1]);
-g.(z= 3, ($if, by= b)=     [if= 1, by= 2]);
-g.(z= 3, (($x), (y= (b)))= [[x= 1], [y= [2]]]);
+g(z= 3, (x, y)=           [1, 2]);
+g(z= 3, (x= a)=           [x= 1]);
+g(z= 3, ($if, by= b)=     [if= 1, by= 2]);
+g(z= 3, (($x), (y= (b)))= [[x= 1], [y= [2]]]);
 
 % not function argument destructuring:
-g.((x), (y,));
-g.((x, y));
-g.((x= a));
-g.(z= 3, \(x, y)      => [1, [2]]);
-g.(z= 3, \(x, y= (b)) => [1, [2]]);
+g((x), (y,));
+g((x, y));
+g((x= a));
+g(z= 3, \(x, y)      => [1, [2]]);
+g(z= 3, \(x, y= (b)) => [1, [2]]);
 
 
 
@@ -135,7 +146,7 @@ claim ($if, by= b):       (if: If, by: B);
 claim ((x), (y= (b))):    ([X], (y: (B)));
 claim (x.1, y.2):         (int, int);
 claim (x.i, y.j):         (int, int);
-claim (x.[i + j], y.[j]): (int, int);
+claim (x(i + j), y(j)):   (int, int);
 claim ($if, by= b.j):     (if: If, by: Bj);
 claim (($x), (y= (b.j))): ((X), (y: (Bj)));
 
@@ -143,23 +154,23 @@ claim (($x), (y= (b.j))): ((X), (y: (Bj)));
 claim (a).c:                      int;
 claim (a.b).c:                    int;
 claim (a || b).c:                 int;
-claim (x as <(y: int)>).y:        int;
+claim (x as :(y: int):).y:        int;
 claim [a].c:                      TupleValue;
 claim [a.b].c:                    TupleValue;
 claim [a || b].c:                 TupleValue;
-claim [x as <(y: int)>].y:        TupleValue;
+claim [x as :(y: int):].y:        TupleValue;
 claim [prop= a].c:                RecordValue;
 claim [prop= a.b].c:              RecordValue;
 claim [prop= a || b].c:           RecordValue;
-claim [prop= x as <(y: int)>].y:  RecordValue;
+claim [prop= x as :(y: int):].y:  RecordValue;
 claim {a}.c:                      SetValue;
 claim {a.b}.c:                    SetValue;
 claim {a || b}.c:                 SetValue;
-claim {x as <(y: int)>}.y:        SetValue;
+claim {x as :(y: int):}.y:        SetValue;
 claim {kie -> a}.c:               MapValue;
 claim {kie -> a.b}.c:             MapValue;
 claim {kie -> a || b}.c:          MapValue;
-claim {kie -> x as <(y: int)>}.y: MapValue;
+claim {kie -> x as :(y: int):}.y: MapValue;
 
 
 
@@ -168,7 +179,7 @@ set (a)                = [1];
 set (x, y) %%c%%       = [1, 2];
 set (x.1, y.2)         = [1, 2];
 set (x.i, y.j)         = [1, 2];
-set (x.[i + j], y.[j]) = [1, 2];
+set (x(i + j), y(j))   = [1, 2];
 set ($if, by= b.j)     = [if= 1, by= 2];
 set (($x), (y= (b.j))) = [[x= 1], [y= [2]]];
 
@@ -176,20 +187,20 @@ set (($x), (y= (b.j))) = [[x= 1], [y= [2]]];
 set (a).c                      = value;
 set (a.b).c                    = value;
 set (a || b).c                 = value;
-set (x as <(y: int)>).y        = value;
+set (x as :(y: int):).y        = value;
 set [a].c                      = tupleValue;
 set [a.b].c                    = tupleValue;
 set [a || b].c                 = tupleValue;
-set [x as <(y: int)>].y        = tupleValue;
+set [x as :(y: int):].y        = tupleValue;
 set [prop= a].c                = recordValue;
 set [prop= a.b].c              = recordValue;
 set [prop= a || b].c           = recordValue;
-set [prop= x as <(y: int)>].y  = recordValue;
+set [prop= x as :(y: int):].y  = recordValue;
 set {a}.c                      = setValue;
 set {a.b}.c                    = setValue;
 set {a || b}.c                 = setValue;
-set {x as <(y: int)>}.y        = setValue;
+set {x as :(y: int):}.y        = setValue;
 set {kie -> a}.c               = mapValue;
 set {kie -> a.b}.c             = mapValue;
 set {kie -> a || b}.c          = mapValue;
-set {kie -> x as <(y: int)>}.y = mapValue;
+set {kie -> x as :(y: int):}.y = mapValue;

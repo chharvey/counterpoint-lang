@@ -195,7 +195,7 @@ val g: int =
 
 
 type 'floàt | bōōl' = float | bool;
-typefunc T<U> => U & V;
+typefunc T[U] => U & V;
 
 
 "a string that

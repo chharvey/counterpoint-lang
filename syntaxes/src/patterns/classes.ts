@@ -30,7 +30,7 @@ import {
 } from '../selectors.ts';
 import {
 	qualified_name,
-	param_label,
+	label,
 	annotation,
 	assignment,
 	implicitReturn,
@@ -46,8 +46,8 @@ export const CLASS_HERITAGE = {
 		0: {name: pattern_name('storage.modifier')},
 	},
 	patterns: [
-		{include: '#TypeCall'},
 		{include: '#TypeAccess'},
+		{include: '#TypeCall'},
 		qualified_name('entity.other.inherited-class'),
 		{
 			name: pattern_name('punctuation.separator'),
@@ -157,9 +157,9 @@ export const CONSTRUCTOR_FIELD = {
 			name:  pattern_name('keyword.other.optional'),
 			match: OPT,
 		},
-		param_label(ASSN_START, '#IdentifierProperty'),
+		label(ASSN_START, '#IdentifierProperty'),
 		annotation(lookaheads([ASSN_START, ',', DELIMS.PARAMS_FN[1]])),
-		assignment(ASSN_START, lookaheads([',', DELIMS.PARAMS_FN[1]])),
+		assignment(lookaheads([',', DELIMS.PARAMS_FN[1]])),
 		{include: '#IdentifierProperty'},
 	],
 };
@@ -183,7 +183,7 @@ export const MEMBER__FIELD = {
 		},
 		{include: '#IdentifierProperty'},
 		annotation(lookaheads([ASSN_START, ';'])),
-		assignment(ASSN_START, lookaheads([';'])),
+		assignment(lookaheads([';'])),
 	],
 };
 
