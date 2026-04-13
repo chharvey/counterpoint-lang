@@ -101,14 +101,14 @@ export const EXPRESSION__CALL = {
 	name:  pattern_name('meta.expression.call'),
 	begin: R.s(
 		lookbehinds([R.s(R.c(
-			'[A-Za-z0-9_]|~[~?!]',
+			'[A-Za-z0-9_]|~[~?!]|\\+\\+',
 			DELIMS.GROUPING[1],
 			'\\}', // DELIMS.BLOCK[1],
 			DELIMS.LIST[1],
 			'\\}', // DELIMS.SET[1],
 			DELIMS.ARGS_GN[1],
 			DELIMS.ARGS_FN[1],
-		), OWS)]),
+		), OWS, '[?!]?')]),
 		lookaheads([DELIMS.ARGS_GN[0], DELIMS.ARGS_FN[0]]),
 	),
 	end:      R.s(lookbehinds([DELIMS.ARGS_FN[1]]), lookaheads([DELIMS.ARGS_GN[0], DELIMS.ARGS_FN[0]], true)),
