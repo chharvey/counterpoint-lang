@@ -20,7 +20,7 @@ import {
 	identifier,
 	unit,
 	list,
-	param_label,
+	label,
 	assignment,
 } from './_helpers.ts';
 
@@ -42,7 +42,7 @@ function argument_or_property(end: string, destructure_kind: string, identifier_
 			beginCaptures: {0: {name: pattern_name('keyword.other.alias')}},
 			patterns:      [{include: identifier_kind}],
 		},
-		param_label(ASSN_START, identifier_kind),
+		label(ASSN_START, identifier_kind),
 		assignment(ASSN_START, end),
 		{
 			name: pattern_name('keyword.other.spread'),

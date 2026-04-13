@@ -22,7 +22,7 @@ import {
 	identifier,
 	unit,
 	list,
-	param_label,
+	label,
 	annotation,
 	assignment,
 } from './_helpers.ts';
@@ -50,7 +50,7 @@ function type_argument_or_property(end: string, destructure_kind: string, identi
 			beginCaptures: {0: {name: pattern_name('keyword.other.alias')}},
 			patterns:      [{include: identifier_kind}],
 		},
-		param_label(label_delim, identifier_kind),
+		label(label_delim, identifier_kind),
 		label_value,
 		{
 			name: pattern_name('keyword.other.spread'),

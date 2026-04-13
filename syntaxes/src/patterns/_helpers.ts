@@ -131,7 +131,7 @@ export function list(name: string, begin: string, end: string, more_patterns: re
 }
 
 
-export function param_label(prop_delim: string, identifier_kind: string) {
+export function label(prop_delim: string, identifier_kind: string) {
 	return {
 		name:        pattern_name('meta.label'),
 		begin:       lookaheads([R.s(VAR, OWS, prop_delim)]),
@@ -225,7 +225,7 @@ export function destructure(subtype: string, identifiers: object) {
 	);
 	return list(pattern_name(`meta.destructure.${ subtype.toLowerCase() }`), DELIMS.DESTRUCT[0], DELIMS.DESTRUCT[1], [
 		{include: `#Destructure${ subtype }`},
-		param_label(prop_delim, '#IdentifierProperty'),
+		label(prop_delim, '#IdentifierProperty'),
 		{
 			name: pattern_name('keyword.other.alias'),
 			match: PUN,

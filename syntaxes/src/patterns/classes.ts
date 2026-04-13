@@ -30,7 +30,7 @@ import {
 } from '../selectors.ts';
 import {
 	qualified_name,
-	param_label,
+	label,
 	annotation,
 	assignment,
 	implicitReturn,
@@ -157,7 +157,7 @@ export const CONSTRUCTOR_FIELD = {
 			name:  pattern_name('keyword.other.optional'),
 			match: OPT,
 		},
-		param_label(ASSN_START, '#IdentifierProperty'),
+		label(ASSN_START, '#IdentifierProperty'),
 		annotation(lookaheads([ASSN_START, ',', DELIMS.PARAMS_FN[1]])),
 		assignment(ASSN_START, lookaheads([',', DELIMS.PARAMS_FN[1]])),
 		{include: '#IdentifierProperty'},
