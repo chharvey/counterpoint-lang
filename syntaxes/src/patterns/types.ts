@@ -135,6 +135,10 @@ export const TYPE__STRUCTURE__SET = {
 export const TYPEFNRET = {
 	patterns: [
 		{
+			name:  pattern_name('storage.modifier'),
+			match: R.w('void'),
+		},
+		{
 			name: pattern_name('keyword.operator.punctuation'),
 			match: '~~|[?!^*/&|]',
 		},

@@ -22,10 +22,6 @@ function keyword(is_type: boolean) {
 	return {
 		patterns: [
 			{
-				name: pattern_name('storage.modifier'),
-				match: R.w('void'),
-			},
-			{
 				name: pattern_name('constant.language'),
 				match: R.w(R.c('null', 'false', 'true')),
 			},
