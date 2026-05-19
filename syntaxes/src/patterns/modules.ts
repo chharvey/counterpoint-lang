@@ -1,6 +1,7 @@
 import {
 	pattern_name,
 	lookbehinds,
+	R,
 } from '../helpers.ts';
 import {
 	DELIMS,
@@ -13,7 +14,7 @@ import {list} from './_helpers.ts';
 
 export const MODULE__INNER = {
 	name:          pattern_name('meta.declaration.module'),
-	begin:         '\\b(module)\\b',
+	begin:         R.w('module'),
 	end:           lookbehinds([BLOCK_END]),
 	beginCaptures: {0: {name: pattern_name('storage.type')}},
 	patterns:      [
@@ -31,7 +32,7 @@ export const MODULE__INNER = {
 
 export const MODULE__IMPORT = {
 	name: pattern_name('meta.import'),
-	begin: '\\b(from)\\b',
+	begin: R.w('from'),
 	end:   ';',
 	beginCaptures: {
 		0: {name: pattern_name('keyword.control')},
@@ -42,7 +43,7 @@ export const MODULE__IMPORT = {
 	patterns: [
 		{
 			name: pattern_name('keyword.control'),
-			match: '\\b(import|type|await|all)\\b',
+			match: R.w(R.c('import', 'type', 'await', 'all')),
 		},
 		{
 			name: pattern_name('keyword.other.alias'),
@@ -53,7 +54,7 @@ export const MODULE__IMPORT = {
 		list('meta.import.list', DELIMS.IMPORT[0], DELIMS.IMPORT[1], [
 			{
 				name: pattern_name('keyword.control'),
-				match: '\\b(type|await)\\b',
+				match: R.w(R.c('type', 'await')),
 			},
 			{
 				name: pattern_name('keyword.other.alias'),
@@ -67,7 +68,7 @@ export const MODULE__IMPORT = {
 
 export const MODULE__EXPORT = {
 	name: pattern_name('meta.export'),
-	begin: '\\b(export)\\b',
+	begin: R.w('export'),
 	end:   ';',
 	beginCaptures: {
 		0: {name: pattern_name('keyword.control')},
