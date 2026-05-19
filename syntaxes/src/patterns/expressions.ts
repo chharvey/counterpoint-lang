@@ -101,7 +101,7 @@ export const EXPRESSION__CALL = {
 	name:  pattern_name('meta.expression.call'),
 	begin: R.c(R.g(DOT_CALL), R.s(
 		lookbehinds([R.s(R.c(
-			'[A-Za-z0-9_]|~[~?!]|\\+\\+',
+			'[A-Za-z0-9_\']|~[~?!]|\\+\\+',
 			DELIMS.GROUPING[1],
 			'\\}', // DELIMS.BLOCK[1],
 			DELIMS.LIST[1],

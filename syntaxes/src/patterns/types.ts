@@ -86,7 +86,7 @@ export const TYPE_CALL = {
 	name:  pattern_name('meta.type.call'),
 	begin: R.s(
 		lookbehinds([R.s(R.c(
-			'[A-Za-z0-9_?!^*]|~~',
+			'[A-Za-z0-9_\'?!^*]|~~',
 			DELIMS.GROUPING[1],
 			DELIMS.LIST[1],
 			'\\}', // DELIMS.SET[1],
