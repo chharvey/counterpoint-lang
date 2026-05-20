@@ -7,6 +7,7 @@
   "main": "./out/extension.js",
   "scripts": {
     "build": "node syntaxes/src/build.ts && npx tsc",
+    "deploy:local": "cp -R ./syntaxes/ ~/.vscode/extensions/undefined.counterpoint-lang-1.1.0/syntaxes/",
     "pack": "vsce package",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
