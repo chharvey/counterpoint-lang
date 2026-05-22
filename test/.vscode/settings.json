@@ -1,0 +1,66 @@
+{
+	"workbench.preferredDarkColorTheme": "Dark Modern",
+	"workbench.preferredLightColorTheme": "Light Modern",
+	"editor.tokenColorCustomizations": {
+		"[Dark Modern]": {
+			"textMateRules": [
+				{
+					"scope": [
+						"constant.other",
+					],
+					"settings": {
+						"foreground": "#8db6c0", // blur of `constant.language` (#569CD6) and `constant.numeric` (#B5CEA8)
+					},
+				},
+				{
+					"scope": [
+						"entity.name.method",
+					],
+					"settings": {
+						"fontStyle": "italic",
+						"foreground": "#4FC1FF", // taken from `variable.other.constant.ts`
+					},
+				},
+				{
+					"scope": [
+						"keyword.operator.text",
+						"keyword.operator.punctuation",
+					],
+					"settings": {
+						"foreground": "#ff9191",
+					},
+				},
+			],
+		},
+		"[Light Modern]": {
+			"textMateRules": [
+				{
+					"scope": [
+						"constant.other",
+					],
+					"settings": {
+						"foreground": "#065ebe", // blur of `constant.language` (#0000ff) and `constant.numeric` (#098658)
+					},
+				},
+				{
+					"scope": [
+						"entity.name.method",
+					],
+					"settings": {
+						"fontStyle": "italic",
+						"foreground": "#0070C1", // taken from `variable.other.constant.ts`
+					},
+				},
+				{
+					"scope": [
+						"keyword.operator.text",
+						"keyword.operator.punctuation",
+					],
+					"settings": {
+						"foreground": "#e94081",
+					},
+				},
+			],
+		},
+	},
+}

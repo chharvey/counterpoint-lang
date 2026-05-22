@@ -103,8 +103,9 @@ dist
 # TernJS port file
 .tern-port
 
-# VS Code settings
-**/.vscode/settings.json
+# System/Editor Settings
+.DS_Store
+.vscode/settings.json
 
 # Build files
 syntaxes/cpl.tmLanguage.json
