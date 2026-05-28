@@ -22,16 +22,12 @@ function keyword(is_type: boolean) {
 	return {
 		patterns: [
 			{
-				name: pattern_name('storage.modifier'),
-				match: R.w('void'),
-			},
-			{
 				name: pattern_name('constant.language'),
 				match: R.w(R.c('null', 'false', 'true')),
 			},
 			{
 				name: pattern_name('support.type'),
-				match: R.w(R.c('nothing', 'bool', 'sym', 'int', 'nat', 'float', 'dec', 'str', 'anything')),
+				match: R.w(R.c('nothing', 'bool', 'sym', 'byte', 'int', 'nat', 'float', 'dec', 'str', 'anything', 'auto')),
 			},
 			{
 				name: pattern_name(is_type ? 'support.type' : 'variable.language'),
@@ -43,7 +39,7 @@ function keyword(is_type: boolean) {
 			},
 			{
 				name: pattern_name('support.class'),
-				match: R.w(R.c('Object', 'Class', 'List', 'Dict', 'Set', 'Map')),
+				match: R.w(R.c('Type', 'Object', 'Class', 'List', 'Dict', 'Set', 'Map')),
 			},
 		],
 	};

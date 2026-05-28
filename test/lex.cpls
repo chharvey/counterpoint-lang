@@ -1,10 +1,12 @@
-type TypeKeywords    = nothing | bool | sym | nat | int | float | str | anything;
-type TypeClasses     = Object | Class | List | Dict | Set | Map;
+type TypeKeywords    = nothing | bool | sym | byte | int | nat | float | dec | str | anything | auto;
 type TypeConstants   = null | false | true;
-type TypeNonKeywords = never | boolen | symbol | natural | integer | string | object | class | list | dict | set | map | unknown;
+type TypeLanguage    = this | static;
+type TypeClasses     = Type | Object | Class | List | Dict | Set | Map;
+type TypeNonKeywords = never | boolean | symbol | char | integer | natural | string | object | class | list | dict | set | map | unknown;
 
 val value_keywords     = null || false || true;
-val value_classes      = Object || Class || List || Dict || Set || Map;
+val value_language     = this || static || super || method;
+val value_classes      = Type || Object || Class || List || Dict || Set || Map;
 val value_non_keywords = nil || object || list || dict || set || map;
 
 

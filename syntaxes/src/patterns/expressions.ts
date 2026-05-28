@@ -139,7 +139,7 @@ export const EXPRESSION__ASSIGNEE = {
 };
 
 
-export const EXPRESSION__STRUCTURE__GROUPING = list(pattern_name('meta.expression.structure.grouping_or_tuple'), DELIMS.GROUPING[0], DELIMS.GROUPING[1], argument_or_property(
+export const EXPRESSION__STRUCTURE__GROUPING = list(pattern_name('meta.expression.structure.grouping-or-tuple'), DELIMS.GROUPING[0], DELIMS.GROUPING[1], argument_or_property(
 	lookaheads([',', DELIMS.GROUPING[1]]),
 	'#DestructureProperty',
 	'#IdentifierProperty',

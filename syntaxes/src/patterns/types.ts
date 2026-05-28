@@ -99,7 +99,7 @@ export const TYPE_CALL = {
 };
 
 
-export const TYPE__STRUCTURE__GROUPING = list(pattern_name('meta.type.structure.grouping_or_tuple'), DELIMS.GROUPING[0], DELIMS.GROUPING[1], type_argument_or_property(
+export const TYPE__STRUCTURE__GROUPING = list(pattern_name('meta.type.structure.grouping-or-tuple'), DELIMS.GROUPING[0], DELIMS.GROUPING[1], type_argument_or_property(
 	lookaheads([',', DELIMS.GROUPING[1]]),
 	'#DestructureTypeProperty',
 	'#IdentifierProperty',
@@ -134,6 +134,10 @@ export const TYPE__STRUCTURE__SET = {
 
 export const TYPEFNRET = {
 	patterns: [
+		{
+			name:  pattern_name('storage.modifier'),
+			match: R.w('void'),
+		},
 		{
 			name: pattern_name('keyword.operator.punctuation'),
 			match: '~~|[?!^*/&|]',
