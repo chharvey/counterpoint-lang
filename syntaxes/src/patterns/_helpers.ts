@@ -39,7 +39,7 @@ function keyword(is_type: boolean) {
 			},
 			{
 				name: pattern_name('support.class'),
-				match: R.w(R.c('Type', 'Object', 'Class', 'List', 'Dict', 'Set', 'Map')),
+				match: R.w(R.c('Type', 'Object', 'Class', 'Integer', 'Natural', 'Float', 'String', 'List', 'Dict', 'Set', 'Map')),
 			},
 		],
 	};

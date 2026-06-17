@@ -175,7 +175,7 @@ export const EXPRESSIONNONBLOCK = {
 		},
 		{
 			name: pattern_name('keyword.operator.text'),
-			match: R.c(R.w(R.c('isset', 'int', 'nat', 'float', 'dec', 'is', 'if', 'then', 'else')), R.s(R.c('!isset', '!is'), '\\b')),
+			match: R.c(R.w(R.c('isset', 'is', 'if', 'then', 'else')), R.s(R.c('!isset', '!is'), '\\b')),
 		},
 		{include: '#ExpressionFunction'},
 		{include: '#ExpressionClass'},

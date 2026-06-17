@@ -234,10 +234,10 @@ func twice(x: int): int => x * 2;
 	null numeric;  %> ParseError
 	bool numeric;  %> ParseError
 	sym numeric;   %> ParseError
-	nat numeric;   % valid operator
-	int numeric;   % valid operator
-	float numeric; % valid operator
-	dec numeric;   % valid operator
+	int numeric;   %> ParseError
+	nat numeric;   %> ParseError
+	float numeric; %> ParseError
+	dec numeric;   %> ParseError
 	str numeric;   %> ParseError
 	x <= y;
 	x >= y;
@@ -315,6 +315,14 @@ func twice(x: int): int => x * 2;
 		##doublespread,
 		_= blank,
 	)++;
+	Integer(numeric);
+	Natural(numeric);
+	Float(numeric);
+	String(numeric);
+	Int(numeric);
+	Nat(numeric);
+	Decimal(numeric);
+	Str(numeric);
 	List[T]();
 	Dict[T]();
 	Set[T]();
