@@ -85,13 +85,13 @@ export const TYPE__ACCESS = {
 export const TYPE_CALL = {
 	name:  pattern_name('meta.type.call'),
 	begin: R.s(
-		lookbehinds([R.s(R.c(
+		lookbehinds([
 			'[A-Za-z0-9_\'?!^*]|~~',
 			DELIMS.GROUPING[1],
 			DELIMS.LIST[1],
 			'\\}', // DELIMS.SET[1],
 			DELIMS.ARGS_GN[1],
-		), OWS)]),
+		]),
 		lookaheads([DELIMS.ARGS_GN[0]]),
 	),
 	end:      R.s(lookbehinds([DELIMS.ARGS_GN[1]]), lookaheads([DELIMS.ARGS_GN[0]], true)),

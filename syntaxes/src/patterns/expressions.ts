@@ -108,7 +108,7 @@ export const EXPRESSION__CALL = {
 			'\\}', // DELIMS.SET[1],
 			DELIMS.ARGS_GN[1],
 			DELIMS.ARGS_FN[1],
-		), OWS, '[?!]?')]),
+		), '[?!]?')]),
 		lookaheads([DELIMS.ARGS_GN[0], DELIMS.ARGS_FN[0]]),
 	)),
 	end:           R.s(lookbehinds([DELIMS.ARGS_FN[1]]), lookaheads([DELIMS.ARGS_GN[0], DELIMS.ARGS_FN[0]], true)),

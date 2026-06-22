@@ -387,6 +387,8 @@ ashes;
 
 return (a + b);
 throw (c + d);
+return [a + b];
+for i in [a, b, c] do {};
 return (
 	if (a + b) then c else d;
 );
