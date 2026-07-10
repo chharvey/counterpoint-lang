@@ -6,9 +6,9 @@ type BinaryOperator = \[in N](a: N, b?: N) => N;
 type BinaryOperator = \(a: N, b?: N) => N | M;
 type BinaryOperatorUnnamed = \(T & U?, ?: int | Object~~, ?: bool) => \(float) => int;
 type BinaryOperatorUnnamed = \(?: int | Object, ?: (T, U), ?: \(bool!) => void) => float;
-type BinaryOperator = \<
+type BinaryOperator = \[
 	N narrows int~~,
->(
+](
 	'a': N,
 	b?:  N,
 	c%%c%%: N,
@@ -97,7 +97,7 @@ val lambda: Function = \(
 	a?: int = 42,
 	mut b,
 ) => a * 2;
-val lambda: Function = \<
+val lambda: Function = \[
 	T,
 	out T,
 	in  T,
@@ -106,7 +106,7 @@ val lambda: Function = \<
 	T narrows U,
 	T? = V,
 	T? narrows U = V,
->() {};
+]() {};
 
 val nestedfunctions: \(a: \(x: int) %%c%% => %%c%% int) %%c%% => %%c%% bool
 	= \(a?: \(x: int) %%c%% => %%c%% int = \(x) %%c%% => %%c%% x * 2) %%c%% => %%c%% !!a;
