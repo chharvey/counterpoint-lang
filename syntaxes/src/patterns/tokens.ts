@@ -133,10 +133,17 @@ export const STRING = {
 
 
 export const TEMPLATE = {
-	name: pattern_name('string.quoted.triple'),
-	begin: '"""|}}',
-	end:   '"""|{{',
-	captures: {
-		0: {name: pattern_name('punctuation.delimiter')},
-	},
+	name:     pattern_name('string.quoted.triple'),
+	begin:    '"""',
+	end:      '"""',
+	captures: {0: {name: pattern_name('punctuation.delimiter')}},
+	patterns: [
+		{
+			name:     pattern_name('meta.interpolated'),
+			begin:    '\\{\\{',
+			end:      '\\}\\}',
+			captures: {0: {name: pattern_name('punctuation.delimiter')}},
+			patterns: [{include: '#Expression'}],
+		},
+	],
 };

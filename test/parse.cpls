@@ -413,6 +413,13 @@ default g + h;
 switch a case b -> c case d | e -> f default g + h;
 i + (switch a case b -> c case d || e -> f default g) + h;
 
+switch a
+	case b -> """c {{ d }} e"""
+	case """f {{ g }} h""" -> i
+default j;
+
+"""hello {{ switch a case b -> c default d }} world""";
+
 (x);
 (a == b);
 [a == b];
