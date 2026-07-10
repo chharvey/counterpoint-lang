@@ -167,6 +167,29 @@ export const EXPRESSION__STRUCTURE__SET = list(pattern_name('meta.expression.str
 ]);
 
 
+export const EXPRESSION__SWITCH = {
+	name:          pattern_name('meta.expression.switch'),
+	begin:         R.w('switch'),
+	end:           lookaheads([',', '\\)', '\\]', '\\}', ';']),
+	beginCaptures: {0: {name: pattern_name('keyword.operator.text')}},
+	patterns:      [
+		{
+			name:  pattern_name('keyword.operator.text'),
+			match: R.w(R.c('case', 'default')),
+		},
+		{
+			name:  pattern_name('keyword.operator.punctuation'),
+			match: THINARROW,
+		},
+		{include: '#Expression'},
+		{
+			name:  pattern_name('keyword.operator.punctuation'),
+			match: '\\|',
+		},
+	],
+};
+
+
 export const EXPRESSIONNONBLOCK = {
 	patterns: [
 		{
@@ -185,6 +208,7 @@ export const EXPRESSIONNONBLOCK = {
 		{include: '#ExpressionStructureGrouping'},
 		{include: '#ExpressionStructureList'},
 		{include: '#ExpressionStructureSet'},
+		{include: '#ExpressionSwitch'},
 		{
 			name:  pattern_name('keyword.operator.text'),
 			match: '\\b(as)([?!]|\\b)', // must come after '#ExpressionClaim'

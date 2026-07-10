@@ -64,6 +64,7 @@ await fs.promises.writeFile(path.join(import.meta.dirname, '../', 'cpl.tmLanguag
 		ExpressionStructureGrouping:   Pattern.EXPRESSION__STRUCTURE__GROUPING,
 		ExpressionStructureList:       Pattern.EXPRESSION__STRUCTURE__LIST,
 		ExpressionStructureSet:        Pattern.EXPRESSION__STRUCTURE__SET,
+		ExpressionSwitch:              Pattern.EXPRESSION__SWITCH,
 		Expressionnonblock:            Pattern.EXPRESSIONNONBLOCK,
 		GenericArguments:              Pattern.GENERIC_ARGUMENTS,
 		GenericParameterPatterns:      Pattern.GENERIC_PARAMETER_PATTERNS,

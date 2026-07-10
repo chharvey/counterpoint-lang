@@ -404,6 +404,15 @@ unless (a + b) then { return (c); } else { throw (d); };
 	unless (a + b) then { return (c); } else { throw (d); };
 }
 
+switch a
+	case b -> c
+	case d | e -> f
+	case d || e -> f
+default g + h;
+
+switch a case b -> c case d | e -> f default g + h;
+i + (switch a case b -> c case d || e -> f default g) + h;
+
 (x);
 (a == b);
 [a == b];
