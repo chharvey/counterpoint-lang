@@ -103,9 +103,9 @@ export const EXPRESSION__CALL = {
 		lookbehinds([R.s(R.c(
 			'[A-Za-z0-9_\']|~[~?!]|\\+\\+',
 			DELIMS.GROUPING[1],
-			'\\}', // DELIMS.BLOCK[1],
+			DELIMS.BLOCK[1],
 			DELIMS.LIST[1],
-			'\\}', // DELIMS.SET[1],
+			DELIMS.SET[1],
 			DELIMS.ARGS_GN[1],
 			DELIMS.ARGS_FN[1],
 		), '[?!]?')]),

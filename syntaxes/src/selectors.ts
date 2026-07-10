@@ -8,11 +8,11 @@ import {
 export const DELIMS = {
 	GROUPING:  ['\\(', '\\)'],
 	LIST:      ['\\[', '\\]'],
-	SET:       ['\\{', `\\}${ lookaheads(['\\}'], true) }`],
+	SET:       ['\\{', '\\}'],
 	ARGS_GN:   ['\\[', '\\]'],
 	ARGS_FN:   ['\\(', '\\)'],
 	CLAIM:     [':',   ':'],
-	BLOCK:     ['\\{', `\\}${ lookaheads(['\\}'], true) }`],
+	BLOCK:     ['\\{', '\\}'],
 	CAPTURES:  ['\\(', '\\)'],
 	PARAMS_GN: ['\\[', '\\]'],
 	PARAMS_FN: ['\\(', '\\)'],
@@ -45,7 +45,6 @@ export const ANNO_START = `\\:${ lookaheads(['\\:'], true) }`;
 export const ASSN_START = `=${ lookaheads(['[=>]'], true) }`;
 export const THINARROW  = '->';
 export const FATARROW   = '=>';
-export const BLOCK_END  = '\\}'; // used for lookbehinds (cannot contain lookaheads)
 export const DOT_ACCESS = '\\.';
 export const DOT_CALL   = '\\.\\.';
 export const BACKSLASH  = '(\\\\)';

@@ -20,7 +20,6 @@ import {
 	CAPTURE,
 	ASSN_START,
 	FATARROW,
-	BLOCK_END,
 	FIELD,
 	FIELD_CONSTRUCTOR,
 	CONSTRUCTOR,
@@ -60,7 +59,7 @@ export const CLASS_HERITAGE = {
 export const TYPE__INTERFACE = {
 	name: pattern_name('meta.type.interface'),
 	begin: R.w('interface'),
-	end:   lookbehinds([BLOCK_END]),
+	end:   lookbehinds([DELIMS.BLOCK[1]]),
 	beginCaptures: {
 		0: {name: pattern_name('storage.type')},
 	},
@@ -81,7 +80,7 @@ export const TYPE__INTERFACE = {
 export const EXPRESSION__CLASS = {
 	name: pattern_name('meta.expression.class'),
 	begin: R.w('class'),
-	end:   lookbehinds([BLOCK_END]),
+	end:   lookbehinds([DELIMS.BLOCK[1]]),
 	beginCaptures: {
 		0: {name: pattern_name('storage.type')},
 	},
@@ -103,7 +102,7 @@ export const EXPRESSION__CLASS = {
 export const DECLARATION__CLASS = {
 	name: pattern_name('meta.declaration.class'),
 	begin: lookaheads([R.s(R.o(R.s(COMP_ACCESS, OWS)), R.w('class'))]),
-	end:   lookbehinds([BLOCK_END]),
+	end:   lookbehinds([DELIMS.BLOCK[1]]),
 	patterns: [
 		{include: '#GenericParameters'},
 		{include: '#ClassHeritage'},
@@ -125,7 +124,7 @@ export const DECLARATION__CLASS = {
 export const DECLARATION__INTERFACE = {
 	name: pattern_name('meta.declaration.interface'),
 	begin: lookaheads([R.s(R.o(R.s(COMP_ACCESS, OWS)), R.w('interface'))]),
-	end:   lookbehinds([BLOCK_END]),
+	end:   lookbehinds([DELIMS.BLOCK[1]]),
 	patterns: [
 		{include: '#GenericParameters'},
 		{include: '#ClassHeritage'},
@@ -191,7 +190,7 @@ export const MEMBER__FIELD = {
 export const MEMBER__CONSTRUCTOR = {
 	name: pattern_name('meta.constructor'),
 	begin: lookaheads([CONSTRUCTOR]),
-	end:   R.c(lookbehinds([BLOCK_END]), ';'),
+	end:   R.c(lookbehinds([DELIMS.BLOCK[1]]), ';'),
 	patterns: [
 		{
 			name:  pattern_name('storage.modifier'),
@@ -208,7 +207,7 @@ export const MEMBER__CONSTRUCTOR = {
 export const MEMBER__CONSTRUCTORGROUP = {
 	name: pattern_name('meta.constructorgroup'),
 	begin: lookaheads([CONSTRUCTORGROUP]),
-	end:   lookbehinds([BLOCK_END]),
+	end:   lookbehinds([DELIMS.BLOCK[1]]),
 	patterns: [
 		{
 			name:  pattern_name('storage.modifier'),
@@ -234,7 +233,7 @@ export const MEMBER__CONSTRUCTORGROUP = {
 export const MEMBER__METHOD = {
 	name: pattern_name('meta.method'),
 	begin: lookaheads([METHOD]),
-	end:   R.c(lookbehinds([BLOCK_END]), ';'),
+	end:   R.c(lookbehinds([DELIMS.BLOCK[1]]), ';'),
 	endCaptures: {
 		0: {name: pattern_name('punctuation.delimiter')},
 	},
@@ -260,7 +259,7 @@ export const MEMBER__METHOD = {
 export const MEMBER__METHODGROUP = {
 	name: pattern_name('meta.methodgroup'),
 	begin: lookaheads([METHODGROUP]),
-	end:   lookbehinds([BLOCK_END]),
+	end:   lookbehinds([DELIMS.BLOCK[1]]),
 	patterns: [
 		{
 			name:  pattern_name('storage.modifier'),

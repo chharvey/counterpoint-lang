@@ -12,7 +12,6 @@ import {
 	ANNO_START,
 	ASSN_START,
 	THINARROW,
-	BLOCK_END,
 } from '../selectors.ts';
 import {
 	annotation,
@@ -145,7 +144,7 @@ export const STATEMENT__ITERATION = {
 		},
 		{
 			begin: R.w('do'),
-			end:   lookbehinds([BLOCK_END]),
+			end:   lookbehinds([DELIMS.BLOCK[1]]),
 			beginCaptures: {
 				0: {name: pattern_name('keyword.control')},
 			},

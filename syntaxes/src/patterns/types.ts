@@ -89,7 +89,7 @@ export const TYPE_CALL = {
 			'[A-Za-z0-9_\'?!^*]|~~',
 			DELIMS.GROUPING[1],
 			DELIMS.LIST[1],
-			'\\}', // DELIMS.SET[1],
+			DELIMS.SET[1],
 			DELIMS.ARGS_GN[1],
 		]),
 		lookaheads([DELIMS.ARGS_GN[0]]),

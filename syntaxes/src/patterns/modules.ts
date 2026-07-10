@@ -6,7 +6,6 @@ import {
 import {
 	DELIMS,
 	ALIAS,
-	BLOCK_END,
 } from '../selectors.ts';
 import {list} from './_helpers.ts';
 
@@ -15,7 +14,7 @@ import {list} from './_helpers.ts';
 export const MODULE__INNER = {
 	name:          pattern_name('meta.declaration.module'),
 	begin:         R.w('module'),
-	end:           lookbehinds([BLOCK_END]),
+	end:           lookbehinds([DELIMS.BLOCK[1]]),
 	beginCaptures: {0: {name: pattern_name('storage.type')}},
 	patterns:      [
 		{include: '#String'},

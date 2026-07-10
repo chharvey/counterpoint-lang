@@ -17,7 +17,6 @@ import {
 	ANNO_START,
 	ASSN_START,
 	FATARROW,
-	BLOCK_END,
 	BACKSLASH,
 } from '../selectors.ts';
 import {
@@ -72,7 +71,7 @@ export const TYPE__FUNCTION = {
 export const EXPRESSION__FUNCTION = {
 	name: pattern_name('meta.expression.func'),
 	begin: R.s(BACKSLASH, lookaheads([R.s(OWS, R.c(DELIMS.PARAMS_GN[0], DELIMS.CAPTURES[0], DELIMS.PARAMS_FN[0]))])),
-	end:   R.c(lookbehinds([BLOCK_END]), FATARROW),
+	end:   R.c(lookbehinds([DELIMS.BLOCK[1]]), FATARROW),
 	beginCaptures: {
 		1: {name: pattern_name('punctuation.delimiter')},
 	},
@@ -117,7 +116,7 @@ export const DECLARATION__TYPEFUNCTION = {
 export const DECLARATION__FUNCTION = {
 	name:  pattern_name('meta.declaration.func'),
 	begin: lookaheads([R.s(R.o(R.s(COMP_ACCESS, OWS)), R.w('func'))]),
-	end:   R.c(lookbehinds([BLOCK_END]), ';'),
+	end:   R.c(lookbehinds([DELIMS.BLOCK[1]]), ';'),
 	endCaptures: {
 		0: {name: pattern_name('punctuation.delimiter')},
 	},
