@@ -165,7 +165,7 @@ func derivative[T narrows float](lambda: \(y: T) => T, delta: T): \(x: T) => T {
 }
 func subset[T? = Set[null], U widens T](a: Set[T], b: Set[U]): bool {;}
 
-func functionWithCaptures(x: int): int with (a, ref b) => a + b + x;
+func functionWithCaptures(x: int) with (a, ref b): int => a + b + x;
 func functionWithCaptures[
 	a,
 	ref 'b',
@@ -204,10 +204,10 @@ func add[T](x, y) impl BinaryOperator[T] {
 	return x + y;
 }
 func add[T](x, y) impl BinaryOperator[T] => x + y;
-func addCaptures[T](x, y) impl BinaryOperator[T] with (z) {
+func addCaptures[T](x, y) with (z) impl BinaryOperator[T] {
 	return x + y + z;
 }
-func addCaptures[T](x: int, y: int): int impl BinaryOperator[T] with (z) {
+func addCaptures[T](x: int, y: int) with (z): int impl BinaryOperator[T] {
 	return x + y + z;
 }
 func addCaptures[T](x, y) impl BinaryOperator[T] with (z) => x + y + z;
