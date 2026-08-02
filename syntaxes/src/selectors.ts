@@ -36,10 +36,10 @@ export const PUN        = '\\$';
 export const OPT        = '\\?';
 export const VARIANCE   = R.w(R.c('out', 'in'));
 export const CONSTRAINT = R.w(R.c('narrows', 'widens'));
-export const PERMISSION = R.w(R.c('const', 'readonly', 'writeonly'));
+export const PERMISSION = R.w(R.c(MUTABLE, 'readonly', 'writeonly', 'guarded', 'veiled'));
 export const IMPL       = R.w('impl');
-export const OVR        = R.w(R.c('override', 'impl'));
-export const OVR_CLAIM  = R.w(R.c(OVR, 'claim'));
+export const FIELD_IMPL = R.w(R.c(IMPL, 'claim'));
+export const METH_IMPL  = R.w(R.c('override', IMPL, 'claim'));
 export const CAPTURE    = R.w('with');
 export const ANNO_START = `\\:${ lookaheads(['\\:'], true) }`;
 export const ASSN_START = `=${ lookaheads(['[=>]'], true) }`;
@@ -64,7 +64,7 @@ export function destructure_selector(prop_delim: string) {
 
 export const FIELD = `
 	(${ MEMB_ACCESS } ${ OWS })?
-	(${ OVR_CLAIM } ${ OWS })?
+	(${ FIELD_IMPL } ${ OWS })?
 	(${ PERMISSION } ${ OWS })?
 	${ VAR } ${ OWS } (${ OPT } ${ OWS })?
 	(?:${ ANNO_START } | ${ ASSN_START })
@@ -72,7 +72,7 @@ export const FIELD = `
 
 export const FIELD_CONSTRUCTOR = `
 	${ MEMB_ACCESS } ${ OWS }
-	(${ OVR } ${ OWS })?
+	(${ IMPL } ${ OWS })?
 	(${ PERMISSION } ${ OWS })?
 	(?:
 		(${ VAR } ${ OWS } ${ ASSN_START } ${ OWS })? (${ UNFIXED } ${ OWS })? ${ VAR } ${ OWS } (${ OPT } ${ OWS })? (${ ANNO_START } | ${ ASSN_START })
@@ -92,7 +92,7 @@ export const CONSTRUCTORGROUP = `
 
 export const METHOD = `
 	(${ MEMB_ACCESS } ${ OWS })?
-	(${ OVR_CLAIM } ${ OWS })?
+	(${ METH_IMPL } ${ OWS })?
 	(\\b final \\b ${ OWS })?
 	(${ MUTABLE } ${ OWS })?
 	(?:${ VAR } ${ OWS })? (?:${ DELIMS.PARAMS_GN[0] } | ${ DELIMS.PARAMS_FN[0] })
@@ -100,7 +100,7 @@ export const METHOD = `
 
 export const METHODGROUP = `
 	(${ MEMB_ACCESS } ${ OWS })?
-	(${ OVR_CLAIM } ${ OWS })?
+	(${ METH_IMPL } ${ OWS })?
 	(\\b final \\b ${ OWS })?
 	${ VAR } ${ OWS } ${ DELIMS.BLOCK[0] }
 `.replace(/\s+/g, '');

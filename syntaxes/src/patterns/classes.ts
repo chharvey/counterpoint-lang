@@ -15,8 +15,8 @@ import {
 	OPT,
 	PERMISSION,
 	IMPL,
-	OVR,
-	OVR_CLAIM,
+	FIELD_IMPL,
+	METH_IMPL,
 	CAPTURE,
 	ASSN_START,
 	FATARROW,
@@ -150,7 +150,7 @@ export const CONSTRUCTOR_FIELD = {
 		{include: '#DestructureParameter'},
 		{
 			name:  pattern_name('storage.modifier'),
-			match: R.c(MEMB_ACCESS, OVR, PERMISSION, UNFIXED),
+			match: R.c(MEMB_ACCESS, IMPL, PERMISSION, UNFIXED),
 		},
 		{
 			name:  pattern_name('keyword.other.optional'),
@@ -174,7 +174,7 @@ export const MEMBER__FIELD = {
 	patterns: [
 		{
 			name:  pattern_name('storage.modifier'),
-			match: R.c(MEMB_ACCESS, OVR_CLAIM, PERMISSION),
+			match: R.c(MEMB_ACCESS, FIELD_IMPL, PERMISSION),
 		},
 		{
 			name:  pattern_name('keyword.other.optional'),
@@ -240,7 +240,7 @@ export const MEMBER__METHOD = {
 	patterns: [
 		{
 			name:  pattern_name('storage.modifier'),
-			match: R.w(R.c(MEMB_ACCESS, OVR_CLAIM, 'final', MUTABLE)),
+			match: R.c(MEMB_ACCESS, METH_IMPL, R.w('final'), MUTABLE),
 		},
 		{
 			name:  pattern_name('keyword.other.optional'),
@@ -263,7 +263,7 @@ export const MEMBER__METHODGROUP = {
 	patterns: [
 		{
 			name:  pattern_name('storage.modifier'),
-			match: R.w(R.c(MEMB_ACCESS, OVR_CLAIM, 'final')),
+			match: R.c(MEMB_ACCESS, METH_IMPL, R.w('final')),
 		},
 		{include: '#IdentifierProperty'},
 		{

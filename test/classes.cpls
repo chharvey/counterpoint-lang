@@ -88,12 +88,13 @@ class Foo {
 	internal field: T = 42;
 	private field: T = 42;
 	protected field: T = 42;
-	override field: T = 42;
 	impl field: T = 42;
 	claim field: Typ;
-	const field: T = 42;
+	mut field: T = 42;
 	readonly field: T = 42;
 	writeonly field: T = 42;
+	guarded field: T = 42;
+	veiled field: T = 42;
 	field: Typ = 42;
 
 	public field: T;
@@ -113,11 +114,12 @@ class Foo {
 		internal constructor_field2: int,
 		private constructor_field3: int,
 		protected constructor_field4: int,
-		public override constructor_field8: int,
 		public impl constructor_field8: int,
-		public const constructor_field6: int,
+		public mut constructor_field6: int,
 		public readonly constructor_field7: int,
 		public writeonly constructor_field8: int,
+		public guarded constructor_field7: int,
+		public veiled constructor_field8: int,
 
 		private mut construtor_field8: int,
 		private construtor_field9= field9: int,
@@ -165,11 +167,12 @@ class Foo {
 			internal constructor_field2: int,
 			private constructor_field3: int,
 			protected constructor_field4: int,
-			public override constructor_field8: int,
 			public impl constructor_field8: int,
-			public const constructor_field6: int,
+			public mut constructor_field6: int,
 			public readonly constructor_field7: int,
 			public writeonly constructor_field8: int,
+			public guarded constructor_field7: int,
+			public veiled constructor_field8: int,
 
 			private mut construtor_field8: int,
 			private construtor_field9= field9: int,
