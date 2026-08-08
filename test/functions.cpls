@@ -236,5 +236,5 @@ val subtract: Function = \(   mut $a,              %%mut%% $b):           int =>
 
 
 %-- punning in generic typefunc params --%
-typefunc Binop[A= nominal out A?  narrows int = int, B= %%nominal%% mut in B?  widens int = A] => int;
-typefunc Binop[   nominal out $A? narrows int = int,    %%nominal%% mut in $B? widens int = A] => int;
+typefunc Binop[A= out nominal A?  narrows int = int, B= mut in %%nominal%% B?  widens int = A] => int;
+typefunc Binop[   out nominal $A? narrows int = int,    mut in %%nominal%% $B? widens int = A] => int;

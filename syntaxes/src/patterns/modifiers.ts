@@ -32,11 +32,11 @@ export const MODIFIERS__DECLARATION__VARIABLE = {
 
 export const MODIFIERS__GENERIC_PARAMETER = {
 	patterns: [
-		{include: '#ModifiersDeclarationType'},
 		{
 			name:  pattern_name('storage.modifier'),
 			match: R.c(MUTABLE, VARIANCE),
 		},
+		{include: '#ModifiersDeclarationType'},
 	],
 };
 
