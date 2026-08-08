@@ -26,6 +26,7 @@ export const VARNAME = '\\b[A-Za-z_][A-Za-z0-9_]*\\b';
 export const VAR     = `(?:${ VARNAME }|\'.*\')`;
 
 export const COMP_ACCESS = R.w(R.c('public', 'internal', 'private'));
+export const OPEN        = R.w('open');
 export const MEMB_ACCESS = R.w(R.c(COMP_ACCESS, 'protected'));
 export const UNFIXED     = R.w('mut');
 export const REF         = R.w('ref');
@@ -93,7 +94,7 @@ export const CONSTRUCTORGROUP = `
 export const METHOD = `
 	(${ MEMB_ACCESS } ${ OWS })?
 	(${ METH_IMPL } ${ OWS })?
-	(\\b final \\b ${ OWS })?
+	(${ OPEN } ${ OWS })?
 	(${ MUTABLE } ${ OWS })?
 	(?:${ VAR } ${ OWS })? (?:${ DELIMS.PARAMS_GN[0] } | ${ DELIMS.PARAMS_FN[0] })
 `.replace(/\s+/g, '');
@@ -101,6 +102,6 @@ export const METHOD = `
 export const METHODGROUP = `
 	(${ MEMB_ACCESS } ${ OWS })?
 	(${ METH_IMPL } ${ OWS })?
-	(\\b final \\b ${ OWS })?
+	(${ OPEN } ${ OWS })?
 	${ VAR } ${ OWS } ${ DELIMS.BLOCK[0] }
 `.replace(/\s+/g, '');

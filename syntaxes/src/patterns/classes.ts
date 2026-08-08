@@ -8,6 +8,7 @@ import {
 	DELIMS,
 	OWS,
 	COMP_ACCESS,
+	OPEN,
 	MEMB_ACCESS,
 	UNFIXED,
 	NOMINAL,
@@ -69,10 +70,6 @@ export const TYPE__INTERFACE = {
 		{include: '#GenericParameters'},
 		{include: '#ClassHeritage'},
 		{include: '#ClassBody'},
-		{
-			name: pattern_name('storage.modifier'),
-			match: R.w('data'),
-		},
 	],
 };
 
@@ -93,7 +90,7 @@ export const EXPRESSION__CLASS = {
 		{include: '#ClassBody'},
 		{
 			name: pattern_name('storage.modifier'),
-			match: R.w(R.c('final', 'abstract', 'enum', 'data')),
+			match: R.w(R.c(OPEN, 'abstract', 'enum')),
 		},
 	],
 };
@@ -114,7 +111,7 @@ export const DECLARATION__CLASS = {
 		},
 		{
 			name:  pattern_name('storage.modifier'),
-			match: R.w(R.c(COMP_ACCESS, 'final', 'abstract', 'enum', 'data', NOMINAL)),
+			match: R.w(R.c(COMP_ACCESS, OPEN, 'abstract', 'enum', NOMINAL)),
 		},
 		{include: '#IdentifierClass'}, // must come after keywords
 	],
@@ -135,7 +132,7 @@ export const DECLARATION__INTERFACE = {
 		},
 		{
 			name:  pattern_name('storage.modifier'),
-			match: R.w(R.c(COMP_ACCESS, 'data', NOMINAL)),
+			match: R.w(R.c(COMP_ACCESS, NOMINAL)),
 		},
 		{include: '#IdentifierClass'}, // must come after keywords
 	],
@@ -240,7 +237,7 @@ export const MEMBER__METHOD = {
 	patterns: [
 		{
 			name:  pattern_name('storage.modifier'),
-			match: R.c(MEMB_ACCESS, METH_IMPL, R.w('final'), MUTABLE),
+			match: R.c(MEMB_ACCESS, METH_IMPL, OPEN, MUTABLE),
 		},
 		{
 			name:  pattern_name('keyword.other.optional'),
@@ -263,7 +260,7 @@ export const MEMBER__METHODGROUP = {
 	patterns: [
 		{
 			name:  pattern_name('storage.modifier'),
-			match: R.c(MEMB_ACCESS, METH_IMPL, R.w('final')),
+			match: R.c(MEMB_ACCESS, METH_IMPL, OPEN),
 		},
 		{include: '#IdentifierProperty'},
 		{

@@ -4,10 +4,9 @@ class _ {}
 public class Foo {}
 internal class Foo {}
 private class Foo {}
-class enum Foo {}
-class final Foo {}
+class open Foo {}
 class abstract Foo {}
-class data Foo {}
+class abstract enum Foo {}
 class nominal Foo {}
 class Foo[T] {}
 class Foo[out T] {}
@@ -35,10 +34,9 @@ class ClassWithCaptures with (
 
 % class expressions
 val Foo: Class = Object && Class && (class {});
-val Foo: Class = Object && Class && (class enum {});
-val Foo: Class = Object && Class && (class final {});
+val Foo: Class = Object && Class && (class open {});
 val Foo: Class = Object && Class && (class abstract {});
-val Foo: Class = Object && Class && (class data {});
+val Foo: Class = Object && Class && (class abstract enum {});
 val Foo: Class = Object && Class && (class [T] extends Bar[T] {});
 val Foo: Class = Object && Class && (class [in T] extends Bar[T] {});
 val Foo: Class = Object && Class && (class extends Bar, Diz[T] {});
@@ -58,7 +56,6 @@ interface Foo {}
 public interface Foo {}
 internal interface Foo {}
 private interface Foo {}
-interface data Foo {}
 interface nominal Foo {}
 interface Foo[T] {}
 interface Foo[out T] {}
@@ -71,7 +68,6 @@ interface Foo extends Bar inherits Diz[T] {}
 
 % interface type expressions
 type T = anything & (interface {});
-type T = anything & (interface data {});
 type T = anything & (interface [T] {});
 type T = anything & (interface [in T] {});
 type T = anything & (interface extends Bar, Diz[T] {});
@@ -140,7 +136,7 @@ class Foo {
 	override meth(): void {;}
 	impl meth(): void {;}
 	claim meth(): void;
-	final meth(): void {;}
+	open meth(): void {;}
 	mut meth(): void {;}
 	meth[T](): void {;}
 	meth[out T](): void {;}
@@ -196,7 +192,7 @@ class Foo {
 	override methodGroup { (): void {;} }
 	impl methodGroup { (): void {;} }
 	claim methodGroup { (): void; }
-	final methodGroup { (): void {;} }
+	open methodGroup { (): void {;} }
 	methodGroup { mut (): void {;} }
 }
 
