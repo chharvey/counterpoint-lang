@@ -5,7 +5,6 @@ import {
 import {
 	UNFIXED,
 	NOMINAL,
-	MUTABLE,
 	VARIANCE,
 } from '../selectors.ts';
 
@@ -34,7 +33,7 @@ export const MODIFIERS__GENERIC_PARAMETER = {
 	patterns: [
 		{
 			name:  pattern_name('storage.modifier'),
-			match: R.c(MUTABLE, VARIANCE),
+			match: VARIANCE,
 		},
 		{include: '#ModifiersDeclarationType'},
 	],

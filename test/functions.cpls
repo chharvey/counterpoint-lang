@@ -236,5 +236,16 @@ val subtract: Function = \(   mut $a,              %%mut%% $b):           int =>
 
 
 %-- punning in generic typefunc params --%
-typefunc Binop[A= out nominal A?  narrows int = int, B= mut in %%nominal%% B?  widens int = A] => int;
-typefunc Binop[   out nominal $A? narrows int = int,    mut in %%nominal%% $B? widens int = A] => int;
+typefunc Binop[A= out nominal A?  narrows int = int, B= (in) %%nominal%% B?  widens int = A] => int;
+typefunc Binop[   out nominal $A? narrows int = int,    (in) %%nominal%% $B? widens int = A] => int;
+
+
+%-- generic parameter variance --%
+func[T](): void {};          % always invariant
+func[in T](): void {};       % always contravariant
+func[out T](): void {};      % always covariant
+func[in(out) T](): void {};  % contravariant when read-only, invariant when mutable
+func[out(in) T](): void {};  % covariant when read-only, invariant when mutable
+func[(inout) T](): void {};  % bivariant when read-only, invariant when mutable
+func[(in) T](): void {};     % bivariant when read-only, contravariant when mutable
+func[(out) T](): void {};    % bivariant when read-only, covariant when mutable
