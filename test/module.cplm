@@ -1,35 +1,12 @@
 % This is a Counterpoint module file!
 
-from "module-path" import Component;
-from "module-path" import _;
-from "module-path" import type Component;
-from "module-path" import await Component;
-from %% a %% "module-path" %% b %% import %% c %% Component %% d %%;
-private func test(): void {
-	Component;
-}
-
-from "module-path" import Component as Alias;
-from "module-path" import type Component as Alias;
-from "module-path" import await Component as Alias;
-from % a
-"module-path" % b
-import % c
-Component % d
-as % e
-Alias% f
-;
-private func test(): void {
-	Component; %> ReferenceError01
-	Alias;
-}
-
 from "module-path" import (A, B);
 from "module-path" import (_, B);
 from "module-path" import type (A, B);
 from "module-path" import await (A, B);
 from "module-path" import (type A, B);
 from "module-path" import (A, await B);
+from %% a %% "module-path" %% b %% import %% c %% (Component) %% d %%;
 from "module-path" import (A, %% a %% B %% b %%);
 from "module-path" import (
 	A,
@@ -65,6 +42,13 @@ from "module-path" import type (A as Alias, B) as Namespace;
 from "module-path" import await (A as Alias, B) as Namespace;
 from "module-path" import (type A as Alias, B) as Namespace;
 from "module-path" import (A as Alias, await B) as Namespace;
+from % a
+"module-path" % b
+import % c
+(Component) % d
+as % e
+Namespace% f
+;
 from "module-path" import (A %% a %% as %% b %% Alias, B) as Namespace;
 from "module-path" import (
 	A % a
@@ -114,15 +98,15 @@ public class Bar extends AwaitMod::Rec.Foo {
 module "mock-module-path" {
 	module "nested-module-path" {
 		from "module-path" import (type A as Alias, await B) as Namespace;
-		from "real-module-path" import type Qux;
-		from "mock-module-path" import Bar;
+		from "real-module-path" import type (Qux);
+		from "mock-module-path" import (Bar);
 		public class Foo extends Namespace::B {}
 	}
 
-	from "real-module-path" import type Qux;
-	from "nested-module-path" import await Foo;
+	from "real-module-path" import type (Qux);
+	from "nested-module-path" import await (Foo);
 	public class Bar extends Foo {}
 }
-from "nested-module-path" import type Foo; % invalid (inner modules are always private)
-from "mock-module-path" import await Bar;
+from "nested-module-path" import type (Foo); % invalid (inner modules are always private)
+from "mock-module-path" import await (Bar);
 public class Qux extends Bar {}
