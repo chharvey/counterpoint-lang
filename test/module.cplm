@@ -61,9 +61,9 @@ private func test(): void {
 	Alias; %> ReferenceError01
 	B;     %> ReferenceError01
 	Namespace;       %> ReferenceError03: `Namespace` refers to a module, but is used as a value.
-	Namespace.A;     %> TypeError04: Property `A` does not exist on type `Namespace`.
-	Namespace.Alias;
-	Namespace.B;
+	Namespace::A;     %> TypeError04: Property `A` does not exist on type `Namespace`.
+	Namespace::Alias;
+	Namespace::B;
 }
 
 from "module-path" import all as Namespace;
@@ -75,8 +75,8 @@ private func test(): void {
 	A;           %> ReferenceError01
 	B;           %> ReferenceError01
 	Namespace;   %> ReferenceError03: `Namespace` refers to a module, but is used as a value.
-	Namespace.A;
-	Namespace.B;
+	Namespace::A;
+	Namespace::B;
 }
 
 
