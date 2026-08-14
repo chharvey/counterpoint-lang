@@ -166,10 +166,10 @@ func derivative[T narrows float](lambda: \(y: T) => T, delta: T): \(x: T) => T {
 func subset[T? = Set[null], U widens T](a: Set[T], b: Set[U]): bool {;}
 
 func functionWithCaptures(x: int) with (a, ref b): int => a + b + x;
-func functionWithCaptures[
+func functionWithCaptures(x: int) with (
 	a,
 	ref 'b',
-](x: int): int => a + b + x;
+): int => a + b + x;
 
 func returnFunc(): Object => \(x: int): int => x + 1;
 func returnFunc(): (Object) => \(x: int): int => x + 1;
