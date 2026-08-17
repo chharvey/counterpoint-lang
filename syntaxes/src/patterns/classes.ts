@@ -30,6 +30,7 @@ import {
 } from '../selectors.ts';
 import {
 	qualified_name,
+	list,
 	label,
 	annotation,
 	assignment,
@@ -49,10 +50,11 @@ export const CLASS_HERITAGE = {
 		{include: '#TypeAccess'},
 		{include: '#TypeCall'},
 		qualified_name('entity.other.inherited-class'),
-		{
-			name: pattern_name('punctuation.separator'),
-			match: ',',
-		},
+		list(pattern_name('meta.heritage.list'), DELIMS.HERITAGE[0], DELIMS.HERITAGE[1], [
+			{include: '#TypeAccess'},
+			{include: '#TypeCall'},
+			qualified_name('entity.other.inherited-class'),
+		]),
 	],
 };
 

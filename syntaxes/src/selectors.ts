@@ -13,12 +13,13 @@ export const DELIMS = {
 	ARGS_FN:   ['\\(', '\\)'],
 	CLAIM:     [':',   ':'],
 	BLOCK:     ['\\{', '\\}'],
-	CAPTURES:  ['\\(', '\\)'],
 	PARAMS_GN: ['\\[', '\\]'],
 	PARAMS_FN: ['\\(', '\\)'],
+	CAPTURES:  ['\\(', '\\)'],
 	DESTRUCT:  ['\\(', '\\)'],
 	IMPORT:    ['\\(', '\\)'],
-};
+	HERITAGE:  ['\\(', '\\)'],
+} as const;
 
 export const OWS     = '(?:\\s+|(%%(?:%?[^%])*%%))*';
 export const INT     = '(?:\\+|-)?(?:\\\\[bqsodxz])?[0-9a-z_]+';
