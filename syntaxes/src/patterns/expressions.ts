@@ -198,7 +198,7 @@ export const EXPRESSIONNONBLOCK = {
 		},
 		{
 			name: pattern_name('keyword.operator.text'),
-			match: R.c(R.w(R.c('isset', 'is', 'if', 'then', 'else')), R.s(R.c('!isset', '!is'), '\\b')),
+			match: R.c(R.w(R.c('is', 'if', 'then', 'else')), '!is\\b'),
 		},
 		{include: '#ExpressionFunction'},
 		{include: '#ExpressionClass'},
@@ -217,7 +217,7 @@ export const EXPRESSIONNONBLOCK = {
 		{
 			name: pattern_name('keyword.operator.punctuation'),
 			match: `[
-				! ?   # must come after '!isset', '!is', 'as[?!]?'
+				! ?   # must come after '!is', 'as[?!]?'
 				+ \\- # must come after 'unit'
 				< >   # must come after '#ExpressionFunction' and '#ExpressionCall'
 			]`.replace(/\#.*\n|\s+/g, ''),
