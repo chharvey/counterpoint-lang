@@ -187,6 +187,20 @@ func twice(x: int): int => x * 2;
 	type T = F%comm
 		[TArg, B= Targ, $C];
 
+	type A = Object;
+	type A = Type;
+	type A = Class;
+	type A = List[T];
+	type A = Dict[T];
+	type A = Set[T];
+	type A = Map[T];
+	type A = Maybe[T];
+	type A = None[T];
+	type A = Some[T];
+	type A = Result[T, E];
+	type A = Fail[T, E];
+	type A = Ok[T, E];
+
 	% operators:
 	!a;
 	?a;
@@ -308,19 +322,51 @@ func twice(x: int): int => x * 2;
 		##doublespread,
 		_= blank,
 	)++;
+	Null(); % abstrct
+	Boolean(anyvalue);
+	Symbol(a_string);
 	Integer(numeric);
 	Natural(numeric);
 	Float(numeric);
-	String(numeric);
+	String(anyvalue);
 	Int(numeric);
 	Nat(numeric);
 	Decimal(numeric);
-	Str(numeric);
+	Str(anyvalue);
+	Object(); % abstract
+	Type();   % abstract
+	Class();  % abstract
 	List[T]();
 	Dict[T]();
 	Set[T]();
 	Map[T, U]();
 	Mapping[T, U]();
+	Maybe[T](); % abstract
+	None[T]();
+	Some[T](a_t);
+	Result[T, E](); % abstract
+	Fail[T, E](an_e);
+	Ok[T, E](a_t);
+	anyvalue is Null;
+	anyvalue is Boolean;
+	anyvalue is Symbol;
+	anyvalue is Integer;
+	anyvalue is Natural;
+	anyvalue is Float;
+	anyvalue is String;
+	anyvalue is Object;
+	anyvalue is Type;
+	anyvalue is Class;
+	anyvalue is List;
+	anyvalue is Dict;
+	anyvalue is Set;
+	anyvalue is Map;
+	anyvalue is Maybe;
+	anyvalue is None;
+	anyvalue is Some;
+	anyvalue is Result;
+	anyvalue is Fail;
+	anyvalue is Ok;
 	structure.property + p;
 	structure.'pr op' + p;
 	structure.%%dot%%property + p;
