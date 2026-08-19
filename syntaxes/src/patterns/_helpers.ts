@@ -247,7 +247,7 @@ export function implicitReturn(include = '#Expression') {
 }
 
 
-export function destructure(subtype: string, identifiers: object) {
+export function destructure(subtype: string, identifier_kind: string) {
 	const prop_delim = (
 		['Variable', 'Parameter', 'Property', 'Argument', 'Assignment'].includes(subtype)      ? ASSN_START :
 		['TypeAlias', 'GenericParameter', 'TypeProperty', 'GenericArgument'].includes(subtype) ? ANNO_START :
@@ -282,6 +282,6 @@ export function destructure(subtype: string, identifiers: object) {
 			constraint(lookaheads([ASSN_START, ',', DELIMS.DESTRUCT[1]])),
 			assignment(lookaheads([',', DELIMS.DESTRUCT[1]]), true),
 		] : []),
-		identifiers,
+		{include: identifier_kind},
 	]);
 }
