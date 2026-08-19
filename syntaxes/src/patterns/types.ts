@@ -7,8 +7,6 @@ import {
 import {
 	DELIMS,
 	OWS,
-	INT,
-	VAR,
 	PUN,
 	ANNO_START,
 	ASSN_START,
@@ -49,7 +47,7 @@ function type_argument_or_property(end: string, destructure_kind: string, identi
 			beginCaptures: {0: {name: pattern_name('keyword.other.alias')}},
 			patterns:      [{include: identifier_kind}],
 		},
-		label(label_delim, identifier_kind),
+		label(label_delim, identifier_kind, label_delim === ANNO_START),
 		label_value,
 		{
 			name: pattern_name('keyword.other.spread'),

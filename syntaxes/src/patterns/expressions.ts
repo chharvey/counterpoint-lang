@@ -7,8 +7,6 @@ import {
 import {
 	DELIMS,
 	OWS,
-	INT,
-	VAR,
 	PUN,
 	ASSN_START,
 	THINARROW,

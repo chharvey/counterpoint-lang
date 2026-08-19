@@ -110,7 +110,8 @@ type U narrows int | bool = int;
 typefunc U[mut in V? = W[int]] => V | W%%c%%[X];
 typefunc U[V= Vv] => Vv | W;
 
-type T = (a: boolean, b: int, c: T);
+type T = (a: boolean, b: int, c?: T);
+type T = (boolean, int, ?: T);
 val x: T = (a= false, b= 42, $c);
 
 val 'bōōl || flō' = 'flō || bōōl' || flo || boo;

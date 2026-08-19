@@ -151,13 +151,23 @@ export function list(name: string, begin: string, end: string, more_patterns: re
 }
 
 
-export function label(prop_delim: string, identifier_kind: string) {
+export function label(prop_delim: string, identifier_kind: string, allow_optional: boolean = false) {
 	return {
-		name:        pattern_name('meta.label'),
-		begin:       lookaheads([R.s(VAR, OWS, prop_delim)]),
+		name:  pattern_name('meta.label'),
+		begin: lookaheads([R.s(...(allow_optional ? [R.c(
+			R.s(VAR, OWS),
+			R.s(OPT, OWS),
+			R.s(VAR, OWS, OPT, OWS),
+		)] : [VAR, OWS]), prop_delim)]),
 		end:         prop_delim,
 		endCaptures: {0: {name: pattern_name('punctuation.delimiter')}},
-		patterns:    [{include: identifier_kind}],
+		patterns: [
+			{
+				name:  pattern_name('keyword.other.optional'),
+				match: OPT,
+			},
+			{include: identifier_kind},
+		],
 	};
 }
 
