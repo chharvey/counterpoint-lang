@@ -26,10 +26,15 @@ import {
 
 
 
-function type_argument_or_property(end: string, destructure_kind: string, identifier_kind: string, label_delim: string) {
+function type_argument_or_property(end: string, destructure_kind: string, identifier_kind: string) {
+	const label_delim = (
+		identifier_kind === '#IdentifierParameter' ? ASSN_START :
+		identifier_kind === '#IdentifierProperty'  ? ANNO_START :
+		''
+	);
 	const label_value = (
-		label_delim === ANNO_START ? annotation(end) :
 		label_delim === ASSN_START ? assignment(end, true) :
+		label_delim === ANNO_START ? annotation(end) :
 		{}
 	);
 	return [
@@ -47,7 +52,7 @@ function type_argument_or_property(end: string, destructure_kind: string, identi
 			beginCaptures: {0: {name: pattern_name('keyword.other.alias')}},
 			patterns:      [{include: identifier_kind}],
 		},
-		label(label_delim, label_delim === ANNO_START),
+		label(label_delim, identifier_kind === '#IdentifierProperty'),
 		label_value,
 		{
 			name: pattern_name('keyword.other.spread'),
@@ -62,7 +67,6 @@ export const GENERIC_ARGUMENTS = list(pattern_name('meta.genericarguments'), DEL
 	lookaheads([',', DELIMS.ARGS_GN[1]]),
 	'#DestructureGenericArgument',
 	'#IdentifierParameter',
-	ASSN_START,
 ));
 
 
@@ -101,7 +105,6 @@ export const TYPE__STRUCTURE__GROUPING = list(pattern_name('meta.type.structure.
 	lookaheads([',', DELIMS.GROUPING[1]]),
 	'#DestructureTypeProperty',
 	'#IdentifierProperty',
-	ANNO_START,
 ));
 
 
@@ -109,7 +112,6 @@ export const TYPE__STRUCTURE__LIST = list(pattern_name('meta.type.structure.list
 	lookaheads([',', DELIMS.LIST[1]]),
 	'#DestructureTypeProperty',
 	'#IdentifierProperty',
-	ANNO_START,
 ));
 
 
