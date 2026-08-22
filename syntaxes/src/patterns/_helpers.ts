@@ -151,7 +151,7 @@ export function list(name: string, begin: string, end: string, more_patterns: re
 }
 
 
-export function label(prop_delim: string, identifier_kind: string, allow_optional: boolean = false) {
+export function label(prop_delim: string, allow_optional: boolean = false) {
 	return {
 		name:  pattern_name('meta.label'),
 		begin: lookaheads([R.s(...(allow_optional ? [R.c(
@@ -166,7 +166,7 @@ export function label(prop_delim: string, identifier_kind: string, allow_optiona
 				name:  pattern_name('keyword.other.optional'),
 				match: OPT,
 			},
-			{include: identifier_kind},
+			{include: '#IdentifierProperty'},
 		],
 	};
 }
@@ -255,7 +255,7 @@ export function destructure(subtype: string, identifier_kind: string) {
 	);
 	return list(pattern_name(`meta.destructure.${ subtype.toLowerCase() }`), DELIMS.DESTRUCT[0], DELIMS.DESTRUCT[1], [
 		{include: `#Destructure${ subtype }`},
-		label(prop_delim, '#IdentifierProperty'),
+		label(prop_delim),
 		{
 			name: pattern_name('keyword.other.alias'),
 			match: PUN,

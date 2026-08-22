@@ -153,7 +153,7 @@ export const CONSTRUCTOR_FIELD = {
 			name:  pattern_name('keyword.other.optional'),
 			match: OPT,
 		},
-		label(ASSN_START, '#IdentifierProperty'),
+		label(ASSN_START),
 		annotation(lookaheads([ASSN_START, ',', DELIMS.PARAMS_FN[1]])),
 		assignment(lookaheads([',', DELIMS.PARAMS_FN[1]])),
 		{include: '#IdentifierProperty'},
