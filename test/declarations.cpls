@@ -40,6 +40,7 @@ val %%mut%% 'mut': int =
 	+ -\z13579fz
 ;
 set %%c%% g = 42;
+set g? = 42;
 set g = 42 == 42;
 set g == 42;
 set g = if true then 1 else 0;

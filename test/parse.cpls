@@ -127,6 +127,8 @@ func twice(x: int): int => x * 2;
 		%%comm%%[T](@arg);
 	funkshin%%comm%%[T]%comm
 		(@arg);
+	funk(positional_argument, named= argument, $punned_argument);
+	funk(?= positional_elided_argument, named_elided?= argument, ?= $punned_elided_argument);
 	funkshin?(arg);
 	funkshin!(arg);
 	funkshin~?(arg);
