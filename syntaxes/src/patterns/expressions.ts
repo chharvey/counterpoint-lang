@@ -80,13 +80,11 @@ export const EXPRESSION__CLAIM = {
 export const EXPRESSION__ACCESS = {
 	patterns: [
 		{
-			name: pattern_name('meta.expression.access'),
-			begin: R.s(R.g(DOT_ACCESS)),
-			end:   lookbehinds(['[A-Za-z0-9_\']']),
-			beginCaptures: {
-				1: {name: pattern_name('keyword.operator.punctuation')},
-			},
-			patterns: [
+			name:          pattern_name('meta.expression.access'),
+			begin:         DOT_ACCESS,
+			end:           lookbehinds(['[A-Za-z0-9_\']']),
+			beginCaptures: {0: {name: pattern_name('keyword.operator.punctuation')}},
+			patterns:      [
 				{include: '#Number'},
 				identifier('variable.other', true),
 			],
