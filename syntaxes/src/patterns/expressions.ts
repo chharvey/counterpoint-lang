@@ -123,8 +123,8 @@ export const EXPRESSION__CALL = {
 export const EXPRESSION__ASSIGNEE = {
 	patterns: [
 		{
-			name: pattern_name('keyword.operator.punctuation'),
-			match: '\\+\\+|~[~?!]',
+			name:  pattern_name('keyword.operator.punctuation'),
+			match: `\\+\\+|~[~?!]|[?!]${ lookaheads([R.s(OWS, '\\.')]) }`,
 		},
 		{include: '#DestructureAssignment'},
 		{include: '#ExpressionAccess'},
