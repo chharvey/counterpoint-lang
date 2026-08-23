@@ -61,10 +61,6 @@ export const STATEMENT__SET = {
 	},
 	patterns: [
 		{include: '#ExpressionAssignee'},
-		{
-			name:  pattern_name('keyword.other.optional'),
-			match: OPT,
-		},
 		assignment(lookaheads([';']), false, R.c(ASSN_START, '(&&|\\|\\||![&|]|[\\^*/+-])=')),
 	],
 };
