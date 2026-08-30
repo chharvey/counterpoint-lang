@@ -174,7 +174,9 @@ func functionWithCaptures[
 func returnFunc(): Object => \(x: int): int => x + 1;
 func returnFunc(): (Object) => \(x: int): int => x + 1;
 func returnFunc(): ({Object}) => \(x: int): int => x + 1;
+func returnFunc(): {Object} => \(x: int): int => x + 1;
 func returnFunc(): Object => \(x: int): ({int}) => x + 1;
+func returnFunc(): Object => \(x: int): {int} => x + 1;
 func returnFunc(): \(x: int) => int => \(x) => x + 1;
 
 func returnFunc(): \(A) => (B) => \(a) => b;
