@@ -10,7 +10,7 @@ function u(x: string): string {
 
 /** `x` → `\b(?:x)\b` */
 export function w(x: string): string {
-	return s('\\b', u(x), '\\b');
+	return `\\b${ u(x) }\\b`;
 }
 
 /** `x` → `(?:x)?` */
