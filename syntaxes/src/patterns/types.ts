@@ -8,6 +8,7 @@ import {
 	DELIMS,
 	OWS,
 	PUN,
+	OPT,
 	ANNO_START,
 	ASSN_START,
 	MUTABLE,
@@ -32,6 +33,7 @@ function type_argument_or_property(end: string, destructure_kind: string, identi
 		identifier_kind === '#IdentifierProperty'  ? ANNO_START :
 		''
 	);
+	const allow_optional: boolean = identifier_kind === '#IdentifierProperty';
 	const label_value = (
 		label_delim === ASSN_START ? assignment(end, true) :
 		label_delim === ANNO_START ? annotation(end) :
@@ -50,9 +52,15 @@ function type_argument_or_property(end: string, destructure_kind: string, identi
 			end,
 			begin:         PUN,
 			beginCaptures: {0: {name: pattern_name('keyword.other.alias')}},
-			patterns:      [{include: identifier_kind}],
+			patterns:      [
+				...(allow_optional ? [{
+					name:  pattern_name('keyword.other.optional'),
+					match: OPT,
+				}] : []),
+				{include: identifier_kind},
+			],
 		},
-		label(label_delim, identifier_kind === '#IdentifierProperty'),
+		label(label_delim, allow_optional),
 		label_value,
 		{
 			name: pattern_name('keyword.other.spread'),

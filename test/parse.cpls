@@ -293,8 +293,8 @@ func twice(x: int): int => x * 2;
 	type X = (T?).a;
 	type X = (T?)?.a;
 	type X = mut T;
-	type T = (a, [b], (c | c), #spread);
-	type R = (a: 3, c: 5, key: value, $punn, $'unipunn', ##doublespread, _: blank);
+	type T = (a, [b], (c | c), ?: d, #spread);
+	type R = (a: 3, c: 5, key: value, $punn, $'unipunn', d?: Delta, $Echo?, ##doublespread, _: blank);
 
 	() + empty_tuple;
 	[a, [b, b], (c + c), #spread];
