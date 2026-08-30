@@ -3,7 +3,7 @@ import {
 	R,
 } from '../helpers.ts';
 import {
-	UNFIXED,
+	WRITABLE,
 	NOMINAL,
 	VARIANCE,
 } from '../selectors.ts';
@@ -23,7 +23,7 @@ export const MODIFIERS__DECLARATION__VARIABLE = {
 	patterns: [
 		{
 			name:  pattern_name('storage.modifier'),
-			match: UNFIXED,
+			match: WRITABLE,
 		},
 	],
 };

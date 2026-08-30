@@ -28,16 +28,17 @@ export const VAR     = `(?:${ VARNAME }|\'.*\')`;
 export const COMP_ACCESS = R.w(R.c('public', 'internal', 'private'));
 export const OPEN        = R.w('open');
 export const MEMB_ACCESS = R.w(R.c(COMP_ACCESS, 'protected'));
-export const UNFIXED     = R.w('mut');
+export const WRITABLE    = R.w('mut');
 export const REF         = R.w('ref');
 export const NOMINAL     = R.w('nominal');
+export const MUTATING    = R.w('mut');
 export const MUTABLE     = R.w('mut');
 export const ALIAS       = R.w('as');
 export const PUN        = '\\$';
 export const OPT        = '\\?';
 export const VARIANCE   = R.c('\\bin\\(out\\)', '\\bout\\(in\\)', '\\(inout\\)', '\\(in\\)', '\\(out\\)', R.w('in'), R.w('out'));
 export const CONSTRAINT = R.w(R.c('narrows', 'widens'));
-export const PERMISSION = R.w(R.c(MUTABLE, 'readonly', 'writeonly', 'guarded', 'veiled'));
+export const PERMISSION = R.w(R.c(WRITABLE, 'readonly', 'writeonly', 'guarded', 'veiled'));
 export const IMPL       = R.w('impl');
 export const FIELD_IMPL = R.w(R.c(IMPL, 'claim'));
 export const METH_IMPL  = R.w(R.c('override', IMPL, 'claim'));
@@ -76,7 +77,7 @@ export const FIELD_CONSTRUCTOR = `
 	(${ IMPL } ${ OWS })?
 	(${ PERMISSION } ${ OWS })?
 	(?:
-		(${ VAR } ${ OWS } ${ ASSN_START } ${ OWS })? (${ UNFIXED } ${ OWS })? ${ VAR } ${ OWS } (${ OPT } ${ OWS })? (${ ANNO_START } | ${ ASSN_START })
+		| (${ VAR } ${ OWS } ${ ASSN_START } ${ OWS })? (${ WRITABLE } ${ OWS })? ${ VAR } ${ OWS } (${ OPT } ${ OWS })? (${ ANNO_START } | ${ ASSN_START })
 		| ${ VAR } ${ OWS } ${ ASSN_START } ${ OWS } ${ DELIMS.DESTRUCT[0] }
 	)
 `.replace(/\s+/g, '');
@@ -95,7 +96,7 @@ export const METHOD = `
 	(${ MEMB_ACCESS } ${ OWS })?
 	(${ METH_IMPL } ${ OWS })?
 	(${ OPEN } ${ OWS })?
-	(${ MUTABLE } ${ OWS })?
+	(${ MUTATING } ${ OWS })?
 	(?:${ VAR } ${ OWS })? (?:${ DELIMS.PARAMS_GN[0] } | ${ DELIMS.PARAMS_FN[0] })
 `.replace(/\s+/g, '');
 
