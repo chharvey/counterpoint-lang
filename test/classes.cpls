@@ -106,6 +106,7 @@ class Foo {
 	protected new () {;}
 	new (
 		constructor_param: int,
+		mut constructor_param: int,
 		public constructor_field1: int,
 		internal constructor_field2: int,
 		private constructor_field3: int,
@@ -118,13 +119,31 @@ class Foo {
 		public guarded constructor_field7: int,
 		public veiled constructor_field8: int,
 
-		private mut construtor_field8: int,
-		private construtor_field9= field9: int,
-		private construtor_field10= mut field10: int,
-		private construtor_field11= (field11a, mut field11b): (int, int),
+		public $construtor_field8: int,
+		public impl $construtor_field8: int,
+		public claim $construtor_field8: int,
+		public mut $construtor_field8: int,
+		public readonly $construtor_field8: int,
+		public writeonly $construtor_field8: int,
+		public guarded $construtor_field8: int,
+		public veiled $construtor_field8: int,
+		construtor_field9=  public field9: int,
+		construtor_field10= public impl field10: int,
+		construtor_field10= public claim field10: int,
+		construtor_field10= public mut field10: int,
+		construtor_field10= public readonly field10: int,
+		construtor_field10= public writeonly field10: int,
+		construtor_field10= public guarded field10: int,
+		construtor_field10= public veiled field10: int,
 
-		public constructor_field12?: int = 42,
+		public mut constructor_field12?: int = 42,
+		public constructor_field13?: int,
 		public constructor_field13? = 42,
+		public constructor_field13?,
+		constructor_field13= public field13?: int = 42,
+		constructor_field13= public field13?: int,
+		constructor_field13= public field13? = 42,
+		constructor_field13= public field13?,
 	) {;}
 
 	%%
@@ -160,6 +179,7 @@ class Foo {
 		() {;}
 		(
 			constructor_param: int,
+			mut constructor_param: int,
 			public constructor_field1: int,
 			internal constructor_field2: int,
 			private constructor_field3: int,
@@ -172,10 +192,31 @@ class Foo {
 			public guarded constructor_field7: int,
 			public veiled constructor_field8: int,
 
-			private mut construtor_field8: int,
-			private construtor_field9= field9: int,
-			private construtor_field10= mut field10: int,
-			private construtor_field11= (field11a, mut field11b): (int, int),
+			public $construtor_field8: int,
+			public impl $construtor_field8: int,
+			public claim $construtor_field8: int,
+			public mut $construtor_field8: int,
+			public readonly $construtor_field8: int,
+			public writeonly $construtor_field8: int,
+			public guarded $construtor_field8: int,
+			public veiled $construtor_field8: int,
+			construtor_field9=  public field9: int,
+			construtor_field10= public impl field10: int,
+			construtor_field10= public claim field10: int,
+			construtor_field10= public mut field10: int,
+			construtor_field10= public readonly field10: int,
+			construtor_field10= public writeonly field10: int,
+			construtor_field10= public guarded field10: int,
+			construtor_field10= public veiled field10: int,
+
+			public mut constructor_field12?: int = 42,
+			public constructor_field13?: int,
+			public constructor_field13? = 42,
+			public constructor_field13?,
+			constructor_field13= public field13?: int = 42,
+			constructor_field13= public field13?: int,
+			constructor_field13= public field13? = 42,
+			constructor_field13= public field13?,
 		) {;}
 	}
 

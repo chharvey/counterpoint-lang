@@ -72,16 +72,6 @@ export const FIELD = `
 	(?:${ ANNO_START } | ${ ASSN_START })
 `.replace(/\s+/g, '');
 
-export const FIELD_CONSTRUCTOR = `
-	${ MEMB_ACCESS } ${ OWS }
-	(${ IMPL } ${ OWS })?
-	(${ PERMISSION } ${ OWS })?
-	(?:
-		| (${ VAR } ${ OWS } ${ ASSN_START } ${ OWS })? (${ WRITABLE } ${ OWS })? ${ VAR } ${ OWS } (${ OPT } ${ OWS })? (${ ANNO_START } | ${ ASSN_START })
-		| ${ VAR } ${ OWS } ${ ASSN_START } ${ OWS } ${ DELIMS.DESTRUCT[0] }
-	)
-`.replace(/\s+/g, '');
-
 export const CONSTRUCTOR = `
 	(${ MEMB_ACCESS } ${ OWS })?
 	(?:\\b new \\b ${ OWS })? ${ DELIMS.PARAMS_FN[0] }

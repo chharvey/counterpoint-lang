@@ -12,6 +12,7 @@ import {
 	MEMB_ACCESS,
 	NOMINAL,
 	MUTATING,
+	PUN,
 	OPT,
 	PERMISSION,
 	IMPL,
@@ -21,7 +22,6 @@ import {
 	ASSN_START,
 	FATARROW,
 	FIELD,
-	FIELD_CONSTRUCTOR,
 	CONSTRUCTOR,
 	CONSTRUCTORGROUP,
 	METHOD,
@@ -139,24 +139,25 @@ export const DECLARATION__INTERFACE = {
 
 
 export const CONSTRUCTOR_FIELD = {
-	name: pattern_name('meta.field'),
-	begin: lookaheads([FIELD_CONSTRUCTOR]),
-	end:   lookaheads([',', DELIMS.PARAMS_FN[1]]),
+	name:     pattern_name('meta.field'),
+	begin:    lookaheads([MEMB_ACCESS]),
+	end:      lookaheads([',', DELIMS.PARAMS_FN[1]]),
 	patterns: [
-		{include: '#ModifiersParameter'},
-		{include: '#DestructureParameter'},
 		{
 			name:  pattern_name('storage.modifier'),
 			match: R.c(MEMB_ACCESS, FIELD_IMPL, PERMISSION),
+		},
+		annotation(lookaheads([ASSN_START, ',', DELIMS.PARAMS_FN[1]])),
+		assignment(lookaheads([',', DELIMS.PARAMS_FN[1]])),
+		{include: '#IdentifierProperty'},
+		{
+			name:  pattern_name('keyword.other.alias'),
+			match: PUN,
 		},
 		{
 			name:  pattern_name('keyword.other.optional'),
 			match: OPT,
 		},
-		label(ASSN_START),
-		annotation(lookaheads([ASSN_START, ',', DELIMS.PARAMS_FN[1]])),
-		assignment(lookaheads([',', DELIMS.PARAMS_FN[1]])),
-		{include: '#IdentifierProperty'},
 	],
 };
 
