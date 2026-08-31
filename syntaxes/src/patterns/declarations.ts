@@ -25,7 +25,6 @@ export const DECLARATION__TYPE = {
 	},
 	patterns: [
 		{include: '#DestructureTypeAlias'},
-		{include: '#ModifiersDeclarationType'},
 		constraint(lookaheads([ASSN_START])),
 		assignment(lookaheads([';']), true),
 		{
