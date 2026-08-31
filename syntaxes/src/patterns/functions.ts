@@ -36,7 +36,7 @@ export const CAPTURES = {
 	name:          pattern_name('meta.capture'),
 	begin:         CAPTURE,
 	end:           lookbehinds([DELIMS.CAPTURES[1]]),
-	beginCaptures: {0: {name: pattern_name('storage.modifier')}},
+	beginCaptures: {0: {name: pattern_name('keyword.control')}},
 	patterns: [
 		list(pattern_name('meta.capture.list'), DELIMS.CAPTURES[0], DELIMS.CAPTURES[1], [
 			{

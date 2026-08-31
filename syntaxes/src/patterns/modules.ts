@@ -50,9 +50,9 @@ export const MODULE__IMPORT = {
 		},
 		{include: '#String'},
 		{include: '#IdentifierVariable'},
-		list('meta.import.list', DELIMS.IMPORT[0], DELIMS.IMPORT[1], [
+		list(pattern_name('meta.import.list'), DELIMS.IMPORT[0], DELIMS.IMPORT[1], [
 			{
-				name: pattern_name('keyword.control'),
+				name: pattern_name('storage.modifier'),
 				match: R.w(R.c('type', 'await')),
 			},
 			{

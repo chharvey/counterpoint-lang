@@ -11,20 +11,20 @@ class nominal Foo {}
 class Foo[T] {}
 class Foo[out T] {}
 class Foo[_] {}
-class Foo extends Bar, Diz[T] {}
-class Foo extends Rec.Bar, Rec.Diz[Rec.T] {}
-class Foo extends NS::Bar, NS::Diz[NS::T] {}
-class Foo extends _, Diz[_] {}
-class Foo impl Bar, Diz[T] {}
-class Foo impl Rec.Bar, Rec.Diz[Rec.T] {}
-class Foo impl NS::Bar, NS::Diz[NS::T] {}
+class Foo extends (Bar, Diz[T]) {}
+class Foo extends (Rec.Bar, Rec.Diz[Rec.T]) {}
+class Foo extends (NS::Bar, NS::Diz[NS::T]) {}
+class Foo extends (_, Diz[_]) {}
+class Foo impl (Bar, Diz[T]) {}
+class Foo impl (Rec.Bar, Rec.Diz[Rec.T]) {}
+class Foo impl (NS::Bar, NS::Diz[NS::T]) {}
 class Foo is Qux {}
 class Foo is Rec.Qux[Rec.T] {}
 class Foo is NS::Qux[NS::T] {}
-class Foo extends Bar impl Diz[T] {}
-class Foo extends Bar impl Diz[T] is Qux {}
+class Foo extends Bar impl (Diz[T]) {}
+class Foo extends Bar impl (Diz[T]) is Qux {}
 class Foo with (ref a, b ,) {}
-class Foo[T] extends Bar, Diz[T] with (a, ref b) {}
+class Foo[T] extends (Bar, Diz[T]) with (a, ref b) {}
 class ClassWithCaptures with (
 	ref a,
 	'b',
@@ -39,10 +39,10 @@ val Foo: Class = Object && Class && (class abstract {});
 val Foo: Class = Object && Class && (class abstract enum {});
 val Foo: Class = Object && Class && (class [T] extends Bar[T] {});
 val Foo: Class = Object && Class && (class [in T] extends Bar[T] {});
-val Foo: Class = Object && Class && (class extends Bar, Diz[T] {});
-val Foo: Class = Object && Class && (class extends _, Diz[_] {});
-val Foo: Class = Object && Class && (class impl Bar, Diz[T] {});
-val Foo: Class = Object && Class && (class extends Bar impl Diz[T] {});
+val Foo: Class = Object && Class && (class extends (Bar, Diz[T]) {});
+val Foo: Class = Object && Class && (class extends (_, Diz[_]) {});
+val Foo: Class = Object && Class && (class impl (Bar, Diz[T]) {});
+val Foo: Class = Object && Class && (class extends Bar impl (Diz[T]) {});
 val Foo: Class = Object && Class && (class extends Bar[T] with (a, ref b ,) {});
 val classWithCaptures: Class = class with (
 	a,
@@ -59,10 +59,10 @@ private interface Foo {}
 interface nominal Foo {}
 interface Foo[T] {}
 interface Foo[out T] {}
-interface Foo extends Bar, Diz[T] {}
-interface Foo inherits Bar, Diz[T] {}
-interface _ inherits _, Diz[_] {}
-interface Foo extends Bar inherits Diz[T] {}
+interface Foo extends (Bar, Diz[T]) {}
+interface Foo inherits (Bar, Diz[T]) {}
+interface _ inherits (_, Diz[_]) {}
+interface Foo extends Bar inherits (Diz[T]) {}
 
 
 
@@ -70,10 +70,10 @@ interface Foo extends Bar inherits Diz[T] {}
 type T = anything & (interface {});
 type T = anything & (interface [T] {});
 type T = anything & (interface [in T] {});
-type T = anything & (interface extends Bar, Diz[T] {});
-type T = anything & (interface inherits Bar, Diz[T] {});
-type T = anything & (interface inherits _, Diz[_] {});
-type T = anything & (interface extends Bar inherits Diz[T] {});
+type T = anything & (interface extends (Bar, Diz[T]) {});
+type T = anything & (interface inherits (Bar, Diz[T]) {});
+type T = anything & (interface inherits (_, Diz[_]) {});
+type T = anything & (interface extends Bar inherits (Diz[T]) {});
 
 
 
