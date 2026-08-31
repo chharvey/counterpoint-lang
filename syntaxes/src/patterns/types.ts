@@ -12,6 +12,7 @@ import {
 	ANNO_START,
 	ASSN_START,
 	MUTABLE,
+	STRUCTURAL,
 	THINARROW,
 	DOT_ACCESS,
 	destructure_selector,
@@ -151,8 +152,8 @@ export const TYPEFNRET = {
 			match: '~~|[?!^*/&|]',
 		},
 		{
-			name: pattern_name('keyword.operator.text'),
-			match: MUTABLE,
+			name:  pattern_name('keyword.operator.text'),
+			match: R.c(MUTABLE, STRUCTURAL),
 		},
 		{include: '#TypeFunction'},
 		{include: '#TypeInterface'},

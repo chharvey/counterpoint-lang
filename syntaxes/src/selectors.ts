@@ -33,6 +33,7 @@ export const REF         = R.w('ref');
 export const NOMINAL     = R.w('nominal');
 export const MUTATING    = R.w('mut');
 export const MUTABLE     = R.w('mut');
+export const STRUCTURAL  = R.w('struct');
 export const ALIAS       = R.w('as');
 export const PUN        = '\\$';
 export const OPT        = '\\?';
