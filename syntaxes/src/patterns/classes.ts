@@ -10,7 +10,6 @@ import {
 	COMP_ACCESS,
 	OPEN,
 	MEMB_ACCESS,
-	NOMINAL,
 	MUTATING,
 	PUN,
 	OPT,
@@ -112,7 +111,7 @@ export const DECLARATION__CLASS = {
 		},
 		{
 			name:  pattern_name('storage.modifier'),
-			match: R.w(R.c(COMP_ACCESS, OPEN, 'abstract', 'enum', NOMINAL)),
+			match: R.w(R.c(COMP_ACCESS, OPEN, 'abstract', 'enum')),
 		},
 		{include: '#IdentifierClass'}, // must come after keywords
 	],
@@ -133,7 +132,7 @@ export const DECLARATION__INTERFACE = {
 		},
 		{
 			name:  pattern_name('storage.modifier'),
-			match: R.w(R.c(COMP_ACCESS, NOMINAL)),
+			match: COMP_ACCESS,
 		},
 		{include: '#IdentifierClass'}, // must come after keywords
 	],

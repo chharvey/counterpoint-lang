@@ -31,7 +31,6 @@ export const OPEN        = R.w('open');
 export const MEMB_ACCESS = R.w(R.c(COMP_ACCESS, 'protected'));
 export const WRITABLE    = R.w('mut');
 export const REF         = R.w('ref');
-export const NOMINAL     = R.w('nominal');
 export const MUTATING    = R.w('mut');
 export const MUTABLE     = R.w('mut');
 export const STRUCTURAL  = R.w('struct');
