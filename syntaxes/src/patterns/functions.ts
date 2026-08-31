@@ -145,37 +145,27 @@ export const GENERIC_PARAMETER_PATTERNS = {
 	patterns: [
 		{include: '#ModifiersGenericParameter'},
 		{include: '#DestructureGenericParameter'},
+		label(ASSN_START),
+		constraint(lookaheads([ASSN_START, ',', DELIMS.PARAMS_GN[1]])),
+		assignment(lookaheads([',', DELIMS.PARAMS_GN[1]]), true),
+		{include: '#IdentifierParameter'},
 		{
-			name: pattern_name('keyword.other.alias'),
+			name:  pattern_name('keyword.other.alias'),
 			match: PUN,
 		},
 		{
 			name:  pattern_name('keyword.other.optional'),
 			match: OPT,
 		},
-		label(ASSN_START),
-		constraint(lookaheads([ASSN_START, ',', DELIMS.PARAMS_GN[1]])),
-		assignment(lookaheads([',', DELIMS.PARAMS_GN[1]]), true),
-		{include: '#IdentifierParameter'},
 	],
 };
 
 
 export const TYPE_PARAMETER_PATTERNS = {
 	patterns: [
+		label(ANNO_START, true),
 		annotation(lookaheads([',', DELIMS.PARAMS_FN[1]])),
-		{
-			name:  pattern_name('keyword.other.optional'),
-			match: OPT,
-		},
-		{
-			begin: lookaheads([R.s(R.o(R.s(VAR, OWS)), R.o(R.s(OPT, OWS)), ANNO_START)]),
-			end:   lookaheads([OPT, ANNO_START]),
-			patterns: [
-				{include: '#IdentifierParameter'},
-			],
-		},
-		{include: '#Type'}, // must come after `#IdentifierParameter`
+		{include: '#Type'},
 	],
 };
 
@@ -184,17 +174,17 @@ export const PARAMETER_PATTERNS = {
 	patterns: [
 		{include: '#ModifiersParameter'},
 		{include: '#DestructureParameter'},
+		label(ASSN_START),
+		annotation(lookaheads([ASSN_START, ',', DELIMS.PARAMS_FN[1]])),
+		assignment(lookaheads([',', DELIMS.PARAMS_FN[1]])),
+		{include: '#IdentifierParameter'},
 		{
-			name: pattern_name('keyword.other.alias'),
+			name:  pattern_name('keyword.other.alias'),
 			match: PUN,
 		},
 		{
 			name:  pattern_name('keyword.other.optional'),
 			match: OPT,
 		},
-		label(ASSN_START),
-		annotation(lookaheads([ASSN_START, ',', DELIMS.PARAMS_FN[1]])),
-		assignment(lookaheads([',', DELIMS.PARAMS_FN[1]])),
-		{include: '#IdentifierParameter'},
 	],
 };
