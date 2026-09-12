@@ -8,8 +8,8 @@ import {
 	DELIMS,
 	OWS,
 	COMP_ACCESS,
+	THIS,
 	OPEN,
-	MEMB_ACCESS,
 	NOMINAL,
 	MUTATING,
 	PUN,
@@ -142,12 +142,12 @@ export const DECLARATION__INTERFACE = {
 
 export const CONSTRUCTOR_FIELD = {
 	name:     pattern_name('meta.field'),
-	begin:    lookaheads([MEMB_ACCESS]),
+	begin:    lookaheads([COMP_ACCESS]),
 	end:      lookaheads([',', DELIMS.PARAMS_FN[1]]),
 	patterns: [
 		{
 			name:  pattern_name('storage.modifier'),
-			match: R.c(MEMB_ACCESS, FIELD_IMPL, PERMISSION),
+			match: R.c(COMP_ACCESS, THIS, FIELD_IMPL, PERMISSION),
 		},
 		annotation(lookaheads([ASSN_START, ',', DELIMS.PARAMS_FN[1]])),
 		assignment(lookaheads([',', DELIMS.PARAMS_FN[1]])),
@@ -174,7 +174,7 @@ export const MEMBER__FIELD = {
 	patterns: [
 		{
 			name:  pattern_name('storage.modifier'),
-			match: R.c(MEMB_ACCESS, FIELD_IMPL, PERMISSION),
+			match: R.c(COMP_ACCESS, THIS, FIELD_IMPL, PERMISSION),
 		},
 		{
 			name:  pattern_name('keyword.other.optional'),
@@ -194,7 +194,7 @@ export const MEMBER__CONSTRUCTOR = {
 	patterns: [
 		{
 			name:  pattern_name('storage.modifier'),
-			match: R.c(MEMB_ACCESS, R.w('new')),
+			match: R.c(COMP_ACCESS, R.w('new')),
 		},
 		{include: '#CommentBlock'},
 		{include: '#CommentLine'},
@@ -211,7 +211,7 @@ export const MEMBER__CONSTRUCTORGROUP = {
 	patterns: [
 		{
 			name:  pattern_name('storage.modifier'),
-			match: R.c(MEMB_ACCESS, R.w('new')),
+			match: R.c(COMP_ACCESS, R.w('new')),
 		},
 		{
 			name: pattern_name('meta.constructorgroupbody'),
@@ -240,7 +240,7 @@ export const MEMBER__METHOD = {
 	patterns: [
 		{
 			name:  pattern_name('storage.modifier'),
-			match: R.c(MEMB_ACCESS, METH_IMPL, OPEN, MUTATING),
+			match: R.c(COMP_ACCESS, THIS, METH_IMPL, OPEN, MUTATING),
 		},
 		{
 			name:  pattern_name('keyword.other.optional'),
@@ -263,7 +263,7 @@ export const MEMBER__METHODGROUP = {
 	patterns: [
 		{
 			name:  pattern_name('storage.modifier'),
-			match: R.c(MEMB_ACCESS, METH_IMPL, OPEN),
+			match: R.c(COMP_ACCESS, THIS, METH_IMPL, OPEN),
 		},
 		{include: '#IdentifierProperty'},
 		{

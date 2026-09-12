@@ -27,8 +27,8 @@ export const VARNAME = '\\b[A-Za-z_][A-Za-z0-9_]*\\b';
 export const VAR     = `(?:${ VARNAME }|\'.*\')`;
 
 export const COMP_ACCESS = R.w(R.c('public', 'internal', 'private'));
+export const THIS        = R.w('this');
 export const OPEN        = R.w('open');
-export const MEMB_ACCESS = R.w(R.c(COMP_ACCESS, 'protected'));
 export const WRITABLE    = R.w('mut');
 export const REF         = R.w('ref');
 export const NOMINAL     = R.w('nominal');
@@ -67,7 +67,8 @@ export function destructure_selector(prop_delim: string) {
 }
 
 export const FIELD = `
-	(${ MEMB_ACCESS } ${ OWS })?
+	(${ COMP_ACCESS } ${ OWS })?
+	(${ THIS } ${ OWS })?
 	(${ FIELD_IMPL } ${ OWS })?
 	(${ PERMISSION } ${ OWS })?
 	${ VAR } ${ OWS } (${ OPT } ${ OWS })?
@@ -75,17 +76,18 @@ export const FIELD = `
 `.replace(/\s+/g, '');
 
 export const CONSTRUCTOR = `
-	(${ MEMB_ACCESS } ${ OWS })?
+	(${ COMP_ACCESS } ${ OWS })?
 	(?:\\b new \\b ${ OWS })? ${ DELIMS.PARAMS_FN[0] }
 `.replace(/\s+/g, '');
 
 export const CONSTRUCTORGROUP = `
-	(${ MEMB_ACCESS } ${ OWS })?
+	(${ COMP_ACCESS } ${ OWS })?
 	\\b new \\b ${ OWS } ${ DELIMS.BLOCK[0] }
 `.replace(/\s+/g, '');
 
 export const METHOD = `
-	(${ MEMB_ACCESS } ${ OWS })?
+	(${ COMP_ACCESS } ${ OWS })?
+	(${ THIS } ${ OWS })?
 	(${ METH_IMPL } ${ OWS })?
 	(${ OPEN } ${ OWS })?
 	(${ MUTATING } ${ OWS })?
@@ -93,7 +95,8 @@ export const METHOD = `
 `.replace(/\s+/g, '');
 
 export const METHODGROUP = `
-	(${ MEMB_ACCESS } ${ OWS })?
+	(${ COMP_ACCESS } ${ OWS })?
+	(${ THIS } ${ OWS })?
 	(${ METH_IMPL } ${ OWS })?
 	(${ OPEN } ${ OWS })?
 	${ VAR } ${ OWS } ${ DELIMS.BLOCK[0] }

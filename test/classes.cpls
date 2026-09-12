@@ -83,7 +83,9 @@ class Foo {
 	public field: T = 42;
 	internal field: T = 42;
 	private field: T = 42;
-	protected field: T = 42;
+	public this field: T = 42;
+	internal this field: T = 42;
+	private this field: T = 42;
 	impl field: T = 42;
 	claim field: Typ;
 	mut field: T = 42;
@@ -103,14 +105,15 @@ class Foo {
 	public new () {;}
 	internal new () {;}
 	private new () {;}
-	protected new () {;}
 	new (
 		constructor_param: int,
 		mut constructor_param: int,
 		public constructor_field1: int,
 		internal constructor_field2: int,
 		private constructor_field3: int,
-		protected constructor_field4: int,
+		public this constructor_field1: int,
+		internal this constructor_field2: int,
+		private this constructor_field3: int,
 		public impl constructor_field8: int,
 		public claim constructor_field8: int,
 		public mut constructor_field6: int,
@@ -152,7 +155,9 @@ class Foo {
 	public meth(): void {;}
 	internal meth(): void {;}
 	private meth(): void {;}
-	protected meth(): void {;}
+	public this meth(): void {;}
+	internal this meth(): void {;}
+	private this meth(): void {;}
 	override meth(): void {;}
 	impl meth(): void {;}
 	claim meth(): void;
@@ -183,7 +188,9 @@ class Foo {
 			public constructor_field1: int,
 			internal constructor_field2: int,
 			private constructor_field3: int,
-			protected constructor_field4: int,
+			public this constructor_field1: int,
+			internal this constructor_field2: int,
+			private this constructor_field3: int,
 			public impl constructor_field8: int,
 			public claim constructor_field8: int,
 			public mut constructor_field6: int,
