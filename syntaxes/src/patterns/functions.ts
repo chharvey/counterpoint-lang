@@ -7,8 +7,7 @@ import {
 import {
 	DELIMS,
 	OWS,
-	VAR,
-	COMP_ACCESS,
+	ACCESS,
 	REF,
 	PUN,
 	OPT,
@@ -92,7 +91,7 @@ export const EXPRESSION__FUNCTION = {
 
 export const DECLARATION__TYPEFUNCTION = {
 	name: pattern_name('meta.declaration.typefunc'),
-	begin: lookaheads([R.s(R.o(R.s(COMP_ACCESS, OWS)), R.w('typefunc'))]),
+	begin: lookaheads([R.s(R.o(R.s(ACCESS, OWS)), R.w('typefunc'))]),
 	end:   ';',
 	endCaptures: {
 		0: {name: pattern_name('punctuation.delimiter')},
@@ -102,7 +101,7 @@ export const DECLARATION__TYPEFUNCTION = {
 		implicitReturn('#Type'),
 		{
 			name:  pattern_name('storage.modifier'),
-			match: COMP_ACCESS,
+			match: ACCESS,
 		},
 		{
 			name: pattern_name('storage.type'),
@@ -115,7 +114,7 @@ export const DECLARATION__TYPEFUNCTION = {
 
 export const DECLARATION__FUNCTION = {
 	name:  pattern_name('meta.declaration.func'),
-	begin: lookaheads([R.s(R.o(R.s(COMP_ACCESS, OWS)), R.w('func'))]),
+	begin: lookaheads([R.s(R.o(R.s(ACCESS, OWS)), R.w('func'))]),
 	end:   R.c(lookbehinds([DELIMS.BLOCK[1]]), ';'),
 	endCaptures: {
 		0: {name: pattern_name('punctuation.delimiter')},
@@ -127,7 +126,7 @@ export const DECLARATION__FUNCTION = {
 		{include: '#Block'},
 		{
 			name:  pattern_name('storage.modifier'),
-			match: COMP_ACCESS,
+			match: ACCESS,
 		},
 		{
 			name: pattern_name('storage.type'),

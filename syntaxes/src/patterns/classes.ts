@@ -7,7 +7,7 @@ import {
 import {
 	DELIMS,
 	OWS,
-	COMP_ACCESS,
+	ACCESS,
 	THIS,
 	OPEN,
 	NOMINAL,
@@ -99,7 +99,7 @@ export const EXPRESSION__CLASS = {
 
 export const DECLARATION__CLASS = {
 	name: pattern_name('meta.declaration.class'),
-	begin: lookaheads([R.s(R.o(R.s(COMP_ACCESS, OWS)), R.w('class'))]),
+	begin: lookaheads([R.s(R.o(R.s(ACCESS, OWS)), R.w('class'))]),
 	end:   lookbehinds([DELIMS.BLOCK[1]]),
 	patterns: [
 		{include: '#GenericParameters'},
@@ -112,7 +112,7 @@ export const DECLARATION__CLASS = {
 		},
 		{
 			name:  pattern_name('storage.modifier'),
-			match: R.w(R.c(COMP_ACCESS, OPEN, 'abstract', 'enum', NOMINAL)),
+			match: R.w(R.c(ACCESS, OPEN, 'abstract', 'enum', NOMINAL)),
 		},
 		{include: '#IdentifierClass'}, // must come after keywords
 	],
@@ -121,7 +121,7 @@ export const DECLARATION__CLASS = {
 
 export const DECLARATION__INTERFACE = {
 	name: pattern_name('meta.declaration.interface'),
-	begin: lookaheads([R.s(R.o(R.s(COMP_ACCESS, OWS)), R.w('interface'))]),
+	begin: lookaheads([R.s(R.o(R.s(ACCESS, OWS)), R.w('interface'))]),
 	end:   lookbehinds([DELIMS.BLOCK[1]]),
 	patterns: [
 		{include: '#GenericParameters'},
@@ -133,7 +133,7 @@ export const DECLARATION__INTERFACE = {
 		},
 		{
 			name:  pattern_name('storage.modifier'),
-			match: R.w(R.c(COMP_ACCESS, NOMINAL)),
+			match: R.w(R.c(ACCESS, NOMINAL)),
 		},
 		{include: '#IdentifierClass'}, // must come after keywords
 	],
@@ -142,12 +142,12 @@ export const DECLARATION__INTERFACE = {
 
 export const CONSTRUCTOR_FIELD = {
 	name:     pattern_name('meta.field'),
-	begin:    lookaheads([COMP_ACCESS]),
+	begin:    lookaheads([ACCESS]),
 	end:      lookaheads([',', DELIMS.PARAMS_FN[1]]),
 	patterns: [
 		{
 			name:  pattern_name('storage.modifier'),
-			match: R.c(COMP_ACCESS, THIS, FIELD_IMPL, PERMISSION),
+			match: R.c(ACCESS, THIS, FIELD_IMPL, PERMISSION),
 		},
 		annotation(lookaheads([ASSN_START, ',', DELIMS.PARAMS_FN[1]])),
 		assignment(lookaheads([',', DELIMS.PARAMS_FN[1]])),
@@ -174,7 +174,7 @@ export const MEMBER__FIELD = {
 	patterns: [
 		{
 			name:  pattern_name('storage.modifier'),
-			match: R.c(COMP_ACCESS, THIS, FIELD_IMPL, PERMISSION),
+			match: R.c(ACCESS, THIS, FIELD_IMPL, PERMISSION),
 		},
 		{
 			name:  pattern_name('keyword.other.optional'),
@@ -194,7 +194,7 @@ export const MEMBER__CONSTRUCTOR = {
 	patterns: [
 		{
 			name:  pattern_name('storage.modifier'),
-			match: R.c(COMP_ACCESS, R.w('new')),
+			match: R.c(ACCESS, R.w('new')),
 		},
 		{include: '#CommentBlock'},
 		{include: '#CommentLine'},
@@ -211,7 +211,7 @@ export const MEMBER__CONSTRUCTORGROUP = {
 	patterns: [
 		{
 			name:  pattern_name('storage.modifier'),
-			match: R.c(COMP_ACCESS, R.w('new')),
+			match: R.c(ACCESS, R.w('new')),
 		},
 		{
 			name: pattern_name('meta.constructorgroupbody'),
@@ -240,7 +240,7 @@ export const MEMBER__METHOD = {
 	patterns: [
 		{
 			name:  pattern_name('storage.modifier'),
-			match: R.c(COMP_ACCESS, THIS, METH_IMPL, OPEN, MUTATING),
+			match: R.c(ACCESS, THIS, METH_IMPL, OPEN, MUTATING),
 		},
 		{
 			name:  pattern_name('keyword.other.optional'),
@@ -263,7 +263,7 @@ export const MEMBER__METHODGROUP = {
 	patterns: [
 		{
 			name:  pattern_name('storage.modifier'),
-			match: R.c(COMP_ACCESS, THIS, METH_IMPL, OPEN),
+			match: R.c(ACCESS, THIS, METH_IMPL, OPEN),
 		},
 		{include: '#IdentifierProperty'},
 		{
