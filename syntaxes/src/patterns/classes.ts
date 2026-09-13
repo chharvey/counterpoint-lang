@@ -10,6 +10,7 @@ import {
 	ACCESS,
 	THIS,
 	OPEN,
+	ABSTRACT,
 	NOMINAL,
 	MUTATING,
 	PUN,
@@ -91,7 +92,7 @@ export const EXPRESSION__CLASS = {
 		{include: '#ClassBody'},
 		{
 			name: pattern_name('storage.modifier'),
-			match: R.w(R.c(OPEN, 'abstract', 'enum')),
+			match: R.c(OPEN, ABSTRACT, R.w('enum')),
 		},
 	],
 };
@@ -112,7 +113,7 @@ export const DECLARATION__CLASS = {
 		},
 		{
 			name:  pattern_name('storage.modifier'),
-			match: R.w(R.c(ACCESS, OPEN, 'abstract', 'enum', NOMINAL)),
+			match: R.c(ACCESS, OPEN, ABSTRACT, R.w('enum'), NOMINAL),
 		},
 		{include: '#IdentifierClass'}, // must come after keywords
 	],
@@ -240,7 +241,7 @@ export const MEMBER__METHOD = {
 	patterns: [
 		{
 			name:  pattern_name('storage.modifier'),
-			match: R.c(ACCESS, THIS, METH_IMPL, OPEN, MUTATING),
+			match: R.c(ACCESS, THIS, METH_IMPL, OPEN, ABSTRACT, MUTATING),
 		},
 		{
 			name:  pattern_name('keyword.other.optional'),

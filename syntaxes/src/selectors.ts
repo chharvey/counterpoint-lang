@@ -29,6 +29,7 @@ export const VAR     = `(?:${ VARNAME }|\'.*\')`;
 export const ACCESS     = R.w(R.c('public', 'internal', 'private'));
 export const THIS       = R.w('this');
 export const OPEN       = R.w('open');
+export const ABSTRACT   = R.w('abstract');
 export const WRITABLE   = R.w('mut');
 export const REF        = R.w('ref');
 export const NOMINAL    = R.w('nominal');
@@ -88,8 +89,7 @@ export const CONSTRUCTORGROUP = `
 export const METHOD = `
 	(${ ACCESS } ${ OWS })?
 	(${ THIS } ${ OWS })?
-	(${ METH_IMPL } ${ OWS })?
-	(${ OPEN } ${ OWS })?
+	((${ METH_IMPL } | ${ OPEN } | ${ ABSTRACT }) ${ OWS })?
 	(${ MUTATING } ${ OWS })?
 	(?:${ VAR } ${ OWS })? (?:${ DELIMS.PARAMS_GN[0] } | ${ DELIMS.PARAMS_FN[0] })
 `.replace(/\s+/g, '');

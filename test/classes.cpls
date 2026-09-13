@@ -172,7 +172,7 @@ class Foo {
 	meth(): int => 42;
 	methReturnsFunc(): \() => int => \() => 42;
 	methReturnsFunc(): \() => (T) => \() => 42;
-	abstractMethod(): void;
+	abstract abstractMethod(): void;
 
 	return(ab: void): void { return (ab); }
 	throw(cd: void): void { throw (cd); }
@@ -238,6 +238,7 @@ class Foo {
 		(): int => 42;
 		(): \() => int => \() => 42;
 		(): \() => (T) => \() => 42;
+		abstract (): void;
 	}
 	override methodGroup { (): void {;} }
 	impl methodGroup { (): void {;} }
