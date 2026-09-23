@@ -1,5 +1,9 @@
 % This is a Counterpoint module file!
 
+from "module-path" import A;       % shorthand for import (A)
+from "module-path" import type A;  % shorthand for import type (A)
+from "module-path" import await A; % shorthand for import await (A)
+
 from "module-path" import (A, B);
 from "module-path" import (_, B);
 from "module-path" import type (A, B);
@@ -68,15 +72,15 @@ public class Bar extends AwaitMod::Rec.Foo {
 module "mock-module-path" {
 	module "nested-module-path" {
 		from "module-path" import all as Namespace;
-		from "real-module-path" import type (Qux);
-		from "mock-module-path" import (Bar);
+		from "real-module-path" import type Qux;
+		from "mock-module-path" import Bar;
 		public class Foo extends Namespace::B {}
 	}
 
-	from "real-module-path" import type (Qux);
-	from "nested-module-path" import await (Foo);
+	from "real-module-path" import type Qux;
+	from "nested-module-path" import await Foo;
 	public class Bar extends Foo {}
 }
-from "nested-module-path" import type (Foo); % invalid (inner modules are always private)
-from "mock-module-path" import await (Bar);
+from "nested-module-path" import type Foo; % invalid (inner modules are always private)
+from "mock-module-path" import await Bar;
 public class Qux extends Bar {}
