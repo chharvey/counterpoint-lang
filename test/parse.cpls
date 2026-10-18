@@ -343,6 +343,7 @@ func twice(x: int): int => x * 2;
 	Dict[T]();
 	Set[T]();
 	Map[T, U]();
+	Exception("message");
 	Mapping[T, U]();
 	Maybe[T](); % abstract
 	None[T]();

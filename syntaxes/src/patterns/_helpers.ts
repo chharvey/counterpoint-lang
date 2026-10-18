@@ -54,6 +54,7 @@ function keyword(is_type: boolean) {
 					'Dict',
 					'Set',
 					'Map',
+					'Exception',
 					'Maybe',
 					'None',
 					'Some',
