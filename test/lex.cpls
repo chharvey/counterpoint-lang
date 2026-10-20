@@ -128,7 +128,7 @@ block comment
 	The thing that does something.
 	@takes x the parameter
 	@returns what it returns
-	@throws if something bad happened
+	@panics if something bad happened
 	%%
 func twice(x: int): int => x * 2;
 

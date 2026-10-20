@@ -170,7 +170,7 @@ class Foo {
 	abstractMethod(): void;
 
 	return(ab: void): void { return (ab); }
-	throw(cd: void): void { throw (cd); }
+	panic(cd: void): void { panic (cd); }
 	if(ef: void): void { if (a + b) then c else d; }
 	unless(gh: void): void { unless (a + b) then c else d; }
 

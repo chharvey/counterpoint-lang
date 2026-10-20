@@ -162,7 +162,7 @@ export const STATEMENT__ITERATION = {
 
 export const STATEMENT__BREAK = {
 	name: pattern_name('meta.statement.break'),
-	begin: R.w(R.c('break', 'skip', 'return', 'throw')),
+	begin: R.w(R.c('break', 'skip', 'return', 'panic')),
 	end:   ';',
 	beginCaptures: {
 		0: {name: pattern_name('keyword.control')},

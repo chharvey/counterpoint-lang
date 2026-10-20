@@ -93,7 +93,7 @@ for prop in \(x, y) { return y * x; } do {};
 	The thing that does something.
 	@takes x the parameter
 	@returns what it returns
-	@throws if something bad happened
+	@panics if something bad happened
 	%%
 func twice(x: int): int => x * 2;
 
@@ -429,22 +429,22 @@ five_thirds as Numeric;
 ashes;
 
 return (a + b);
-throw (c + d);
+panic (c + d);
 return [a + b];
 for i in [a, b, c] do {};
 return (
 	if (a + b) then c else d;
 );
 if (a + b) then c else d;
-unless (a + b) then { return (c); } else { throw (d); };
+unless (a + b) then { return (c); } else { panic (d); };
 {
 	return (a + b);
-	throw (c + d);
+	panic (c + d);
 	return (
 		if (a + b) then c else d;
 	);
 	if (a + b) then c else d;
-	unless (a + b) then { return (c); } else { throw (d); };
+	unless (a + b) then { return (c); } else { panic (d); };
 }
 
 switch a

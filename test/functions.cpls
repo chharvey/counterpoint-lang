@@ -151,8 +151,8 @@ func %%comm%% do_nothing(): void {
 	return;
 }
 func error(): nothing {
-	throw if true then "error" else "an error";
-	throw (if true then "error" else "an error");
+	panic if true then "error" else "an error";
+	panic (if true then "error" else "an error");
 }
 func parameterAlias(p %%c%% = %%c%% q: anything): null => null;
 func parameterNoAlias(q: anything): null => null;
