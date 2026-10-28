@@ -4,19 +4,8 @@ import {
 } from '../helpers.ts';
 import {
 	WRITABLE,
-	NOMINAL,
 	VARIANCE,
 } from '../selectors.ts';
-
-
-export const MODIFIERS__DECLARATION__TYPE = {
-	patterns: [
-		{
-			name:  pattern_name('storage.modifier'),
-			match: NOMINAL,
-		},
-	],
-};
 
 
 export const MODIFIERS__DECLARATION__VARIABLE = {
@@ -35,7 +24,6 @@ export const MODIFIERS__GENERIC_PARAMETER = {
 			name:  pattern_name('storage.modifier'),
 			match: VARIANCE,
 		},
-		{include: '#ModifiersDeclarationType'},
 	],
 };
 

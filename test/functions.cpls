@@ -238,8 +238,8 @@ val subtract: Function = \(   mut $a,              %%mut%% $b):           int =>
 
 
 %-- punning in generic typefunc params --%
-typefunc Binop[A= out nominal A?  narrows int = int, B= (in) %%nominal%% B?  widens int = A] => int;
-typefunc Binop[   out nominal $A? narrows int = int,    (in) %%nominal%% $B? widens int = A] => int;
+typefunc Binop[A= out A?  narrows int = int, B= (in) %%comment%% B?  widens int = A] => int;
+typefunc Binop[   out $A? narrows int = int,    (in) %%comment%% $B? widens int = A] => int;
 
 
 %-- generic parameter variance --%

@@ -275,11 +275,9 @@ export function destructure(subtype: string, identifier_kind: string) {
 			assignment(lookaheads([',', DELIMS.DESTRUCT[1]])),
 		] : []),
 		...(['TypeAlias', 'GenericParameter'].includes(subtype) ? [
-			...(subtype === 'TypeAlias' ? [
-				{include: '#ModifiersDeclarationType'},
-			] : [
+			...(subtype === 'GenericParameter' ? [
 				{include: '#ModifiersGenericParameter'},
-			]),
+			] : []),
 			constraint(lookaheads([ASSN_START, ',', DELIMS.DESTRUCT[1]])),
 			assignment(lookaheads([',', DELIMS.DESTRUCT[1]]), true),
 		] : []),

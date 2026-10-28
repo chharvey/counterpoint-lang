@@ -80,7 +80,6 @@ await fs.promises.writeFile(path.join(import.meta.dirname, '../', 'cpl.tmLanguag
 		MemberField:                   Pattern.MEMBER__FIELD,
 		MemberMethod:                  Pattern.MEMBER__METHOD,
 		MemberMethodgroup:             Pattern.MEMBER__METHODGROUP,
-		ModifiersDeclarationType:      Pattern.MODIFIERS__DECLARATION__TYPE,
 		ModifiersDeclarationVariable:  Pattern.MODIFIERS__DECLARATION__VARIABLE,
 		ModifiersGenericParameter:     Pattern.MODIFIERS__GENERIC_PARAMETER,
 		ModifiersParameter:            Pattern.MODIFIERS__PARAMETER,
