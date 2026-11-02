@@ -337,20 +337,21 @@ func twice(x: int): int => x * 2;
 	Decimal(numeric);
 	Str(anyvalue);
 	Object(); % abstract
-	Type();   % abstract
-	Class();  % abstract
 	List[T]();
 	Dict[T]();
 	Set[T]();
 	Map[T, U]();
 	Exception("message");
-	Mapping[T, U]();
+	CustomClassname[T, U]();
 	Maybe[T](); % abstract
 	None[T]();
 	Some[T](a_t);
 	Result[T, E](); % abstract
 	Fail[T, E](an_e);
 	Ok[T, E](a_t);
+	Type();     % abstract
+	Function(); % abstract
+	Class();    % abstract
 	anyvalue is Null;
 	anyvalue is Boolean;
 	anyvalue is Symbol;
@@ -359,8 +360,6 @@ func twice(x: int): int => x * 2;
 	anyvalue is Float;
 	anyvalue is String;
 	anyvalue is Object;
-	anyvalue is Type;
-	anyvalue is Class;
 	anyvalue is List;
 	anyvalue is Dict;
 	anyvalue is Set;
@@ -371,6 +370,9 @@ func twice(x: int): int => x * 2;
 	anyvalue is Result;
 	anyvalue is Fail;
 	anyvalue is Ok;
+	anyvalue is Type;
+	anyvalue is Function;
+	anyvalue is Class;
 	structure.property + p;
 	structure.'pr op' + p;
 	structure.%%dot%%property + p;
