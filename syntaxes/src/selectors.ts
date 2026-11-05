@@ -26,15 +26,16 @@ export const INT     = '(?:\\+|-)?(?:\\\\[bqsodxz])?[0-9a-z_]+';
 export const VARNAME = '\\b[A-Za-z_][A-Za-z0-9_]*\\b';
 export const VAR     = `(?:${ VARNAME }|\'.*\')`;
 
-export const COMP_ACCESS = R.w(R.c('public', 'internal', 'private'));
-export const OPEN        = R.w('open');
-export const MEMB_ACCESS = R.w(R.c(COMP_ACCESS, 'protected'));
-export const WRITABLE    = R.w('mut');
-export const REF         = R.w('ref');
-export const MUTATING    = R.w('mut');
-export const MUTABLE     = R.w('mut');
-export const STRUCTURAL  = R.w('struct');
-export const ALIAS       = R.w('as');
+export const ACCESS     = R.w(R.c('public', 'internal', 'private'));
+export const THIS       = R.w('this');
+export const OPEN       = R.w('open');
+export const ABSTRACT   = R.w('abstract');
+export const WRITABLE   = R.w('mut');
+export const REF        = R.w('ref');
+export const MUTATING   = R.w('mut');
+export const MUTABLE    = R.w('mut');
+export const STRUCTURAL = R.w('struct');
+export const ALIAS      = R.w('as');
 export const PUN        = '\\$';
 export const OPT        = '\\?';
 export const VARIANCE   = R.c('\\bin\\(out\\)', '\\bout\\(in\\)', '\\(inout\\)', '\\(in\\)', '\\(out\\)', R.w('in'), R.w('out'));
@@ -66,7 +67,8 @@ export function destructure_selector(prop_delim: string) {
 }
 
 export const FIELD = `
-	(${ MEMB_ACCESS } ${ OWS })?
+	(${ ACCESS } ${ OWS })?
+	(${ THIS } ${ OWS })?
 	(${ FIELD_IMPL } ${ OWS })?
 	(${ PERMISSION } ${ OWS })?
 	${ VAR } ${ OWS } (${ OPT } ${ OWS })?
@@ -74,25 +76,26 @@ export const FIELD = `
 `.replace(/\s+/g, '');
 
 export const CONSTRUCTOR = `
-	(${ MEMB_ACCESS } ${ OWS })?
+	(${ ACCESS } ${ OWS })?
 	(?:\\b new \\b ${ OWS })? ${ DELIMS.PARAMS_FN[0] }
 `.replace(/\s+/g, '');
 
 export const CONSTRUCTORGROUP = `
-	(${ MEMB_ACCESS } ${ OWS })?
+	(${ ACCESS } ${ OWS })?
 	\\b new \\b ${ OWS } ${ DELIMS.BLOCK[0] }
 `.replace(/\s+/g, '');
 
 export const METHOD = `
-	(${ MEMB_ACCESS } ${ OWS })?
-	(${ METH_IMPL } ${ OWS })?
-	(${ OPEN } ${ OWS })?
+	(${ ACCESS } ${ OWS })?
+	(${ THIS } ${ OWS })?
+	((${ METH_IMPL } | ${ OPEN } | ${ ABSTRACT }) ${ OWS })?
 	(${ MUTATING } ${ OWS })?
 	(?:${ VAR } ${ OWS })? (?:${ DELIMS.PARAMS_GN[0] } | ${ DELIMS.PARAMS_FN[0] })
 `.replace(/\s+/g, '');
 
 export const METHODGROUP = `
-	(${ MEMB_ACCESS } ${ OWS })?
+	(${ ACCESS } ${ OWS })?
+	(${ THIS } ${ OWS })?
 	(${ METH_IMPL } ${ OWS })?
 	(${ OPEN } ${ OWS })?
 	${ VAR } ${ OWS } ${ DELIMS.BLOCK[0] }
