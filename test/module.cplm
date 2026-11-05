@@ -1,9 +1,5 @@
 % This is a Counterpoint module file!
 
-from "module-path" import A;       % shorthand for import (A)
-from "module-path" import type A;  % shorthand for import type (A)
-from "module-path" import await A; % shorthand for import await (A)
-
 from "module-path" import (A, B);
 from "module-path" import (_, B);
 from "module-path" import type (A, B);
